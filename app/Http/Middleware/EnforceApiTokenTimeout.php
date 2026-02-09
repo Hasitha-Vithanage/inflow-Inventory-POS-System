@@ -136,7 +136,7 @@ class EnforceApiTokenTimeout
             'status' => $status,
         ], 401);
 
-        // Prevent frontend redirect loops: also clear the "Stocky_token" cookie (used by route guards).
+        // Prevent frontend redirect loops: also clear the "InFlow_token" cookie (used by route guards).
         $serverName = $request->server('SERVER_NAME') ?: ($_SERVER['SERVER_NAME'] ?? null);
         $domain = null;
         if ($serverName) {
@@ -145,9 +145,9 @@ class EnforceApiTokenTimeout
 
         // Try to expire cookie with the same domain rule as BaseController::setCookie()
         if ($domain) {
-            $response->headers->setCookie(cookie('Stocky_token', '', -2628000, '/', $domain));
+            $response->headers->setCookie(cookie('InFlow_token', '', -2628000, '/', $domain));
         }
-        $response->headers->setCookie(cookie('Stocky_token', '', -2628000, '/'));
+        $response->headers->setCookie(cookie('InFlow_token', '', -2628000, '/'));
 
         return $response;
     }

@@ -31,11 +31,11 @@
         </div>
         <div slot="table-actions" class="mt-2 mb-3">
           <b-button variant="outline-info ripple m-1" size="sm" v-b-toggle.sidebar-right>
-            <i class="i-Filter-2"></i>
+            <Filter size="14" class="mr-1"></Filter>
             {{ $t("Filter") }}
           </b-button>
           <b-button @click="Expense_PDF()" size="sm" variant="outline-success ripple m-1">
-            <i class="i-File-Copy"></i> PDF
+            <FileText size="14" class="mr-1"></FileText> PDF
           </b-button>
            <vue-excel-xlsx
               class="btn btn-sm btn-outline-danger ripple m-1"
@@ -45,7 +45,7 @@
               :file-type="'xlsx'"
               :sheet-name="'Expenses'"
               >
-              <i class="i-File-Excel"></i> EXCEL
+              <FileSpreadsheet size="14" class="mr-1"></FileSpreadsheet> EXCEL
           </vue-excel-xlsx>
           <router-link
             class="btn-sm btn btn-primary ripple btn-icon m-1"
@@ -53,7 +53,7 @@
             to="/app/expenses/store"
           >
             <span class="ul-btn__icon">
-              <i class="i-Add"></i>
+              <Plus size="14"></Plus>
             </span>
             <span class="ul-btn__text ml-1">{{$t('Add')}}</span>
           </router-link>
@@ -65,7 +65,7 @@
           </span>
           <span v-else-if="props.column.field == 'documents'">
             <span v-if="props.row.documents_count > 0" class="badge badge-info">
-              <i class="i-File"></i> {{ props.row.documents_count }}
+              <FileText size="14" class="mr-1"></FileText> {{ props.row.documents_count }}
             </span>
             <span v-else class="text-muted">-</span>
           </span>
@@ -76,7 +76,7 @@
               v-b-tooltip.hover
               @click="Manage_Documents(props.row.id)"
             >
-              <i class="i-File text-20 text-info"></i>
+              <FileText size="14" class="text-info"></FileText>
             </a>
             <router-link
               v-if="currentUserPermissions && currentUserPermissions.includes('expense_edit')"
@@ -84,7 +84,7 @@
               v-b-tooltip.hover
               :to="'/app/expenses/edit/'+props.row.id"
             >
-              <i class="i-Edit text-20 text-success"></i>
+              <Edit size="14" class="text-success"></Edit>
             </router-link>
             <a
               title="Delete"
@@ -93,7 +93,7 @@
               v-if="currentUserPermissions && currentUserPermissions.includes('expense_delete')"
               @click="Remove_Expense(props.row.id)"
             >
-              <i class="i-Close-Window text-20 text-danger"></i>
+              <XCircle size="14" class="text-danger"></XCircle>
             </a>
           </span>
         </template>
@@ -126,7 +126,7 @@
             @click="Upload_Documents"
             :disabled="!selectedFiles || selectedFiles.length === 0 || uploadProcessing"
           >
-            <i class="i-Upload"></i> {{$t('Upload')}}
+            <Upload size="14" class="mr-1"></Upload> {{$t('Upload')}}
           </b-button>
           <div v-if="uploadProcessing" class="mt-2">
             <div class="spinner sm spinner-primary"></div>
@@ -152,7 +152,7 @@
                 </tr>
                 <tr v-for="document in documents" :key="document.id">
                   <td>
-                    <i class="i-File mr-1"></i>
+                    <FileText size="14" class="mr-1"></FileText>
                     {{document.name}}
                   </td>
                   <td>{{formatFileSize(document.size)}}</td>
@@ -164,14 +164,14 @@
                         class="btn btn-icon btn-success btn-sm"
                         @click="Download_Document(document)"
                       >
-                        <i class="i-Download"></i>
+                        <Download size="14"></Download>
                       </button>
                       <button
                         title="Delete"
                         class="btn btn-icon btn-danger btn-sm"
                         @click="Remove_Document(document.id)"
                       >
-                        <i class="i-Close"></i>
+                        <X size="14"></X>
                       </button>
                     </div>
                   </td>
@@ -256,13 +256,13 @@
               size="sm"
               block
             >
-              <i class="i-Filter-2"></i>
+              <Filter size="14" class="mr-1"></Filter>
               {{ $t("Filter") }}
             </b-button>
           </b-col>
           <b-col md="6" sm="12">
             <b-button @click="Reset_Filter()" variant="danger m-1" size="sm" block>
-              <i class="i-Power-2"></i>
+              <Power size="14" class="mr-1"></Power>
               {{ $t("Reset") }}
             </b-button>
           </b-col>
@@ -277,11 +277,17 @@ import { mapActions, mapGetters } from "vuex";
 import NProgress from "nprogress";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
+import { 
+  Filter, FileText, FileSpreadsheet, Plus, Edit, XCircle, Upload, Download, X, Power 
+} from "lucide-vue";
 import Util from '../../../../utils';
 
 export default {
   metaInfo: {
     title: "Expense"
+  },
+  components: {
+    Filter, FileText, FileSpreadsheet, Plus, Edit, XCircle, Upload, Download, X, Power
   },
   data() {
     return {

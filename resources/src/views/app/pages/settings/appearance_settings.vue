@@ -138,7 +138,7 @@
            
                   <b-col md="12">
                     <b-form-group>
-                      <b-button variant="primary" type="submit"><i class="i-Yes me-2 font-weight-bold"></i> {{$t('submit')}}</b-button>
+                      <b-button variant="primary" type="submit"><check-circle size="16" class="mr-2" :stroke-width="1.5"></check-circle> {{$t('submit')}}</b-button>
                     </b-form-group>
                   </b-col>
                 </b-row>
@@ -193,7 +193,7 @@
                   <b-col md="12">
                     <b-form-group>
                       <b-button variant="primary" type="submit">
-                        <i class="i-Yes me-2 font-weight-bold"></i> {{$t('submit')}}
+                        <check-circle size="16" class="mr-2" :stroke-width="1.5"></check-circle> {{$t('submit')}}
                       </b-button>
                     </b-form-group>
                   </b-col>
@@ -209,6 +209,7 @@
 </template>
 
 <script>
+import { CheckCircle } from "lucide-vue";
 import { mapActions, mapGetters } from "vuex";
 import NProgress from "nprogress";
 

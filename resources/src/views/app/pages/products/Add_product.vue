@@ -66,7 +66,7 @@
                     type="submit"
                     :disabled="quickCategorySubmitting"
                   >
-                    <i class="i-Yes me-2 font-weight-bold"></i> {{ $t('submit') }}
+                    <CheckCircle size="14" stroke-width="1.5" class="mr-2"></CheckCircle> {{ $t('submit') }}
                   </b-button>
                   <div v-if="quickCategorySubmitting" class="spinner-inline">
                     <div class="spinner sm spinner-primary mt-2"></div>
@@ -122,7 +122,7 @@
                     type="submit"
                     :disabled="quickBrandSubmitting"
                   >
-                    <i class="i-Yes me-2 font-weight-bold"></i> {{ $t('submit') }}
+                    <CheckCircle size="14" stroke-width="1.5" class="mr-2"></CheckCircle> {{ $t('submit') }}
                   </b-button>
                   <div v-if="quickBrandSubmitting" class="spinner-inline">
                     <div class="spinner sm spinner-primary mt-2"></div>
@@ -236,7 +236,7 @@
                     type="submit"
                     :disabled="quickUnitSubmitting"
                   >
-                    <i class="i-Yes me-2 font-weight-bold"></i> {{ $t('submit') }}
+                    <CheckCircle size="14" stroke-width="1.5" class="mr-2"></CheckCircle> {{ $t('submit') }}
                   </b-button>
                   <div v-if="quickUnitSubmitting" class="spinner-inline">
                     <div class="spinner sm spinner-primary mt-2"></div>
@@ -253,7 +253,7 @@
             <!-- ========== SECTION 1: BASIC INFORMATION ========== -->
             <div class="form-section">
               <div class="section-header">
-                <i class="i-File section-icon"></i>
+                <FileText size="18" stroke-width="1.5" class="section-icon mr-2"></FileText>
                 <h4 class="section-title">{{ $t('BasicInformation') }}</h4>
               </div>
               <b-card class="section-card">
@@ -346,7 +346,7 @@
                           ></b-form-input>
                           <div class="input-group-append">
                             <button type="button" class="btn-icon-gen" @click="generateNumber()" title="Generate">
-                              <i class="i-Bar-Code"></i>
+                              <barcode size="14"></barcode>
                             </button>
                           </div>
                         </div>
@@ -369,7 +369,7 @@
                         slot-scope="{ valid, errors }"
                         :label="$t('Categorie') + ' *'"
                       >
-                        <b-input-group class="category-input-group">
+                        <b-input-group class="category-input-group" style="gap: 10px;">
                           <v-select
                             :class="{'is-invalid': !!errors.length}"
                             :state="errors[0] ? false : (valid ? true : null)"
@@ -386,7 +386,7 @@
                               :title="$t('Add') + ' ' + $t('Categorie')"
                               class="category-add-btn"
                             >
-                              <i class="i-Add"></i>
+                              <plus size="14"></plus>
                             </b-button>
                           </b-input-group-append>
                         </b-input-group>
@@ -410,7 +410,7 @@
                   <!-- Brand -->
                   <b-col md="6" class="mb-3">
                     <b-form-group :label="$t('Brand')">
-                      <b-input-group class="brand-input-group">
+                      <b-input-group class="brand-input-group" style="gap: 10px;">
                         <v-select
                           :placeholder="$t('Choose_Brand')"
                           :reduce="label => label.value"
@@ -424,7 +424,7 @@
                             :title="$t('Add') + ' ' + $t('Brand')"
                             class="brand-add-btn"
                           >
-                            <i class="i-Add"></i>
+                            <plus size="14"></plus>
                           </b-button>
                         </b-input-group-append>
                       </b-input-group>
@@ -449,7 +449,7 @@
             <!-- ========== SECTION 2: INVENTORY ========== -->
             <div class="form-section">
               <div class="section-header">
-                <i class="i-Box section-icon"></i>
+                <Box size="18" stroke-width="1.5" class="section-icon mr-2"></Box>
                 <h4 class="section-title">{{ $t('Inventory') }}</h4>
               </div>
               <b-card class="section-card">
@@ -484,7 +484,7 @@
                         slot-scope="{ valid, errors }"
                         :label="$t('UnitProduct') + ' *'"
                       >
-                        <b-input-group class="unit-input-group">
+                        <b-input-group class="unit-input-group" style="gap: 10px;">
                           <v-select
                             :class="{'is-invalid': !!errors.length}"
                             :state="errors[0] ? false : (valid ? true : null)"
@@ -501,7 +501,7 @@
                               :title="$t('Add') + ' ' + $t('UnitProduct')"
                               class="unit-add-btn"
                             >
-                              <i class="i-Add"></i>
+                              <plus size="14"></plus>
                             </b-button>
                           </b-input-group-append>
                         </b-input-group>
@@ -594,7 +594,7 @@
             <!-- ========== SECTION 3: VARIANTS (if applicable) ========== -->
             <div class="form-section" v-if="product.type == 'is_variant'">
               <div class="section-header">
-                <i class="i-Gear section-icon"></i>
+                <Settings size="18" stroke-width="1.5" class="section-icon mr-2"></Settings>
                 <h4 class="section-title">{{ $t('Variants') }}</h4>
               </div>
               <b-card class="section-card">
@@ -608,7 +608,7 @@
                       ></b-form-input>
                       <b-input-group-append>
                         <b-button variant="primary" @click="add_variant(tag)">
-                          <i class="i-Plus me-2"></i>{{ $t('Add') }}
+                          <Plus size="14" stroke-width="1.5" class="mr-1"></Plus>{{ $t('Add') }}
                         </b-button>
                       </b-input-group-append>
                     </b-input-group>
@@ -643,7 +643,7 @@
                             @click="delete_variant(variant.var_id)"
                             title="Delete"
                           >
-                            <i class="i-Close"></i>
+                            <trash2 size="14"></trash2>
                           </b-button>
                         </td>
                       </tr>
@@ -660,7 +660,7 @@
             <!-- ========== SECTION 4: PRICING & TAX ========== -->
             <div class="form-section">
               <div class="section-header">
-                <i class="i-Tag section-icon"></i>
+                <Tag size="18" stroke-width="1.5" class="section-icon mr-2"></Tag>
                 <h4 class="section-title">{{ $t('PricingAndTax') }}</h4>
               </div>
               <b-card class="section-card">
@@ -875,7 +875,7 @@
             <!-- ========== SECTION 5: COMBO PRODUCTS ========== -->
             <div class="form-section" v-if="product.type == 'is_combo'">
               <div class="section-header">
-                <i class="i-Bag section-icon"></i>
+                <ShoppingBag size="18" stroke-width="1.5" class="section-icon mr-2"></ShoppingBag>
                 <h4 class="section-title">{{ $t('ComboProducts') }}</h4>
               </div>
               <b-card class="section-card">
@@ -961,7 +961,7 @@
             <!-- ========== SECTION 6: WARRANTY ========== -->
             <div class="form-section">
               <div class="section-header">
-                <i class="i-Shield section-icon"></i>
+                <Shield size="18" stroke-width="1.5" class="section-icon mr-2"></Shield>
                 <h4 class="section-title">{{ $t('Warranty_Guarantee_Tracking') }}</h4>
               </div>
               <b-card class="section-card">
@@ -1037,7 +1037,7 @@
             <!-- ========== SECTION 7: OPENING STOCK ========== -->
             <div class="form-section" v-if="product.type == 'is_single'">
               <div class="section-header">
-                <i class="i-Bag section-icon"></i>
+                <ShoppingBag size="18" stroke-width="1.5" class="section-icon mr-2"></ShoppingBag>
                 <h4 class="section-title">{{ $t('OpeningStock') }}</h4>
               </div>
               <b-card class="section-card">
@@ -1058,7 +1058,7 @@
             <!-- ========== SECTION 8: OPTIONS ========== -->
             <div class="form-section">
               <div class="section-header">
-                <i class="i-Data-Settings section-icon"></i>
+                <Settings size="18" stroke-width="1.5" class="section-icon mr-2"></Settings>
                 <h4 class="section-title">{{ $t('Options') }}</h4>
               </div>
               <b-card class="section-card">
@@ -1124,7 +1124,7 @@
             <!-- Submit Buttons -->
             <div class="form-actions mt-4">
               <b-button variant="primary" type="submit" :disabled="SubmitProcessing" size="lg">
-                <i class="i-Yes me-2 pr-2"></i>{{ $t('submit') }}
+                <CheckCircle size="18" stroke-width="1.5" class="mr-2"></CheckCircle>{{ $t('submit') }}
               </b-button>
               <div v-if="SubmitProcessing" class="spinner-inline">
                 <div class="spinner sm spinner-primary"></div>
@@ -1146,12 +1146,30 @@
 
 <script>
 import VueTagsInput from "@johmun/vue-tags-input";
+import { 
+  Plus, CheckCircle, FileText, Box, 
+  Settings, Tag, Barcode, Trash2,
+  Shield, ShoppingBag
+} from "lucide-vue";
 import NProgress from "nprogress";
 import { mapActions, mapGetters } from "vuex";
 
 export default {
   metaInfo: {
     title: "Create Product"
+  },
+  components: {
+    VueTagsInput,
+    Plus, 
+    CheckCircle, 
+    FileText, 
+    Box, 
+    Settings, 
+    Tag, 
+    Barcode, 
+    Trash2,
+    Shield,
+    ShoppingBag
   },
   data() {
     return {
@@ -1237,9 +1255,6 @@ export default {
     };
   },
 
-  components: {
-    VueTagsInput
-  },
 
   computed: {
     ...mapGetters(["currentUserPermissions","currentUser"]),
@@ -2010,9 +2025,8 @@ export default {
 
 <style>
   .scan-icon {
-    width: 43px;
-    height: 34px;
-    margin-right: 8px;
+    width: 24px;
+    height: 24px;
     cursor: pointer;
   }
 
@@ -2032,7 +2046,7 @@ export default {
 
   .section-icon {
     font-size: 1.5rem;
-    color: #667eea;
+    color: #2d8cff;
     margin-right: 0.75rem;
     width: 28px;
     text-align: center;
@@ -2067,7 +2081,7 @@ export default {
   }
 
   .form-control-modern:focus {
-    border-color: #667eea;
+    border-color: #2d8cff;
     box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
   }
 
@@ -2087,7 +2101,7 @@ export default {
   }
 
   .image-upload-wrapper:hover {
-    border-color: #667eea;
+    border-color: #2d8cff;
     background: #f5f7ff;
   }
 
@@ -2098,24 +2112,29 @@ export default {
     border-radius: 8px;
     overflow: hidden;
     border: 1.5px solid #e0e0e0;
+    padding: 10px;
   }
 
   .btn-icon-scan,
   .btn-icon-gen {
     background: #f5f5f5;
-    border: none;
-    padding: 0.625rem 0.875rem;
-    color: #667eea;
+    border: 1.5px solid #e0e0e0;
+    padding: 0.5rem;
+    color: #2d8cff;
     cursor: pointer;
     transition: all 0.2s ease;
     display: flex;
     align-items: center;
     justify-content: center;
+    border-radius: 10px !important;
+    margin: 0 5px;
+    min-width: 42px;
+    height: 42px;
   }
 
   .btn-icon-scan:hover,
   .btn-icon-gen:hover {
-    background: #667eea;
+    background: #2d8cff;
     color: white;
   }
 
@@ -2181,7 +2200,7 @@ export default {
 
   .autocomplete-input:focus {
     outline: none;
-    border-color: #667eea;
+    border-color: #2d8cff;
     box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
   }
 
@@ -2211,7 +2230,7 @@ export default {
 
   .autocomplete-result:hover {
     background-color: #f5f7ff;
-    color: #667eea;
+    color: #2d8cff;
   }
 
   .badge-wrapper {
@@ -2222,7 +2241,7 @@ export default {
 
   .badge-primary-light {
     background-color: #e0e8ff;
-    color: #667eea;
+    color: #2d8cff;
     padding: 0.4rem 0.8rem;
     border-radius: 6px;
     font-weight: 600;
@@ -2234,7 +2253,7 @@ export default {
     background: #f8f9fa;
     padding: 1.25rem;
     border-radius: 8px;
-    border-left: 4px solid #667eea;
+    border-left: 4px solid #2d8cff;
   }
 
   .total-row {
@@ -2250,9 +2269,9 @@ export default {
   }
 
   .total-value {
-    font-size: 1.5rem;
+    font-size: 1rem;
     font-weight: 700;
-    color: #667eea;
+    color: #2d8cff;
   }
 
   /* ===== Options Grid ===== */
@@ -2326,7 +2345,7 @@ export default {
   .summary-value {
     font-size: 1rem;
     font-weight: 700;
-    color: #667eea;
+    color: #2d8cff;
   }
 
   /* ===== v-select in input-group ===== */
@@ -2335,6 +2354,7 @@ export default {
   .unit-input-group {
     display: flex;
     align-items: stretch;
+    border: none !important;
   }
 
   .category-input-group .v-select,
@@ -2347,8 +2367,7 @@ export default {
   .category-input-group .v-select .vs__dropdown-toggle,
   .brand-input-group .v-select .vs__dropdown-toggle,
   .unit-input-group .v-select .vs__dropdown-toggle {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
+    border-radius: 10px !important;
     height: 100%;
   }
 
@@ -2364,9 +2383,14 @@ export default {
   .category-add-btn,
   .brand-add-btn,
   .unit-add-btn {
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
+    border-radius: 10px !important;
+    margin-left: 10px;
     white-space: nowrap;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 0.75rem !important;
+    height: 42px;
   }
 
   /* ===== Responsive ===== */

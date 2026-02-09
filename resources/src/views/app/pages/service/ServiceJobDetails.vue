@@ -437,7 +437,7 @@ export default {
 
 /* Header */
 .job-header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #2d8cff;
   padding: 24px 32px;
   display: flex;
   justify-content: space-between;
@@ -581,7 +581,7 @@ export default {
     left: 0;
     right: 0;
     height: 4px;
-    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(90deg, #2d8cff 0%, #2d8cff 100%);
     transform: scaleX(0);
     transition: transform 0.3s ease;
   }
@@ -615,7 +615,7 @@ export default {
   }
 
   .customer-icon {
-    color: #667eea;
+    color: #2d8cff;
   }
 
   .technician-icon {
@@ -627,7 +627,7 @@ export default {
   }
 
   .job-type-icon {
-    color: #8b5cf6;
+    color: #2d8cff;
   }
 
   .status-icon {
@@ -639,7 +639,7 @@ export default {
   }
 
   .reference-icon {
-    color: #8b5cf6;
+    color: #2d8cff;
   }
 
   .card-title {
@@ -733,7 +733,7 @@ export default {
   padding: 24px;
   margin-bottom: 24px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
-  border-left: 4px solid #667eea;
+  border-left: 4px solid #2d8cff;
 
   .notes-title {
     display: flex;
@@ -742,7 +742,7 @@ export default {
     margin: 0 0 16px 0;
     font-size: 16px;
     font-weight: 700;
-    color: #667eea;
+    color: #2d8cff;
     text-transform: uppercase;
     letter-spacing: 0.5px;
 
@@ -781,7 +781,7 @@ export default {
 
     i {
       font-size: 20px;
-      color: #667eea;
+      color: #2d8cff;
     }
   }
 

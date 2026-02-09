@@ -1,0 +1,21 @@
+.vue-daterange-picker {
+    border: none !important;
+
+    .reportrange-text {
+        border: none !important;
+        background: transparent !important;
+        padding: 0 !important;
+        height: auto !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+
+        &:focus {
+            border: none !important;
+            box-shadow: none !important;
+        }
+
+        i {
+            display: none !important; // Hide default icon if it's there
+        }
+    }
+}

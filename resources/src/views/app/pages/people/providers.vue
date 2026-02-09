@@ -34,11 +34,11 @@
         </div>
         <div slot="table-actions" class="mt-2 mb-3">
           <b-button variant="outline-info m-1" size="sm" v-b-toggle.sidebar-right>
-            <i class="i-Filter-2"></i>
+            <Filter size="14" class="mr-1"></Filter>
             {{ $t("Filter") }}
           </b-button>
           <b-button @click="Providers_PDF()" size="sm" variant="outline-success m-1">
-            <i class="i-File-Copy"></i> PDF
+            <FileText size="14" class="mr-1"></FileText> PDF
           </b-button>
           <vue-excel-xlsx
               class="btn btn-sm btn-outline-danger ripple m-1"
@@ -48,7 +48,7 @@
               :file-type="'xlsx'"
               :sheet-name="'providers'"
               >
-              <i class="i-File-Excel"></i> EXCEL
+              <FileSpreadsheet size="14" class="mr-1"></FileSpreadsheet> EXCEL
           </vue-excel-xlsx>
          
           <router-link
@@ -56,7 +56,7 @@
             :to="{ name: 'Import_Suppliers' }"
             class="btn btn-info btn-sm m-1"
           >
-            <i class="i-Download"></i>
+            <Download size="14" class="mr-1"></Download>
             {{ $t("Import_Suppliers") }}
           </router-link>
 
@@ -66,7 +66,7 @@
             variant="btn btn-primary btn-icon m-1"
             v-if="currentUserPermissions && currentUserPermissions.includes('Suppliers_add')"
           >
-            <i class="i-Add"></i>
+            <Plus size="14"></Plus>
             {{$t('Add')}}
           </b-button>
         </div>
@@ -93,7 +93,7 @@
                   v-if="props.row.due > 0 && currentUserPermissions && currentUserPermissions.includes('pay_supplier_due')"
                   @click="Pay_due(props.row)"
                 >
-                  <i class="nav-icon i-Dollar font-weight-bold mr-2"></i>
+                  <dollar-sign size="14" class="mr-2"></dollar-sign>
                   {{$t('pay_all_purchase_due_at_a_time')}}
                 </b-dropdown-item>
 
@@ -101,14 +101,14 @@
                   v-if="props.row.return_Due > 0 && currentUserPermissions && currentUserPermissions.includes('pay_purchase_return_due')"
                   @click="Pay_return_due(props.row)"
                 >
-                  <i class="nav-icon i-Dollar font-weight-bold mr-2"></i>
+                  <dollar-sign size="14" class="mr-2"></dollar-sign>
                   {{$t('pay_all_purchase_return_due_at_a_time')}}
                 </b-dropdown-item>
 
                 <b-dropdown-item
                   @click="showDetails(props.row)"
                 >
-                  <i class="nav-icon i-Eye font-weight-bold mr-2"></i>
+                  <Eye size="14" class="mr-2"></Eye>
                   {{$t('Provider_details')}}
                 </b-dropdown-item>
 
@@ -116,7 +116,7 @@
                  v-if="currentUserPermissions && currentUserPermissions.includes('Suppliers_edit')"
                   @click="Edit_Provider(props.row)"
                 >
-                  <i class="nav-icon i-Edit font-weight-bold mr-2"></i>
+                  <Edit size="14" class="mr-2"></Edit>
                   {{$t('Edit_Provider')}}
                 </b-dropdown-item>
 
@@ -125,7 +125,7 @@
                   v-if="currentUserPermissions.includes('Suppliers_delete')"
                   @click="Remove_Provider(props.row.id)"
                 >
-                  <i class="nav-icon i-Close-Window font-weight-bold mr-2"></i>
+                  <XCircle size="14" class="mr-2"></XCircle>
                   {{$t('Delete_Provider')}}
                 </b-dropdown-item>
                 </b-dropdown>
@@ -175,13 +175,13 @@
               size="sm"
               block
             >
-              <i class="i-Filter-2"></i>
+              <Filter size="14" class="mr-1"></Filter>
               {{ $t("Filter") }}
             </b-button>
           </b-col>
           <b-col md="6" sm="12">
             <b-button @click="Reset_Filter()" variant="danger m-1" size="sm" block>
-              <i class="i-Power-2"></i>
+              <Power size="14" class="mr-1"></Power>
               {{ $t("Reset") }}
             </b-button>
           </b-col>
@@ -271,7 +271,7 @@
                 variant="primary"
                 type="submit"
                 :disabled="paymentProcessing"
-              ><i class="i-Yes me-2 font-weight-bold"></i> {{$t('submit')}}</b-button>
+              ><CheckCircle size="14" class="me-2 font-weight-bold"></CheckCircle> {{$t('submit')}}</b-button>
               <div v-once class="typo__p" v-if="paymentProcessing">
                 <div class="spinner sm spinner-primary mt-3"></div>
               </div>
@@ -363,7 +363,7 @@
                 variant="primary"
                 type="submit"
                 :disabled="payment_return_Processing"
-              ><i class="i-Yes me-2 font-weight-bold"></i> {{$t('submit')}}</b-button>
+              ><CheckCircle size="14" class="me-2 font-weight-bold"></CheckCircle> {{$t('submit')}}</b-button>
               <div v-once class="typo__p" v-if="payment_return_Processing">
                 <div class="spinner sm spinner-primary mt-3"></div>
               </div>
@@ -419,7 +419,7 @@
           </div>
         </div>
       <button @click="print_it()" class="btn btn-outline-primary">
-        <i class="i-Billing"></i>
+        <Printer size="14" class="mr-2"></Printer>
         {{$t('print')}}
       </button>
     </b-modal>
@@ -469,7 +469,7 @@
           </div>
         </div>
       <button @click="print_return_due()" class="btn btn-outline-primary">
-        <i class="i-Billing"></i>
+        <Printer size="14" class="mr-2"></Printer>
         {{$t('print')}}
       </button>
     </b-modal>
@@ -537,7 +537,7 @@
           <!-- Custom Fields Section -->
           <div v-if="providerCustomFields && providerCustomFields.length > 0" class="mt-4">
             <h6 class="text-primary mb-3">
-              <i class="i-Data-Settings mr-2"></i>
+              <Settings size="14" class="mr-2"></Settings>
               {{ $t('CustomFields') }}
             </h6>
             <table class="table table-striped table-md">
@@ -640,12 +640,42 @@
 </template>
 
 <script>
+import {
+  Filter,
+  FileText,
+  FileSpreadsheet,
+  Download,
+  Plus,
+  Edit,
+  DollarSign,
+  Eye,
+  XCircle,
+  Power,
+  CheckCircle,
+  Printer,
+  Settings
+} from "lucide-vue";
 import { mapActions, mapGetters } from "vuex";
 import NProgress from "nprogress";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 
 export default {
+  components: {
+    Filter,
+    FileText,
+    FileSpreadsheet,
+    Download,
+    Plus,
+    Edit,
+    DollarSign,
+    Eye,
+    XCircle,
+    Power,
+    CheckCircle,
+    Printer,
+    Settings
+  },
   metaInfo: {
     title: "Provider"
   },

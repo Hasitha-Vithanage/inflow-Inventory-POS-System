@@ -3,7 +3,7 @@
 
 // $blue: #263db5 !default;
 // $indigo: #6610f2 !default;
-// $purple: #8B5CF6 !default;
+// $purple: #2d8cff !default;
 // $pink: #e83e8c !default;
 // $red: #d22346 !default;
 // $orange: #e97d23 !default;
@@ -68,7 +68,7 @@ $colors: (
   white: $white,
   gray: $gray-600,
   gray-dark: $gray-800,
-) !default;
+  ) !default;
 $theme-colors: (
   primary: $primary,
   secondary: $secondary,
@@ -87,7 +87,7 @@ $theme-colors: (
   gray-800: $gray-800,
   gray-900: $gray-900,
   dark: $dark,
-) !default;
+  ) !default;
 
 @import "~bootstrap-vue/dist/bootstrap-vue.css";
 @import "~vue-good-table/dist/vue-good-table.css";

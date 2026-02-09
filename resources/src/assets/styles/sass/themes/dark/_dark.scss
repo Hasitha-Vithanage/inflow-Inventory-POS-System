@@ -44,13 +44,16 @@ body.dark-theme {
   .text-title {
     color: $dark-heading;
   }
+
   .card-title {
     color: $dark-heading !important;
   }
+
   a {
     // background: $dark-bg;
     color: $dark-heading !important;
   }
+
   input,
   textarea {
     background: $dark-forground !important;
@@ -62,8 +65,7 @@ body.dark-theme {
     background: $dark-bg;
 
     .footer-bottom {
-      .logo {
-      }
+      .logo {}
     }
   }
 
@@ -89,17 +91,21 @@ body.dark-theme {
     .childNav {
       li.nav-item {
         display: block;
+
         a {
           color: $dark-heading;
 
           &:hover {
             background: $dark-forground;
           }
+
           &.open {
             color: $primary;
           }
+
           &.router-link-active {
             color: $primary;
+
             .nav-icon {
               color: $primary;
             }
@@ -108,10 +114,10 @@ body.dark-theme {
           .nav-icon {
             color: $dark-heading;
           }
-          .item-name {
-          }
-          .dd-arrow {
-          }
+
+          .item-name {}
+
+          .dd-arrow {}
         }
       }
     }
@@ -125,11 +131,13 @@ body.dark-theme {
 
     input.search-input {
       background: $dark-forground;
+
       &::placeholder {
         color: $dark-heading;
       }
     }
   }
+
   //   header search
   .search-bar {
     background: $dark-bg !important;
@@ -139,13 +147,15 @@ body.dark-theme {
       color: $dark-heading !important;
       background: $dark-bg !important;
     }
-    .search-icon {
-    }
+
+    .search-icon {}
   }
+
   //   utilites
   .border-top {
     border-top: 1px solid $dark-bg !important;
   }
+
   // tab
   .tab-border {
     border: 1px dashed $dark-forground !important;
@@ -154,51 +164,51 @@ body.dark-theme {
   //   table
   table.vgt-table {
     background: $dark-bg !important;
-    
+
     thead {
       background: $dark-forground !important;
-      
+
       tr th {
         background: $dark-forground !important;
         color: $dark-heading !important;
         border-bottom-color: $dark-bg !important;
         border-right: none !important;
-        
+
         &:hover {
           background: $dark-bg !important;
         }
-        
+
         &.sortable {
           color: $dark-heading !important;
-          
+
           &:hover {
             color: $primary !important;
           }
-          
+
           button {
             color: $dark-heading !important;
           }
         }
       }
     }
-    
+
     tbody {
       tr {
         background: $dark-bg !important;
         color: $dark-heading !important;
-        
+
         &:hover {
           background: $dark-forground !important;
         }
-        
+
         &:nth-child(even) {
           background: $dark-forground !important;
-          
+
           &:hover {
             background: $dark-bg !important;
           }
         }
-        
+
         td {
           color: $dark-heading !important;
           border-bottom-color: $dark-forground !important;
@@ -207,21 +217,23 @@ body.dark-theme {
       }
     }
   }
-  
+
   .vgt-table thead th {
     color: $dark-heading !important;
   }
-  
+
   table.tableOne.vgt-table thead tr th {
     background: $dark-forground !important;
     border-color: $dark-bg !important;
     color: $dark-heading !important;
   }
+
   //   list
   .list-group-item {
     background-color: $dark-bg;
     border: 1px solid $dark-forground;
   }
+
   //   pagination
 
   .page-link {
@@ -244,11 +256,13 @@ body.dark-theme {
     td {
       border-top: 1px solid $dark-forground;
     }
+
     thead {
       th {
         border-bottom: 2px solid $dark-forground;
       }
     }
+
     .thead-light {
       th {
         color: $dark-heading;
@@ -261,6 +275,7 @@ body.dark-theme {
   .apexcharts-xaxis-label {
     fill: $dark-heading;
   }
+
   .apexcharts-yaxis-label {
     fill: $dark-heading;
   }
@@ -295,43 +310,44 @@ body.dark-theme {
   // v-select (vue-select component)
   .v-select {
     background: $dark-forground !important;
-    
+
     .vs__dropdown-toggle {
       background: $dark-forground !important;
       border-color: $dark-bg !important;
       color: $dark-heading !important;
     }
-    
+
     .vs__search,
     .vs__search:focus {
       color: $dark-heading !important;
       background: transparent !important;
     }
-    
+
     .vs__selected {
       color: $dark-heading !important;
     }
-    
+
     .vs__actions {
+
       .vs__clear,
       .vs__open-indicator {
         fill: $dark-heading !important;
       }
     }
-    
+
     .vs__dropdown-menu {
       background: $dark-bg !important;
       border-color: $dark-forground !important;
-      
+
       .vs__dropdown-option {
         color: $dark-heading !important;
-        
+
         &:hover,
         &.highlighted {
           background: $dark-forground !important;
           color: $dark-heading !important;
         }
-        
+
         &--selected {
           background: $dark-forground !important;
           color: $primary !important;
@@ -352,39 +368,39 @@ body.dark-theme {
     background: $dark-forground !important;
     color: $dark-heading !important;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
-    
+
     &:hover {
       box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3) !important;
     }
-    
+
     .stat-card-content {
       color: $dark-heading !important;
     }
-    
+
     .stat-card-label {
       color: $dark-heading !important;
       opacity: 0.8;
     }
-    
+
     .stat-card-value {
       color: $dark-heading !important;
     }
-    
+
     .stat-card-link {
       color: $primary !important;
-      
+
       &:hover {
         color: lighten($primary, 10%) !important;
       }
     }
-    
+
     // Icon containers maintain their gradient backgrounds but ensure text is visible
     .stat-card-icon {
       // Icon backgrounds remain colorful (gradients), only text color needs adjustment
       // The gradients are already defined and work well in dark mode
     }
   }
-  
+
   // Specific variants (sales-card, purchases-card, etc.)
   .sales-card,
   .purchases-card,
@@ -395,23 +411,23 @@ body.dark-theme {
   .invoices-card,
   .profit-card {
     background: $dark-forground !important;
-    
+
     .stat-card-content {
       color: $dark-heading !important;
     }
-    
+
     .stat-card-label {
       color: $dark-heading !important;
       opacity: 0.8;
     }
-    
+
     .stat-card-value {
       color: $dark-heading !important;
     }
-    
+
     .stat-card-link {
       color: $primary !important;
-      
+
       &:hover {
         color: lighten($primary, 10%) !important;
       }
@@ -422,32 +438,32 @@ body.dark-theme {
   .chart-card {
     background: $dark-forground !important;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
-    
+
     &:hover {
       box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3) !important;
     }
-    
+
     .chart-card-header {
       background: $dark-forground !important;
       border-bottom-color: $dark-bg !important;
       color: $dark-heading !important;
-      
+
       .chart-card-title {
         color: $dark-heading !important;
       }
-      
+
       .chart-card-header-filter {
         .form-control.reportrange-text {
           color: $dark-heading !important;
           background: transparent !important;
         }
       }
-      
+
       .btn {
         color: $dark-heading !important;
         background: $dark-bg !important;
         border-color: $dark-forground !important;
-        
+
         &:hover {
           background: $dark-forground !important;
           border-color: $primary !important;
@@ -455,12 +471,12 @@ body.dark-theme {
         }
       }
     }
-    
+
     .chart-card-body {
       background: $dark-forground !important;
       color: $dark-heading !important;
     }
-    
+
     .chart-card-legend {
       .legend-item {
         color: $dark-heading !important;
@@ -473,33 +489,33 @@ body.dark-theme {
   .table-card {
     background: $dark-forground !important;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
-    
+
     &:hover {
       box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3) !important;
     }
-    
+
     .table-card-header {
       background: $dark-forground !important;
       border-bottom-color: $dark-bg !important;
       color: $dark-heading !important;
-      
+
       .table-card-title {
         color: $dark-heading !important;
       }
-      
+
       .table-card-link {
         color: $primary !important;
-        
+
         &:hover {
           color: lighten($primary, 10%) !important;
         }
-        
+
         i {
           color: $primary !important;
         }
       }
     }
-    
+
     .table-card-body {
       background: $dark-forground !important;
       color: $dark-heading !important;
@@ -510,7 +526,7 @@ body.dark-theme {
   .bg-gray-300 {
     background-color: $dark-forground !important;
     color: $dark-heading !important;
-    
+
     // When used in table headers, ensure text is readable
     th {
       color: $dark-heading !important;
@@ -523,10 +539,10 @@ body.dark-theme {
     border-color: $dark-bg !important;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
     color: $dark-heading !important;
-    
+
     .autocomplete-result {
       color: $dark-heading !important;
-      
+
       &:hover {
         background-color: $dark-bg !important;
         color: $primary !important;
@@ -540,20 +556,20 @@ body.dark-theme {
     border-color: $dark-bg !important;
     color: $dark-heading !important;
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.5) !important;
-    
+
     .modal-header {
       background-color: $dark-forground !important;
       border-bottom-color: $dark-bg !important;
       color: $dark-heading !important;
-      
+
       .modal-title {
         color: $dark-heading !important;
       }
-      
+
       .close {
         color: $dark-heading !important;
         opacity: 0.8;
-        
+
         &:hover,
         &:focus {
           color: $dark-heading !important;
@@ -561,23 +577,23 @@ body.dark-theme {
         }
       }
     }
-    
+
     .modal-body {
       background-color: $dark-forground !important;
       color: $dark-heading !important;
     }
-    
+
     .modal-footer {
       background-color: $dark-forground !important;
       border-top-color: $dark-bg !important;
       color: $dark-heading !important;
     }
   }
-  
+
   // modal backdrop
   .modal-backdrop {
     background-color: rgba(0, 0, 0, 0.7) !important;
-    
+
     &.show {
       opacity: 0.7 !important;
     }
@@ -591,6 +607,7 @@ body.dark-theme {
   .calendar-parent {
     background-color: $dark-bg;
   }
+
   .cv-day,
   .cv-event,
   .cv-header-day,
@@ -600,19 +617,24 @@ body.dark-theme {
     border-style: solid;
     border-color: $dark-forground;
   }
+
   .theme-default {
+
     .cv-day.outsideOfMonth,
     .cv-day.past {
       background-color: $dark-bg;
     }
+
     .cv-day.today {
       background-color: $dark-forground;
     }
+
     .cv-header,
     .cv-header-day {
       background-color: $dark-forground;
     }
   }
+
   .cv-header,
   .cv-header button {
     border-style: solid;
@@ -623,19 +645,19 @@ body.dark-theme {
   // vg-table (enhanced)
   .vgt-global-search.vgt-clearfix {
     background: $dark-bg !important;
-    
+
     input.vgt-input {
       background: $dark-forground !important;
       border-color: $dark-bg !important;
       color: $dark-heading !important;
-      
+
       &::placeholder {
         color: $dark-heading !important;
         opacity: 0.6;
       }
     }
   }
-  
+
   table.tableOne tbody tr th.line-numbers {
     background: $dark-bg !important;
     color: $dark-heading !important;
@@ -646,30 +668,30 @@ body.dark-theme {
     background: $dark-bg !important;
     border-top-color: $dark-forground !important;
     color: $dark-heading !important;
-    
+
     .footer__row-count__label,
     .footer__row-count__select,
     .footer__navigation__page-btn,
     .footer__navigation__page-info {
       color: $dark-heading !important;
     }
-    
+
     .footer__row-count__select {
       background: $dark-forground !important;
       border-color: $dark-bg !important;
       color: $dark-heading !important;
     }
-    
+
     .footer__navigation__page-btn {
       background: $dark-forground !important;
       border-color: $dark-bg !important;
       color: $dark-heading !important;
-      
+
       &:hover:not(:disabled) {
         background: $dark-bg !important;
         color: $primary !important;
       }
-      
+
       &:disabled {
         opacity: 0.5;
         cursor: not-allowed;
@@ -681,7 +703,7 @@ body.dark-theme {
     border-bottom: 1px solid $dark-forground !important;
     color: $dark-heading !important;
   }
-  
+
   table.tableOne tbody tr th.vgt-checkbox-col {
     background: $dark-bg !important;
     border-color: $dark-forground !important;
@@ -697,7 +719,7 @@ body.dark-theme {
     border-bottom: 1px solid $dark-forground !important;
     background: $dark-forground !important;
   }
-  
+
   .ul-widget__item {
     border-bottom: 0.07rem dashed $dark-forground;
   }
@@ -708,20 +730,20 @@ body.dark-theme {
       border-radius: 10px;
     }
   }
-  
+
   // vgt-wrap and inner wrap
   .vgt-wrap {
     background: $dark-bg !important;
-    
+
     .vgt-inner-wrap {
       background: $dark-bg !important;
     }
   }
-  
+
   // vgt-table bordered variant
   table.vgt-table.bordered {
     border-color: $dark-forground !important;
-    
+
     th,
     td {
       border-color: $dark-forground !important;
@@ -732,8 +754,10 @@ body.dark-theme {
     background-color: $dark-bg;
     border-color: $dark-bg;
   }
+
   ul.gull-pagination li .page-link {
     border-color: $dark-bg !important;
+
     &:hover {
       background: $dark-bg;
     }
@@ -742,8 +766,8 @@ body.dark-theme {
   .layout-sidebar-compact {
     .sidebar-left {
       background: $dark-forground;
-      .navigation-left {
-      }
+
+      .navigation-left {}
     }
 
     .sidebar-left-secondary {
@@ -753,10 +777,12 @@ body.dark-theme {
             &.open {
               color: $primary;
               background: $dark-forground;
+
               .nav-icon {
                 color: $primary;
               }
             }
+
             .nav-icon {
               color: $dark-heading;
             }
@@ -770,9 +796,11 @@ body.dark-theme {
   .chat-sidebar-container {
     height: calc(100vh - 140px);
     min-height: unset;
+
     .chat-topbar {
       height: 52px;
     }
+
     .chat-content-wrap {
       .chat-content {
         .message {
@@ -791,13 +819,16 @@ body.dark-theme {
           position: relative;
           cursor: pointer;
           transition: 0.15s all ease-in;
+
           &:hover {
             background: $dark-forground;
           }
+
           &:before {
             background: $dark-bg;
             border-radius: 50%;
           }
+
           &.online {
             &:before {
               background: $success;
@@ -807,6 +838,7 @@ body.dark-theme {
       }
     }
   }
+
   // Vertical sidebar Layout
 
   .layout-sidebar-vertical {
@@ -814,6 +846,7 @@ body.dark-theme {
       box-shadow: 0 1px 15px $dark-forground, 0 1px 6px $dark-forground;
       background: $dark-bg;
     }
+
     .main-content-wrap {
       .main-header {
         background: $dark-bg !important;
@@ -827,40 +860,49 @@ body.dark-theme {
       box-shadow: 0 1px 15px $dark-forground, 0 1px 6px $dark-forground;
       background: $dark-bg;
     }
+
     .main-content-wrap {
       .main-header {
         background: $dark-bg !important;
       }
     }
   }
+
   .layout-horizontal-bar {
     .header-topnav {
       background: $dark-bg;
       box-shadow: 0 1px 15px transparent, 0 1px 6px transparent;
+
       .topnav a {
         color: $dark-heading !important;
       }
+
       .topnav ul ul {
         background: $dark-bg;
         color: $dark-heading;
       }
+
       .topnav ul li ul li:hover {
         background: $dark-forground;
       }
     }
   }
+
   .main-header {
     .show {
       .header-icon {
         background: $dark-forground;
       }
     }
+
     .notification-dropdown {
       color: $dark-heading;
+
       .dropdown-item {
         border-bottom: 1px solid $dark-bg;
         color: $dark-heading;
       }
+
       .notification-icon {
         background: $dark-bg !important;
       }
@@ -877,103 +919,116 @@ body.dark-theme {
   // subheader 
   .subheader {
     background-color: $dark-bg;
-    .subheader-navbar{
-        background-color: $dark-bg;
+
+    .subheader-navbar {
+      background-color: $dark-bg;
     }
-   position: fixed;
-   top: 80px;
-   z-index:50;
-   width: 100%;
-   @media (max-width: 577px) {
-       top: 70px;
-   }
-}
+
+    position: fixed;
+    top: 80px;
+    z-index:50;
+    width: 100%;
+
+    @media (max-width: 577px) {
+      top: 70px;
+    }
+  }
 
   // plugins vue-navigation-bar 
   .vnb {
     background-color: $dark-bg;
-    .tippy-box{
-        box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
-        background-color: $dark-bg !important;
+
+    .tippy-box {
+      box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15) !important;
+      background-color: $dark-bg !important;
     }
+
     &__menu-options {
-      
+
       &__option {
-        
+
         &__link {
           color: $dark-heading;
-          .vnb__menu-options__option__arrow{
+
+          .vnb__menu-options__option__arrow {
             fill: $dark-heading;
           }
+
           &:focus {
             outline: none;
             border: 1px solid none;
           }
+
           &:hover {
             color: $dark-heading;
-            .vnb__menu-options__option__arrow{
+
+            .vnb__menu-options__option__arrow {
               fill: $dark-heading;
             }
           }
-          
+
           &__icon {
             svg {
-              fill:$primary !important;
+              fill: $primary !important;
             }
           }
         }
-   
-       
-   
-        
-   
-        
+
+
+
+
+
+
       }
     }
-   
+
     &__sub-menu-options {
       background-color: $dark-bg;
-     
+
       &__option {
         &__link {
-          border-left: 2px solid #8B5CF6;
+          border-left: 2px solid #2d8cff;
           color: $dark-heading;
+
           &:focus {
             outline: none;
             border: 1px solid none;
           }
-         
-         
+
+
           &:hover {
-            background-color:#8B5CF6 ;
-            color: $dark-heading  !important;
-            
+            background-color: #2d8cff;
+            color: $dark-heading !important;
+
           }
         }
       }
     }
-   
-   
-   
-  
+
+
+
+
   }
-  
-  .vnb__popup{
-      height: 80vh !important;
-      overflow-x:hidden !important;
-      overflow-y: scroll !important;
-      .vnb__popup__top__close-button{
-        &:focus{
-          border: 1px solid none;
-          outline: none;
-        }
-        top: 20px;
-        right: -33px;
-        svg{
-          // In dark mode the close icon should be light so it remains visible on dark backgrounds
-          fill: $dark-heading !important;
-        }
+
+  .vnb__popup {
+    height: 80vh !important;
+    overflow-x: hidden !important;
+    overflow-y: scroll !important;
+
+    .vnb__popup__top__close-button {
+      &:focus {
+        border: 1px solid none;
+        outline: none;
       }
+
+      top: 20px;
+      right: -33px;
+
+      svg {
+        // In dark mode the close icon should be light so it remains visible on dark backgrounds
+        fill: $dark-heading !important;
+      }
+    }
   }
 
   // hero-bg (hero background gradient)
@@ -987,39 +1042,39 @@ body.dark-theme {
     background: $dark-forground !important;
     border-color: $dark-bg !important;
     color: $dark-heading !important;
-    
+
     &:hover {
       background: $dark-bg !important;
       border-color: $primary !important;
       box-shadow: 0 1px 6px rgba(102, 126, 234, 0.2) !important;
     }
-    
+
     &.is-dragover {
       border-color: $primary !important;
       background: $dark-bg !important;
     }
-    
+
     &.has-file {
       border-color: $dark-bg !important;
     }
-    
+
     .dz-icon {
       color: $primary !important;
     }
   }
-  
+
   // file-pill (file display pill in dropzone)
   .file-pill {
     background: $dark-forground !important;
     border-color: $dark-bg !important;
     color: $dark-heading !important;
   }
-  
+
   // hero-body and hero-icon
   .hero-body {
     color: $dark-heading !important;
   }
-  
+
   .hero-icon {
     background: rgba(102, 126, 234, 0.15) !important;
     color: $primary !important;
@@ -1028,7 +1083,7 @@ body.dark-theme {
   // ============================================
   // System Settings Page Dark Mode Styles
   // ============================================
-  
+
   // Settings Container
   .settings-container {
     background: $dark-forground !important;
@@ -1048,10 +1103,10 @@ body.dark-theme {
 
   // Settings Header (with gradient)
   .settings-header {
-    background: linear-gradient(135deg, rgba(102, 126, 234, 0.8) 0%, rgba(118, 75, 162, 0.8) 100%) !important;
+    background: #2d8cff;
     color: #ffffff !important;
     border-bottom-color: rgba(255, 255, 255, 0.2) !important;
-    
+
     h5 {
       color: #ffffff !important;
     }
@@ -1066,30 +1121,30 @@ body.dark-theme {
     background: transparent !important;
     color: $dark-heading !important;
     border-left-color: transparent !important;
-    
+
     i {
       color: $dark-heading !important;
     }
-    
+
     &:hover {
       background: rgba(102, 126, 234, 0.15) !important;
       color: $primary !important;
       border-left-color: $primary !important;
-      
+
       i {
         color: $primary !important;
       }
     }
-    
+
     &.active {
-      background: linear-gradient(90deg, rgba(102, 126, 234, 0.25) 0%, rgba(118, 75, 162, 0.15) 100%) !important;
+      background: linear-gradient(90deg, rgba(102, 126, 234, 0.25) 0%, rgb(45, 140, 255, 0.08) 100%) !important;
       color: $primary !important;
       border-left-color: $primary !important;
-      
+
       i {
         color: $primary !important;
       }
-      
+
       &::before {
         border-right-color: $dark-forground !important;
       }
@@ -1108,11 +1163,11 @@ body.dark-theme {
 
   .settings-content-header {
     border-bottom-color: $dark-bg !important;
-    
+
     h4 {
       color: $dark-heading !important;
     }
-    
+
     p {
       color: $dark-heading !important;
       opacity: 0.8;
@@ -1126,23 +1181,23 @@ body.dark-theme {
   // Tab Content
   .tab-content {
     color: $dark-heading !important;
-    
+
     .form-group {
       label {
         color: $dark-heading !important;
       }
     }
-    
+
     .form-control,
     .vs__dropdown-toggle {
       background: $dark-bg !important;
       border-color: $dark-bg !important;
       color: $dark-heading !important;
-      
+
       &::placeholder {
         color: rgba($dark-heading, 0.5) !important;
       }
-      
+
       &:focus {
         background: $dark-bg !important;
         border-color: $primary !important;
@@ -1150,28 +1205,28 @@ body.dark-theme {
         box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25) !important;
       }
     }
-    
+
     .vs__selected {
       color: $dark-heading !important;
     }
-    
+
     .vs__search {
       color: $dark-heading !important;
     }
-    
+
     .vs__dropdown-menu {
       background: $dark-forground !important;
       border-color: $dark-bg !important;
     }
-    
+
     .vs__dropdown-option {
       color: $dark-heading !important;
-      
+
       &:hover {
         background: rgba(102, 126, 234, 0.15) !important;
         color: $primary !important;
       }
-      
+
       &--highlight {
         background: rgba(102, 126, 234, 0.25) !important;
         color: $primary !important;
@@ -1183,7 +1238,7 @@ body.dark-theme {
   .system-actions-card {
     background: $dark-forground !important;
     border-color: $dark-bg !important;
-    
+
     h5 {
       color: $dark-heading !important;
     }
@@ -1204,14 +1259,14 @@ body.dark-theme {
     background: $dark-bg !important;
     border-color: $dark-bg !important;
     color: $dark-heading !important;
-    
+
     &:focus {
       background: $dark-bg !important;
       border-color: $primary !important;
       color: $dark-heading !important;
       box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25) !important;
     }
-    
+
     option {
       background: $dark-forground !important;
       color: $dark-heading !important;
@@ -1223,10 +1278,10 @@ body.dark-theme {
     &::-webkit-scrollbar-track {
       background: $dark-bg !important;
     }
-    
+
     &::-webkit-scrollbar-thumb {
       background: $primary !important;
-      
+
       &:hover {
         background: rgba(102, 126, 234, 0.8) !important;
       }
@@ -1253,30 +1308,30 @@ body.dark-theme {
         color: $dark-heading !important;
       }
     }
-    
+
     .form-control,
     .custom-select,
     select {
       background: $dark-bg !important;
       border-color: $dark-bg !important;
       color: $dark-heading !important;
-      
+
       &:focus {
         background: $dark-bg !important;
         border-color: $primary !important;
         color: $dark-heading !important;
       }
     }
-    
+
     .form-text,
     .text-muted {
       color: rgba($dark-heading, 0.7) !important;
     }
-    
+
     .invalid-feedback {
       color: #f56565 !important;
     }
-    
+
     .valid-feedback {
       color: #48bb78 !important;
     }
@@ -1288,38 +1343,38 @@ body.dark-theme {
       background: $dark-forground !important;
       border-color: $dark-bg !important;
       color: $dark-heading !important;
-      
+
       &.alert-danger {
         background: rgba(245, 101, 101, 0.1) !important;
         border-color: rgba(245, 101, 101, 0.3) !important;
         color: #f56565 !important;
       }
-      
+
       &.alert-success {
         background: rgba(72, 187, 120, 0.1) !important;
         border-color: rgba(72, 187, 120, 0.3) !important;
         color: #48bb78 !important;
       }
-      
+
       &.alert-warning {
         background: rgba(237, 137, 54, 0.1) !important;
         border-color: rgba(237, 137, 54, 0.3) !important;
         color: #ed8936 !important;
       }
-      
+
       &.alert-info {
         background: rgba(66, 153, 225, 0.1) !important;
         border-color: rgba(66, 153, 225, 0.3) !important;
         color: #4299e1 !important;
       }
-      
+
       code {
         background: $dark-bg !important;
         color: $primary !important;
         padding: 0.125rem 0.25rem;
         border-radius: 0.25rem;
       }
-      
+
       pre {
         background: $dark-bg !important;
         color: $dark-heading !important;
@@ -1332,16 +1387,16 @@ body.dark-theme {
   .settings-content {
     .nav-tabs {
       border-bottom-color: $dark-bg !important;
-      
+
       .nav-link {
         color: $dark-heading !important;
         border-color: transparent !important;
-        
+
         &:hover {
           border-color: $dark-bg $dark-bg transparent !important;
           color: $primary !important;
         }
-        
+
         &.active {
           background: $dark-forground !important;
           border-color: $dark-bg $dark-bg transparent !important;
@@ -1349,7 +1404,7 @@ body.dark-theme {
         }
       }
     }
-    
+
     .tab-content {
       background: $dark-forground !important;
       color: $dark-heading !important;
@@ -1362,18 +1417,18 @@ body.dark-theme {
       background: $dark-forground !important;
       border-color: $dark-bg !important;
       color: $dark-heading !important;
-      
+
       .card-header {
         background: $dark-bg !important;
         border-bottom-color: $dark-bg !important;
         color: $dark-heading !important;
       }
-      
+
       .card-body {
         background: $dark-forground !important;
         color: $dark-heading !important;
       }
-      
+
       .card-footer {
         background: $dark-bg !important;
         border-top-color: $dark-bg !important;
@@ -1389,13 +1444,13 @@ body.dark-theme {
         background: $dark-bg !important;
         border-color: $dark-bg !important;
         color: $dark-heading !important;
-        
+
         &:hover {
           background: rgba(102, 126, 234, 0.15) !important;
           border-color: $primary !important;
           color: $primary !important;
         }
-        
+
         &.active {
           background: $primary !important;
           border-color: $primary !important;
@@ -1410,18 +1465,18 @@ body.dark-theme {
     .custom-switch {
       .custom-control-label {
         color: $dark-heading !important;
-        
+
         &::before {
           background: $dark-bg !important;
           border-color: $dark-bg !important;
         }
-        
+
         &::after {
           background: $dark-heading !important;
         }
       }
-      
-      .custom-control-input:checked ~ .custom-control-label {
+
+      .custom-control-input:checked~.custom-control-label {
         &::before {
           background: $primary !important;
           border-color: $primary !important;
@@ -1434,18 +1489,18 @@ body.dark-theme {
   .main-content {
     .breadcrumb {
       background: transparent !important;
-      
+
       .breadcrumb-item {
         color: $dark-heading !important;
-        
+
         a {
           color: $primary !important;
-          
+
           &:hover {
             color: rgba(102, 126, 234, 0.8) !important;
           }
         }
-        
+
         &.active {
           color: rgba($dark-heading, 0.7) !important;
         }
@@ -1456,22 +1511,22 @@ body.dark-theme {
   // ============================================
   // Store Settings Page Dark Mode Styles
   // ============================================
-  
+
   // Settings Card
   .settings-card {
     background: $dark-forground !important;
     border-color: $dark-bg !important;
-    
+
     .card-header {
       background: $dark-bg !important;
       border-bottom-color: $dark-bg !important;
       color: $dark-heading !important;
-      
+
       .h6 {
         color: $dark-heading !important;
       }
     }
-    
+
     .card-body {
       background: $dark-forground !important;
       color: $dark-heading !important;
@@ -1496,7 +1551,7 @@ body.dark-theme {
     background: $dark-bg !important;
     border-color: $dark-forground !important;
     color: rgba($dark-heading, 0.7) !important;
-    
+
     .title {
       color: $dark-heading !important;
     }
@@ -1507,18 +1562,18 @@ body.dark-theme {
     background: $dark-forground !important;
     border-color: $dark-bg !important;
     color: $dark-heading !important;
-    
+
     .text-dark {
       color: $dark-heading !important;
     }
-    
+
     .muted-row {
       color: rgba($dark-heading, 0.7) !important;
     }
-    
+
     .a-muted {
       color: rgba($dark-heading, 0.7) !important;
-      
+
       &:hover {
         color: $primary !important;
       }
@@ -1530,7 +1585,7 @@ body.dark-theme {
     background: linear-gradient(180deg, rgba($dark-forground, 0) 0%, rgba($dark-forground, 0.95) 20%) !important;
     border-top-color: $dark-bg !important;
     color: $dark-heading !important;
-    
+
     .text-muted {
       color: rgba($dark-heading, 0.7) !important;
     }
@@ -1543,79 +1598,79 @@ body.dark-theme {
         color: $dark-heading !important;
       }
     }
-    
+
     .form-control,
     .form-control:focus {
       background: $dark-bg !important;
       border-color: $dark-bg !important;
       color: $dark-heading !important;
-      
+
       &::placeholder {
         color: rgba($dark-heading, 0.5) !important;
       }
     }
-    
+
     .form-control[type="color"] {
       background: $dark-bg !important;
       border-color: $dark-bg !important;
     }
-    
+
     .form-control:focus {
       border-color: $primary !important;
       box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25) !important;
     }
-    
+
     textarea.form-control {
       background: $dark-bg !important;
       border-color: $dark-bg !important;
       color: $dark-heading !important;
     }
-    
+
     .custom-file-label {
       background: $dark-bg !important;
       border-color: $dark-bg !important;
       color: $dark-heading !important;
-      
+
       &::after {
         background: $dark-forground !important;
         border-color: $dark-bg !important;
         color: $dark-heading !important;
       }
     }
-    
+
     .text-muted {
       color: rgba($dark-heading, 0.7) !important;
     }
-    
+
     .text-warning {
       color: #ed8936 !important;
     }
-    
+
     // Custom Switch Checkbox
     .custom-switch {
       .custom-control-label {
         color: $dark-heading !important;
-        
+
         &::before {
           background: $dark-bg !important;
           border-color: $dark-bg !important;
         }
-        
+
         &::after {
           background: $dark-heading !important;
         }
       }
-      
-      .custom-control-input:checked ~ .custom-control-label {
+
+      .custom-control-input:checked~.custom-control-label {
         &::before {
           background: $primary !important;
           border-color: $primary !important;
         }
       }
     }
-    
+
     // Bootstrap Vue Checkbox Switch
-    .custom-control-input:checked ~ .custom-control-label::before {
+    .custom-control-input:checked~.custom-control-label::before {
       background: $primary !important;
       border-color: $primary !important;
     }
@@ -1646,13 +1701,13 @@ body.dark-theme {
         background: $dark-bg !important;
         border-color: $dark-bg !important;
         color: $dark-heading !important;
-        
+
         &:hover:not(:disabled) {
           background: rgba(102, 126, 234, 0.15) !important;
           border-color: $primary !important;
           color: $primary !important;
         }
-        
+
         &:disabled {
           opacity: 0.5;
           cursor: not-allowed;
@@ -1666,7 +1721,7 @@ body.dark-theme {
   .fade-leave-active {
     transition: all 0.15s ease;
   }
-  
+
   .fade-enter,
   .fade-leave-to {
     opacity: 0;
@@ -1676,13 +1731,13 @@ body.dark-theme {
   // ============================================
   // Store Pages Dark Mode Styles
   // ============================================
-  
+
   // Banner Form - Position Info Box
   .bg-light {
     background: $dark-bg !important;
     border-color: $dark-forground !important;
     color: $dark-heading !important;
-    
+
     .small {
       color: $dark-heading !important;
     }
@@ -1705,7 +1760,7 @@ body.dark-theme {
   .result-row {
     border-bottom-color: $dark-forground !important;
     color: $dark-heading !important;
-    
+
     .thumb {
       background: $dark-forground !important;
       border-color: $dark-bg !important;
@@ -1717,11 +1772,11 @@ body.dark-theme {
     background: $dark-bg !important;
     border-color: $dark-forground !important;
     color: rgba($dark-heading, 0.7) !important;
-    
+
     .title {
       color: $dark-heading !important;
     }
-    
+
     .subtitle {
       color: rgba($dark-heading, 0.6) !important;
     }
@@ -1754,13 +1809,13 @@ body.dark-theme {
       background: $dark-forground !important;
       border-color: $dark-bg !important;
       color: $dark-heading !important;
-      
+
       &.alert-danger {
         background: rgba(245, 101, 101, 0.1) !important;
         border-color: rgba(245, 101, 101, 0.3) !important;
         color: #f56565 !important;
       }
-      
+
       ul {
         color: #f56565 !important;
       }
@@ -1772,7 +1827,7 @@ body.dark-theme {
     li {
       color: $dark-heading !important;
       border-top-color: $dark-bg !important;
-      
+
       strong {
         color: $dark-heading !important;
       }
@@ -1807,7 +1862,7 @@ body.dark-theme {
     .card {
       background: $dark-forground !important;
       border-color: $dark-bg !important;
-      
+
       .card-body {
         background: $dark-forground !important;
         color: $dark-heading !important;
@@ -1819,26 +1874,26 @@ body.dark-theme {
   .table {
     thead.thead-light {
       background: $dark-bg !important;
-      
+
       th {
         color: $dark-heading !important;
         border-color: $dark-forground !important;
       }
     }
-    
+
     tbody {
       tr {
         background: $dark-forground !important;
         color: $dark-heading !important;
-        
+
         &:hover {
           background: $dark-bg !important;
         }
-        
+
         td {
           border-color: $dark-bg !important;
           color: $dark-heading !important;
-          
+
           code {
             background: $dark-bg !important;
             color: $primary !important;
@@ -1874,13 +1929,13 @@ body.dark-theme {
       background: $dark-forground !important;
       border-color: $dark-bg !important;
       color: $dark-heading !important;
-      
+
       .card-header {
         background: $dark-bg !important;
         border-bottom-color: $dark-bg !important;
         color: $dark-heading !important;
       }
-      
+
       .card-body {
         background: $dark-forground !important;
         color: $dark-heading !important;
@@ -1890,31 +1945,32 @@ body.dark-theme {
 
   // Store Pages - Form Controls
   .main-content {
+
     .form-control,
     .custom-select,
     select {
       background: $dark-bg !important;
       border-color: $dark-bg !important;
       color: $dark-heading !important;
-      
+
       &:focus {
         background: $dark-bg !important;
         border-color: $primary !important;
         color: $dark-heading !important;
         box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25) !important;
       }
-      
+
       &::placeholder {
         color: rgba($dark-heading, 0.5) !important;
       }
     }
-    
+
     .form-group {
       label {
         color: $dark-heading !important;
       }
     }
-    
+
     textarea.form-control {
       background: $dark-bg !important;
       border-color: $dark-bg !important;
@@ -1929,7 +1985,7 @@ body.dark-theme {
       border-color: $dark-bg !important;
       color: $dark-heading !important;
     }
-    
+
     .input-group-prepend,
     .input-group-append {
       .input-group-text {
@@ -1937,12 +1993,12 @@ body.dark-theme {
         border-color: $dark-bg !important;
         color: $dark-heading !important;
       }
-      
+
       .btn {
         background: $dark-bg !important;
         border-color: $dark-bg !important;
         color: $dark-heading !important;
-        
+
         &:hover:not(:disabled) {
           background: rgba(102, 126, 234, 0.15) !important;
           border-color: $primary !important;
@@ -1956,18 +2012,18 @@ body.dark-theme {
   .custom-switch {
     .custom-control-label {
       color: $dark-heading !important;
-      
+
       &::before {
         background: $dark-bg !important;
         border-color: $dark-bg !important;
       }
-      
+
       &::after {
         background: $dark-heading !important;
       }
     }
-    
-    .custom-control-input:checked ~ .custom-control-label {
+
+    .custom-control-input:checked~.custom-control-label {
       &::before {
         background: $primary !important;
         border-color: $primary !important;
@@ -1981,37 +2037,37 @@ body.dark-theme {
       background: $dark-bg !important;
       border-color: $dark-bg !important;
       color: $dark-heading !important;
-      
+
       &:hover:not(:disabled) {
         background: rgba(102, 126, 234, 0.15) !important;
         border-color: $primary !important;
         color: $primary !important;
       }
-      
+
       &.btn-outline-primary {
         border-color: $primary !important;
         color: $primary !important;
-        
+
         &:hover:not(:disabled) {
           background: $primary !important;
           color: #ffffff !important;
         }
       }
-      
+
       &.btn-outline-danger {
         border-color: #f56565 !important;
         color: #f56565 !important;
-        
+
         &:hover:not(:disabled) {
           background: #f56565 !important;
           color: #ffffff !important;
         }
       }
-      
+
       &.btn-outline-secondary {
         border-color: rgba($dark-heading, 0.3) !important;
         color: $dark-heading !important;
-        
+
         &:hover:not(:disabled) {
           background: rgba(102, 126, 234, 0.15) !important;
           border-color: $primary !important;
@@ -2026,18 +2082,18 @@ body.dark-theme {
     background: $dark-forground !important;
     border-color: $dark-bg !important;
     color: $dark-heading !important;
-    
+
     .modal-header {
       background: $dark-bg !important;
       border-bottom-color: $dark-bg !important;
       color: $dark-heading !important;
     }
-    
+
     .modal-body {
       background: $dark-forground !important;
       color: $dark-heading !important;
     }
-    
+
     .modal-footer {
       background: $dark-bg !important;
       border-top-color: $dark-bg !important;
@@ -2048,11 +2104,11 @@ body.dark-theme {
   .text-muted {
     color: rgba($dark-heading, 0.7) !important;
   }
-  
+
   .text-dark {
     color: $dark-heading !important;
   }
-  
+
   .fw-600 {
     color: $dark-heading !important;
   }
@@ -2061,7 +2117,7 @@ body.dark-theme {
   .border {
     border-color: $dark-bg !important;
   }
-  
+
   .border-rounded {
     border-color: $dark-bg !important;
   }
@@ -2071,10 +2127,10 @@ body.dark-theme {
     &::-webkit-scrollbar-track {
       background: $dark-bg !important;
     }
-    
+
     &::-webkit-scrollbar-thumb {
       background: $primary !important;
-      
+
       &:hover {
         background: rgba(102, 126, 234, 0.8) !important;
       }
@@ -2084,7 +2140,7 @@ body.dark-theme {
   // ============================================
   // POS (Point of Sale) Page Dark Mode Styles
   // ============================================
-  
+
   // Main POS Container
   .pos-codecanyon {
     background: $dark-forground !important;
@@ -2120,31 +2176,31 @@ body.dark-theme {
   .search-wrapper {
     background: $dark-bg !important;
     border-color: $dark-forground !important;
-    
+
     .search-icon {
       color: rgba($dark-heading, 0.7) !important;
     }
-    
+
     .search-input {
       background: $dark-bg !important;
       border-color: $dark-forground !important;
       color: $dark-heading !important;
-      
+
       &::placeholder {
         color: rgba($dark-heading, 0.5) !important;
       }
-      
+
       &:focus {
         border-color: $primary !important;
         box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.25) !important;
       }
     }
-    
+
     .action-btn-icon {
       background: transparent !important;
       color: $dark-heading !important;
       border-color: transparent !important;
-      
+
       &:hover {
         background: rgba(102, 126, 234, 0.15) !important;
         color: $primary !important;
@@ -2163,7 +2219,7 @@ body.dark-theme {
     background: $dark-forground !important;
     color: $dark-heading !important;
     border-bottom-color: $dark-bg !important;
-    
+
     &:hover {
       background: rgba(102, 126, 234, 0.15) !important;
       color: $primary !important;
@@ -2176,22 +2232,22 @@ body.dark-theme {
       background: transparent !important;
       color: $dark-heading !important;
       border-color: transparent !important;
-      
+
       &:hover {
         background: rgba(102, 126, 234, 0.15) !important;
         color: $primary !important;
       }
-      
+
       &.is-offline {
         color: #f56565 !important;
       }
     }
-    
+
     .offline-badge {
       background: #f56565 !important;
       color: #ffffff !important;
     }
-    
+
     .user-profile {
       background: $dark-bg !important;
       color: $dark-heading !important;
@@ -2201,12 +2257,13 @@ body.dark-theme {
 
   // Register Status
   .register-status {
+
     .register-toggle-icon,
     .register-toggle-btn {
       background: $dark-bg !important;
       border-color: $dark-forground !important;
       color: $dark-heading !important;
-      
+
       &:hover {
         background: rgba(102, 126, 234, 0.15) !important;
         border-color: $primary !important;
@@ -2223,28 +2280,28 @@ body.dark-theme {
       border-color: $dark-forground !important;
       color: $dark-heading !important;
     }
-    
+
     .vs__selected {
       color: $dark-heading !important;
     }
-    
+
     .vs__search {
       color: $dark-heading !important;
     }
-    
+
     .vs__dropdown-menu {
       background: $dark-forground !important;
       border-color: $dark-bg !important;
     }
-    
+
     .vs__dropdown-option {
       color: $dark-heading !important;
-      
+
       &:hover {
         background: rgba(102, 126, 234, 0.15) !important;
         color: $primary !important;
       }
-      
+
       &--highlight {
         background: rgba(102, 126, 234, 0.25) !important;
         color: $primary !important;
@@ -2257,16 +2314,16 @@ body.dark-theme {
     background: $dark-forground !important;
     border-color: $dark-bg !important;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
-    
+
     .dropdown-header {
       background: $dark-bg !important;
       color: $dark-heading !important;
       border-bottom-color: $dark-bg !important;
     }
-    
+
     .dropdown-item {
       color: $dark-heading !important;
-      
+
       &:hover {
         background: rgba(102, 126, 234, 0.15) !important;
         color: $primary !important;
@@ -2280,13 +2337,13 @@ body.dark-theme {
       background: $dark-forground !important;
       border-color: $dark-bg !important;
       color: $dark-heading !important;
-      
+
       &:hover {
         background: rgba(102, 126, 234, 0.15) !important;
         border-color: $primary !important;
         color: $primary !important;
       }
-      
+
       .title-lang {
         color: $dark-heading !important;
       }
@@ -2314,7 +2371,7 @@ body.dark-theme {
     background: $dark-forground !important;
     border-color: $dark-bg !important;
     color: $dark-heading !important;
-    
+
     &:hover {
       border-color: $primary !important;
       box-shadow: 0 12px 32px rgba(102, 126, 234, 0.2) !important;
@@ -2324,7 +2381,7 @@ body.dark-theme {
   .product-image-wrapper {
     background: $dark-bg !important;
     border-bottom-color: $dark-forground !important;
-    
+
     .product-image-placeholder {
       color: rgba(102, 126, 234, 0.3) !important;
     }
@@ -2333,15 +2390,15 @@ body.dark-theme {
   .product-details {
     background: $dark-forground !important;
     color: $dark-heading !important;
-    
+
     .product-name {
       color: $dark-heading !important;
     }
-    
+
     .product-brand {
       color: rgba($dark-heading, 0.7) !important;
     }
-    
+
     .product-stock {
       color: rgba($dark-heading, 0.6) !important;
     }
@@ -2350,7 +2407,7 @@ body.dark-theme {
   .product-footer {
     background: $dark-bg !important;
     border-top-color: $dark-forground !important;
-    
+
     .product-price {
       color: $dark-heading !important;
     }
@@ -2371,7 +2428,7 @@ body.dark-theme {
     background: $dark-forground !important;
     border-color: $dark-bg !important;
     color: $dark-heading !important;
-    
+
     &:hover {
       border-color: $primary !important;
     }
@@ -2395,31 +2452,31 @@ body.dark-theme {
 
   .charge-row {
     border-bottom-color: $dark-bg !important;
-    
+
     label {
       color: rgba($dark-heading, 0.7) !important;
     }
-    
+
     .flat-input {
       background: $dark-bg !important;
       border-color: $dark-forground !important;
       color: $dark-heading !important;
-      
+
       &:focus {
         border-color: $primary !important;
         box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.25) !important;
       }
     }
-    
+
     .input-suffix {
       color: rgba($dark-heading, 0.6) !important;
     }
-    
+
     .discount-type-toggle {
       background: $dark-bg !important;
       border-color: $dark-forground !important;
       color: $dark-heading !important;
-      
+
       &:hover {
         background: rgba(102, 126, 234, 0.15) !important;
         border-color: $primary !important;
@@ -2431,11 +2488,11 @@ body.dark-theme {
   .summary-totals {
     background: $dark-bg !important;
     border-top-color: $dark-forground !important;
-    
+
     .total-label {
       color: rgba($dark-heading, 0.7) !important;
     }
-    
+
     .total-value {
       color: $dark-heading !important;
     }
@@ -2450,11 +2507,11 @@ body.dark-theme {
 
   .footer-status-indicator {
     color: $dark-heading !important;
-    
+
     &.is-offline {
       color: #f56565 !important;
     }
-    
+
     .status-text {
       color: $dark-heading !important;
     }
@@ -2465,28 +2522,28 @@ body.dark-theme {
       background: $dark-bg !important;
       border-color: $dark-forground !important;
       color: $dark-heading !important;
-      
+
       &:hover:not(:disabled) {
         background: rgba(102, 126, 234, 0.15) !important;
         border-color: $primary !important;
         color: $primary !important;
       }
-      
+
       &.action-btn-primary {
         background: linear-gradient(135deg, $primary 0%, rgba(118, 75, 162, 0.9) 100%) !important;
         color: #ffffff !important;
         box-shadow: 0 4px 16px rgba(102, 126, 234, 0.3) !important;
-        
+
         &:hover:not(:disabled) {
           box-shadow: 0 6px 24px rgba(102, 126, 234, 0.4) !important;
         }
       }
-      
+
       &.action-btn-secondary {
         background: $dark-bg !important;
         border-color: $dark-forground !important;
         color: $dark-heading !important;
-        
+
         &:hover:not(:disabled) {
           background: rgba(102, 126, 234, 0.15) !important;
           border-color: $primary !important;
@@ -2497,12 +2554,12 @@ body.dark-theme {
   }
 
   .total-payable-section {
-    background: linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(118, 75, 162, 0.15) 100%) !important;
-    
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgb(45, 140, 255, 0.08) 100%) !important;
+
     .payable-label {
       color: rgba($dark-heading, 0.7) !important;
     }
-    
+
     .payable-amount {
       color: $dark-heading !important;
     }
@@ -2513,7 +2570,7 @@ body.dark-theme {
     background: $dark-bg !important;
     border-color: $dark-forground !important;
     color: $dark-heading !important;
-    
+
     &:focus {
       border-color: $primary !important;
       box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.25) !important;
@@ -2525,15 +2582,15 @@ body.dark-theme {
     background: $dark-forground !important;
     border-color: $dark-bg !important;
     color: $dark-heading !important;
-    
+
     svg {
       color: rgba($dark-heading, 0.7) !important;
     }
-    
+
     &:hover {
       border-color: $primary !important;
       background: rgba(102, 126, 234, 0.15) !important;
-      
+
       svg {
         color: $primary !important;
       }
@@ -2546,12 +2603,12 @@ body.dark-theme {
       background: $dark-forground !important;
       border-color: $dark-bg !important;
       color: $dark-heading !important;
-      
+
       &:hover {
         border-color: $primary !important;
         background: rgba(102, 126, 234, 0.15) !important;
       }
-      
+
       &.converted {
         border-color: rgba($dark-heading, 0.3) !important;
         color: rgba($dark-heading, 0.6) !important;
@@ -2563,7 +2620,7 @@ body.dark-theme {
     background: $dark-forground !important;
     border-color: $dark-bg !important;
     color: $dark-heading !important;
-    
+
     &.converted {
       border-color: rgba($dark-heading, 0.3) !important;
       background: $dark-bg !important;
@@ -2577,11 +2634,11 @@ body.dark-theme {
       border-color: $dark-bg !important;
       color: $dark-heading !important;
     }
-    
+
     .ts-label {
       color: rgba($dark-heading, 0.7) !important;
     }
-    
+
     .ts-value {
       color: $dark-heading !important;
     }
@@ -2605,23 +2662,23 @@ body.dark-theme {
       background: $dark-bg !important;
       border-color: $dark-forground !important;
       color: $dark-heading !important;
-      
+
       &:focus {
         border-color: $primary !important;
         box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.25) !important;
       }
     }
-    
+
     .loyalty-eligible-row {
       background: $dark-forground !important;
       border-color: $dark-bg !important;
       color: $dark-heading !important;
     }
-    
+
     .loyalty-title {
       color: $dark-heading !important;
     }
-    
+
     .loyalty-help {
       color: rgba($dark-heading, 0.7) !important;
     }
@@ -2640,34 +2697,34 @@ body.dark-theme {
       background: $dark-forground !important;
       border-color: $dark-bg !important;
       color: $dark-heading !important;
-      
+
       .modal-header {
         background: $dark-bg !important;
         border-bottom-color: $dark-bg !important;
         color: $dark-heading !important;
       }
-      
+
       .modal-body {
         background: $dark-forground !important;
         color: $dark-heading !important;
-        
+
         .form-control,
         .form-select {
           background: $dark-bg !important;
           border-color: $dark-forground !important;
           color: $dark-heading !important;
-          
+
           &:focus {
             border-color: $primary !important;
             box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.25) !important;
           }
         }
-        
+
         label {
           color: $dark-heading !important;
         }
       }
-      
+
       .modal-footer {
         background: $dark-bg !important;
         border-top-color: $dark-bg !important;
@@ -2697,13 +2754,13 @@ body.dark-theme {
   // ============================================
   // Dashboard Info Cards (Sales by Payment & Stock Value) Dark Mode Styles
   // ============================================
-  
+
   // Info Card Container
   .info-card {
     background: $dark-forground !important;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
     color: $dark-heading !important;
-    
+
     &:hover {
       box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3) !important;
     }
@@ -2724,7 +2781,7 @@ body.dark-theme {
   // Info Card Menu Icon
   .info-card-menu {
     color: rgba($dark-heading, 0.7) !important;
-    
+
     &:hover {
       color: $primary !important;
     }
@@ -2772,15 +2829,15 @@ body.dark-theme {
     &.progress-orange {
       background: #F59E0B !important;
     }
-    
+
     &.progress-blue {
       background: #3B82F6 !important;
     }
-    
+
     &.progress-green {
       background: #10B981 !important;
     }
-    
+
     &.progress-grey {
       background: #6B7280 !important;
     }
@@ -2791,15 +2848,15 @@ body.dark-theme {
     &.dot-orange {
       background: #F59E0B !important;
     }
-    
+
     &.dot-blue {
       background: #3B82F6 !important;
     }
-    
+
     &.dot-green {
       background: #10B981 !important;
     }
-    
+
     &.dot-grey {
       background: #6B7280 !important;
     }
@@ -2809,7 +2866,7 @@ body.dark-theme {
   .stock-value-item {
     border-bottom-color: $dark-bg !important;
     color: $dark-heading !important;
-    
+
     &:last-child {
       border-bottom: none !important;
     }
@@ -2821,14 +2878,14 @@ body.dark-theme {
       background: linear-gradient(135deg, #3B82F6 0%, #60A5FA 100%) !important;
       color: white !important;
     }
-    
+
     &.stock-icon-retail {
       background: linear-gradient(135deg, #F59E0B 0%, #FBBF24 100%) !important;
       color: white !important;
     }
-    
+
     &.stock-icon-wholesale {
-      background: linear-gradient(135deg, #8B5CF6 0%, #A78BFA 100%) !important;
+      background: linear-gradient(135deg, #2d8cff 0%, #A78BFA 100%) !important;
       color: white !important;
     }
   }

@@ -36,10 +36,10 @@
           <!-- Actions -->
           <span v-if="props.column.field === 'actions'">
             <a v-b-tooltip.hover :title="$t('Edit')" @click="openEdit(props.row)">
-              <i class="i-Edit text-25 text-success"></i>
+              <edit size="20" class="text-success mr-2"></edit>
             </a>
-            <a v-b-tooltip.hover :title="$t('Delete')" class="ml-2" @click="removeOne(props.row.id)">
-              <i class="i-Close-Window text-25 text-danger"></i>
+            <a v-b-tooltip.hover :title="$t('Delete')" @click="removeOne(props.row.id)">
+              <x size="20" class="text-danger"></x>
             </a>
           </span>
 
@@ -123,6 +123,7 @@
 </template>
 
 <script>
+import { Edit, X } from "lucide-vue";
 import NProgress from 'nprogress'
 
 const API = 'subcategories'
@@ -130,6 +131,10 @@ const API = 'subcategories'
 export default {
   metaInfo: { title: 'SubCategory' },
 
+  components: {
+    Edit,
+    X
+  },
   data() {
     return {
       isLoading: true,

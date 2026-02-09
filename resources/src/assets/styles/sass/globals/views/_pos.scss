@@ -8,7 +8,7 @@
 // ========================================
 
 // Color Palette
-$pos-primary: #4c7cff !default;
+$pos-primary: #2d8cff !default;
 $pos-primary-hover: #3d6ae6 !default;
 $pos-primary-light: #e8eeff !default;
 
@@ -35,23 +35,23 @@ $pos-info-light: #dbeafe !default;
 
 // Typography
 $pos-font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif !default;
-$pos-font-size-xs: 0.75rem !default;    // 12px
-$pos-font-size-sm: 0.875rem !default;   // 14px
-$pos-font-size-base: 1rem !default;     // 16px
-$pos-font-size-lg: 1.125rem !default;   // 18px
-$pos-font-size-xl: 1.25rem !default;    // 20px
-$pos-font-size-2xl: 1.5rem !default;    // 24px
-$pos-font-size-3xl: 1.875rem !default;  // 30px
+$pos-font-size-xs: 0.75rem !default; // 12px
+$pos-font-size-sm: 0.875rem !default; // 14px
+$pos-font-size-base: 1rem !default; // 16px
+$pos-font-size-lg: 1.125rem !default; // 18px
+$pos-font-size-xl: 1.25rem !default; // 20px
+$pos-font-size-2xl: 1.5rem !default; // 24px
+$pos-font-size-3xl: 1.875rem !default; // 30px
 
 // Spacing
-$pos-space-1: 0.25rem !default;   // 4px
-$pos-space-2: 0.5rem !default;    // 8px
-$pos-space-3: 0.75rem !default;   // 12px
-$pos-space-4: 1rem !default;      // 16px
-$pos-space-5: 1.25rem !default;   // 20px
-$pos-space-6: 1.5rem !default;    // 24px
-$pos-space-8: 2rem !default;      // 32px
-$pos-space-10: 2.5rem !default;   // 40px
+$pos-space-1: 0.25rem !default; // 4px
+$pos-space-2: 0.5rem !default; // 8px
+$pos-space-3: 0.75rem !default; // 12px
+$pos-space-4: 1rem !default; // 16px
+$pos-space-5: 1.25rem !default; // 20px
+$pos-space-6: 1.5rem !default; // 24px
+$pos-space-8: 2rem !default; // 32px
+$pos-space-10: 2.5rem !default; // 40px
 
 // Border Radius
 $pos-radius-sm: 4px !default;
@@ -984,7 +984,12 @@ $pos-transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !default;
   text-transform: capitalize;
   max-width: 400px;
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     color: #05070b;
     font-weight: bolder;
   }
@@ -1086,7 +1091,7 @@ $pos-transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !default;
     border-bottom: 1px solid $pos-gray-200;
     max-height: 50vh;
   }
-  
+
   .pos-right-panel {
     flex: 1;
   }
@@ -1271,7 +1276,7 @@ $pos-transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !default;
 .checkout-header {
   padding: $pos-space-6;
   border-bottom: 1px solid $pos-gray-200;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #2d8cff;
   color: $pos-white;
   display: flex;
   justify-content: space-between;
@@ -1704,7 +1709,7 @@ $pos-transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !default;
 }
 
 .card-option {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #2d8cff;
   color: $pos-white;
   border-radius: $pos-radius;
   padding: $pos-space-4;
@@ -1884,6 +1889,7 @@ $pos-transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !default;
 
 // Responsive Adjustments for Payment Modal
 @media (max-width: 992px) {
+
   .summary-col,
   .payment-form-col {
     padding-left: 15px;

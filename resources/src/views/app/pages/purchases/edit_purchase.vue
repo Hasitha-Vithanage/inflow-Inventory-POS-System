@@ -168,9 +168,9 @@
                           <td>{{currentUser.currency}} {{formatNumber(detail.taxe * detail.quantity, 2)}}</td>
                           <td>{{currentUser.currency}} {{detail.subtotal.toFixed(2)}}</td>
                           <td v-show="detail.no_unit !== 0">
-                            <i v-if="currentUserPermissions && currentUserPermissions.includes('edit_product_purchase')"
-                              @click="Modal_Updat_Detail(detail)" class="i-Edit text-25 text-success"></i>
-                            <i @click="delete_Product_Detail(detail.detail_id)" class="i-Close-Window text-25 text-danger"></i>
+                            <Edit v-if="currentUserPermissions && currentUserPermissions.includes('edit_product_purchase')"
+                              @click="Modal_Updat_Detail(detail)" size="18" :stroke-width="1.5" class="text-success cursor-pointer mr-2"></Edit>
+                            <XCircle @click="delete_Product_Detail(detail.detail_id)" size="18" :stroke-width="1.5" class="text-danger cursor-pointer"></XCircle>
                           </td>
                         </tr>
                       </tbody>
@@ -316,7 +316,7 @@
                 </b-col>
                 <b-col md="12">
                   <b-form-group>
-                    <b-button variant="primary" @click="Submit_Purchase" :disabled="SubmitProcessing"><i class="i-Yes me-2 font-weight-bold"></i> {{$t('submit')}}</b-button>
+                    <b-button variant="primary" @click="Submit_Purchase" :disabled="SubmitProcessing"><check-circle size="14" :stroke-width="1.5" class="mr-2"></check-circle> {{$t('submit')}}</b-button>
                      <div v-once class="typo__p" v-if="SubmitProcessing">
                       <div class="spinner sm spinner-primary mt-3"></div>
                     </div>
@@ -448,7 +448,7 @@
 
             <b-col md="12">
                <b-form-group>
-                <b-button variant="primary" type="submit" :disabled="Submit_Processing_detail"><i class="i-Yes me-2 font-weight-bold"></i> {{$t('submit')}}</b-button>
+                <b-button variant="primary" type="submit" :disabled="Submit_Processing_detail"><check-circle size="14" :stroke-width="1.5" class="mr-2"></check-circle> {{$t('submit')}}</b-button>
                 <div v-once class="typo__p" v-if="Submit_Processing_detail">
                   <div class="spinner sm spinner-primary mt-3"></div>
                 </div>
@@ -463,11 +463,17 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+import { 
+  Edit, XCircle, CheckCircle 
+} from "lucide-vue";
 import NProgress from "nprogress";
 
 export default {
   metaInfo: {
     title: "Edit Purchase"
+  },
+  components: {
+    Edit, XCircle, CheckCircle
   },
   data() {
     return {

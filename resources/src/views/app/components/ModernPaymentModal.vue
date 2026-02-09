@@ -18,18 +18,13 @@
         <div class="payment-header">
           <div class="header-left">
             <div class="icon-wrapper">
-              <i class="i-Money-Bag"></i>
+              <banknote size="32"></banknote>
           </div>
             <div class="header-text">
               <h2 class="modal-title">{{ isEditMode ? $t('Edit_Payment') : $t('Payment_Checkout') }}</h2>
             </div>
           </div>
-          <button type="button" class="close-button" @click="$refs.paymentModal.hide()">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <line x1="18" y1="6" x2="6" y2="18"></line>
-              <line x1="6" y1="6" x2="18" y2="18"></line>
-            </svg>
-          </button>
+            <X size="20" @click="$refs.paymentModal.hide()"></X>
         </div>
 
         <!-- Content Area -->
@@ -39,10 +34,7 @@
             <!-- Amount Card -->
             <div class="amount-card">
               <div class="amount-card-header">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <circle cx="12" cy="12" r="10"></circle>
-                  <path d="M12 6v6l4 2"></path>
-                </svg>
+                <History size="24"></History>
                 <span>{{$t('Transaction_Summary')}}</span>
             </div>
               <div class="amount-display">
@@ -57,9 +49,7 @@
               <div class="status-grid">
                 <div class="status-box">
                   <div class="status-icon paying">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                    </svg>
+                    <CheckCircle size="18"></CheckCircle>
                   </div>
                   <div class="status-details">
                     <span class="status-name">{{$t('Paying')}}</span>
@@ -68,9 +58,7 @@
                 </div>
                 <div class="status-box">
                   <div class="status-icon balance">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
-                    </svg>
+                    <AlertCircle size="18"></AlertCircle>
                   </div>
                   <div class="status-details">
                     <span class="status-name">{{$t('Balance')}}</span>
@@ -79,9 +67,7 @@
                 </div>
                 <div class="status-box">
                   <div class="status-icon change">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                    </svg>
+                    <CheckCircle size="18"></CheckCircle>
                   </div>
                   <div class="status-details">
                     <span class="status-name">{{$t('Change')}}</span>
@@ -115,10 +101,7 @@
                           @click="removePaymentLine(idx)"
                           :aria-label="$t('Remove_Payment_Line')"
                         >
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <line x1="18" y1="6" x2="6" y2="18"></line>
-                            <line x1="6" y1="6" x2="18" y2="18"></line>
-                          </svg>
+                          <X size="16"></X>
                         </button>
                       </div>
                       <div class="payment-line-body">
@@ -157,14 +140,12 @@
                           >
                             <div class="method-content">
                               <div class="method-icon-wrapper">
-                                <i :class="m.icon"></i>
+                                <component :is="m.icon" size="24"></component>
                               </div>
                               <span class="method-label">{{ m.name }}</span>
                             </div>
                             <div v-if="String(p.paymentMethodId) === String(m.id)" class="selected-indicator">
-                              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
-                              </svg>
+                              <Check size="16"></Check>
                             </div>
                           </div>
                         </div>
@@ -186,7 +167,7 @@
                       </div>
                     </div>
                     <button v-if="Number(paymentForm.amountDue) > 0" type="button" class="action-btn cancel-btn add-line-btn" @click="addPaymentLine">
-                      <i class="i-Plus"></i> {{$t('Add_Payment_Method')}}
+                      <Plus size="18" class="mr-1"></Plus> {{$t('Add_Payment_Method')}}
                     </button>
                   </div>
 
@@ -256,10 +237,7 @@
           class="footer-btn footer-cancel"
           @click="$refs.paymentModal.hide()"
         >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <line x1="18" y1="6" x2="6" y2="18"></line>
-            <line x1="6" y1="6" x2="18" y2="18"></line>
-          </svg>
+          <X size="18"></X>
           {{$t('Cancel')}}
         </button>
         <button
@@ -269,9 +247,7 @@
           @click="submitPayment"
         >
           <span v-if="!isSubmitting" class="btn-content">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
-            </svg>
+            <Check size="18"></Check>
             {{ isEditMode ? $t('Update_Payment') : $t('Complete_Payment') }}
           </span>
           <span v-else class="btn-content">
@@ -286,9 +262,17 @@
 
 <script>
 import { loadStripe } from "@stripe/stripe-js";
+import { 
+  Banknote, CheckCircle, AlertCircle, Trash2, Plus, 
+  CreditCard, Building, FileText, Wallet, X, History, Check 
+} from "lucide-vue";
 import Util from "../../../utils";
 export default {
   name: 'ModernPaymentModal',
+  components: {
+    Banknote, CheckCircle, AlertCircle, Trash2, Plus, 
+    CreditCard, Building, FileText, Wallet, X, History, Check
+  },
   props: {
     paymentMethods: { type: Array, default: () => [] },
     accounts: { type: Array, default: () => [] },
@@ -448,11 +432,11 @@ export default {
     },
     getPaymentIcon(method) {
       const name = ((method && method.name) || '').toLowerCase();
-      if (name.includes('cash')) return 'i-Money-Bag';
-      if (name.includes('card') || name.includes('credit')) return 'i-Credit-Card';
-      if (name.includes('bank') || name.includes('transfer')) return 'i-Bank';
-      if (name.includes('cheque') || name.includes('check')) return 'i-File';
-      return 'i-Wallet';
+      if (name.includes('cash')) return 'Banknote';
+      if (name.includes('card') || name.includes('credit')) return 'CreditCard';
+      if (name.includes('bank') || name.includes('transfer')) return 'Building';
+      if (name.includes('cheque') || name.includes('check')) return 'FileText';
+      return 'Wallet';
     },
     getCashMethodId() {
       const list = this.resolvedPaymentMethods || [];
@@ -1140,7 +1124,7 @@ export default {
    ======================================== */
 
 .payment-header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #2d8cff;
   padding: 14px 24px;
   display: flex;
   justify-content: space-between;
@@ -1275,7 +1259,7 @@ export default {
     align-items: center;
     gap: 8px;
     margin-bottom: 10px;
-    color: #667eea;
+    color: #2d8cff;
     font-weight: 600;
     font-size: 10px;
     text-transform: uppercase;
@@ -1308,7 +1292,7 @@ export default {
       display: block;
       font-size: 26px;
       font-weight: 800;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: #2d8cff;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -1353,7 +1337,7 @@ export default {
       display: flex;
       align-items: center;
       gap: 4px;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: #2d8cff;
       color: white;
       padding: 4px 10px;
       border-radius: 16px;
@@ -1527,7 +1511,7 @@ export default {
   letter-spacing: 0.5px;
 
   svg {
-    color: #667eea;
+    color: #2d8cff;
     flex-shrink: 0;
     width: 13px;
     height: 13px;
@@ -1567,14 +1551,14 @@ export default {
   min-height: 70px;
 
   &:hover {
-    border-color: #667eea;
+    border-color: #2d8cff;
     background: linear-gradient(135deg, rgba(102, 126, 234, 0.03) 0%, rgba(118, 75, 162, 0.03) 100%);
     transform: translateY(-2px);
     box-shadow: 0 6px 16px rgba(102, 126, 234, 0.12);
   }
 
   &.selected {
-    border-color: #667eea;
+    border-color: #2d8cff;
     background: linear-gradient(135deg, rgba(102, 126, 234, 0.08) 0%, rgba(118, 75, 162, 0.08) 100%);
     box-shadow: 0 6px 16px rgba(102, 126, 234, 0.15);
   }
@@ -1590,7 +1574,7 @@ export default {
   .method-icon-wrapper {
     width: 32px;
     height: 32px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: #2d8cff;
     border-radius: 8px;
     display: flex;
     align-items: center;
@@ -1654,7 +1638,7 @@ export default {
     left: 16px;
     font-size: 16px;
     font-weight: 700;
-        color: #667eea;
+        color: #2d8cff;
     pointer-events: none;
   }
 
@@ -1671,7 +1655,7 @@ export default {
 
     &:focus {
       outline: none;
-      border-color: #667eea;
+      border-color: #2d8cff;
       box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
     }
 
@@ -1758,7 +1742,7 @@ export default {
 
   &:focus {
     outline: none;
-    border-color: #667eea;
+    border-color: #2d8cff;
     box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
   }
 }
@@ -1779,7 +1763,7 @@ export default {
 
   &:focus {
     outline: none;
-    border-color: #667eea;
+    border-color: #2d8cff;
     box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
   }
 
@@ -1822,7 +1806,7 @@ export default {
 }
 
 .line-badge {
-  background: #667eea;
+  background: #2d8cff;
   color: white;
   width: 22px;
   height: 22px;
@@ -1884,12 +1868,12 @@ export default {
   transition: all .2s ease;
 
   &:hover {
-    border-color: #667eea;
+    border-color: #2d8cff;
     background: rgba(102,126,234,.06);
   }
 
   &.selected {
-    border-color: #667eea;
+    border-color: #2d8cff;
     background: rgba(102,126,234,.12);
     color: #2b2e83;
   }

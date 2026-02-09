@@ -463,7 +463,7 @@ export default {
   max-width: 1200px;
   margin: 0 auto 40px;
   padding: 40px;
-  background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+  background: linear-gradient(135deg, #3b82f6 0%, #2d8cff 100%);
   border-radius: 20px;
   color: white;
   box-shadow: 0 20px 60px rgba(59, 130, 246, 0.2);
@@ -578,7 +578,7 @@ export default {
   align-items: center;
   gap: 8px;
   padding: 10px 20px;
-  background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+  background: linear-gradient(135deg, #3b82f6 0%, #2d8cff 100%);
   color: white;
   border: none;
   border-radius: 10px;

@@ -84,12 +84,12 @@
       </b-form>
     </validation-observer>
 
-    <b-card class="mt-3" header="Auto Sync Guide (Stocky → WooCommerce)">
+    <b-card class="mt-3" header="Auto Sync Guide (InFlow → WooCommerce)">
       <b-card-text>
         <p class="mb-2"><strong>What it does</strong></p>
         <ul class="mb-3">
-          <li>Products: Pushes products from Stocky to WooCommerce (create/update).</li>
-          <li>Stock: Pushes stock quantities/status from Stocky to WooCommerce.</li>
+          <li>Products: Pushes products from InFlow to WooCommerce (create/update).</li>
+          <li>Stock: Pushes stock quantities/status from InFlow to WooCommerce.</li>
         </ul>
 
         <p class="mb-2"><strong>How to enable</strong></p>
@@ -106,7 +106,7 @@
 
         <p class="mb-2"><strong>Manual sync (on demand)</strong></p>
         <ul class="mb-3">
-          <li>Products tab: <em>Run Manual Sync Now</em> or <em>Sync Only Unsynced</em> (Stocky → WooCommerce).</li>
+          <li>Products tab: <em>Run Manual Sync Now</em> or <em>Sync Only Unsynced</em> (InFlow → WooCommerce).</li>
           <li>Stock tab: start stock sync with progress (queued job).</li>
         </ul>
 

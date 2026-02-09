@@ -46,11 +46,11 @@
       >
         <div slot="table-actions" class="mt-2 mb-3">
           <b-button variant="outline-info ripple m-1" size="sm" v-b-toggle.sidebar-right>
-            <i class="i-Filter-2"></i>
+            <Filter size="14" class="mr-1"></Filter>
             {{ $t("Filter") }}
           </b-button>
           <b-button @click="Purchase_PDF()" size="sm" variant="outline-success ripple m-1">
-            <i class="i-File-Copy"></i> PDF
+            <FileText size="14" class="mr-1"></FileText> PDF
           </b-button>
           <vue-excel-xlsx
               class="btn btn-sm btn-outline-danger ripple m-1"
@@ -60,7 +60,7 @@
               :file-type="'xlsx'"
               :sheet-name="'purchases_report'"
               >
-              <i class="i-File-Excel"></i> EXCEL
+              <FileSpreadsheet size="14" class="mr-1"></FileSpreadsheet> EXCEL
           </vue-excel-xlsx>
         </div>
 
@@ -175,13 +175,13 @@
               size="sm"
               block
             >
-              <i class="i-Filter-2"></i>
+              <Filter size="14" class="mr-1"></Filter>
               {{ $t("Filter") }}
             </b-button>
           </b-col>
           <b-col md="6" sm="12">
             <b-button @click="Reset_Filter()" variant="danger ripple m-1" size="sm" block>
-              <i class="i-Power-2"></i>
+              <Power size="14" class="mr-1"></Power>
               {{ $t("Reset") }}
             </b-button>
           </b-col>
@@ -195,6 +195,7 @@
 import NProgress from "nprogress";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
+import { Filter, FileText, FileSpreadsheet, Power } from "lucide-vue";
 import DateRangePicker from 'vue2-daterange-picker'
 //you need to import the CSS manually
 import 'vue2-daterange-picker/dist/vue2-daterange-picker.css'
@@ -210,7 +211,13 @@ export default {
   metaInfo: {
     title: "Report Purchases"
   },
-components: { DateRangePicker },
+  components: { 
+    DateRangePicker,
+    Filter,
+    FileText,
+    FileSpreadsheet,
+    Power
+  },
   data() {
     return {
       isLoading: true,

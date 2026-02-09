@@ -43,10 +43,10 @@
         <template slot="table-row" slot-scope="props">
           <span v-if="props.column.field == 'actions'">
             <a @click="Edit_Brand(props.row)" title="Edit" v-b-tooltip.hover>
-              <i class="i-Edit text-25 text-success"></i>
+              <edit size="20" class="text-success mr-2"></edit>
             </a>
             <a title="Delete" v-b-tooltip.hover @click="Delete_Brand(props.row.id)">
-              <i class="i-Close-Window text-25 text-danger"></i>
+              <x size="20" class="text-danger"></x>
             </a>
           </span>
           <span v-else-if="props.column.field == 'image'">
@@ -141,11 +141,16 @@
 </template>
 
 <script>
+import { Edit, X } from "lucide-vue";
 import NProgress from "nprogress";
 
 export default {
   metaInfo: {
     title: "Brand"
+  },
+  components: {
+    Edit,
+    X
   },
   data() {
     return {

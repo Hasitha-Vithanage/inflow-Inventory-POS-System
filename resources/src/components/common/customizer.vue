@@ -1,9 +1,9 @@
 <template>
   <div>
     <div class="customizer" :class="{ open: isOpen }">
-      <div class="handle" @click="isOpen = !isOpen">
+      <!-- <div class="handle" @click="isOpen = !isOpen">
         <i class="i-Gear spin"></i>
-      </div>
+      </div> -->
 
       <vue-perfect-scrollbar
         :settings="{ suppressScrollX: true, wheelPropagation: false }"
@@ -162,6 +162,9 @@ export default {
 
   async created() {
     this.$store.dispatch("loadAvailableLanguages");
+    Fire.$on("toggle-customizer", () => {
+      this.isOpen = !this.isOpen;
+    });
   }
 };
 </script>
@@ -185,12 +188,12 @@ export default {
 }
 
 .layout-option:hover {
-  border-color: #663399;
+  border-color: #2d8cff;
   background: #f7f7f7;
 }
 
 .layout-option.active {
-  border-color: #663399;
+  border-color: #2d8cff;
   background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
 }
 
@@ -212,11 +215,11 @@ export default {
 
 .option-label i {
   font-size: 20px;
-  color: #663399;
+  color: #2d8cff;
 }
 
 .layout-option.active .option-label {
-  color: #663399;
+  color: #2d8cff;
   font-weight: 600;
 }
 
@@ -227,12 +230,12 @@ body.dark-theme .layout-option {
 }
 
 body.dark-theme .layout-option:hover {
-  border-color: #764ba2;
+  border-color: #2d8cff;
   background: rgba(118, 75, 162, 0.1);
 }
 
 body.dark-theme .layout-option.active {
-  border-color: #764ba2;
+  border-color: #2d8cff;
   background: rgba(118, 75, 162, 0.2);
 }
 

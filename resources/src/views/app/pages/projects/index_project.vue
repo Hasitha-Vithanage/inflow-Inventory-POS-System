@@ -1094,7 +1094,7 @@ export default {
     font-weight: 800;
     line-height: 1;
     margin-bottom: 0.5rem;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: #2d8cff;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
@@ -1195,11 +1195,11 @@ export default {
     }
 
     &.active {
-      color: #667eea;
+      color: #2d8cff;
     }
 
     &:hover {
-      color: #667eea;
+      color: #2d8cff;
     }
   }
 
@@ -1266,7 +1266,7 @@ export default {
   }
 
   &.add-btn {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: #2d8cff;
     color: white;
     border: none;
 
@@ -1823,7 +1823,7 @@ export default {
   transition: all 0.3s ease;
 
   &:focus {
-    border-color: #667eea;
+    border-color: #2d8cff;
     box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
   }
 }
@@ -1841,7 +1841,7 @@ export default {
     }
 
     &.vs--open .vs__dropdown-toggle {
-      border-color: #667eea;
+      border-color: #2d8cff;
       box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
     }
   }

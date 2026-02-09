@@ -11,7 +11,7 @@
             <div class="d-flex justify-content-between align-items-center mb-3">
               <h5>{{ $t('CustomerCustomFields') }}</h5>
               <b-button variant="primary" @click="New_CustomField('client')">
-                <i class="i-Add"></i> {{ $t('Add') }}
+                <plus size="16" class="mr-2" :stroke-width="1.5"></plus> {{ $t('Add') }}
               </b-button>
             </div>
 
@@ -46,14 +46,14 @@
                     @click="Edit_CustomField(props.row)"
                     class="mr-2"
                   >
-                    <i class="i-Edit"></i>
+                    <edit size="16" :stroke-width="1.5"></edit>
                   </b-button>
                   <b-button
                     variant="outline-danger"
                     size="sm"
                     @click="Delete_CustomField(props.row.id)"
                   >
-                    <i class="i-Close-Window"></i>
+                    <x-circle size="16" :stroke-width="1.5"></x-circle>
                   </b-button>
                 </span>
                 <span v-else>
@@ -68,7 +68,7 @@
             <div class="d-flex justify-content-between align-items-center mb-3">
               <h5>{{ $t('SupplierCustomFields') }}</h5>
               <b-button variant="primary" @click="New_CustomField('provider')">
-                <i class="i-Add"></i> {{ $t('Add') }}
+                <plus size="16" class="mr-2" :stroke-width="1.5"></plus> {{ $t('Add') }}
               </b-button>
             </div>
 
@@ -103,14 +103,14 @@
                     @click="Edit_CustomField(props.row)"
                     class="mr-2"
                   >
-                    <i class="i-Edit"></i>
+                    <edit size="16" :stroke-width="1.5"></edit>
                   </b-button>
                   <b-button
                     variant="outline-danger"
                     size="sm"
                     @click="Delete_CustomField(props.row.id)"
                   >
-                    <i class="i-Close-Window"></i>
+                    <x-circle size="16" :stroke-width="1.5"></x-circle>
                   </b-button>
                 </span>
                 <span v-else>
@@ -240,7 +240,7 @@
                 type="submit"
                 :disabled="SubmitProcessing"
               >
-                <i class="i-Yes me-2 font-weight-bold"></i> {{ $t('submit') }}
+                <check-circle size="16" class="mr-2" :stroke-width="1.5"></check-circle> {{ $t('submit') }}
               </b-button>
               <b-button
                 variant="secondary"
@@ -261,6 +261,7 @@
 </template>
 
 <script>
+import { Plus, Edit, XCircle, CheckCircle } from "lucide-vue";
 import { mapGetters } from "vuex";
 import NProgress from "nprogress";
 

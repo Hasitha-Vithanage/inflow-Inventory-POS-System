@@ -52,21 +52,21 @@
                 @endif
             </td>
             <td style="width: 70%; vertical-align: top; text-align: right;">
-                <div style="font-size: 18pt; font-weight: bold; color: #8b5cf6; margin-bottom: 6px; letter-spacing: 0.5px;">SUPPLIER REPORT</div>
+                <div style="font-size: 18pt; font-weight: bold; color: #2d8cff; margin-bottom: 6px; letter-spacing: 0.5px;">SUPPLIER REPORT</div>
                 <div style="display: inline-block; background: #ede9fe; padding: 5px 12px; border-radius: 4px; font-size: 10pt; font-weight: bold; color: #6b21a8; margin-bottom: 8px;">{{$provider['provider_name']}}</div>
             </td>
         </tr>
     </table>
 
     <!-- Divider -->
-    <div style="height: 2px; background: #8b5cf6; margin: 8px 0 10px 0;"></div>
+    <div style="height: 2px; background: #2d8cff; margin: 8px 0 10px 0;"></div>
 
     <!-- Supplier & Company Info Section -->
     <table style="width: 100%; margin-bottom: 15px;" cellpadding="0" cellspacing="0">
         <tr>
             <td style="width: 48%; vertical-align: top;">
                 <div style="border: 1px solid #e5e7eb; border-radius: 4px; overflow: hidden;">
-                    <div style="background: #8b5cf6; padding: 5px 10px; border-bottom: 1px solid #7c3aed;">
+                    <div style="background: #2d8cff; padding: 5px 10px; border-bottom: 1px solid #7c3aed;">
                         <div style="color: #ffffff; font-size: 9pt; font-weight: bold; text-transform: uppercase; letter-spacing: 0.3px;">SUPPLIER DETAILS</div>
                     </div>
                     <div style="padding: 10px; background: #faf5ff;">
@@ -74,7 +74,7 @@
                         <div style="font-size: 7.5pt; color: #6b7280; line-height: 1.7;">
                             <div><strong style="color: #1f2937;">Phone:</strong> {{$provider['phone']}}</div>
                             <div><strong style="color: #1f2937;">Total Purchases:</strong> {{$provider['total_purchase']}}</div>
-                            <div style="margin-top: 5px; padding-top: 5px; border-top: 1px solid #ddd6fe;">
+                            <div style="margin-top: 5px; padding-top: 5px; border-top: 1px solid #c4dfff;">
                                 <div><strong style="color: #1f2937;">Total Amount:</strong> {{$symbol}} {{formatPrice((float)$provider['total_amount'], 2, $priceFormat)}}</div>
                                 <div><strong style="color: #1f2937;">Total Paid:</strong> {{$symbol}} {{formatPrice((float)$provider['total_paid'], 2, $priceFormat)}}</div>
                                 <div><strong style="color: #ef4444;">Purchase Due:</strong> {{$symbol}} {{formatPrice((float)$provider['due'], 2, $priceFormat)}}</div>
@@ -87,7 +87,7 @@
             <td style="width: 4%;"></td>
             <td style="width: 48%; vertical-align: top;">
                 <div style="border: 1px solid #e5e7eb; border-radius: 4px; overflow: hidden;">
-                    <div style="background: #8b5cf6; padding: 5px 10px; border-bottom: 1px solid #7c3aed;">
+                    <div style="background: #2d8cff; padding: 5px 10px; border-bottom: 1px solid #7c3aed;">
                         <div style="color: #ffffff; font-size: 9pt; font-weight: bold; text-transform: uppercase; letter-spacing: 0.3px;">COMPANY INFO</div>
                     </div>
                     <div style="padding: 10px; background: #faf5ff;">
@@ -104,13 +104,13 @@
     </table>
 
     <!-- Purchases List -->
-    <div style="margin-bottom: 10px; padding: 8px; background: #faf5ff; border-left: 3px solid #8b5cf6;">
-        <h3 style="font-size: 10pt; color: #8b5cf6; margin: 0;">All Purchases (Unpaid/Partial)</h3>
+    <div style="margin-bottom: 10px; padding: 8px; background: #faf5ff; border-left: 3px solid #2d8cff;">
+        <h3 style="font-size: 10pt; color: #2d8cff; margin: 0;">All Purchases (Unpaid/Partial)</h3>
     </div>
 
     <table style="width: 100%; border-collapse: collapse; border: 1px solid #e5e7eb;" cellpadding="0" cellspacing="0">
         <thead>
-            <tr style="background: #8b5cf6;">
+            <tr style="background: #2d8cff;">
                 <th style="padding: 8px 8px; text-align: left; font-size: 8pt; font-weight: bold; color: #ffffff; text-transform: uppercase; border-right: 1px solid rgba(255,255,255,0.2);">DATE</th>
                 <th style="padding: 8px 8px; text-align: left; font-size: 8pt; font-weight: bold; color: #ffffff; text-transform: uppercase; border-right: 1px solid rgba(255,255,255,0.2);">REF</th>
                 <th style="padding: 8px 8px; text-align: right; font-size: 8pt; font-weight: bold; color: #ffffff; text-transform: uppercase; border-right: 1px solid rgba(255,255,255,0.2);">PAID</th>
@@ -141,7 +141,7 @@
                     @endphp
                     {{$formattedDate}}
                 </td>
-                <td style="padding: 8px; font-size: 8.5pt; font-weight: 600; color: #8b5cf6;">{{$purchase['Ref']}}</td>
+                <td style="padding: 8px; font-size: 8.5pt; font-weight: 600; color: #2d8cff;">{{$purchase['Ref']}}</td>
                 <td style="padding: 8px; text-align: right; font-size: 8.5pt; color: #10b981;">{{$symbol}} {{formatPrice((float)$purchase['paid_amount'], 2, $priceFormat)}}</td>
                 <td style="padding: 8px; text-align: right; font-size: 8.5pt; font-weight: bold; color: #ef4444;">{{$symbol}} {{formatPrice((float)$purchase['due'], 2, $priceFormat)}}</td>
                 <td style="padding: 8px; font-size: 8pt;">
@@ -164,7 +164,7 @@
 
     <!-- Footer -->
     <div style="margin-top: 20px; padding-top: 10px; border-top: 2px solid #e5e7eb; text-align: center;">
-        <p style="font-size: 9pt; color: #8b5cf6; font-weight: bold; margin: 0;">Supplier Purchase Report</p>
+        <p style="font-size: 9pt; color: #2d8cff; font-weight: bold; margin: 0;">Supplier Purchase Report</p>
     </div>
 </body>
 </html>

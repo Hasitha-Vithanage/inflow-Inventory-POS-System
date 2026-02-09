@@ -46,7 +46,7 @@
                       <div class="col-md-6">
                         <button type="submit" :disabled="Submit_Processing" class="btn btn-primary">
                           <span v-if="Submit_Processing" class="spinner-border spinner-border-sm" role="status"
-                            aria-hidden="true"></span> <i class="i-Yes me-2 font-weight-bold"></i> {{$t('submit')}}
+                            aria-hidden="true"></span> <check-circle size="16" class="mr-2" :stroke-width="1.5"></check-circle> {{$t('submit')}}
                         </button>
                       </div>
                     </div>
@@ -84,7 +84,7 @@
                       <div class="col-md-6">
                         <button type="submit" :disabled="Submit_Processing" class="btn btn-primary">
                           <span v-if="Submit_Processing" class="spinner-border spinner-border-sm" role="status"
-                            aria-hidden="true"></span> <i class="i-Yes me-2 font-weight-bold"></i> {{$t('submit')}}
+                            aria-hidden="true"></span> <check-circle size="16" class="mr-2" :stroke-width="1.5"></check-circle> {{$t('submit')}}
                         </button>
                       </div>
                     </div>
@@ -121,7 +121,7 @@
                       <div class="col-md-6">
                         <button type="submit" :disabled="Submit_Processing" class="btn btn-primary">
                           <span v-if="Submit_Processing" class="spinner-border spinner-border-sm" role="status"
-                            aria-hidden="true"></span> <i class="i-Yes me-2 font-weight-bold"></i> {{$t('submit')}}
+                            aria-hidden="true"></span> <check-circle size="16" class="mr-2" :stroke-width="1.5"></check-circle> {{$t('submit')}}
                         </button>
                       </div>
                     </div>
@@ -180,7 +180,7 @@
                       <div class="col-md-6">
                         <button type="submit" :disabled="Submit_Processing" class="btn btn-primary">
                           <span v-if="Submit_Processing" class="spinner-border spinner-border-sm" role="status"
-                            aria-hidden="true"></span> <i class="i-Yes me-2 font-weight-bold"></i> {{$t('submit')}}
+                            aria-hidden="true"></span> <check-circle size="16" class="mr-2" :stroke-width="1.5"></check-circle> {{$t('submit')}}
                         </button>
                       </div>
                     </div>
@@ -217,7 +217,7 @@
                       <div class="col-md-6">
                         <button type="submit" :disabled="Submit_Processing" class="btn btn-primary">
                           <span v-if="Submit_Processing" class="spinner-border spinner-border-sm" role="status"
-                            aria-hidden="true"></span> <i class="i-Yes me-2 font-weight-bold"></i> {{$t('submit')}}
+                            aria-hidden="true"></span> <check-circle size="16" class="mr-2" :stroke-width="1.5"></check-circle> {{$t('submit')}}
                         </button>
                       </div>
                     </div>
@@ -237,6 +237,7 @@
 </template>
 
 <script>
+import { CheckCircle } from "lucide-vue";
 import { mapActions, mapGetters } from "vuex";
 import NProgress from "nprogress";
 

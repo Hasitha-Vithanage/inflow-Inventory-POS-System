@@ -120,7 +120,7 @@ class WooCommerceSyncController extends BaseController
             return response()->json(['ok' => false, 'error' => 'WooCommerce not configured'], 422);
         }
         $sync = SyncService::fromSettings($settings);
-        // Enforce push-only (Stocky → WooCommerce)
+        // Enforce push-only (InFlow → WooCommerce)
         $onlyUnsynced = (bool) $request->boolean('only_unsynced', false);
         $result = $sync->pushProducts($onlyUnsynced);
         $settings->last_sync_at = now();
@@ -222,7 +222,7 @@ class WooCommerceSyncController extends BaseController
         $this->authorizeForUser($request->user('api'), 'view', WooCommerceSetting::class);
 
         // Push-only mode: pulling orders from WooCommerce is disabled
-        return response()->json(['ok' => false, 'error' => 'Orders pull is disabled (push-only mode: Stocky → Woo)'], 405);
+        return response()->json(['ok' => false, 'error' => 'Orders pull is disabled (push-only mode: InFlow → Woo)'], 405);
     }
 
     public function logs(Request $request)

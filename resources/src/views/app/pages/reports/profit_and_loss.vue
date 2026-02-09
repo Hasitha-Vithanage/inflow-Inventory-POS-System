@@ -22,7 +22,7 @@
           >
             <template v-slot:input="pickerSlot">
               <b-button variant="light" class="btn-pill">
-                <i class="i-Calendar-4 mr-1"></i>
+                <calendar size="14" class="mr-1"></calendar>
                 {{ fmtDate(pickerSlot.startDate) }} — {{ fmtDate(pickerSlot.endDate) }}
               </b-button>
             </template>
@@ -60,7 +60,7 @@
 
         <div class="ml-auto mb-2">
           <b-button variant="primary" class="btn-pill" @click="fetchPnl">
-            <i class="i-Reload mr-1"></i>{{$t('Refresh')}}
+            <refresh-cw size="14" class="mr-1"></refresh-cw>{{$t('Refresh')}}
           </b-button>
         </div>
       </div>
@@ -80,7 +80,7 @@
       <b-col md="12" class="mb-3">
         <b-alert show variant="light" class="shadow-soft border-0">
           <div class="d-flex align-items-center">
-            <div class="mr-2"><i class="i-Clock text-primary"></i></div>
+            <div class="mr-2"><clock size="18" class="text-primary"></clock></div>
             <div>
               <strong>{{ fmtDate(dateRange.startDate) }}</strong> — <strong>{{ fmtDate(dateRange.endDate) }}</strong>
               <span v-if="warehouseLabel" class="ml-2 badge badge-light">{{ warehouseLabel }}</span>
@@ -91,46 +91,46 @@
 
       <!-- KPI Tiles -->
       <b-col md="6" sm="6" class="mb-3">
-        <StatTile icon="i-Money-2" :label="$t('Sales')" :sub="`(${num(infos.sales_count)})`" :value="money(infos.sales_sum)" theme="blue" />
+        <StatTile icon="Banknote" :label="$t('Sales')" :sub="`(${num(infos.sales_count)})`" :value="money(infos.sales_sum)" theme="blue" />
       </b-col>
       <b-col md="6" sm="6" class="mb-3">
-        <StatTile icon="i-Add-Cart" :label="$t('Purchases')" :sub="`(${num(infos.purchases_count)})`" :value="money(infos.purchases_sum)" theme="teal" />
+        <StatTile icon="ShoppingBag" :label="$t('Purchases')" :sub="`(${num(infos.purchases_count)})`" :value="money(infos.purchases_sum)" theme="teal" />
       </b-col>
       <b-col md="6" sm="6" class="mb-3">
-        <StatTile icon="i-Repeat" :label="$t('SalesReturn')" :sub="`(${num(infos.returns_sales_count)})`" :value="money(infos.returns_sales_sum)" theme="orange" />
+        <StatTile icon="Repeat" :label="$t('SalesReturn')" :sub="`(${num(infos.returns_sales_count)})`" :value="money(infos.returns_sales_sum)" theme="orange" />
       </b-col>
       <b-col md="6" sm="6" class="mb-3">
-        <StatTile icon="i-Undo" :label="$t('PurchasesReturn')" :sub="`(${num(infos.returns_purchases_count)})`" :value="money(infos.returns_purchases_sum)" theme="purple" />
+        <StatTile icon="Undo" :label="$t('PurchasesReturn')" :sub="`(${num(infos.returns_purchases_count)})`" :value="money(infos.returns_purchases_sum)" theme="purple" />
       </b-col>
 
       <b-col md="6" sm="6" class="mb-3">
-        <StatTile icon="i-Financial" :label="$t('Revenue')" :value="money(infos.total_revenue)" theme="indigo"
+        <StatTile icon="TrendingUp" :label="$t('Revenue')" :value="money(infos.total_revenue)" theme="indigo"
                   :hint="`${$t('Sales')} – ${$t('SalesReturn')}`" />
       </b-col>
       <b-col md="6" sm="6" class="mb-3">
-        <StatTile icon="i-Wallet" :label="$t('PaiementsReceived')" :value="money(infos.payment_received)" theme="green"
+        <StatTile icon="Wallet" :label="$t('PaiementsReceived')" :value="money(infos.payment_received)" theme="green"
                   :hint="`${$t('PaymentsSales')} + ${$t('PurchasesReturn')}`" />
       </b-col>
       <b-col md="6" sm="6" class="mb-3">
-        <StatTile icon="i-Remove-User" :label="$t('PaiementsSent')" :value="money(infos.payment_sent)" theme="rose"
+        <StatTile icon="UserMinus" :label="$t('PaiementsSent')" :value="money(infos.payment_sent)" theme="rose"
                   :hint="`${$t('PaymentsPurchases')} + ${$t('SalesReturn')} + ${$t('Expenses')}`" />
       </b-col>
       <b-col md="6" sm="6" class="mb-3">
-        <StatTile icon="i-Billing" :label="$t('Expenses')" :value="money(infos.expenses_sum)" theme="rose" />
+        <StatTile icon="Receipt" :label="$t('Expenses')" :value="money(infos.expenses_sum)" theme="rose" />
       </b-col>
       <b-col md="6" sm="6" class="mb-3">
-        <StatTile icon="i-Money" :label="$t('PaiementsNet')" :value="money(infos.paiement_net)" theme="slate"
+        <StatTile icon="DollarSign" :label="$t('PaiementsNet')" :value="money(infos.paiement_net)" theme="slate"
                   :hint="`${$t('Recieved')} – ${$t('Sent')}`" />
       </b-col>
 
       <!-- Profit cards -->
       <b-col md="6" class="mb-3">
-        <StatTile icon="i-Bar-Chart" :label="$t('ProfitNet') + ' (FIFO)'" :value="money(infos.profit_fifo)" theme="cyan"
+        <StatTile icon="BarChart3" :label="$t('ProfitNet') + ' (FIFO)'" :value="money(infos.profit_fifo)" theme="cyan"
                   :hint="`${$t('Sales')} – ${$t('Product_Cost')} – ${$t('Expenses')}`" />
       </b-col>
 
       <b-col md="6" class="mb-3">
-        <StatTile icon="i-Bar-Chart" :label="$t('ProfitNet') + ' (' + $t('AverageCost') + ')'" :value="money(infos.profit_average_cost)" theme="amber"
+        <StatTile icon="BarChart3" :label="$t('ProfitNet') + ' (' + $t('AverageCost') + ')'" :value="money(infos.profit_average_cost)" theme="amber"
                   :hint="`${$t('Sales')} – ${$t('Product_Cost')} – ${$t('Expenses')}`" />
       </b-col>
     </b-row>
@@ -143,6 +143,11 @@ import { mapGetters } from "vuex";
 import DateRangePicker from "vue2-daterange-picker";
 import "vue2-daterange-picker/dist/vue2-daterange-picker.css";
 import moment from "moment";
+import { 
+  Calendar, RefreshCw, Clock, ShoppingBag, Banknote, 
+  Repeat, Undo, TrendingUp, Wallet, UserMinus, Receipt, 
+  DollarSign, BarChart3
+} from "lucide-vue";
 import {
   formatPriceDisplay as formatPriceDisplayHelper,
   getPriceFormatSetting
@@ -153,9 +158,16 @@ const StatTile = {
   functional: true,
   props: { icon:String, label:String, sub:String, value:[String,Number], hint:String, theme:{type:String,default:'blue'} },
   render(h,{props}) {
+    // If it's a Lucide icon (doesn't start with i-), we can use it as a component
+    // But since it's functional and we are in JS, it's easier to just pass the component object or name
+    // However, the template passes strings.
     return h('div',{class:['stat-card',`theme-${props.theme}`,'shadow-soft','rounded-xl','mb-2']},[
       h('div',{class:'stat-inner'},[
-        h('div',{class:'stat-icon'},[ h('i',{class:[props.icon]}) ]),
+        h('div',{class:'stat-icon'},[ 
+          props.icon.startsWith('i-') 
+            ? h('i',{class:[props.icon]}) 
+            : h(props.icon, { props: { size: '22' } })
+        ]),
         h('div',{class:'stat-content'},[
           h('div',{class:'stat-label'},props.label),
           props.sub ? h('div',{class:'stat-sub text-muted'},props.sub) : null,
@@ -171,7 +183,10 @@ export default {
   metaInfo: { title: "Profit & Loss" },
   components: {
     "date-range-picker": DateRangePicker,
-    StatTile
+    StatTile,
+    Calendar, RefreshCw, Clock, ShoppingBag, Banknote, 
+    Repeat, Undo, TrendingUp, Wallet, UserMinus, Receipt, 
+    DollarSign, BarChart3
   },
   data() {
     const start = moment().startOf('day').toDate();

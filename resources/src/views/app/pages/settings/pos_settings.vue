@@ -155,6 +155,7 @@
                         buttons
                         button-variant="outline-primary"
                         size="sm"
+                        class="btn-group-spaced"
                       />
                       <small class="text-muted d-block mt-1">
                         {{ $t('Invoice_Format_help') }}

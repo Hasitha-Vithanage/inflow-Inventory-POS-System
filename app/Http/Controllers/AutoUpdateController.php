@@ -72,7 +72,7 @@ class AutoUpdateController extends Controller
                 return response()->json(['message' => 'Update URL not found'], 400);
             }
 
-            if (! $this->isAllowedHost($downloadUrl, ['update-stocky.ui-lib.com'])) {
+            if (! $this->isAllowedHost($downloadUrl, ['update-InFlow.ui-lib.com'])) {
                 $this->logUpdate('Blocked update from untrusted host: '.$downloadUrl);
                 Artisan::call('up');
 
@@ -289,7 +289,7 @@ class AutoUpdateController extends Controller
 
     private function getLastVersion()
     {
-        $content = file_get_contents('https://update-stocky.ui-lib.com/stocky_version.json');
+        $content = file_get_contents('https://update-InFlow.ui-lib.com/InFlow_version.json');
 
         return json_decode($content, true);
     }
@@ -322,12 +322,12 @@ class AutoUpdateController extends Controller
             'http' => [
                 'timeout' => 60,
                 'follow_location' => 1,
-                'header' => "User-Agent: Stocky-Updater\r\n",
+                'header' => "User-Agent: InFlow-Updater\r\n",
             ],
             'https' => [
                 'timeout' => 60,
                 'follow_location' => 1,
-                'header' => "User-Agent: Stocky-Updater\r\n",
+                'header' => "User-Agent: InFlow-Updater\r\n",
             ],
         ]);
 
@@ -1027,7 +1027,7 @@ class AutoUpdateController extends Controller
         $net = ['ok' => false, 'error' => null];
         try {
             $ctx = stream_context_create(['http' => ['timeout' => 10], 'https' => ['timeout' => 10]]);
-            $json = @file_get_contents('https://update-stocky.ui-lib.com/stocky_version.json', false, $ctx);
+            $json = @file_get_contents('https://update-InFlow.ui-lib.com/InFlow_version.json', false, $ctx);
             if ($json !== false) {
                 $net['ok'] = true;
                 $net['size'] = strlen($json);

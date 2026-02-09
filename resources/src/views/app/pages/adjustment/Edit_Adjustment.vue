@@ -94,7 +94,7 @@
                           <th scope="col">{{$t('Qty')}}</th>
                           <th scope="col">{{$t('type')}}</th>
                           <th scope="col" class="text-center">
-                            <i class="fa fa-trash"></i>
+                            <trash-2-icon size="20" :stroke-width="1.5"></trash-2-icon>
                           </th>
                         </tr>
                       </thead>
@@ -165,7 +165,7 @@
                               class="btn btn-icon btn-sm"
                               title="Delete"
                             >
-                              <i class="i-Close-Window text-25 text-danger"></i>
+                              <trash-2-icon size="20" :stroke-width="1.5" class="text-danger"></trash-2-icon>
                             </a>
                           </td>
                         </tr>
@@ -185,7 +185,7 @@
                 </b-col>
                 <b-col md="12">
                   <b-form-group>
-                    <b-button variant="primary" :disabled="SubmitProcessing" @click="Submit_Adjustment"><i class="i-Yes me-2 font-weight-bold"></i> {{$t('submit')}}</b-button>
+                    <b-button variant="primary" :disabled="SubmitProcessing" @click="Submit_Adjustment"><check-circle-icon size="14" :stroke-width="1.5" class="mr-2"></check-circle-icon> {{$t('submit')}}</b-button>
                     <div v-once class="typo__p" v-if="SubmitProcessing">
                         <div class="spinner sm spinner-primary mt-3"></div>
                       </div>
@@ -201,9 +201,14 @@
 </template>
 
 <script>
+import { Trash2, CheckCircle } from "lucide-vue";
 import NProgress from "nprogress";
 
 export default {
+  components: {
+    Trash2Icon: Trash2,
+    CheckCircleIcon: CheckCircle
+  },
   metaInfo: {
     title: "Edit Adjustment"
   },

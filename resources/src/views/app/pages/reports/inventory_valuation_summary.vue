@@ -38,7 +38,7 @@
 
         <div slot="table-actions" class="mt-2 mb-3">
           <b-button @click="stock_report_PDF()" size="sm" variant="outline-success ripple m-1">
-            <i class="i-File-Copy"></i> PDF
+            <file-text size="14" class="mr-1"></file-text> PDF
           </b-button>
         </div>
 
@@ -60,6 +60,7 @@
 
 <script>
 import NProgress from "nprogress";
+import { FileText } from "lucide-vue";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import { mapGetters } from "vuex";
@@ -70,6 +71,9 @@ import {
 
 export default {
   metaInfo: { title: "Inventory Valuation Summary" },
+  components: {
+    FileText
+  },
 
   data() {
     return {

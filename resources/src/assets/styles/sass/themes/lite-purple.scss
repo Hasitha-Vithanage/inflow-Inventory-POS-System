@@ -65,8 +65,7 @@ $colors: (
   cyan: $cyan,
   white: $white,
   gray: $gray-600,
-  gray-dark: $gray-800
-) !default;
+  gray-dark: $gray-800) !default;
 $theme-colors: (
   primary: $primary,
   secondary: $secondary,
@@ -84,8 +83,7 @@ $theme-colors: (
   gray-700: $gray-700,
   gray-800: $gray-800,
   gray-900: $gray-900,
-  dark: $dark
-) !default;
+  dark: $dark) !default;
 @import "~bootstrap-vue/dist/bootstrap-vue.css";
 @import "~vue-good-table/dist/vue-good-table.css";
 @import "~nprogress/nprogress.css";

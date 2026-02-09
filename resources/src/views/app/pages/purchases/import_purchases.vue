@@ -192,7 +192,7 @@
                 </b-col>
                 <b-col md="12">
                   <b-form-group>
-                    <b-button variant="primary" @click="Submit_Purchase" :disabled="SubmitProcessing"><i class="i-Yes me-2 font-weight-bold"></i> {{$t('submit')}}</b-button>
+                    <b-button variant="primary" @click="Submit_Purchase" :disabled="SubmitProcessing"><check-circle size="16" class="mr-2" :stroke-width="1.5"></check-circle> {{$t('submit')}}</b-button>
                     <div v-once class="typo__p" v-if="SubmitProcessing">
                       <div class="spinner sm spinner-primary mt-3"></div>
                     </div>
@@ -210,6 +210,7 @@
 
 
 <script>
+import { CheckCircle } from "lucide-vue";
 import { mapActions, mapGetters } from "vuex";
 import NProgress from "nprogress";
 

@@ -7,14 +7,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="/css/master.css">
     <link rel="icon" href="{{ asset('images/' . ($app_settings->favicon ?? 'favicon.ico')) }}">
-    <title>{{ $app_settings->app_name ?? 'Stocky | Ultimate Inventory With POS' }}</title>
+    <title>{{ $app_settings->app_name ?? 'InFlow | Ultimate Inventory With POS' }}</title>
 
     <style>
       :root {
         color-scheme: light;
         font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
         --surface: #ffffff;
-        --primary: #4c44ec;
+        --primary: #2d8cff;
         --primary-dark: #312fab;
         --primary-soft: rgba(76,68,236,0.12);
         --text: #1f2937;
@@ -31,7 +31,7 @@
       *, *::before, *::after { box-sizing: border-box; }
       body {
         margin: 0;
-        background: linear-gradient(120deg, #f2ebff 0%, #f3f3ff 40%, #f3e8ff 100%);
+        background: rgb(45, 140, 255, 0.08);
         color: var(--text);
         overflow-x: hidden;
       }
@@ -45,7 +45,7 @@
 
       /* HERO SIDE */
       .auth-hero {
-        background: linear-gradient(140deg, #7a4dff 0%, #6237ff 45%, #4f2bf8 100%);
+        background: #2d8cff;
         color: #fff;
         display: flex;
         align-items: center;
@@ -114,7 +114,7 @@
         align-items: center;
         gap: 0.75rem;
         border: 1px solid var(--border);
-        border-radius: 999px;
+        border-radius: 12px;
         padding: 0 1rem;
         background: #f9fafb;
       }
@@ -141,9 +141,9 @@
 
       .auth-btn {
         padding: 0.9rem;
-        border-radius: 999px;
+        border-radius: 12px;
         border: none;
-        background: linear-gradient(135deg, #7c3aed, #4f46e5);
+        background: #2d8cff;
         color: #fff;
         font-size: 1rem;
         font-weight: 600;

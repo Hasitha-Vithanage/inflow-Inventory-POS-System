@@ -2,7 +2,7 @@
   <div class="main-content">
     <breadcumb :page="$t('Settings')" :folder="$t('Store')" />
 
-    <div v-if="isLoading" class="loading_page spinner spinner-primary mr-3"></div>
+    <div v-if="isLoading" class="loading_page spinner spinner-primary"></div>
 
     <div v-else class="wrapper">
       <b-form @submit.prevent="save">
@@ -264,9 +264,9 @@
                     {{ row.active ? $t('Active') : $t('Inactive') }}
                   </b-form-checkbox>
 
-                  <div class="btn-group">
-                    <b-button size="sm" variant="light" @click="move(idx,-1)" :disabled="idx===0">↑</b-button>
-                    <b-button size="sm" variant="light" @click="move(idx,1)" :disabled="idx===homeRows.length-1">↓</b-button>
+                  <div class="d-flex" style="gap: 4px;">
+                    <b-button size="sm" variant="light" @click="move(idx,-1)" :disabled="idx===0" class="btn-rounded">↑</b-button>
+                    <b-button size="sm" variant="light" @click="move(idx,1)" :disabled="idx===homeRows.length-1" class="btn-rounded">↓</b-button>
                   </div>
                 </div>
               </div>
@@ -680,8 +680,8 @@ export default {
 .pill-type {
   background: #fff;
   border: 1px solid #e5e7eb;
-  border-radius: 999px;
-  padding: .15rem .5rem;
+  border-radius: 12px;
+  padding: .46rem .5rem;
   font-size: .85rem;
 }
 

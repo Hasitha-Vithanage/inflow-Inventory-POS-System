@@ -34,11 +34,11 @@
         </div>
         <div slot="table-actions" class="mt-2 mb-3">
           <b-button variant="outline-info ripple m-1" size="sm" v-b-toggle.sidebar-right>
-            <i class="i-Filter-2"></i>
+            <Filter size="14" :stroke-width="1.5" class="mr-1"></Filter>
             {{ $t("Filter") }}
           </b-button>
           <b-button @click="Purchase_PDF()" size="sm" variant="outline-success ripple m-1">
-            <i class="i-File-Copy"></i> PDF
+            <FileText size="14" :stroke-width="1.5" class="mr-1"></FileText> PDF
           </b-button>
           <vue-excel-xlsx
               class="btn btn-sm btn-outline-danger ripple m-1"
@@ -48,7 +48,7 @@
               :file-type="'xlsx'"
               :sheet-name="'purchases'"
               >
-              <i class="i-File-Excel"></i> EXCEL
+              <FileSpreadsheet size="14" :stroke-width="1.5" class="mr-1"></FileSpreadsheet> EXCEL
           </vue-excel-xlsx>
           <router-link
             class="btn-sm btn btn-primary ripple btn-icon m-1"
@@ -56,7 +56,7 @@
             to="/app/purchases/store"
           >
             <span class="ul-btn__icon">
-              <i class="i-Add"></i>
+              <Plus size="14" :stroke-width="1.5"></Plus>
             </span>
             <span class="ul-btn__text ml-1">{{$t('Add')}}</span>
           </router-link>
@@ -79,7 +79,7 @@
                   <span class="_dot _r_block-dot bg-dark"></span>
                 </template>
                   <b-dropdown-item title="Show" :to="'/app/purchases/detail/'+props.row.id">
-                    <i class="nav-icon i-Eye font-weight-bold mr-2"></i>
+                    <Eye size="14" :stroke-width="1.5" class="mr-2"></Eye>
                     {{$t('PurchaseDetail')}}
                   </b-dropdown-item>
 
@@ -88,7 +88,7 @@
                   v-if="currentUserPermissions.includes('Purchases_edit') && props.row.purchase_has_return == 'no'"
                   :to="'/app/purchases/edit/'+props.row.id"
                 >
-                  <i class="nav-icon i-Pen-2 font-weight-bold mr-2"></i>
+                  <Edit size="14" :stroke-width="1.5" class="mr-2"></Edit>
                   {{$t('EditPurchase')}}
                 </b-dropdown-item>
 
@@ -97,7 +97,7 @@
                   v-if="currentUserPermissions.includes('Purchase_Returns_add') && props.row.purchase_has_return == 'no' && props.row.statut == 'received'"
                   :to="'/app/purchases/purchase_return/'+props.row.id"
                 >
-                  <i class="nav-icon i-Back font-weight-bold mr-2"></i>
+                  <ArrowLeft size="14" :stroke-width="1.5" class="mr-2"></ArrowLeft>
                   {{$t('Purchase_Return')}}
                 </b-dropdown-item>
 
@@ -106,7 +106,7 @@
                   v-if="currentUserPermissions.includes('Purchase_Returns_add') && props.row.purchase_has_return == 'yes'"
                   :to="'/app/purchase_return/edit/'+props.row.purchasereturn_id+'/'+props.row.id"
                 >
-                  <i class="nav-icon i-Back font-weight-bold mr-2"></i>
+                  <ArrowLeft size="14" :stroke-width="1.5" class="mr-2"></ArrowLeft>
                   {{$t('Purchase_Return')}}
                 </b-dropdown-item>
 
@@ -114,7 +114,7 @@
                   v-if="currentUserPermissions.includes('payment_purchases_view')"
                   @click="Show_Payments(props.row.id , props.row)"
                 >
-                  <i class="nav-icon i-Money-Bag font-weight-bold mr-2"></i>
+                  <Banknote size="14" :stroke-width="1.5" class="mr-2"></Banknote>
                   {{$t('ShowPayment')}}
                 </b-dropdown-item>
 
@@ -122,12 +122,12 @@
                   v-if="currentUserPermissions.includes('payment_purchases_add') && props.row.statut == 'received'"
                   @click="New_Payment(props.row)"
                 >
-                  <i class="nav-icon i-Add font-weight-bold mr-2"></i>
+                  <Plus size="14" :stroke-width="1.5" class="mr-2"></Plus>
                   {{$t('AddPayment')}}
                 </b-dropdown-item>
 
                 <b-dropdown-item title="PDF" @click="Invoice_PDF(props.row , props.row.id)">
-                  <i class="nav-icon i-File-TXT font-weight-bold mr-2"></i>
+                  <FileText size="14" :stroke-width="1.5" class="mr-2"></FileText>
                   {{$t('DownloadPdf')}}
                 </b-dropdown-item>
 
@@ -135,27 +135,27 @@
                   title="Print Barcode"
                   @click="Print_Purchase_Barcode(props.row.id)"
                 >
-                  <i class="nav-icon i-Bar-Code font-weight-bold mr-2"></i>
+                  <Barcode size="14" :stroke-width="1.5" class="mr-2"></Barcode>
                   {{$t('Printbarcode')}}
                 </b-dropdown-item>
 
                 <b-dropdown-item title=" WhatsApp Notification" @click="Send_WhatsApp(props.row.id)">
-                  <i class="nav-icon i-Envelope-2 font-weight-bold mr-2"></i>
+                  <Mail size="14" :stroke-width="1.5" class="mr-2"></Mail>
                   WhatsApp Notification
                 </b-dropdown-item>
 
                 <b-dropdown-item title="Email" @click="Send_Email(props.row.id)">
-                  <i class="nav-icon i-Envelope-2 font-weight-bold mr-2"></i>
+                  <Mail size="14" class="mr-2"></Mail>
                   {{$t('email_notification')}}
                 </b-dropdown-item>
 
                 <b-dropdown-item title="SMS" @click="Purchase_SMS(props.row.id)">
-                  <i class="nav-icon i-Speach-Bubble font-weight-bold mr-2"></i>
+                  <MessageSquare size="14" :stroke-width="1.5" class="mr-2"></MessageSquare>
                   {{$t('sms_notification')}}
                 </b-dropdown-item>
 
                 <b-dropdown-item title="Attach Documents" @click="Manage_Documents(props.row.id)">
-                  <i class="nav-icon i-File font-weight-bold mr-2"></i>
+                  <FileText size="14" :stroke-width="1.5" class="mr-2"></FileText>
                   {{$t('Attach_Documents')}}
                 </b-dropdown-item>
 
@@ -164,7 +164,7 @@
                   v-if="currentUserPermissions.includes('Purchases_delete')"
                   @click="Remove_Purchase(props.row.id , props.row.purchase_has_return)"
                 >
-                  <i class="nav-icon i-Close-Window font-weight-bold mr-2"></i>
+                  <XCircle size="14" :stroke-width="1.5" class="mr-2"></XCircle>
                   {{$t('DeletePurchase')}}
                 </b-dropdown-item>
               </b-dropdown>
@@ -202,11 +202,11 @@
               >
                 <span class="ul-btn__text ml-1">{{props.row.Ref}}</span>
               </router-link> <br>
-              <small v-if="props.row.purchase_has_return == 'yes'"><i class="text-15 text-danger i-Back"></i></small>
+              <small v-if="props.row.purchase_has_return == 'yes'"><ArrowLeft size="14" class="text-danger"></ArrowLeft></small>
             </div>
             <div v-else-if="props.column.field == 'documents'">
               <span v-if="props.row.documents_count > 0" class="badge badge-info">
-                <i class="i-File"></i> {{props.row.documents_count}}
+                <FileText size="14"></FileText> {{props.row.documents_count}}
               </span>
               <span v-else class="text-muted">-</span>
             </div>
@@ -306,13 +306,13 @@
               size="sm"
               block
             >
-              <i class="i-Filter-2"></i>
+              <Filter size="14" class="mr-1"></Filter>
               {{ $t("Filter") }}
             </b-button>
           </b-col>
           <b-col md="6" sm="12">
             <b-button @click="Reset_Filter()" variant="danger ripple m-1" size="sm" block>
-              <i class="i-Power-2"></i>
+              <Power size="14" class="mr-1"></Power>
               {{ $t("Reset") }}
             </b-button>
           </b-col>
@@ -351,7 +351,7 @@
                         class="btn btn-icon btn-info btn-sm"
                         @click="Payment_Purchase_PDF(facture,facture.id)"
                       >
-                        <i class="i-Billing"></i>
+                        <Receipt size="14"></Receipt>
                       </span>
                       <span
                         v-if="currentUserPermissions.includes('payment_purchases_edit')"
@@ -359,21 +359,21 @@
                         class="btn btn-icon btn-success btn-sm"
                         @click="Edit_Payment(facture)"
                       >
-                        <i class="i-Pen-2"></i>
+                        <Edit size="14"></Edit>
                       </span>
                       <span
                         title="Email"
                         class="btn btn-icon btn-primary btn-sm"
                         @click="Send_Email_Payment(facture.id)"
                       >
-                        <i class="i-Envelope"></i>
+                        <Mail size="14"></Mail>
                       </span>
                       <span
                         title="SMS"
                         class="btn btn-icon btn-secondary btn-sm"
                         @click="Payment_Purchase_SMS(facture.id)"
                       >
-                        <i class="i-Speach-Bubble"></i>
+                        <MessageSquare size="14"></MessageSquare>
                       </span>
                       <span
                         v-if="currentUserPermissions.includes('payment_purchases_delete')"
@@ -381,7 +381,7 @@
                         class="btn btn-icon btn-danger btn-sm"
                         @click="Remove_Payment(facture.id)"
                       >
-                        <i class="i-Close"></i>
+                        <X size="14"></X>
                       </span>
                     </div>
                   </td>
@@ -533,7 +533,7 @@
                 variant="primary"
                 type="submit"
                 :disabled="paymentProcessing"
-              ><i class="i-Yes me-2 font-weight-bold"></i> {{$t('submit')}}</b-button>
+              ><CheckCircle size="14" class="mr-2 font-weight-bold"></CheckCircle> {{$t('submit')}}</b-button>
               <div v-once class="typo__p" v-if="paymentProcessing">
                 <div class="spinner sm spinner-primary mt-3"></div>
               </div>
@@ -569,7 +569,7 @@
             @click="Upload_Documents"
             :disabled="!selectedFiles || selectedFiles.length === 0 || uploadProcessing"
           >
-            <i class="i-Upload"></i> {{$t('Upload')}}
+            <Upload size="14" class="mr-1"></Upload> {{$t('Upload')}}
           </b-button>
           <div v-if="uploadProcessing" class="mt-2">
             <div class="spinner sm spinner-primary"></div>
@@ -595,7 +595,7 @@
                 </tr>
                 <tr v-for="document in documents" :key="document.id">
                   <td>
-                    <i class="i-File mr-1"></i>
+                    <FileText size="14" class="mr-1"></FileText>
                     {{document.name}}
                   </td>
                   <td>{{formatFileSize(document.size)}}</td>
@@ -607,14 +607,14 @@
                         class="btn btn-icon btn-success btn-sm"
                         @click="Download_Document(document)"
                       >
-                        <i class="i-Download"></i>
+                        <Download size="14"></Download>
                       </button>
                       <button
                         title="Delete"
                         class="btn btn-icon btn-danger btn-sm"
                         @click="Remove_Document(document.id)"
                       >
-                        <i class="i-Close"></i>
+                        <X size="14"></X>
                       </button>
                     </div>
                   </td>
@@ -633,6 +633,9 @@ import { mapActions, mapGetters } from "vuex";
 import NProgress from "nprogress";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
+import { 
+  Filter, FileText, FileSpreadsheet, Plus, Eye, Edit, ArrowLeft, Banknote, Barcode, Mail, MessageSquare, XCircle, CheckCircle, Download, Upload, X, Receipt, Power 
+} from "lucide-vue";
 import Util from "../../../../utils";
 import {
   formatPriceDisplay as formatPriceDisplayHelper,
@@ -642,6 +645,9 @@ import {
 export default {
   metaInfo: {
     title: "Purchases"
+  },
+  components: {
+    Filter, FileText, FileSpreadsheet, Plus, Eye, Edit, ArrowLeft, Banknote, Barcode, Mail, MessageSquare, XCircle, CheckCircle, Download, Upload, X, Receipt, Power
   },
 
   data() {

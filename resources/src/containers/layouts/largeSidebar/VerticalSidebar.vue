@@ -20,7 +20,7 @@
             </div>
           </div>
           <div class="company-name" v-if="!isCollapsed && currentUser">
-            {{ currentUser.company || 'Stocky' }}
+            {{ currentUser.company || 'InFlow' }}
           </div>
         </div>
       </div>
@@ -34,7 +34,7 @@
             class="nav-item"
           >
             <router-link to="/app/dashboard" class="nav-link">
-              <i class="nav-icon i-Bar-Chart"></i>
+              <layout-dashboard class="nav-icon" size="20"></layout-dashboard>
               <span class="nav-text" v-if="!isCollapsed">{{ $t("dashboard") }}</span>
             </router-link>
           </li>
@@ -53,50 +53,50 @@
             class="nav-item"
           >
             <a href="#" @click.prevent="toggleSubmenu('Store')" class="nav-link">
-              <i class="nav-icon i-Shopping-Bag"></i>
+              <shopping-bag class="nav-icon" size="20"></shopping-bag>
               <span class="nav-text" v-if="!isCollapsed">{{ $t('Store') }}</span>
-              <i class="submenu-arrow i-Arrow-Down" v-if="!isCollapsed"></i>
+              <chevron-down class="submenu-arrow" size="14"></chevron-down>
             </a>
             <ul class="submenu" v-if="openMenus.includes('Store') && !isCollapsed">
               <li class="submenu-item">
                 <a href="/online_store" target="_blank" class="submenu-link">
-                  <i class="submenu-icon i-Shop-2"></i>
+                  <store class="submenu-icon" size="18"></store>
                   <span>{{ $t('Visit_Online_Store') }}</span>
                 </a>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('Store_settings_view')">
                 <router-link to="/app/Store/Settings" class="submenu-link">
-                  <i class="submenu-icon i-Gear"></i>
+                  <settings class="submenu-icon" size="18"></settings>
                   <span>{{ $t('Settings') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('Orders_view')">
                 <router-link to="/app/Store/Orders" class="submenu-link">
-                  <i class="submenu-icon i-Receipt"></i>
+                  <receipt class="submenu-icon" size="18"></receipt>
                   <span>{{ $t('Online_Orders') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('Collections_view')">
                 <router-link to="/app/Store/Collections" class="submenu-link">
-                  <i class="submenu-icon i-Check"></i>
+                  <check-square class="submenu-icon" size="18"></check-square>
                   <span>{{ $t('Collections') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('Banners_view')">
                 <router-link to="/app/Store/Banners" class="submenu-link">
-                  <i class="submenu-icon i-Wallet"></i>
+                  <wallet class="submenu-icon" size="18"></wallet>
                   <span>{{ $t('Banners') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('Subscribers_view')">
                 <router-link to="/app/Store/Subscribers" class="submenu-link">
-                  <i class="submenu-icon i-MaleFemale"></i>
+                  <users class="submenu-icon" size="18"></users>
                   <span>{{ $t('Subscribers') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('Messages_view')">
                 <router-link to="/app/Store/Messages" class="submenu-link">
-                  <i class="submenu-icon i-Speach-Bubble"></i>
+                  <message-square class="submenu-icon" size="18"></message-square>
                   <span>{{ $t('Messages') }}</span>
                 </router-link>
               </li>
@@ -115,56 +115,56 @@
             class="nav-item"
           >
             <a href="#" @click.prevent="toggleSubmenu('People')" class="nav-link">
-              <i class="nav-icon i-Business-Mens"></i>
+              <users class="nav-icon" size="20"></users>
               <span class="nav-text" v-if="!isCollapsed">{{ $t('People') }}</span>
-              <i class="submenu-arrow i-Arrow-Down" v-if="!isCollapsed"></i>
+              <chevron-down class="submenu-arrow" size="14"></chevron-down>
             </a>
             <ul class="submenu" v-if="openMenus.includes('People') && !isCollapsed">
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('Customers_view')">
                 <router-link to="/app/People/Customers" class="submenu-link">
-                  <i class="submenu-icon i-Administrator"></i>
+                  <shield-check class="submenu-icon" size="18"></shield-check>
                   <span>{{ $t('Customers') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('Customers_add')">
                 <router-link to="/app/People/Customers/create" class="submenu-link">
-                  <i class="submenu-icon i-Add"></i>
+                  <plus class="submenu-icon" size="18"></plus>
                   <span>{{ $t('Add') }} {{ $t('Customer') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('customers_import')">
                 <router-link to="/app/People/Customers_import" class="submenu-link">
-                  <i class="submenu-icon i-Download"></i>
+                  <download class="submenu-icon" size="18"></download>
                   <span>{{ $t('Import_Customers') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('Customers_view')">
                 <router-link to="/app/People/Customers_without_ecommerce" class="submenu-link">
-                  <i class="submenu-icon i-Administrator"></i>
+                  <shield-check class="submenu-icon" size="18"></shield-check>
                   <span>{{ $t('Customers_without_Login') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('Customers_view')">
                 <router-link to="/app/People/Customers_ecommerce" class="submenu-link">
-                  <i class="submenu-icon i-Administrator"></i>
+                  <shield-check class="submenu-icon" size="18"></shield-check>
                   <span>{{ $t('Customers_with_Login') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('Suppliers_view')">
                 <router-link to="/app/People/Suppliers" class="submenu-link">
-                  <i class="submenu-icon i-Administrator"></i>
+                  <shield-check class="submenu-icon" size="18"></shield-check>
                   <span>{{ $t('Suppliers') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('Suppliers_add')">
                 <router-link to="/app/People/Suppliers/create" class="submenu-link">
-                  <i class="submenu-icon i-Add"></i>
+                  <plus class="submenu-icon" size="18"></plus>
                   <span>{{ $t('Add') }} {{ $t('Supplier') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('Suppliers_import')">
                 <router-link to="/app/People/Suppliers_import" class="submenu-link">
-                  <i class="submenu-icon i-Download"></i>
+                  <download class="submenu-icon" size="18"></download>
                   <span>{{ $t('Import_Suppliers') }}</span>
                 </router-link>
               </li>
@@ -181,20 +181,20 @@
             class="nav-item"
           >
             <a href="#" @click.prevent="toggleSubmenu('User_Management')" class="nav-link">
-              <i class="nav-icon i-Administrator"></i>
+              <shield-check class="nav-icon" size="20"></shield-check>
               <span class="nav-text" v-if="!isCollapsed">{{ $t('User_Management') }}</span>
-              <i class="submenu-arrow i-Arrow-Down" v-if="!isCollapsed"></i>
+              <chevron-down class="submenu-arrow" size="14"></chevron-down>
             </a>
             <ul class="submenu" v-if="openMenus.includes('User_Management') && !isCollapsed">
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('users_view')">
                 <router-link to="/app/User_Management/Users" class="submenu-link">
-                  <i class="submenu-icon i-Administrator"></i>
+                  <shield-check class="submenu-icon" size="18"></shield-check>
                   <span>{{ $t('Users') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('permissions_view')">
                 <router-link to="/app/User_Management/permissions" class="submenu-link">
-                  <i class="submenu-icon i-Key"></i>
+                  <key class="submenu-icon" size="18"></key>
                   <span>{{ $t('GroupPermissions') }}</span>
                 </router-link>
               </li>
@@ -219,68 +219,68 @@
             class="nav-item"
           >
             <a href="#" @click.prevent="toggleSubmenu('products')" class="nav-link">
-              <i class="nav-icon i-Library-2"></i>
+              <package class="nav-icon" size="20"></package>
               <span class="nav-text" v-if="!isCollapsed">{{ $t('Products') }}</span>
-              <i class="submenu-arrow i-Arrow-Down" v-if="!isCollapsed"></i>
+              <chevron-down class="submenu-arrow" size="14"></chevron-down>
             </a>
             <ul class="submenu" v-if="openMenus.includes('products') && !isCollapsed">
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('products_add')">
                 <router-link to="/app/products/store" class="submenu-link">
-                  <i class="submenu-icon i-Add-File"></i>
+                  <file-plus class="submenu-icon" size="18"></file-plus>
                   <span>{{ $t('AddProduct') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('products_view')">
                 <router-link to="/app/products/list" class="submenu-link">
-                  <i class="submenu-icon i-Files"></i>
+                  <files class="submenu-icon" size="18"></files>
                   <span>{{ $t('productsList') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('product_import')">
                 <router-link to="/app/products/import" class="submenu-link">
-                  <i class="submenu-icon i-Download"></i>
+                  <download class="submenu-icon" size="18"></download>
                   <span>{{ $t('import_products') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('opening_stock_import')">
                 <router-link to="/app/products/opening_stock_import" class="submenu-link">
-                  <i class="submenu-icon i-Add-File"></i>
+                  <file-plus class="submenu-icon" size="18"></file-plus>
                   <span>{{ $t('Opening_Stock') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('barcode_view')">
                 <router-link to="/app/products/barcode" class="submenu-link">
-                  <i class="submenu-icon i-Bar-Code"></i>
+                  <barcode class="submenu-icon" size="18"></barcode>
                   <span>{{ $t('Printbarcode') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('count_stock')">
                 <router-link to="/app/products/count_stock" class="submenu-link">
-                  <i class="submenu-icon i-Check-2"></i>
+                  <clipboard-check class="submenu-icon" size="18"></clipboard-check>
                   <span>{{ $t('CountStock') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('category')">
                 <router-link to="/app/products/Categories" class="submenu-link">
-                  <i class="submenu-icon i-Duplicate-Layer"></i>
+                  <layers class="submenu-icon" size="18"></layers>
                   <span>{{ $t('Categories') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('subcategory')">
                 <router-link to="/app/products/SubCategories" class="submenu-link">
-                  <i class="submenu-icon i-Library"></i>
+                  <package class="submenu-icon" size="18"></package>
                   <span>{{ $t('SubCategory') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('brand')">
                 <router-link to="/app/products/Brands" class="submenu-link">
-                  <i class="submenu-icon i-Bookmark"></i>
+                  <bookmark class="submenu-icon" size="18"></bookmark>
                   <span>{{ $t('Brand') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('unit')">
                 <router-link to="/app/products/Units" class="submenu-link">
-                  <i class="submenu-icon i-Quotes"></i>
+                  <hash class="submenu-icon" size="18"></hash>
                   <span>{{ $t('Units') }}</span>
                 </router-link>
               </li>
@@ -297,20 +297,20 @@
             class="nav-item"
           >
             <a href="#" @click.prevent="toggleSubmenu('adjustments')" class="nav-link">
-              <i class="nav-icon i-Edit-Map"></i>
+              <file-edit class="nav-icon" size="20"></file-edit>
               <span class="nav-text" v-if="!isCollapsed">{{ $t('StockAdjustement') }}</span>
-              <i class="submenu-arrow i-Arrow-Down" v-if="!isCollapsed"></i>
+              <chevron-down class="submenu-arrow" size="14"></chevron-down>
             </a>
             <ul class="submenu" v-if="openMenus.includes('adjustments') && !isCollapsed">
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('adjustment_add')">
                 <router-link to="/app/adjustments/store" class="submenu-link">
-                  <i class="submenu-icon i-Add-File"></i>
+                  <file-plus class="submenu-icon" size="18"></file-plus>
                   <span>{{ $t('CreateAdjustment') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('adjustment_view')">
                 <router-link to="/app/adjustments/list" class="submenu-link">
-                  <i class="submenu-icon i-Files"></i>
+                  <files class="submenu-icon" size="18"></files>
                   <span>{{ $t('ListAdjustments') }}</span>
                 </router-link>
               </li>
@@ -327,26 +327,26 @@
             class="nav-item"
           >
             <a href="#" @click.prevent="toggleSubmenu('purchases')" class="nav-link">
-              <i class="nav-icon i-Receipt"></i>
+              <receipt class="nav-icon" size="20"></receipt>
               <span class="nav-text" v-if="!isCollapsed">{{ $t('Purchases') }}</span>
-              <i class="submenu-arrow i-Arrow-Down" v-if="!isCollapsed"></i>
+              <chevron-down class="submenu-arrow" size="14"></chevron-down>
             </a>
             <ul class="submenu" v-if="openMenus.includes('purchases') && !isCollapsed">
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('Purchases_add')">
                 <router-link to="/app/purchases/store" class="submenu-link">
-                  <i class="submenu-icon i-Add-File"></i>
+                  <file-plus class="submenu-icon" size="18"></file-plus>
                   <span>{{ $t('AddPurchase') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('Purchases_view')">
                 <router-link to="/app/purchases/list" class="submenu-link">
-                  <i class="submenu-icon i-Files"></i>
+                  <files class="submenu-icon" size="18"></files>
                   <span>{{ $t('ListPurchases') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('Purchases_add')">
                 <router-link to="/app/purchases/import_purchases" class="submenu-link">
-                  <i class="submenu-icon i-Add-File"></i>
+                  <file-plus class="submenu-icon" size="18"></file-plus>
                   <span>{{ $t('Import_Purchases') }}</span>
                 </router-link>
               </li>
@@ -366,38 +366,38 @@
             class="nav-item"
           >
             <a href="#" @click.prevent="toggleSubmenu('sales')" class="nav-link">
-              <i class="nav-icon i-Full-Cart"></i>
+              <shopping-cart class="nav-icon" size="20"></shopping-cart>
               <span class="nav-text" v-if="!isCollapsed">{{ $t('Sales') }}</span>
-              <i class="submenu-arrow i-Arrow-Down" v-if="!isCollapsed"></i>
+              <chevron-down class="submenu-arrow" size="14"></chevron-down>
             </a>
             <ul class="submenu" v-if="openMenus.includes('sales') && !isCollapsed">
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('Sales_add')">
                 <router-link to="/app/sales/store" class="submenu-link">
-                  <i class="submenu-icon i-Add-File"></i>
+                  <file-plus class="submenu-icon" size="18"></file-plus>
                   <span>{{ $t('AddSale') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('Sales_view')">
                 <router-link to="/app/sales/list" class="submenu-link">
-                  <i class="submenu-icon i-Files"></i>
+                  <files class="submenu-icon" size="18"></files>
                   <span>{{ $t('ListSales') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('Pos_view')">
                 <router-link to="/app/pos" class="submenu-link">
-                  <i class="submenu-icon i-Files"></i>
+                  <files class="submenu-icon" size="18"></files>
                   <span>POS</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('customer_display_screen_setup')">
                 <router-link to="/app/customer-display/setup" class="submenu-link">
-                  <i class="submenu-icon i-Files"></i>
+                  <files class="submenu-icon" size="18"></files>
                   <span>{{$t('Customer_Screen')}}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('shipment')">
                 <router-link to="/app/sales/shipment" class="submenu-link">
-                  <i class="submenu-icon i-Files"></i>
+                  <files class="submenu-icon" size="18"></files>
                   <span>{{ $t('Shipments') }}</span>
                 </router-link>
               </li>
@@ -411,7 +411,7 @@
             class="nav-item"
           >
             <router-link to="/app/sale_return/list" class="nav-link">
-              <i class="nav-icon i-Right"></i>
+              <arrow-right-circle class="nav-icon" size="20"></arrow-right-circle>
               <span class="nav-text" v-if="!isCollapsed">{{ $t("SalesReturn") }}</span>
             </router-link>
           </li>
@@ -426,20 +426,20 @@
             class="nav-item"
           >
             <a href="#" @click.prevent="toggleSubmenu('quotations')" class="nav-link">
-              <i class="nav-icon i-Checkout-Basket"></i>
+              <shopping-basket class="nav-icon" size="20"></shopping-basket>
               <span class="nav-text" v-if="!isCollapsed">{{ $t('Quotations') }}</span>
-              <i class="submenu-arrow i-Arrow-Down" v-if="!isCollapsed"></i>
+              <chevron-down class="submenu-arrow" size="14"></chevron-down>
             </a>
             <ul class="submenu" v-if="openMenus.includes('quotations') && !isCollapsed">
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('Quotations_add')">
                 <router-link to="/app/quotations/store" class="submenu-link">
-                  <i class="submenu-icon i-Add-File"></i>
+                  <file-plus class="submenu-icon" size="18"></file-plus>
                   <span>{{ $t('AddQuote') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('Quotations_view')">
                 <router-link to="/app/quotations/list" class="submenu-link">
-                  <i class="submenu-icon i-Files"></i>
+                  <files class="submenu-icon" size="18"></files>
                   <span>{{ $t('ListQuotations') }}</span>
                 </router-link>
               </li>
@@ -453,7 +453,7 @@
             class="nav-item"
           >
             <router-link to="/app/purchase_return/list" class="nav-link">
-              <i class="nav-icon i-Left"></i>
+              <arrow-left-circle class="nav-icon" size="20"></arrow-left-circle>
               <span class="nav-text" v-if="!isCollapsed">{{ $t("PurchasesReturn") }}</span>
             </router-link>
           </li>
@@ -468,20 +468,20 @@
             class="nav-item"
           >
             <a href="#" @click.prevent="toggleSubmenu('transfers')" class="nav-link">
-              <i class="nav-icon i-Back"></i>
+              <arrow-right-left class="nav-icon" size="20"></arrow-right-left>
               <span class="nav-text" v-if="!isCollapsed">{{ $t('StockTransfers') }}</span>
-              <i class="submenu-arrow i-Arrow-Down" v-if="!isCollapsed"></i>
+              <chevron-down class="submenu-arrow" size="14"></chevron-down>
             </a>
             <ul class="submenu" v-if="openMenus.includes('transfers') && !isCollapsed">
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('transfer_add')">
                 <router-link to="/app/transfers/store" class="submenu-link">
-                  <i class="submenu-icon i-Add-File"></i>
+                  <file-plus class="submenu-icon" size="18"></file-plus>
                   <span>{{ $t('CreateTransfer') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('transfer_view')">
                 <router-link to="/app/transfers/list" class="submenu-link">
-                  <i class="submenu-icon i-Files"></i>
+                  <files class="submenu-icon" size="18"></files>
                   <span>{{ $t('ListTransfers') }}</span>
                 </router-link>
               </li>
@@ -497,20 +497,20 @@
             class="nav-item"
           >
             <a href="#" @click.prevent="toggleSubmenu('damages')" class="nav-link">
-              <i class="nav-icon i-Remove-Bag"></i>
+              <trash2 class="nav-icon" size="20"></trash2>
               <span class="nav-text" v-if="!isCollapsed">{{ $t('Damages') }}</span>
-              <i class="submenu-arrow i-Arrow-Down" v-if="!isCollapsed"></i>
+              <chevron-down class="submenu-arrow" size="14"></chevron-down>
             </a>
             <ul class="submenu" v-if="openMenus.includes('damages') && !isCollapsed">
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('damage_view')">
                 <router-link to="/app/damages/store" class="submenu-link">
-                  <i class="submenu-icon i-Add-File"></i>
+                  <file-plus class="submenu-icon" size="18"></file-plus>
                   <span>{{ $t('Create_Damage') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('damage_view')">
                 <router-link to="/app/damages/list" class="submenu-link">
-                  <i class="submenu-icon i-Files"></i>
+                  <files class="submenu-icon" size="18"></files>
                   <span>{{ $t('Damages') }}</span>
                 </router-link>
               </li>
@@ -534,52 +534,52 @@
             class="nav-item"
           >
             <a href="#" @click.prevent="toggleSubmenu('hrm')" class="nav-link">
-              <i class="nav-icon i-Library"></i>
+              <users class="nav-icon" size="20"></users>
               <span class="nav-text" v-if="!isCollapsed">{{ $t('hrm') }}</span>
-              <i class="submenu-arrow i-Arrow-Down" v-if="!isCollapsed"></i>
+              <chevron-down class="submenu-arrow" size="14"></chevron-down>
             </a>
             <ul class="submenu" v-if="openMenus.includes('hrm') && !isCollapsed">
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('company')">
                 <router-link to="/app/hrm/company" class="submenu-link">
-                  <i class="submenu-icon i-Management"></i>
+                  <briefcase class="submenu-icon" size="18"></briefcase>
                   <span>{{ $t('Company') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('department')">
                 <router-link to="/app/hrm/departments" class="submenu-link">
-                  <i class="submenu-icon i-Shop"></i>
+                  <store class="submenu-icon" size="18"></store>
                   <span>{{ $t('Departments') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('designation')">
                 <router-link to="/app/hrm/designations" class="submenu-link">
-                  <i class="submenu-icon i-Shutter"></i>
+                  <aperture class="submenu-icon" size="18"></aperture>
                   <span>{{ $t('Designations') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('office_shift')">
                 <router-link to="/app/hrm/office_Shift" class="submenu-link">
-                  <i class="submenu-icon i-Clock"></i>
+                  <clock class="submenu-icon" size="18"></clock>
                   <span>{{ $t('Office_Shift') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('view_employee')">
                 <router-link to="/app/hrm/employees" class="submenu-link">
-                  <i class="submenu-icon i-Engineering"></i>
+                  <hard-hat class="submenu-icon" size="18"></hard-hat>
                   <span>{{ $t('Employees') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('attendance')">
                 <router-link to="/app/hrm/attendance" class="submenu-link">
-                  <i class="submenu-icon i-Clock"></i>
+                  <clock class="submenu-icon" size="18"></clock>
                   <span>{{ $t('Attendance') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item has-nested" v-if="currentUserPermissions && currentUserPermissions.includes('leave')">
                 <a href="#" @click.prevent="toggleNestedSubmenu('leave')" class="submenu-link">
-                  <i class="submenu-icon i-Calendar"></i>
+                  <calendar-days class="submenu-icon" size="18"></calendar-days>
                   <span>{{ $t('Leave_request') }}</span>
-                  <i class="nested-arrow i-Arrow-Down"></i>
+                  <chevron-down class="nested-arrow" size="12"></chevron-down>
                 </a>
                 <ul class="nested-submenu" v-if="openNestedMenus.includes('leave')">
                   <li><router-link to="/app/hrm/leaves/list" class="nested-link">{{ $t('Leave_request') }}</router-link></li>
@@ -588,13 +588,13 @@
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('holiday')">
                 <router-link to="/app/hrm/holidays" class="submenu-link">
-                  <i class="submenu-icon i-Christmas-Bell"></i>
+                  <bell class="submenu-icon" size="18"></bell>
                   <span>{{ $t('Holidays') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('payroll')">
                 <router-link to="/app/hrm/payrolls" class="submenu-link">
-                  <i class="submenu-icon i-Money-2"></i>
+                  <circle-dollar-sign class="submenu-icon" size="18"></circle-dollar-sign>
                   <span>{{ $t('Payroll') }}</span>
                 </router-link>
               </li>
@@ -622,99 +622,99 @@
             class="nav-item"
           >
             <a href="#" @click.prevent="toggleSubmenu('accounting')" class="nav-link">
-              <i class="nav-icon i-Wallet"></i>
+              <wallet class="nav-icon" size="20"></wallet>
               <span class="nav-text" v-if="!isCollapsed">{{ $t('Accounting') }}</span>
-              <i class="submenu-arrow i-Arrow-Down" v-if="!isCollapsed"></i>
+              <chevron-down class="submenu-arrow" size="14"></chevron-down>
             </a>
             <ul class="submenu" v-if="openMenus.includes('accounting') && !isCollapsed">
               <!-- NEW FEATURE - SAFE ADDITION: Advanced Accounting under Accounting -->
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('accounting_dashboard')">
                 <router-link to="/app/accounting-v2/dashboard" class="submenu-link">
-                  <i class="submenu-icon i-Line-Chart"></i>
+                  <line-chart class="submenu-icon" size="18"></line-chart>
                   <span>{{ $t("dashboard") }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('chart_of_accounts')">
                 <router-link to="/app/accounting-v2/chart-of-accounts" class="submenu-link">
-                  <i class="submenu-icon i-Data"></i>
+                  <database class="submenu-icon" size="18"></database>
                   <span>{{ $t('Chart_of_Accounts_Title') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('journal_entries')">
                 <router-link to="/app/accounting-v2/journal-entries" class="submenu-link">
-                  <i class="submenu-icon i-Files"></i>
+                  <files class="submenu-icon" size="18"></files>
                   <span>{{ $t('Journal_Entries_Title') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('journal_entries')">
                 <router-link to="/app/accounting-v2/reports/trial-balance" class="submenu-link">
-                  <i class="submenu-icon i-Line-Chart"></i>
+                  <line-chart class="submenu-icon" size="18"></line-chart>
                   <span>{{ $t('Trial_Balance_Title') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('journal_entries')">
                 <router-link to="/app/accounting-v2/reports/profit-and-loss" class="submenu-link">
-                  <i class="submenu-icon i-Money-Bag"></i>
+                  <banknote class="submenu-icon" size="18"></banknote>
                   <span>{{ $t('Profit_Loss_Title') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('journal_entries')">
                 <router-link to="/app/accounting-v2/reports/balance-sheet" class="submenu-link">
-                  <i class="submenu-icon i-Pie-Chart"></i>
+                  <pie-chart class="submenu-icon" size="18"></pie-chart>
                   <span>{{ $t('Balance_Sheet_Title') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('accounting_tax_report')">
                 <router-link to="/app/accounting-v2/reports/tax-report" class="submenu-link">
-                  <i class="submenu-icon i-Receipt-4"></i>
+                  <receipt class="submenu-icon" size="18"></receipt>
                   <span>{{ $t('Tax_Summary_Report') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('account')">
                 <router-link to="/app/accounts" class="submenu-link">
-                  <i class="submenu-icon i-Files"></i>
+                  <files class="submenu-icon" size="18"></files>
                   <span>{{ $t('List_accounts') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('transfer_money')">
                 <router-link to="/app/transfer_money" class="submenu-link">
-                  <i class="submenu-icon i-Files"></i>
+                  <files class="submenu-icon" size="18"></files>
                   <span>{{ $t('Transfers_Money') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('expense_add')">
                 <router-link to="/app/expenses/store" class="submenu-link">
-                  <i class="submenu-icon i-Add-File"></i>
+                  <file-plus class="submenu-icon" size="18"></file-plus>
                   <span>{{ $t('Create_Expense') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('expense_view')">
                 <router-link to="/app/expenses/list" class="submenu-link">
-                  <i class="submenu-icon i-Files"></i>
+                  <files class="submenu-icon" size="18"></files>
                   <span>{{ $t('ListExpenses') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('deposit_add')">
                 <router-link to="/app/deposits/store" class="submenu-link">
-                  <i class="submenu-icon i-Add-File"></i>
+                  <file-plus class="submenu-icon" size="18"></file-plus>
                   <span>{{ $t('Create_deposit') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('deposit_view')">
                 <router-link to="/app/deposits/list" class="submenu-link">
-                  <i class="submenu-icon i-Files"></i>
+                  <files class="submenu-icon" size="18"></files>
                   <span>{{ $t('List_Deposit') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('expense_view')">
                 <router-link to="/app/expenses/category" class="submenu-link">
-                  <i class="submenu-icon i-Files"></i>
+                  <files class="submenu-icon" size="18"></files>
                   <span>{{ $t('Expense_Category') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('deposit_view')">
                 <router-link to="/app/deposits/category" class="submenu-link">
-                  <i class="submenu-icon i-Files"></i>
+                  <files class="submenu-icon" size="18"></files>
                   <span>{{ $t('Deposit_Category') }}</span>
                 </router-link>
               </li>
@@ -731,7 +731,7 @@
             class="nav-item"
           >
             <router-link to="/app/subscription_product/list" class="nav-link">
-              <i class="nav-icon i-Dollar"></i>
+              <dollar-sign class="nav-icon" size="20"></dollar-sign>
               <span class="nav-text" v-if="!isCollapsed">{{ $t('Subscription_Product') }}</span>
             </router-link>
           </li>
@@ -743,38 +743,38 @@
             class="nav-item"
           >
             <a href="#" @click.prevent="toggleSubmenu('service')" class="nav-link">
-              <i class="nav-icon i-Repair"></i>
+              <wrench class="nav-icon" size="20"></wrench>
               <span class="nav-text" v-if="!isCollapsed">{{ $t('Service_Maintenance') }}</span>
-              <i class="submenu-arrow i-Arrow-Down" v-if="!isCollapsed"></i>
+              <chevron-down class="submenu-arrow" size="14"></chevron-down>
             </a>
             <ul class="submenu" v-if="openMenus.includes('service') && !isCollapsed">
               <li class="submenu-item">
                 <router-link to="/app/service/jobs" class="submenu-link">
-                  <i class="submenu-icon i-Files"></i>
+                  <files class="submenu-icon" size="18"></files>
                   <span>{{ $t('Service_Jobs') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item">
                 <router-link to="/app/service/technicians" class="submenu-link">
-                  <i class="submenu-icon i-Files"></i>
+                  <files class="submenu-icon" size="18"></files>
                   <span>{{ $t('Service_Technicians') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item">
                 <router-link to="/app/service/checklist-categories" class="submenu-link">
-                  <i class="submenu-icon i-Folder"></i>
+                  <folder class="submenu-icon" size="18"></folder>
                   <span>{{ $t('Checklist_Categories') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item">
                 <router-link to="/app/service/checklists" class="submenu-link">
-                  <i class="submenu-icon i-Check"></i>
+                  <check-square class="submenu-icon" size="18"></check-square>
                   <span>{{ $t('Checklist_Items') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item">
                 <router-link to="/app/service/history" class="submenu-link">
-                  <i class="submenu-icon i-Calendar-4"></i>
+                  <calendar class="submenu-icon" size="18"></calendar>
                   <span>{{ $t('Maintenance_History') }}</span>
                 </router-link>
               </li>
@@ -788,26 +788,26 @@
             class="nav-item"
           >
             <a href="#" @click.prevent="toggleSubmenu('assets')" class="nav-link">
-              <i class="nav-icon i-Gear"></i>
+              <settings class="nav-icon" size="20"></settings>
               <span class="nav-text" v-if="!isCollapsed">{{ $t('Assets')}}</span>
-              <i class="submenu-arrow i-Arrow-Down" v-if="!isCollapsed"></i>
+              <chevron-down class="submenu-arrow" size="14"></chevron-down>
             </a>
             <ul class="submenu" v-if="openMenus.includes('assets') && !isCollapsed">
               <li class="submenu-item">
                 <router-link to="/app/assets/store" class="submenu-link">
-                  <i class="submenu-icon i-Add-File"></i>
+                  <file-plus class="submenu-icon" size="18"></file-plus>
                   <span>{{ $t('Add_Asset')}}</span>
                 </router-link>
               </li>
               <li class="submenu-item">
                 <router-link to="/app/assets/list" class="submenu-link">
-                  <i class="submenu-icon i-Files"></i>
+                  <files class="submenu-icon" size="18"></files>
                   <span>{{ $t('Assets_List')}}</span>
                 </router-link>
               </li>
               <li class="submenu-item">
                 <router-link to="/app/assets/category" class="submenu-link">
-                  <i class="submenu-icon i-Folder"></i>
+                  <folder class="submenu-icon" size="18"></folder>
                   <span>{{ $t('Asset_Category') }}</span>
                 </router-link>
               </li>
@@ -821,7 +821,7 @@
             class="nav-item"
           >
             <router-link to="/app/projects" class="nav-link">
-              <i class="nav-icon i-Dropbox"></i>
+              <package class="nav-icon" size="20"></package>
               <span class="nav-text" v-if="!isCollapsed">{{ $t('Projects') }}</span>
             </router-link>
           </li>
@@ -833,7 +833,7 @@
             class="nav-item"
           >
             <router-link to="/app/tasks" class="nav-link">
-              <i class="nav-icon i-Check"></i>
+              <check-square class="nav-icon" size="20"></check-square>
               <span class="nav-text" v-if="!isCollapsed">{{ $t('Tasks') }}</span>
             </router-link>
           </li>
@@ -845,7 +845,7 @@
             class="nav-item"
           >
             <router-link to="/app/bookings" class="nav-link">
-              <i class="nav-icon i-Calendar-4"></i>
+              <calendar class="nav-icon" size="20"></calendar>
               <span class="nav-text" v-if="!isCollapsed">{{ $t('Bookings') }}</span>
             </router-link>
           </li>
@@ -875,14 +875,14 @@
             class="nav-item"
           >
             <a href="#" @click.prevent="toggleSubmenu('settings')" class="nav-link">
-              <i class="nav-icon i-Data-Settings"></i>
+              <settings2 class="nav-icon" size="20"></settings2>
               <span class="nav-text" v-if="!isCollapsed">{{ $t('Settings') }}</span>
-              <i class="submenu-arrow i-Arrow-Down" v-if="!isCollapsed"></i>
+              <chevron-down class="submenu-arrow" size="14"></chevron-down>
             </a>
             <ul class="submenu" v-if="openMenus.includes('settings') && !isCollapsed">
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('setting_system')">
                 <router-link to="/app/settings/System_settings" class="submenu-link">
-                  <i class="submenu-icon i-Gear"></i>
+                  <settings class="submenu-icon" size="18"></settings>
                   <span>{{ $t('SystemSettings') }}</span>
                 </router-link>
               </li>
@@ -890,113 +890,113 @@
              
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('woocommerce_settings')">
                 <router-link :to="{ name: 'woocommerce_settings' }" class="submenu-link">
-                  <i class="submenu-icon i-Link-2"></i>
+                  <link2 class="submenu-icon" size="18"></link2>
                   <span>{{ $t('WooCommerce_Settings') }}</span>
                 </router-link>
               </li>
 
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('quickbooks_settings')">
                 <router-link to="/app/settings/quickbooks_sync" class="submenu-link">
-                  <i class="submenu-icon i-Money-2"></i>
+                  <circle-dollar-sign class="submenu-icon" size="18"></circle-dollar-sign>
                   <span>{{ $t('Quickbooks_Sync') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('appearance_settings')">
                 <router-link to="/app/settings/appearance_settings" class="submenu-link">
-                  <i class="submenu-icon i-Data-Settings"></i>
+                  <settings2 class="submenu-icon" size="18"></settings2>
                   <span>{{ $t('Dynamic_Appearance') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('translations_settings')">
                 <router-link to="/app/settings/translations_settings" class="submenu-link">
-                  <i class="submenu-icon i-Data-Settings"></i>
+                  <settings2 class="submenu-icon" size="18"></settings2>
                   <span>{{ $t('Languages') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('payment_methods')">
                 <router-link to="/app/settings/payment_methods" class="submenu-link">
-                  <i class="submenu-icon i-Money-2"></i>
+                  <circle-dollar-sign class="submenu-icon" size="18"></circle-dollar-sign>
                   <span>{{ $t('Payment_Methods') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('sms_settings')">
                 <router-link to="/app/settings/sms_settings" class="submenu-link">
-                  <i class="submenu-icon i-Speach-Bubble"></i>
+                  <message-square class="submenu-icon" size="18"></message-square>
                   <span>{{ $t('sms_settings') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('notification_template')">
                 <router-link to="/app/settings/sms_templates" class="submenu-link">
-                  <i class="submenu-icon i-Speach-Bubble"></i>
+                  <message-square class="submenu-icon" size="18"></message-square>
                   <span>{{ $t('sms_templates') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('mail_settings')">
                 <router-link to="/app/settings/mail_settings" class="submenu-link">
-                  <i class="submenu-icon i-Email"></i>
+                  <mail class="submenu-icon" size="18"></mail>
                   <span>{{ $t('mail_settings') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('notification_template')">
                 <router-link to="/app/settings/email_templates" class="submenu-link">
-                  <i class="submenu-icon i-Email"></i>
+                  <mail class="submenu-icon" size="18"></mail>
                   <span>{{ $t('email_templates') }}</span>
                 </router-link>
               </li>
               <!-- POS Settings (dedicated page) -->
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('pos_settings')">
                 <router-link to="/app/settings/pos_settings" class="submenu-link">
-                  <i class="submenu-icon i-Data-Settings"></i>
+                  <settings2 class="submenu-icon" size="18"></settings2>
                   <span>{{ $t('Pos_Settings') }}</span>
                 </router-link>
               </li>
               <!-- POS Receipt page (dedicated page) -->
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('pos_settings')">
                 <router-link to="/app/settings/pos_receipt" class="submenu-link">
-                  <i class="submenu-icon i-Cash-Register"></i>
+                  <calculator class="submenu-icon" size="18"></calculator>
                   <span>{{ $t('POS_Receipt') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('module_settings')">
                 <router-link to="/app/settings/module_settings" class="submenu-link">
-                  <i class="submenu-icon i-Data-Settings"></i>
+                  <settings2 class="submenu-icon" size="18"></settings2>
                   <span>{{ $t('module_settings') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('update_settings')">
                 <router-link to="/app/settings/update_settings" class="submenu-link">
-                  <i class="submenu-icon i-Upgrade"></i>
+                  <upload class="submenu-icon" size="18"></upload>
                   <span>{{ $t('update_settings') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('payment_gateway')">
                 <router-link to="/app/settings/payment_gateway" class="submenu-link">
-                  <i class="submenu-icon i-Money-2"></i>
+                  <circle-dollar-sign class="submenu-icon" size="18"></circle-dollar-sign>
                   <span>{{ $t('Payment_Gateway') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('warehouse')">
                 <router-link to="/app/settings/Warehouses" class="submenu-link">
-                  <i class="submenu-icon i-Clothing-Store"></i>
+                  <warehouse class="submenu-icon" size="18"></warehouse>
                   <span>{{ $t('Warehouses') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('currency')">
                 <router-link to="/app/settings/Currencies" class="submenu-link">
-                  <i class="submenu-icon i-Dollar-Sign"></i>
+                  <dollar-sign class="submenu-icon" size="18"></dollar-sign>
                   <span>{{ $t('Currencies') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('backup')">
                 <router-link to="/app/settings/Backup" class="submenu-link">
-                  <i class="submenu-icon i-Data-Backup"></i>
+                  <database class="submenu-icon" size="18"></database>
                   <span>{{ $t('Backup') }}</span>
                 </router-link>
               </li>
 
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('login_device_management')">
                 <router-link to="/app/settings/login_devices" class="submenu-link">
-                  <i class="submenu-icon i-Lock-2"></i>
+                  <lock class="submenu-icon" size="18"></lock>
                   <span>{{$t('Login_Device_Management')}}</span>
                 </router-link>
               </li>
@@ -1012,17 +1012,17 @@
             class="nav-item"
           >
             <a href="#" @click.prevent="toggleSubmenu('reports')" class="nav-link">
-              <i class="nav-icon i-Line-Chart"></i>
+              <line-chart class="nav-icon" size="20"></line-chart>
               <span class="nav-text" v-if="!isCollapsed">{{ $t('Reports') }}</span>
-              <i class="submenu-arrow i-Arrow-Down" v-if="!isCollapsed"></i>
+              <chevron-down class="submenu-arrow" size="14"></chevron-down>
             </a>
             <ul class="submenu" v-if="openMenus.includes('reports') && !isCollapsed">
               <!-- Payments dropdown -->
               <li class="submenu-item has-nested" v-if="hasPaymentReportsPermission">
                 <a href="#" @click.prevent="toggleNestedSubmenu('payments')" class="submenu-link">
-                  <i class="submenu-icon i-Credit-Card"></i>
+                  <credit-card class="submenu-icon" size="18"></credit-card>
                   <span>{{ $t('Payments') }}</span>
-                  <i class="nested-arrow i-Arrow-Down"></i>
+                  <chevron-down class="nested-arrow" size="12"></chevron-down>
                 </a>
                 <ul class="nested-submenu" v-if="openNestedMenus.includes('payments')">
                   <li v-if="currentUserPermissions && currentUserPermissions.includes('Reports_payments_Purchases')">
@@ -1043,254 +1043,254 @@
               <!-- Other reports (shortened for brevity) -->
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('report_transactions')">
                 <router-link to="/app/reports/report_transactions" class="submenu-link">
-                  <i class="submenu-icon i-Dollar"></i>
+                  <dollar-sign class="submenu-icon" size="18"></dollar-sign>
                   <span>{{ $t('Report_Transactions') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('cash_flow_report')">
                 <router-link to="/app/reports/cash_flow_report" class="submenu-link">
-                  <i class="submenu-icon i-Line-Chart"></i>
+                  <line-chart class="submenu-icon" size="18"></line-chart>
                   <span>{{ $t('Cash_Flow_Report') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('seller_report')">
                 <router-link to="/app/reports/seller_report" class="submenu-link">
-                  <i class="submenu-icon i-User"></i>
+                  <user class="submenu-icon" size="18"></user>
                   <span>{{ $t('Seller_report') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('report_attendance_summary')">
                 <router-link :to="{ name: 'attendance_report' }" class="submenu-link">
-                  <i class="submenu-icon i-Clock"></i>
+                  <clock class="submenu-icon" size="18"></clock>
                   <span>{{ $t('attendance_summary') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('Reports_profit')">
                 <router-link to="/app/reports/profit_and_loss" class="submenu-link">
-                  <i class="submenu-icon i-Money-Bag"></i>
+                  <banknote class="submenu-icon" size="18"></banknote>
                   <span>{{ $t('ProfitandLoss') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('return_ratio_report')">
                 <router-link to="/app/reports/return_ratio_report" class="submenu-link">
-                  <i class="submenu-icon i-Line-Chart"></i>
+                  <line-chart class="submenu-icon" size="18"></line-chart>
                   <span>{{ $t('Return_Ratio_Report') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('cash_register_report')">
                 <router-link :to="{ name: 'cash_register_report' }" class="submenu-link">
-                  <i class="submenu-icon i-Money-2"></i>
+                  <circle-dollar-sign class="submenu-icon" size="18"></circle-dollar-sign>
                   <span>{{ $t('Cash_Register_Report') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('inventory_valuation')">
                 <router-link to="/app/reports/inventory_valuation_summary" class="submenu-link">
-                  <i class="submenu-icon i-Pie-Chart"></i>
+                  <pie-chart class="submenu-icon" size="18"></pie-chart>
                   <span>{{ $t('Inventory_Valuation') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('expenses_report')">
                 <router-link to="/app/reports/expenses_report" class="submenu-link">
-                  <i class="submenu-icon i-Receipt-3"></i>
+                  <receipt class="submenu-icon" size="18"></receipt>
                   <span>{{ $t('Expense_Report') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('deposits_report')">
                 <router-link to="/app/reports/deposits_report" class="submenu-link">
-                  <i class="submenu-icon i-Receipt-3"></i>
+                  <receipt class="submenu-icon" size="18"></receipt>
                   <span>{{ $t('Deposits_Report') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('Warehouse_report')">
                 <router-link to="/app/reports/warehouse_report" class="submenu-link">
-                  <i class="submenu-icon i-Building"></i>
+                  <building class="submenu-icon" size="18"></building>
                   <span>{{ $t('Warehouse_report') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('stock_report')">
                 <router-link to="/app/reports/stock_report" class="submenu-link">
-                  <i class="submenu-icon i-Line-Chart"></i>
+                  <line-chart class="submenu-icon" size="18"></line-chart>
                   <span>{{ $t('stock_report') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('negative_stock_report')">
                 <router-link to="/app/reports/negative_stock_report" class="submenu-link">
-                  <i class="submenu-icon i-Line-Chart"></i>
+                  <line-chart class="submenu-icon" size="18"></line-chart>
                   <span>{{ $t('Negative_Stock_Report') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('Reports_quantity_alerts')">
                 <router-link to="/app/reports/quantity_alerts" class="submenu-link">
-                  <i class="submenu-icon i-Bell"></i>
+                  <bell class="submenu-icon" size="18"></bell>
                   <span>{{ $t('ProductQuantityAlerts') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('Reports_purchase')">
                 <router-link to="/app/reports/purchase_report" class="submenu-link">
-                  <i class="submenu-icon i-Receipt"></i>
+                  <receipt class="submenu-icon" size="18"></receipt>
                   <span>{{ $t('PurchasesReport') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('Reports_sales')">
                 <router-link to="/app/reports/sales_report" class="submenu-link">
-                  <i class="submenu-icon i-Full-Cart"></i>
+                  <shopping-cart class="submenu-icon" size="18"></shopping-cart>
                   <span>{{ $t('SalesReport') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('product_sales_report')">
                 <router-link to="/app/reports/product_sales_report" class="submenu-link">
-                  <i class="submenu-icon i-Full-Cart"></i>
+                  <shopping-cart class="submenu-icon" size="18"></shopping-cart>
                   <span>{{ $t('product_sales_report') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('product_purchases_report')">
                 <router-link to="/app/reports/product_purchases_report" class="submenu-link">
-                  <i class="submenu-icon i-Receipt"></i>
+                  <receipt class="submenu-icon" size="18"></receipt>
                   <span>{{ $t('Product_purchases_report') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('Reports_suppliers')">
                 <router-link to="/app/reports/providers_report" class="submenu-link">
-                  <i class="submenu-icon i-Business-Mens"></i>
+                  <users class="submenu-icon" size="18"></users>
                   <span>{{ $t('SuppliersReport') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('Top_Suppliers_Report')">
                 <router-link :to="{ name: 'top_suppliers_report' }" class="submenu-link">
-                  <i class="submenu-icon i-Star"></i>
+                  <star class="submenu-icon" size="18"></star>
                   <span>{{ $t('Top_Suppliers_Report') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('Reports_customers')">
                 <router-link :to="{ name: 'customers_report' }" class="submenu-link">
-                  <i class="submenu-icon i-Business-Mens"></i>
+                  <users class="submenu-icon" size="18"></users>
                   <span>{{ $t('CustomersReport') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('Top_products')">
                 <router-link to="/app/reports/top_selling_products" class="submenu-link">
-                  <i class="submenu-icon i-Star"></i>
+                  <star class="submenu-icon" size="18"></star>
                   <span>{{ $t('Top_Selling_Products') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('inactive_customers_report')">
                 <router-link to="/app/reports/inactive_customers" class="submenu-link">
-                  <i class="submenu-icon i-Remove-User"></i>
+                  <user-minus class="submenu-icon" size="18"></user-minus>
                   <span>{{ $t('Inactive_Customers_Report') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('Top_customers')">
                 <router-link to="/app/reports/Top_customers" class="submenu-link">
-                  <i class="submenu-icon i-Star"></i>
+                  <star class="submenu-icon" size="18"></star>
                   <span>{{ $t('TopCustomers') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('users_report')">
                 <router-link to="/app/reports/users_report" class="submenu-link">
-                  <i class="submenu-icon i-Administrator"></i>
+                  <shield-check class="submenu-icon" size="18"></shield-check>
                   <span>{{ $t('Users_Report') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('report_device_management')">
                 <router-link to="/app/reports/login_activity_report" class="submenu-link">
-                  <i class="submenu-icon i-Lock-2"></i>
+                  <lock class="submenu-icon" size="18"></lock>
                   <span>{{ $t('Login_Activity_Report') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('product_report')">
                 <router-link to="/app/reports/product_report" class="submenu-link">
-                  <i class="submenu-icon i-Bar-Code"></i>
+                  <barcode class="submenu-icon" size="18"></barcode>
                   <span>{{ $t('product_report') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('zeroSalesProducts')">
                 <router-link :to="{ name: 'zero_sales_products_report' }" class="submenu-link">
-                  <i class="submenu-icon i-Remove-Bag"></i>
+                  <trash2 class="submenu-icon" size="18"></trash2>
                   <span>{{ $t('Zero_Sales_Products_Report') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('Dead_Stock_Report')">
                 <router-link :to="{ name: 'dead_stock_report' }" class="submenu-link">
-                  <i class="submenu-icon i-Remove-Bag"></i>
+                  <trash2 class="submenu-icon" size="18"></trash2>
                   <span>{{ $t('Dead_Stock_Report') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('Stock_Aging_Report')">
                 <router-link :to="{ name: 'stock_aging_report' }" class="submenu-link">
-                  <i class="submenu-icon i-Clock"></i>
+                  <clock class="submenu-icon" size="18"></clock>
                   <span>{{ $t('Stock_Aging_Report') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('Stock_Transfer_Report')">
                 <router-link :to="{ name: 'stock_transfer_report' }" class="submenu-link">
-                  <i class="submenu-icon i-Back"></i>
+                  <arrow-left class="submenu-icon" size="18"></arrow-left>
                   <span>{{ $t('Stock_Transfer_Report') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('Stock_Adjustment_Report')">
                 <router-link :to="{ name: 'stock_adjustment_report' }" class="submenu-link">
-                  <i class="submenu-icon i-Edit"></i>
+                  <file-edit class="submenu-icon" size="18"></file-edit>
                   <span>{{ $t('Stock_Adjustment_Report') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('discount_summary_report')">
                 <router-link :to="{ name: 'discount_summary_report' }" class="submenu-link">
-                  <i class="submenu-icon i-Billing"></i>
+                  <receipt class="submenu-icon" size="18"></receipt>
                   <span>{{ $t('Discount_Summary_Report') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('customer_loyalty_points_report')">
                 <router-link :to="{ name: 'customer_loyalty_points_report' }" class="submenu-link">
-                  <i class="submenu-icon i-Love"></i>
+                  <heart class="submenu-icon" size="18"></heart>
                   <span>{{ $t('Customer_Loyalty_Points_Report') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('tax_summary_report')">
                 <router-link :to="{ name: 'tax_summary_report' }" class="submenu-link">
-                  <i class="submenu-icon i-Receipt-4"></i>
+                  <receipt class="submenu-icon" size="18"></receipt>
                   <span>{{ $t('Tax_Summary_Report') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('draft_invoices_report')">
                 <router-link :to="{ name: 'draft_invoices_report' }" class="submenu-link">
-                  <i class="submenu-icon i-Receipt-3"></i>
+                  <receipt class="submenu-icon" size="18"></receipt>
                   <span>{{ $t('Draft_Invoices_Report') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('report_sales_by_category')">
                 <router-link :to="{ name: 'report_sales_by_category' }" class="submenu-link">
-                  <i class="submenu-icon i-Folder"></i>
+                  <folder class="submenu-icon" size="18"></folder>
                   <span>{{ $t('Sales_by_Category') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('report_sales_by_brand')">
                 <router-link :to="{ name: 'report_sales_by_brand' }" class="submenu-link">
-                  <i class="submenu-icon i-Bookmark"></i>
+                  <bookmark class="submenu-icon" size="18"></bookmark>
                   <span>{{ $t('Sales_by_Brand') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('report_error_logs')">
                 <router-link :to="{ name: 'report_error_logs' }" class="submenu-link">
-                  <i class="submenu-icon i-Close"></i>
+                  <x-circle class="submenu-icon" size="18"></x-circle>
                   <span>{{ $t('Error_Logs') }}</span>
                 </router-link>
               </li>
 
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('service_jobs_report')">
                 <router-link :to="{ name: 'service_jobs_report' }" class="submenu-link">
-                  <i class="submenu-icon i-Repair"></i>
+                  <wrench class="submenu-icon" size="18"></wrench>
                   <span>{{ $t('Service_Jobs_Report') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('checklist_completion_report')">
                 <router-link :to="{ name: 'checklist_completion_report' }" class="submenu-link">
-                  <i class="submenu-icon i-Check"></i>
+                  <check-square class="submenu-icon" size="18"></check-square>
                   <span>{{ $t('Checklist_Completion_Report') }}</span>
                 </router-link>
               </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('customer_maintenance_history_report')">
                 <router-link :to="{ name: 'customer_maintenance_history_report' }" class="submenu-link">
-                  <i class="submenu-icon i-Calendar-4"></i>
+                  <calendar class="submenu-icon" size="18"></calendar>
                   <span>{{ $t('Customer_Maintenance_History_Report') }}</span>
                 </router-link>
               </li>
@@ -1312,9 +1312,37 @@
 <script>
 import { isMobile } from "mobile-device-detect";
 import { mapGetters, mapActions } from "vuex";
+import { 
+  LayoutDashboard, ShoppingBag, Users, ShieldCheck, Package, 
+  FileEdit, Receipt, ShoppingCart, ArrowRightCircle, ShoppingBasket, 
+  ArrowLeftCircle, ArrowRightLeft, Trash2, Wallet, DollarSign, 
+  Wrench, Settings, Folder, CheckSquare, Calendar, 
+  Settings2, LineChart, Store, Files, Download, 
+  Barcode, ClipboardCheck, Layers, Bookmark, Hash, 
+  Database, Banknote, PieChart, FilePlus, CreditCard, 
+  Heart, Tag, CheckCircle, UserMinus, Contact, 
+  Trophy, Lock, Bug, Briefcase, Aperture, 
+  Clock, CalendarDays, Bell, CircleDollarSign, ChevronDown, 
+  ChevronRight, ArrowDown, MessageSquare, Key, Plus, HardHat,
+  Link2, Mail, Calculator, Upload, Warehouse, XCircle, ArrowLeft, Vault, Star, Building, Box
+} from "lucide-vue";
 
 export default {
   name: "VerticalSidebar",
+  components: {
+    LayoutDashboard, ShoppingBag, Users, ShieldCheck, Package, 
+    FileEdit, Receipt, ShoppingCart, ArrowRightCircle, ShoppingBasket, 
+    ArrowLeftCircle, ArrowRightLeft, Trash2, Wallet, DollarSign, 
+    Wrench, Settings, Folder, CheckSquare, Calendar, 
+    Settings2, LineChart, Store, Files, Download, 
+    Barcode, ClipboardCheck, Layers, Bookmark, Hash, 
+    Database, Banknote, PieChart, FilePlus, CreditCard, 
+    Heart, Tag, CheckCircle, UserMinus, Contact, 
+    Trophy, Lock, Bug, Briefcase, Aperture, 
+    Clock, CalendarDays, Bell, CircleDollarSign, ChevronDown, 
+    ChevronRight, ArrowDown, MessageSquare, Key, Plus, HardHat,
+    Link2, Mail, Calculator, Upload, Warehouse, XCircle, ArrowLeft, Vault, Star, Building, Box
+  },
   
   data() {
     return {
@@ -1586,7 +1614,7 @@ export default {
   color: white;
   font-size: 22px;
   font-weight: 700;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #2d8cff;
   width: 100%;
   height: 100%;
   display: flex;
@@ -1623,7 +1651,7 @@ export default {
 .nav-link {
   display: flex;
   align-items: center;
-  padding: 12px 15px;
+  padding: 8px 15px;
   color: #47404f;
   text-decoration: none;
   border-radius: 8px;
@@ -1633,11 +1661,11 @@ export default {
 
 .nav-link:hover {
   background: #f7f7f7;
-  color: #663399;
+  color: #2d8cff;
 }
 
 .nav-item.active > .nav-link {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #2d8cff;
   color: white;
 }
 
@@ -1701,14 +1729,14 @@ export default {
   transform: translateY(-50%);
   width: 3px;
   height: 0;
-  background: #663399;
+  background: #2d8cff;
   border-radius: 0 2px 2px 0;
   transition: height 0.3s;
 }
 
 .submenu-link:hover {
-  background: rgba(102, 51, 153, 0.08);
-  color: #663399;
+  background: rgb(45, 140, 255, 0.08);
+  color: #2d8cff;
   padding-left: 16px;
 }
 
@@ -1717,9 +1745,9 @@ export default {
 }
 
 .submenu-link.router-link-active {
-  color: #663399;
+  color: #2d8cff;
   font-weight: 600;
-  background: rgba(102, 51, 153, 0.1);
+  background: rgb(51 59 153 / 10%);
   padding-left: 16px;
 }
 
@@ -1754,14 +1782,14 @@ export default {
 }
 
 .nested-link:hover {
-  color: #663399;
+  color: #2d8cff;
   background: rgba(102, 51, 153, 0.05);
   padding-left: 16px;
 }
 
 .nested-link.router-link-active {
-  color: #663399;
-  background: rgba(102, 51, 153, 0.1);
+  color: #2d8cff;
+  background: rgb(51 59 153 / 10%);
   font-weight: 600;
   padding-left: 16px;
 }
@@ -1816,7 +1844,7 @@ export default {
 
 /* Dark Mode Support */
 body.dark-theme .vertical-sidebar-wrapper {
-  background: #1a1a2e;
+  background: #202020;
   box-shadow: 2px 0 8px rgba(0, 0, 0, 0.5);
 }
 
@@ -1842,21 +1870,21 @@ body.dark-theme .submenu-link {
 }
 
 body.dark-theme .submenu-link::before {
-  background: #764ba2;
+  background: #4b72a2;
 }
 
 body.dark-theme .submenu-link:hover {
-  background: rgba(118, 75, 162, 0.15);
+  background: rgba(75, 101, 162, 0.15);
   color: #fff;
 }
 
 body.dark-theme .submenu-link.router-link-active {
-  background: rgba(118, 75, 162, 0.25);
+  background: rgba(82, 75, 162, 0.25);
   color: #fff;
 }
 
 body.dark-theme .nested-submenu {
-  border-left-color: rgba(118, 75, 162, 0.3);
+  border-left-color: rgba(75, 105, 162, 0.3);
 }
 
 body.dark-theme .nested-link {

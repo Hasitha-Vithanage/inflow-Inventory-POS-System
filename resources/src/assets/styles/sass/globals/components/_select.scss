@@ -1,11 +1,13 @@
-.v-select{
-    background: #F3F4F6;
+.v-select {
+  background: #F3F4F6;
+  border-radius: 8px;
 }
 
-.v-select.is-invalid ~ .invalid-feedback {
-    display: block;
-  }
+.v-select.is-invalid~.invalid-feedback {
+  display: block;
+}
 
-  .vs__search, .vs__search:focus{
-    height: calc(1rem + 7px);
-  }
+.vs__search,
+.vs__search:focus {
+  height: calc(1rem + 7px);
+}

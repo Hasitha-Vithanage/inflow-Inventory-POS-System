@@ -32,7 +32,7 @@
             class="btn-rounded"
             variant="btn btn-primary btn-icon m-1"
           >
-            <i class="i-Add"></i>
+            <plus size="14"></plus>
             {{$t('Count')}}
           </b-button>
         </div>
@@ -119,11 +119,15 @@
 
 
 <script>
+import { Plus } from "lucide-vue";
 import NProgress from "nprogress";
 
 export default {
   metaInfo: {
     title: "Count Stock"
+  },
+  components: {
+    Plus
   },
   data() {
     return {

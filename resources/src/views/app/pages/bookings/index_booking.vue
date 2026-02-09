@@ -343,19 +343,19 @@
         <!-- Print View (Hidden) -->
         <div id="print_Booking" style="display: none;">
           <div class="invoice-print">
-            <div style="text-align: center; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 3px solid #667eea;">
-              <h2 style="color: #667eea; margin: 0 0 10px 0; font-weight: 700;">{{ $t('Booking_Details') || 'Booking Details' }}</h2>
+            <div style="text-align: center; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 3px solid #2d8cff;">
+              <h2 style="color: #2d8cff; margin: 0 0 10px 0; font-weight: 700;">{{ $t('Booking_Details') || 'Booking Details' }}</h2>
               <p style="color: #64748b; margin: 0; font-size: 16px; font-weight: 600;">{{ selectedBooking.Ref || '#' + selectedBooking.id }}</p>
             </div>
             
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 30px;">
-              <div style="background: #f8f9fc; padding: 20px; border-radius: 12px; border-left: 4px solid #667eea;">
-                <h3 style="color: #667eea; margin: 0 0 15px 0; font-size: 14px; text-transform: uppercase; letter-spacing: 1px;">{{ $t('Customer_Info') || 'Customer Information' }}</h3>
+              <div style="background: #f8f9fc; padding: 20px; border-radius: 12px; border-left: 4px solid #2d8cff;">
+                <h3 style="color: #2d8cff; margin: 0 0 15px 0; font-size: 14px; text-transform: uppercase; letter-spacing: 1px;">{{ $t('Customer_Info') || 'Customer Information' }}</h3>
                 <p style="margin: 0; font-size: 16px; font-weight: 600; color: #1e293b;">{{ selectedBooking.customer_name || '-' }}</p>
               </div>
               
-              <div style="background: #f8f9fc; padding: 20px; border-radius: 12px; border-left: 4px solid #764ba2;">
-                <h3 style="color: #764ba2; margin: 0 0 15px 0; font-size: 14px; text-transform: uppercase; letter-spacing: 1px;">{{ $t('Booking_Info') || 'Booking Information' }}</h3>
+              <div style="background: #f8f9fc; padding: 20px; border-radius: 12px; border-left: 4px solid #2d8cff;">
+                <h3 style="color: #2d8cff; margin: 0 0 15px 0; font-size: 14px; text-transform: uppercase; letter-spacing: 1px;">{{ $t('Booking_Info') || 'Booking Information' }}</h3>
                 <div style="font-size: 14px; color: #475569; line-height: 1.8;">
                   <div><strong>Reference:</strong> #{{ selectedBooking.id }}</div>
                   <div><strong>Date:</strong> {{ selectedBooking.booking_date }}</div>
@@ -374,7 +374,7 @@
                   </tr>
                   <tr style="border-bottom: 1px solid #f1f5f9;">
                     <td style="padding: 12px 0; font-weight: 600; color: #64748b;">{{ $t('Price') }}</td>
-                    <td style="padding: 12px 0; color: #667eea; font-size: 18px; font-weight: 700;">${{ formatPrice(selectedBooking.price) }}</td>
+                    <td style="padding: 12px 0; color: #2d8cff; font-size: 18px; font-weight: 700;">${{ formatPrice(selectedBooking.price) }}</td>
                   </tr>
                   <tr style="border-bottom: 1px solid #f1f5f9;">
                     <td style="padding: 12px 0; font-weight: 600; color: #64748b;">{{ $t('Date') }}</td>
@@ -400,8 +400,8 @@
               </table>
             </div>
             
-            <div v-if="selectedBooking.notes" style="background: #f8f9fc; border-left: 4px solid #667eea; padding: 20px; border-radius: 12px;">
-              <h3 style="color: #667eea; margin: 0 0 15px 0; font-size: 14px; text-transform: uppercase; letter-spacing: 1px;">{{ $t('Details') || 'Notes' }}</h3>
+            <div v-if="selectedBooking.notes" style="background: #f8f9fc; border-left: 4px solid #2d8cff; padding: 20px; border-radius: 12px;">
+              <h3 style="color: #2d8cff; margin: 0 0 15px 0; font-size: 14px; text-transform: uppercase; letter-spacing: 1px;">{{ $t('Details') || 'Notes' }}</h3>
               <p style="margin: 0; color: #475569; line-height: 1.8; white-space: pre-line;">{{ selectedBooking.notes }}</p>
             </div>
           </div>
@@ -760,7 +760,7 @@ export default {
 
 /* Header */
 .booking-header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #2d8cff;
   padding: 20px 28px;
   display: flex;
   justify-content: space-between;
@@ -892,7 +892,7 @@ export default {
     left: 0;
     right: 0;
     height: 4px;
-    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(90deg, #2d8cff 0%, #2d8cff 100%);
     transform: scaleX(0);
     transition: transform 0.3s ease;
   }
@@ -922,12 +922,12 @@ export default {
     align-items: center;
     justify-content: center;
     font-size: 20px;
-    color: #667eea;
+    color: #2d8cff;
     flex-shrink: 0;
   }
 
   .customer-icon {
-    color: #667eea;
+    color: #2d8cff;
   }
 
   .service-icon {
@@ -951,7 +951,7 @@ export default {
   }
 
   .reference-icon {
-    color: #8b5cf6;
+    color: #2d8cff;
   }
 
   .card-title {
@@ -985,7 +985,7 @@ export default {
       .price-amount {
         font-size: 28px;
         font-weight: 700;
-        color: #667eea;
+        color: #2d8cff;
         line-height: 1;
       }
     }
@@ -1075,7 +1075,7 @@ export default {
       padding: 12px;
       background: #f8fafc;
       border-radius: 8px;
-      border-left: 3px solid #667eea;
+      border-left: 3px solid #2d8cff;
     }
   }
 }
@@ -1333,7 +1333,7 @@ export default {
   width: 60px;
   height: 60px;
   border: 5px solid #f1f5f9;
-  border-top: 5px solid #667eea;
+  border-top: 5px solid #2d8cff;
   border-radius: 50%;
   animation: spin 1s linear infinite;
   margin: 0 auto;
@@ -1460,7 +1460,7 @@ export default {
   }
 
   &.add-btn {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: #2d8cff;
     color: white;
     border: none;
 
@@ -1632,7 +1632,7 @@ export default {
   transition: all 0.3s ease;
 
   &:focus {
-    border-color: #667eea;
+    border-color: #2d8cff;
     box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
   }
 }
@@ -1646,7 +1646,7 @@ export default {
     }
 
     &.vs--open .vs__dropdown-toggle {
-      border-color: #667eea;
+      border-color: #2d8cff;
       box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
     }
   }

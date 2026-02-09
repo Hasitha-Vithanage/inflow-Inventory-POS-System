@@ -27,12 +27,12 @@
         <!-- table actions -->
         <div slot="table-actions" class="mt-2 mb-3">
           <b-button variant="outline-info m-1" size="sm" v-b-toggle.sidebar-right>
-            <i class="i-Filter-2"></i>
+            <Filter size="14" stroke-width="1.5" class="mr-1"></Filter>
             {{ $t("Filter") }}
           </b-button>
 
           <b-button @click="Product_PDF()" size="sm" variant="outline-success m-1">
-            <i class="i-File-Copy"></i> PDF
+            <FileText size="14" stroke-width="1.5" class="mr-1"></FileText> PDF
           </b-button>
 
           <vue-excel-xlsx
@@ -43,7 +43,7 @@
             :file-type="'xlsx'"
             :sheet-name="'products'"
           >
-            <i class="i-File-Excel"></i> EXCEL
+            <FileSpreadsheet size="14" stroke-width="1.5" class="mr-1"></FileSpreadsheet> EXCEL
           </vue-excel-xlsx>
 
           <router-link
@@ -51,7 +51,7 @@
             :to="{ name: 'import_products' }"
             class="btn btn-info btn-sm m-1"
           >
-            <i class="i-Download"></i>
+            <Download size="14" stroke-width="1.5" class="mr-1"></Download>
             {{ $t("import_products") }}
           </router-link>
 
@@ -60,7 +60,7 @@
             v-if="currentUserPermissions && currentUserPermissions.includes('products_add')"
             to="/app/products/store"
           >
-            <span class="ul-btn__icon"><i class="i-Add"></i></span>
+            <span class="ul-btn__icon"><Plus size="14" stroke-width="1.5"></Plus></span>
             <span class="ul-btn__text ml-1">{{$t('Add')}}</span>
           </router-link>
         </div>
@@ -75,7 +75,7 @@
               title="View"
               :to="{ name:'detail_product', params: { id: props.row.id} }"
             >
-              <i class="i-Eye text-25 text-info"></i>
+              <Eye size="20" stroke-width="1.5" class="text-info mr-2"></Eye>
             </router-link>
 
             <router-link
@@ -84,7 +84,7 @@
               title="Edit"
               :to="{ name:'edit_product', params: { id: props.row.id } }"
             >
-              <i class="i-Edit text-25 text-success"></i>
+              <Edit size="20" stroke-width="1.5" class="text-success mr-2"></Edit>
             </router-link>
 
             <a
@@ -94,7 +94,7 @@
               title="Duplicate"
               class="cursor-pointer"
             >
-              <i class="i-File-Copy text-25 text-warning"></i>
+              <Copy size="20" stroke-width="1.5" class="text-warning mr-2"></Copy>
             </a>
 
             <a
@@ -104,7 +104,7 @@
               title="Delete"
               class="cursor-pointer"
             >
-              <i class="i-Close-Window text-25 text-danger"></i>
+              <X size="20" stroke-width="1.5" class="text-danger"></X>
             </a>
           </span>
 
@@ -197,13 +197,13 @@
 
             <b-col md="12">
               <b-button @click="Get_Products(serverParams.page)" variant="primary m-1" size="sm" block>
-                <i class="i-Filter-2"></i> {{ $t("Filter") }}
+                <Filter size="14" stroke-width="1.5" class="mr-1"></Filter> {{ $t("Filter") }}
               </b-button>
             </b-col>
 
             <b-col md="6" sm="12">
               <b-button @click="Reset_Filter()" variant="danger m-1" size="sm" block>
-                <i class="i-Power-2"></i> {{ $t("Reset") }}
+                <Power size="14" stroke-width="1.5" class="mr-1"></Power> {{ $t("Reset") }}
               </b-button>
             </b-col>
           </b-row>
@@ -249,6 +249,10 @@
 
 <script>
 import { mapGetters } from "vuex";
+import { 
+  Plus, Edit, Eye, Trash2, Copy, Filter, 
+  Download, FileSpreadsheet, FileText, Power, X 
+} from "lucide-vue";
 import NProgress from "nprogress";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
@@ -259,6 +263,10 @@ import {
 
 export default {
   metaInfo: { title: "Products" },
+  components: {
+    Plus, Edit, Eye, Trash2, Copy, Filter, 
+    Download, FileSpreadsheet, FileText, Power, X
+  },
   data() {
     return {
       serverParams: { sort: { field: "id", type: "desc" }, page: 1, perPage: 10 },

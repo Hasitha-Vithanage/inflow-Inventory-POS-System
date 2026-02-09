@@ -1,37 +1,39 @@
 <template>
-  <div class="vertical-top-nav">
+  <div class="vertical-top-nav" :class="{ 'is-collapsed': getVerticalSidebarCollapsed }">
     <div class="nav-left">
       <!-- Menu Toggle -->
-      <button @click="toggleSidebar" class="menu-toggle" type="button" aria-label="Toggle menu">
-        <div></div>
-        <div></div>
-        <div></div>
+      <!-- Menu Toggle -->
+      <button @click="toggleSidebar" class="menu-toggle header-btn btn-gray header-icon" type="button" aria-label="Toggle menu">
+        <indent-decrease v-if="!getVerticalSidebarCollapsed" :size="24" />
+        <indent-increase v-else :size="24" />
       </button>
     </div>
 
     <div class="nav-right">
-      <!-- POS Link -->
       <router-link 
         v-if="currentUserPermissions && currentUserPermissions.includes('Pos_view')"
-        class="btn btn-primary btn-sm"
+        class="header-btn btn-gray btn-pos-text ml-2"
         to="/app/pos"
+        title="POS"
       >
-        <i class="i-Cash-Register"></i>
-        <span class="btn-text">POS</span>
+        <span class="font-weight-bold">POS</span>
       </router-link>
 
-      <!-- Dark Mode Toggle -->
       <button 
-        class="nav-icon-btn" 
+        class="header-btn btn-gray" 
         @click="toggleDarkMode" 
         :title="getThemeMode.dark ? 'Light Mode' : 'Dark Mode'"
       >
-        <i :class="getThemeMode.dark ? 'i-Sun' : 'i-Cloud-Moon'"></i>
+        <sun v-if="getThemeMode.dark" size="18"></sun>
+        <moon v-else size="18"></moon>
       </button>
 
-      <!-- Fullscreen Toggle -->
-      <button class="nav-icon-btn fullscreen-btn" @click="handleFullScreen" title="Fullscreen">
-        <i class="i-Full-Screen"></i>
+      <button class="header-btn btn-gray" @click="toggleCustomizer" title="Customize">
+        <sliders size="18"></sliders>
+      </button>
+
+      <button class="header-btn btn-gray" @click="handleFullScreen" title="Fullscreen">
+        <maximize size="18"></maximize>
       </button>
 
       <!-- Language Dropdown -->
@@ -39,11 +41,19 @@
         <b-dropdown
           id="lang-dd"
           right
-          toggle-class="dropdown-toggle-no-caret"
+          toggle-class="header-btn btn-gray btn-language-text"
           no-caret
         >
           <template slot="button-content">
-            <i class="i-Globe"></i>
+             <div class="d-flex align-items-center" v-if="currentLanguage">
+                <img
+                  :src="`/flags/${currentLanguage.flag}`"
+                  :alt="currentLanguage.name"
+                  class="flag-icon-header"
+                />
+                <span class="lang-name-header ml-2">{{ currentLanguage.name }}</span>
+             </div>
+             <globe v-else size="18"></globe>
           </template>
           <vue-perfect-scrollbar
             :settings="{ suppressScrollX: true, wheelPropagation: false }"
@@ -73,12 +83,12 @@
         <b-dropdown
           id="notif-dd"
           right
-          toggle-class="dropdown-toggle-no-caret"
+          toggle-class="header-btn btn-gray"
           no-caret
         >
           <template slot="button-content">
             <span class="badge badge-primary" v-if="notifs_alert > 0">1</span>
-            <i class="i-Bell"></i>
+            <bell size="18"></bell>
           </template>
           <vue-perfect-scrollbar
             :settings="{ suppressScrollX: true, wheelPropagation: false }"
@@ -86,7 +96,7 @@
           >
             <div class="notification-item" v-if="notifs_alert > 0">
               <div class="notif-icon">
-                <i class="i-Bell text-primary"></i>
+                <bell size="18" class="text-primary"></bell>
               </div>
               <div class="notif-content" v-if="currentUserPermissions && currentUserPermissions.includes('Reports_quantity_alerts')">
                 <router-link tag="a" to="/app/reports/quantity_alerts">
@@ -103,7 +113,7 @@
         <b-dropdown
           id="user-dd"
           right
-          toggle-class="user-dropdown-toggle"
+          toggle-class="header-btn btn-gray"
           no-caret
           variant="link"
         >
@@ -119,10 +129,11 @@
           </template>
           <div class="user-dropdown-menu">
             <div class="dropdown-header">
-              <i class="i-Lock-User mr-1"></i>
+               <lock size="18" class="mr-2"></lock>
               <span v-if="currentUser">{{ currentUser.username }}</span>
             </div>
             <router-link to="/app/profile" class="dropdown-item">
+               <user size="18" class="mr-2"></user>
               {{ $t('profil') }}
             </router-link>
             <router-link
@@ -130,9 +141,11 @@
               to="/app/settings/System_settings"
               class="dropdown-item"
             >
+               <settings size="18" class="mr-2"></settings>
               {{ $t('Settings') }}
             </router-link>
             <a class="dropdown-item" href="#" @click.prevent="logoutUser">
+               <log-out size="18" class="mr-2"></log-out>
               {{ $t('logout') }}
             </a>
           </div>
@@ -146,8 +159,37 @@
 import Util from "./../../../utils";
 import { mapGetters, mapActions } from "vuex";
 
+import { 
+  Sun, 
+  Moon, 
+  Maximize, 
+  Globe, 
+  Bell, 
+  User, 
+  Settings, 
+  LogOut,
+  Lock,
+  IndentDecrease,
+  IndentIncrease,
+  Sliders
+} from "lucide-vue";
+
 export default {
   name: "VerticalTopNav",
+  components: {
+    Sun, 
+    Moon, 
+    Maximize, 
+    Globe, 
+    Bell, 
+    User, 
+    Settings, 
+    LogOut,
+    Lock,
+    IndentDecrease,
+    IndentIncrease,
+    Sliders
+  },
 
   data() {
     return {};
@@ -159,9 +201,15 @@ export default {
       "currentUserPermissions",
       "notifs_alert",
       "show_language",
-      "getAvailableLanguages"
+      "getAvailableLanguages",
+      "getVerticalSidebarCollapsed"
     ]),
-    ...mapGetters("config", ["getThemeMode"])
+    ...mapGetters("config", ["getThemeMode"]),
+
+    currentLanguage() {
+      if (!this.getAvailableLanguages || !this.$i18n.locale) return null;
+      return this.getAvailableLanguages.find(lang => lang.locale === this.$i18n.locale) || this.getAvailableLanguages[0];
+    }
   },
 
   methods: {
@@ -193,6 +241,10 @@ export default {
       this.logout();
     },
 
+    toggleCustomizer() {
+      Fire.$emit("toggle-customizer");
+    },
+
     toggleSidebar(event) {
       console.log('Menu toggle clicked!');
       console.log('Screen width:', window.innerWidth);
@@ -215,99 +267,98 @@ export default {
 </script>
 
 <style>
-/* Non-scoped styles for Bootstrap Vue dropdown buttons */
-.vertical-top-nav .dropdown .dropdown-toggle-no-caret,
-.vertical-top-nav .dropdown-toggle-no-caret,
-.vertical-top-nav .dropdown-toggle-no-caret.btn,
-.vertical-top-nav button.dropdown-toggle-no-caret {
-  padding: 0 !important;
-  background: white !important;
-  border: 1px solid #e5e7eb !important;
+/* Modern Header Buttons - Squircle Pastel Style */
+.header-btn {
   width: 44px !important;
   height: 44px !important;
-  border-radius: 12px !important;
-  color: #6b7280 !important;
+  border-radius: 14px !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  line-height: 1 !important;
-  font-size: 20px !important;
-  transition: all 0.3s !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  border: none !important;
+  cursor: pointer !important;
   position: relative !important;
-}
-
-.vertical-top-nav .dropdown .dropdown-toggle-no-caret:hover,
-.vertical-top-nav .dropdown .dropdown-toggle-no-caret:focus,
-.vertical-top-nav .dropdown .dropdown-toggle-no-caret:active,
-.vertical-top-nav .dropdown-toggle-no-caret:hover,
-.vertical-top-nav .dropdown-toggle-no-caret:focus,
-.vertical-top-nav .dropdown-toggle-no-caret:active,
-.vertical-top-nav .dropdown-toggle-no-caret.btn:hover,
-.vertical-top-nav .dropdown-toggle-no-caret.btn:focus,
-.vertical-top-nav .dropdown-toggle-no-caret.btn:active,
-.vertical-top-nav button.dropdown-toggle-no-caret:hover,
-.vertical-top-nav button.dropdown-toggle-no-caret:focus,
-.vertical-top-nav button.dropdown-toggle-no-caret:active {
-  background: #f9fafb !important;
-  color: #663399 !important;
-  border-color: #663399 !important;
-  box-shadow: none !important;
+  padding: 0 !important;
+  text-decoration: none !important;
   outline: none !important;
 }
 
-/* Dark mode for dropdown buttons */
-body.dark-theme .vertical-top-nav .dropdown .dropdown-toggle-no-caret,
-body.dark-theme .vertical-top-nav .dropdown-toggle-no-caret,
-body.dark-theme .vertical-top-nav .dropdown-toggle-no-caret.btn,
-body.dark-theme .vertical-top-nav button.dropdown-toggle-no-caret {
-  background: #1a1a2e !important;
-  border-color: #2d2d44 !important;
-  color: #d0d0d0 !important;
+.header-btn i {
+  font-size: 20px !important;
+  line-height: 1 !important;
 }
 
-body.dark-theme .vertical-top-nav .dropdown .dropdown-toggle-no-caret:hover,
-body.dark-theme .vertical-top-nav .dropdown .dropdown-toggle-no-caret:focus,
-body.dark-theme .vertical-top-nav .dropdown .dropdown-toggle-no-caret:active,
-body.dark-theme .vertical-top-nav .dropdown-toggle-no-caret:hover,
-body.dark-theme .vertical-top-nav .dropdown-toggle-no-caret:focus,
-body.dark-theme .vertical-top-nav .dropdown-toggle-no-caret:active,
-body.dark-theme .vertical-top-nav .dropdown-toggle-no-caret.btn:hover,
-body.dark-theme .vertical-top-nav .dropdown-toggle-no-caret.btn:focus,
-body.dark-theme .vertical-top-nav .dropdown-toggle-no-caret.btn:active,
-body.dark-theme .vertical-top-nav button.dropdown-toggle-no-caret:hover,
-body.dark-theme .vertical-top-nav button.dropdown-toggle-no-caret:focus,
-body.dark-theme .vertical-top-nav button.dropdown-toggle-no-caret:active {
-  background: #2d2d44 !important;
-  border-color: #764ba2 !important;
-  color: #fff !important;
+.header-btn:hover {
+  transform: translateY(-3px) !important;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1) !important;
+}
+
+.header-btn:active {
+  transform: translateY(-1px) !important;
+}
+
+
+/* Neutral Gray Color Scheme */
+.btn-gray {
+  background: rgba(107, 114, 128, 0.08) !important;
+  color: #374151 !important;
+}
+
+.btn-gray:hover {
+  background: rgba(107, 114, 128, 0.15) !important;
+  color: #111827 !important;
+}
+
+/* Wider buttons for text */
+.btn-pos-text, .btn-language-text {
+  width: auto !important;
+  padding: 0 16px !important;
+}
+
+.flag-icon-header {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.lang-name-header {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+/* Dark Mode Adjustments */
+body.dark-theme .btn-gray {
+  background: rgba(156, 163, 175, 0.12) !important;
+  color: #d1d5db !important;
+}
+
+body.dark-theme .btn-gray:hover {
+  background: rgba(156, 163, 175, 0.2) !important;
+  color: #ffffff !important;
 }
 
 /* Dropdown menu styling */
 .vertical-top-nav .dropdown-menu {
-  border-radius: 12px !important;
-  border: 1px solid #e5e7eb !important;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
-  padding: 0 !important;
-  min-width: 280px !important;
-  margin-top: 8px !important;
-}
-
-.vertical-top-nav #notif-dd .dropdown-menu {
-  min-width: 320px !important;
-}
-
-.vertical-top-nav #lang-dd .dropdown-menu {
-  min-width: 220px !important;
-}
-
-.vertical-top-nav #user-dd .dropdown-menu {
+  border-radius: 16px !important;
+  border: none !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08) !important;
+  padding: 8px !important;
   min-width: 200px !important;
+  margin-top: 12px !important;
+  border: 1px solid rgba(0,0,0,0.05) !important;
 }
+
+.vertical-top-nav #notif-dd .dropdown-menu { min-width: 320px !important; }
+.vertical-top-nav #lang-dd .dropdown-menu { min-width: 220px !important; }
 
 /* Dark mode dropdown menu */
 body.dark-theme .vertical-top-nav .dropdown-menu {
-  background: #1a1a2e !important;
-  border-color: #2d2d44 !important;
+  background: #1f2937 !important;
+  border: 1px solid #374151 !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3) !important;
 }
 </style>
 
@@ -319,163 +370,55 @@ body.dark-theme .vertical-top-nav .dropdown-menu {
   right: 0;
   height: 70px;
   background: #fff;
-  box-shadow: 0 1px 15px rgba(0, 0, 0, 0.04), 0 1px 6px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 25px;
+  padding: 0 32px;
   z-index: 100;
-  transition: left 0.3s ease;
+  transition: all 0.3s ease;
 }
 
-/* When sidebar is collapsed */
-.vertical-collapsed .vertical-top-nav {
-  left: 0;
-}
-
-.nav-left {
-  display: flex;
-  align-items: center;
-}
-
-.menu-toggle {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  width: 44px;
-  height: 38px;
-  cursor: pointer;
-  transition: all 0.3s;
-  background: none;
-  border: none;
-  padding: 10px;
-  outline: none;
-  margin-right: 10px;
-  position: relative;
-  z-index: 1003;
-  pointer-events: auto;
-  border-radius: 6px;
-}
-
-.menu-toggle:hover {
-  background: rgba(102, 51, 153, 0.05);
-}
-
-.menu-toggle div {
-  width: 24px;
-  height: 2px;
-  background: #47404f;
-  border-radius: 2px;
-  transition: all 0.3s;
-  pointer-events: none;
-}
-
-.menu-toggle:hover div {
-  background: #663399;
-}
-
-.menu-toggle:focus,
-.menu-toggle:active {
-  outline: none !important;
-  box-shadow: none !important;
+.vertical-top-nav.is-collapsed {
+  left: 0px;
+  padding-left: 32px;
 }
 
 .nav-right {
   display: flex;
   align-items: center;
-  gap: 10px;
-}
-
-.btn-primary {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 16px;
-  border-radius: 6px;
-}
-
-.btn-text {
-  font-weight: 600;
-}
-
-.nav-icon-btn {
-  width: 44px;
-  height: 44px;
-  padding: 0;
-  border: 1px solid #e5e7eb;
-  background: white;
-  color: #6b7280;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  line-height: 1;
-  cursor: pointer;
-  font-size: 20px;
-  transition: all 0.3s;
-  position: relative;
-}
-
-.nav-icon-btn:hover {
-  background: #f9fafb;
-  color: #663399;
-  border-color: #663399;
-}
-
-.nav-icon-btn:focus,
-.nav-icon-btn:active {
-  outline: none !important;
-  box-shadow: none !important;
-}
-
-.nav-icon-btn:focus-visible {
-  outline: none !important;
-}
-
-.badge-container {
-  position: relative;
+  gap: 15px;
 }
 
 .badge {
   position: absolute;
-  top: -8px;
-  right: -8px;
+  top: -2px;
+  right: -2px;
   min-width: 18px;
   height: 18px;
-  padding: 2px 6px;
-  border-radius: 10px;
-  font-size: 11px;
-  font-weight: 600;
-  line-height: 1.2;
+  padding: 0 5px;
+  border-radius: 9px;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 18px;
   display: flex;
   align-items: center;
   justify-content: center;
+  background: #ef4444; 
+  color: white;
+  border: 2px solid white;
+  box-shadow: 0 2px 4px rgba(239, 68, 68, 0.3);
 }
 
-/* Badge inside dropdown button */
-.vertical-top-nav .dropdown .dropdown-toggle-no-caret .badge {
-  position: absolute;
-  top: -5px;
-  right: -5px;
-}
-
-.user-dropdown-toggle {
-  padding: 0;
-  background: transparent;
-  border: none;
+body.dark-theme .badge {
+  border-color: #1f2937;
 }
 
 .user-avatar {
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
   overflow: hidden;
-  cursor: pointer;
-  transition: all 0.3s;
-}
-
-.user-avatar:hover {
-  opacity: 0.8;
 }
 
 .user-avatar img {
@@ -552,7 +495,7 @@ body.dark-theme .vertical-top-nav .dropdown-menu {
 }
 
 .notif-content a {
-  color: #663399;
+  color: #2d8cff;
   text-decoration: none;
   display: block;
 }
@@ -582,7 +525,7 @@ body.dark-theme .vertical-top-nav .dropdown-menu {
 
 .dropdown-item:hover {
   background: #f5f5f5;
-  color: #663399;
+  color: #2d8cff;
 }
 
 /* RTL Support */
@@ -598,7 +541,7 @@ html[dir="rtl"] .vertical-collapsed .vertical-top-nav {
 
 /* Dark Mode */
 body.dark-theme .vertical-top-nav {
-  background: #1a1a2e;
+  background: #202020;
   box-shadow: 0 1px 15px rgba(0, 0, 0, 0.2), 0 1px 6px rgba(0, 0, 0, 0.2);
 }
 
@@ -615,14 +558,14 @@ body.dark-theme .menu-toggle:hover div {
 }
 
 body.dark-theme .nav-icon-btn {
-  background: #1a1a2e;
+  background: #202020;
   border-color: #2d2d44;
   color: #d0d0d0;
 }
 
 body.dark-theme .nav-icon-btn:hover {
   background: #2d2d44;
-  border-color: #764ba2;
+  border-color: #2d8cff;
   color: #fff;
 }
 
@@ -675,6 +618,10 @@ body.dark-theme .dropdown-item:hover {
     padding: 0 15px;
     z-index: 100 !important;
     position: fixed !important;
+  }
+
+  .vertical-top-nav.is-collapsed {
+    left: 0 !important;
   }
 
   /* Hide fullscreen button on mobile */
@@ -740,9 +687,9 @@ body.dark-theme .dropdown-item:hover {
     align-items: center;
     justify-content: center;
     gap: 0;
-    background: #8b5cf6;
+    background: #2d8cff;
     color: #fff;
-    border: 1px solid #8b5cf6;
+    border: 1px solid #2d8cff;
   }
 
   .nav-right .btn.btn-primary i {

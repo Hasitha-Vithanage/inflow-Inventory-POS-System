@@ -34,7 +34,7 @@
                   <b-form-group label="Cloud path / folder (optional)" v-if="backupDestination === 'cloud'">
                     <b-form-input
                       v-model="setting.backup_cloud_path"
-                      placeholder="e.g. StockyBackups/"
+                      placeholder="e.g. InFlowBackups/"
                     />
                   </b-form-group>
                 </b-col>
@@ -126,7 +126,7 @@
               <b-row v-if="backupDestination === 'cloud' && setting.backup_cloud_provider === 'dropbox'">
                 <b-col lg="6" md="6" sm="12" class="mb-3">
                   <b-form-group label="Dropbox folder path (optional)">
-                    <b-form-input v-model="setting.backup_dropbox_path" placeholder="e.g. /StockyBackups" />
+                    <b-form-input v-model="setting.backup_dropbox_path" placeholder="e.g. /InFlowBackups" />
                   </b-form-group>
                 </b-col>
                 <b-col lg="6" md="6" sm="12" class="mb-3">
@@ -175,7 +175,7 @@
             class="btn-rounded"
             variant="btn btn-primary btn-icon m-1"
           >
-            <i class="i-Add"></i>
+            <plus size="16" class="mr-2" :stroke-width="1.5"></plus>
             {{$t('GenerateBackup')}}
           </b-button>
         </div>
@@ -186,7 +186,7 @@
               <i class="i-Download text-25 text-success"></i>
             </a> -->
             <a title="Delete" v-b-tooltip.hover @click="DeleteBackup(props.row.date)">
-              <i class="i-Close-Window text-25 text-danger"></i>
+              <x-circle size="16" :stroke-width="1.5"></x-circle>
             </a>
           </span>
         </template>
@@ -198,6 +198,7 @@
 
 
 <script>
+import { Plus, XCircle } from "lucide-vue";
 import NProgress from "nprogress";
 
 export default {

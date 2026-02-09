@@ -45,7 +45,7 @@
                 <b-col lg="4" md="4" sm="12" class="mb-3">
                   <validation-provider name="Customer" :rules="{ required: true}">
                     <b-form-group slot-scope="{ valid, errors }" :label="$t('Customer') + ' ' + '*'">
-                      <b-input-group class="category-input-group">
+                      <b-input-group class="category-input-group" style="gap: 10px;">
                         <v-select
                           :class="{'is-invalid': !!errors.length}"
                           :state="errors[0] ? false : (valid ? true : null)"

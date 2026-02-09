@@ -26,11 +26,11 @@
       >
         <div slot="table-actions" class="mt-2 mb-3">
           <b-button variant="outline-info m-1" size="sm" v-b-toggle.sidebar-right>
-            <i class="i-Filter-2"></i>
+            <Filter size="14" class="mr-1"></Filter>
             {{ $t("Filter") }}
           </b-button>
           <b-button @click="Users_PDF()" size="sm" variant="outline-success m-1">
-            <i class="i-File-Copy"></i> PDF
+            <FileText size="14" class="mr-1"></FileText> PDF
           </b-button>
            <vue-excel-xlsx
               class="btn btn-sm btn-outline-danger ripple m-1"
@@ -40,7 +40,7 @@
               :file-type="'xlsx'"
               :sheet-name="'users'"
               >
-              <i class="i-File-Excel"></i> EXCEL
+              <FileSpreadsheet size="14" class="mr-1"></FileSpreadsheet> EXCEL
           </vue-excel-xlsx>
           <b-button
             @click="New_User()"
@@ -48,7 +48,7 @@
             variant="btn btn-primary btn-icon m-1"
             v-if="currentUserPermissions && currentUserPermissions.includes('users_add')"
           >
-            <i class="i-Add"></i>
+            <Plus size="14"></Plus>
             {{$t('Add')}}
           </b-button>
         </div>
@@ -62,16 +62,16 @@
               class="cursor-pointer"
               v-b-tooltip.hover
             >
-              <i class="i-Edit text-25 text-success"></i>
+              <Edit size="20" class="text-success mr-2"></Edit>
             </a>
             <a
               @click="Remove_User(props.row.id)"
               v-if="currentUserPermissions && currentUserPermissions.includes('users_delete') && currentUser && props.row.id !== currentUser.id"
               title="Delete"
-              class="cursor-pointer ml-2"
+              class="cursor-pointer"
               v-b-tooltip.hover
             >
-              <i class="i-Close-Window text-25 text-danger"></i>
+              <XCircle size="20" class="text-danger"></XCircle>
             </a>
           </span>
 
@@ -128,13 +128,13 @@
 
           <b-col md="6" sm="12">
             <b-button @click="Get_Users(serverParams.page)" variant="primary m-1" size="sm" block>
-              <i class="i-Filter-2"></i>
+              <Filter size="14" class="mr-1"></Filter>
               {{ $t("Filter") }}
             </b-button>
           </b-col>
           <b-col md="6" sm="12">
             <b-button @click="Reset_Filter()" variant="danger m-1" size="sm" block>
-              <i class="i-Power-2"></i>
+              <Power size="14" class="mr-1"></Power>
               {{ $t("Reset") }}
             </b-button>
           </b-col>
@@ -146,6 +146,7 @@
 </template>
 
 <script>
+import { Filter, FileText, FileSpreadsheet, Plus, Edit, XCircle, Power } from "lucide-vue";
 import { mapActions, mapGetters } from "vuex";
 import NProgress from "nprogress";
 import jsPDF from "jspdf";
@@ -154,6 +155,15 @@ import autoTable from "jspdf-autotable";
 export default {
   metaInfo: {
     title: "Users"
+  },
+  components: {
+    Filter,
+    FileText,
+    FileSpreadsheet,
+    Plus,
+    Edit,
+    XCircle,
+    Power
   },
   data() {
     return {

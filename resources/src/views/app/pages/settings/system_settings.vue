@@ -36,7 +36,7 @@
                     :class="['settings-nav-item', { active: activeTab === tab.id }]"
                     type="button"
                   >
-                    <i :class="tab.icon"></i>
+                    <component :is="tab.icon" :size="16" class="mr-2" :stroke-width="1.5"></component>
                     <span>{{ tab.label }}</span>
                   </button>
                 </nav>
@@ -1197,7 +1197,7 @@
                       <div class="d-flex justify-content-between align-items-center mb-2">
                         <h6 class="mb-0">Receipt preview</h6>
                         <b-button size="sm" variant="outline-primary" @click="printPosDemo">
-                          <i class="i-Billing mr-1"></i> Print demo receipt
+                          <printer size="14" class="mr-1" :stroke-width="1.5"></printer> Print demo receipt
                         </b-button>
                       </div>
                       <div class="pos-receipt-demo" id="pos-receipt-demo">
@@ -2002,7 +2002,7 @@
                                 <b-form-group label="Cloud path / folder (optional)" v-if="backupDestination === 'cloud'">
                                   <b-form-input
                                     v-model="setting.backup_cloud_path"
-                                    placeholder="e.g. StockyBackups/"
+                                    placeholder="e.g. InFlowBackups/"
                                   />
                                 </b-form-group>
                               </b-col>
@@ -2094,7 +2094,7 @@
                             <b-row v-if="backupDestination === 'cloud' && setting.backup_cloud_provider === 'dropbox'">
                               <b-col lg="6" md="6" sm="12" class="mb-3">
                                 <b-form-group label="Dropbox folder path (optional)">
-                                  <b-form-input v-model="setting.backup_dropbox_path" placeholder="e.g. /StockyBackups" />
+                                  <b-form-input v-model="setting.backup_dropbox_path" placeholder="e.g. /InFlowBackups" />
                                 </b-form-group>
                               </b-col>
                               <b-col lg="6" md="6" sm="12" class="mb-3">
@@ -2123,7 +2123,7 @@
                             variant="primary"
                             class="btn-generate-backup"
                           >
-                            <i class="i-Add me-2"></i>{{$t('GenerateBackup')}}
+                            <plus size="16" class="mr-2" :stroke-width="1.5"></plus>{{$t('GenerateBackup')}}
                           </b-button>
                         </div>
 
@@ -2158,14 +2158,14 @@
                                   @click="DeleteBackup(props.row.date)"
                                   class="btn-delete-backup"
                                 >
-                                  <i class="i-Close-Window"></i>
+                                  <x-circle size="14" :stroke-width="1.5"></x-circle>
                                 </b-button>
                               </span>
                             </template>
                           </vue-good-table>
                           
                           <div v-else class="text-center py-5 text-muted">
-                            <i class="i-Data-Backup text-50 mb-3 d-block"></i>
+                            <database size="48" class="text-50 mb-3 d-block mx-auto" :stroke-width="1.5"></database>
                             <p>{{$t('No_backups_found')}}</p>
                             <p class="small">{{$t('Click_Generate_Backup_to_create_your_first_backup')}}</p>
                           </div>
@@ -2269,7 +2269,7 @@
                         <div class="system-actions-card">
                           <h5 class="mb-3">{{$t('Clear_Cache')}}</h5>
                           <b-button variant="primary" @click="Clear_Cache()" class="action-btn-system">
-                            <i class="i-Refresh me-2"></i>{{$t('Clear_Cache')}}
+                            <refresh-ccw size="16" class="mr-2" :stroke-width="1.5"></refresh-ccw>{{$t('Clear_Cache')}}
                           </b-button>
                         </div>
                   </b-col>
@@ -2284,7 +2284,7 @@
                         <div class="d-flex justify-content-between align-items-center mb-3">
                           <h5>{{ $t('CustomerCustomFields') || 'Customer Custom Fields' }}</h5>
                           <b-button variant="primary" @click="New_CustomField('client')">
-                            <i class="i-Add"></i> {{ $t('Add') }}
+                            <plus size="16" class="mr-2" :stroke-width="1.5"></plus> {{ $t('Add') }}
                           </b-button>
                         </div>
 
@@ -2329,14 +2329,14 @@
                                 @click="Edit_CustomField(props.row)"
                                 class="mr-2"
                               >
-                                <i class="i-Edit"></i>
+                                <edit size="14" :stroke-width="1.5"></edit>
                               </b-button>
                               <b-button
                                 variant="outline-danger"
                                 size="sm"
                                 @click="Delete_CustomField(props.row.id)"
                               >
-                                <i class="i-Close-Window"></i>
+                                <x-circle size="14" :stroke-width="1.5"></x-circle>
                               </b-button>
                             </span>
                             <span v-else>
@@ -2351,7 +2351,7 @@
                         <div class="d-flex justify-content-between align-items-center mb-3">
                           <h5>{{ $t('SupplierCustomFields') || 'Supplier Custom Fields' }}</h5>
                           <b-button variant="primary" @click="New_CustomField('provider')">
-                            <i class="i-Add"></i> {{ $t('Add') }}
+                            <plus size="16" class="mr-2" :stroke-width="1.5"></plus> {{ $t('Add') }}
                           </b-button>
                         </div>
 
@@ -2396,14 +2396,14 @@
                                 @click="Edit_CustomField(props.row)"
                                 class="mr-2"
                               >
-                                <i class="i-Edit"></i>
+                                <edit size="14" :stroke-width="1.5"></edit>
                               </b-button>
                               <b-button
                                 variant="outline-danger"
                                 size="sm"
                                 @click="Delete_CustomField(props.row.id)"
                               >
-                                <i class="i-Close-Window"></i>
+                                <x-circle size="14" :stroke-width="1.5"></x-circle>
                               </b-button>
                             </span>
                             <span v-else>
@@ -2528,7 +2528,7 @@
                                 type="submit"
                                 :disabled="customFieldSubmitProcessing"
                               >
-                                <i class="i-Yes me-2 font-weight-bold"></i> {{ $t('submit') }}
+                                <check-circle size="16" class="mr-2" :stroke-width="1.5"></check-circle> {{ $t('submit') }}
                               </b-button>
                               <b-button
                                 variant="secondary"
@@ -2556,6 +2556,27 @@
 </template>
 
 <script>
+import { 
+  Settings, 
+  Palette, 
+  Globe, 
+  Sliders, 
+  Tag, 
+  CreditCard, 
+  Mail, 
+  MessageSquare, 
+  Monitor, 
+  FileText, 
+  Printer, 
+  Database, 
+  Shield, 
+  Plus, 
+  XCircle, 
+  Edit, 
+  RefreshCcw,
+  CheckCircle,
+  DollarSign
+} from "lucide-vue";
 import NProgress from "nprogress";
 import { mapActions, mapGetters } from "vuex";
 import { cachePriceFormat } from "../../../../utils/priceFormat";
@@ -2929,23 +2950,23 @@ export default {
     tabs() {
       // Base tabs definition (kept for compatibility)
       const baseTabs = [
-        { id: 'general', label: this.$t('General'), icon: 'i-Settings-Window', description: 'Company information and basic settings' },
-        { id: 'appearance', label: this.$t('Appearance_Settings'), icon: 'i-Paint-Brush', description: 'App branding, logos, and login page customization' },
-        { id: 'localization', label: this.$t('Localization'), icon: 'i-Globe', description: 'Language, currency, and timezone settings' },
-        { id: 'defaults', label: this.$t('Defaults'), icon: 'i-Data-Settings', description: 'Default customer, warehouse, and gateway settings' },
-        { id: 'tax', label: this.$t('Tax_Pricing'), icon: 'i-Money-2', description: 'Tax rates and pricing configurations' },
-        { id: 'prefixes', label: this.$t('Prefixes'), icon: 'i-Tag', description: 'Manage prefixes for sales and purchases reference numbers' },
-        { id: 'payment', label: this.$t('Payment_Gateway'), icon: 'i-Credit-Card', description: 'Stripe payment gateway configuration' },
-        { id: 'mail', label: this.$t('mail_settings'), icon: 'i-Mail-Settings', description: 'SMTP mail server configuration' },
-        { id: 'sms', label: this.$t('sms_settings'), icon: 'i-Speach-Bubble', description: 'SMS gateway and provider configurations' },
-        { id: 'pos', label: this.$t('POS_Receipt'), icon: 'i-Cash-Register', description: 'POS receipt configuration' },
-        { id: 'pos_settings', label: this.$t('Pos_Settings'), icon: 'i-Data-Settings', description: 'POS functionality and display settings' },
-        { id: 'zatca', label: 'ZATCA', icon: 'i-File-ClipboardFileText', description: 'ZATCA (Fatoorah) integration settings' },
-        { id: 'invoice', label: this.$t('Invoice'), icon: 'i-Billing', description: 'Invoice and quotation settings' },
-        { id: 'backup', label: this.$t('BackupDatabase'), icon: 'i-Data-Backup', description: 'Database backup and restore management' },
-        { id: 'security', label: this.$t('Security_Settings'), icon: 'i-Security-Settings', description: 'Session timeout and active login sessions' },
-        { id: 'system', label: this.$t('System'), icon: 'i-Gear', description: 'System maintenance and cache management' },
-        { id: 'custom_fields', label: this.$t('CustomFields') || 'Custom Fields', icon: 'i-Data-Settings', description: 'Manage custom fields for customers and suppliers' }
+        { id: 'general', label: this.$t('General'), icon: 'Settings', description: 'Company information and basic settings' },
+        { id: 'appearance', label: this.$t('Appearance_Settings'), icon: 'Palette', description: 'App branding, logos, and login page customization' },
+        { id: 'localization', label: this.$t('Localization'), icon: 'Globe', description: 'Language, currency, and timezone settings' },
+        { id: 'defaults', label: this.$t('Defaults'), icon: 'Sliders', description: 'Default customer, warehouse, and gateway settings' },
+        { id: 'tax', label: this.$t('Tax_Pricing'), icon: 'DollarSign', description: 'Tax rates and pricing configurations' },
+        { id: 'prefixes', label: this.$t('Prefixes'), icon: 'Tag', description: 'Manage prefixes for sales and purchases reference numbers' },
+        { id: 'payment', label: this.$t('Payment_Gateway'), icon: 'CreditCard', description: 'Stripe payment gateway configuration' },
+        { id: 'mail', label: this.$t('mail_settings'), icon: 'Mail', description: 'SMTP mail server configuration' },
+        { id: 'sms', label: this.$t('sms_settings'), icon: 'MessageSquare', description: 'SMS gateway and provider configurations' },
+        { id: 'pos', label: this.$t('POS_Receipt'), icon: 'Monitor', description: 'POS receipt configuration' },
+        { id: 'pos_settings', label: this.$t('Pos_Settings'), icon: 'Sliders', description: 'POS functionality and display settings' },
+        { id: 'zatca', label: 'ZATCA', icon: 'FileText', description: 'ZATCA (Fatoorah) integration settings' },
+        { id: 'invoice', label: this.$t('Invoice'), icon: 'Printer', description: 'Invoice and quotation settings' },
+        { id: 'backup', label: this.$t('BackupDatabase'), icon: 'Database', description: 'Database backup and restore management' },
+        { id: 'security', label: this.$t('Security_Settings'), icon: 'Shield', description: 'Session timeout and active login sessions' },
+        { id: 'system', label: this.$t('System'), icon: 'Settings', description: 'System maintenance and cache management' },
+        { id: 'custom_fields', label: this.$t('CustomFields') || 'Custom Fields', icon: 'Sliders', description: 'Manage custom fields for customers and suppliers' }
       ];
 
       // Hide the legacy "Tax & Pricing" tab now that its fields live under "Defaults"
@@ -4432,7 +4453,7 @@ export default {
 
 .settings-header {
   padding: 1.5rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #2d8cff;
   color: #ffffff;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
@@ -4475,14 +4496,14 @@ export default {
 
 .settings-nav-item:hover {
   background: rgba(102, 126, 234, 0.08);
-  color: #667eea;
-  border-left-color: #667eea;
+  color: #2d8cff;
+  border-left-color: #2d8cff;
 }
 
 .settings-nav-item.active {
-  background: linear-gradient(90deg, rgba(102, 126, 234, 0.15) 0%, rgba(118, 75, 162, 0.1) 100%);
-  color: #667eea;
-  border-left-color: #667eea;
+  background: rgb(45, 140, 255, 0.08);
+  color: #2d8cff;
+  border-left-color: #2d8cff;
   font-weight: 600;
 }
 
@@ -4566,7 +4587,7 @@ export default {
 
 .tab-content .form-control:focus,
 .tab-content .vs__dropdown-toggle:focus {
-  border-color: #667eea;
+  border-color: #2d8cff;
   box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
 }
 
@@ -4609,7 +4630,7 @@ export default {
   padding: 0.75rem 2.5rem;
   font-weight: 600;
   border-radius: 0.375rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #2d8cff;
   border: none;
   box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
   transition: all 0.3s ease;
@@ -4665,7 +4686,7 @@ export default {
 }
 
 .mobile-tab-select:focus {
-  border-color: #667eea;
+  border-color: #2d8cff;
   box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
   outline: none;
 }
@@ -4864,12 +4885,12 @@ export default {
 }
 
 .settings-nav::-webkit-scrollbar-thumb {
-  background: #667eea;
+  background: #2d8cff;
   border-radius: 2px;
 }
 
 .settings-nav::-webkit-scrollbar-thumb:hover {
-  background: #764ba2;
+  background: #2d8cff;
 }
 
 .pos-receipt-demo {

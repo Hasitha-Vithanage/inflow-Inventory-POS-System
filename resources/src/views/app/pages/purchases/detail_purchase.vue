@@ -14,7 +14,7 @@
                 class="action-btn btn-back"
                 title="Back"
               >
-                <i class="i-Left"></i>
+                <ArrowLeft size="14" :stroke-width="1.5"></ArrowLeft>
                 <span>{{$t('Back')}}</span>
               </router-link>
             </div>
@@ -27,7 +27,7 @@
                 class="action-btn btn-edit"
                 :to="{ name:'edit_purchase', params: { id: $route.params.id } }"
               >
-                <i class="i-Edit"></i>
+                <Edit size="14" :stroke-width="1.5"></Edit>
                 <span>{{$t('EditPurchase')}}</span>
               </router-link>
 
@@ -37,7 +37,7 @@
                 class="action-btn btn-delete"
                 title="Delete"
               >
-                <i class="i-Close-Window"></i>
+                <XCircle size="14" :stroke-width="1.5"></XCircle>
                 <span>{{$t('Del')}}</span>
               </button>
             </div>
@@ -45,11 +45,11 @@
             <!-- Communication Actions Group -->
             <div class="button-group communication-actions">
               <button @click="Send_Email()" class="action-btn btn-email" title="Send Email">
-                <i class="i-Envelope-2"></i>
+                <Mail size="14" :stroke-width="1.5"></Mail>
                 <span>{{$t('Email')}}</span>
               </button>
               <button @click="Purchase_SMS()" class="action-btn btn-sms" title="Send SMS">
-                <i class="i-Speach-Bubble"></i>
+                <MessageSquare size="14" :stroke-width="1.5"></MessageSquare>
                 <span>SMS</span>
               </button>
             </div>
@@ -57,11 +57,11 @@
             <!-- Export & Print Actions Group -->
             <div class="button-group export-actions">
               <button @click="Print_Purchase_PDF()" class="action-btn btn-pdf" title="Download PDF">
-                <i class="i-File-TXT"></i>
+                <FileText size="14" :stroke-width="1.5"></FileText>
                 <span>PDF</span>
               </button>
               <button @click="print()" class="action-btn btn-print" title="Print">
-                <i class="i-Billing"></i>
+                <Receipt size="14" :stroke-width="1.5"></Receipt>
                 <span>{{$t('print')}}</span>
               </button>
             </div>
@@ -275,6 +275,9 @@ import {
   formatPriceDisplay as formatPriceDisplayHelper,
   getPriceFormatSetting
 } from "../../../../utils/priceFormat";
+import { 
+  ArrowLeft, Edit, XCircle, Mail, MessageSquare, FileText, Receipt 
+} from "lucide-vue";
 import Util from "../../../../utils/index";
 
 export default {
@@ -296,6 +299,9 @@ export default {
   },
   metaInfo: {
     title: "Detail Purchase"
+  },
+  components: {
+    ArrowLeft, Edit, XCircle, Mail, MessageSquare, FileText, Receipt
   },
 
   data() {

@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="/css/master.css">
     
     <link rel="icon" href="{{ asset('images/' . ($app_settings->favicon ?? 'favicon.ico')) }}">
-    <title>{{ $app_settings->app_name ?? 'Stocky | Ultimate Inventory With POS' }}</title>
+    <title>{{ $app_settings->app_name ?? 'InFlow | Ultimate Inventory With POS' }}</title>
     <style>
       .auth-wrapper{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#f5f7ff,#eef9ff);padding:24px}
       .auth-card{width:100%;max-width:520px;background:#fff;border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,.08);padding:28px}
@@ -16,7 +16,7 @@
       .auth-brand img{max-height:56px}
       .auth-title{margin:10px 0 2px 0;font-size:22px;line-height:1.2;text-align:center}
       .auth-subtitle{margin:0 0 18px 0;color:#6b7280;text-align:center;font-size:14px}
-      .auth-btn{width:100%;padding:12px 14px;border:none;border-radius:10px;background:#4f46e5;color:#fff;font-weight:700;cursor:pointer;transition:background .15s}
+      .auth-btn{width:100%;padding:12px 14px;border:none;border-radius:10px;background:#2d8cff;color:#fff;font-weight:700;cursor:pointer;transition:background .15s}
       .auth-btn:hover{background:#4338ca}
       .auth-alert{padding:10px 12px;border-radius:10px;font-size:13px;margin-bottom:12px}
       .auth-alert.success{background:#ecfdf5;color:#065f46;border:1px solid #a7f3d0}
@@ -27,7 +27,7 @@
   <body class="text-left">
     <noscript>
       <strong>
-        We're sorry but Stocky doesn't work properly without JavaScript
+        We're sorry but InFlow doesn't work properly without JavaScript
         enabled. Please enable it to continue.</strong>
     </noscript>
     <div class="auth-wrapper">

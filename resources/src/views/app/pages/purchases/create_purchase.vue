@@ -114,7 +114,7 @@
 
                         <b-col md="12" class="mt-3">
                           <b-button variant="secondary" class="mr-2" @click="$bvModal.hide('Quick_Add_Supplier')">{{ $t('Cancel') }}</b-button>
-                          <b-button variant="primary" type="submit" :disabled="SubmitProcessing">{{$t('submit')}}</b-button>
+                          <b-button variant="primary" type="submit" :disabled="SubmitProcessing"><check-circle size="16" :stroke-width="1.5" class="mr-2"></check-circle> {{$t('submit')}}</b-button>
                           <div v-once class="typo__p" v-if="SubmitProcessing">
                             <div class="spinner sm spinner-primary mt-3"></div>
                           </div>
@@ -148,7 +148,7 @@
                 <b-col lg="4" md="4" sm="12" class="mb-3">
                   <validation-provider name="Supplier" :rules="{ required: true}">
                     <b-form-group slot-scope="{ valid, errors }" :label="$t('Supplier') + ' ' + '*'">
-                      <b-input-group class="category-input-group">
+                      <b-input-group class="category-input-group" style="gap: 10px;">
                         <v-select
                           :class="{'is-invalid': !!errors.length}"
                           :state="errors[0] ? false : (valid ? true : null)"
@@ -166,7 +166,7 @@
                             :title="$t('Quick_Add_Supplier')"
                             class="category-add-btn"
                           >
-                            <i class="i-Add"></i>
+                            <Plus size="14" :stroke-width="1.5"></Plus>
                           </b-button>
                         </b-input-group-append>
                       </b-input-group>
@@ -284,9 +284,8 @@
                           <td>{{currentUser.currency}} {{formatNumber(detail.taxe * detail.quantity, 2)}}</td>
                           <td>{{currentUser.currency}} {{detail.subtotal.toFixed(2)}}</td>
                           <td>
-                            <i v-if="currentUserPermissions && currentUserPermissions.includes('edit_product_purchase')"
-                             @click="Modal_Updat_Detail(detail)" class="i-Edit text-25 text-success"></i>
-                            <i @click="delete_Product_Detail(detail.detail_id)" class="i-Close-Window text-25 text-danger"></i>
+                            <Edit @click="Modal_Updat_Detail(detail)" size="18" class="text-success cursor-pointer mr-2"></Edit>
+                            <XCircle @click="delete_Product_Detail(detail.detail_id)" size="18" class="text-danger cursor-pointer"></XCircle>
                           </td>
                         </tr>
                       </tbody>
@@ -432,7 +431,7 @@
                 </b-col>
                 <b-col md="12">
                   <b-form-group>
-                    <b-button variant="primary" @click="Submit_Purchase" :disabled="SubmitProcessing"><i class="i-Yes me-2 font-weight-bold"></i> {{$t('submit')}}</b-button>
+                    <b-button variant="primary" @click="Submit_Purchase" :disabled="SubmitProcessing"><check-circle size="14" :stroke-width="1.5" class="mr-2"></check-circle> {{$t('submit')}}</b-button>
                     <div v-once class="typo__p" v-if="SubmitProcessing">
                       <div class="spinner sm spinner-primary mt-3"></div>
                     </div>
@@ -581,7 +580,7 @@
 
             <b-col md="12">
               <b-form-group>
-                <b-button variant="primary" type="submit" :disabled="Submit_Processing_detail">{{$t('submit')}}</b-button>
+                <b-button variant="primary" type="submit" :disabled="Submit_Processing_detail"><check-circle size="14" :stroke-width="1.5" class="mr-2"></check-circle> {{$t('submit')}}</b-button>
                 <div v-once class="typo__p" v-if="Submit_Processing_detail">
                   <div class="spinner sm spinner-primary mt-3"></div>
                 </div>
@@ -597,11 +596,17 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+import { 
+  Plus, Edit, XCircle, CheckCircle 
+} from "lucide-vue";
 import NProgress from "nprogress";
 
 export default {
   metaInfo: {
     title: "Create Purchase"
+  },
+  components: {
+    Plus, Edit, XCircle, CheckCircle
   },
   data() {
     return {

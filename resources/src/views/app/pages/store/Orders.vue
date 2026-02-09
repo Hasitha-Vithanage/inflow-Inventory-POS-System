@@ -55,8 +55,8 @@
         styleClass="table-hover tableOne vgt-table"
       >
         <div slot="table-actions" class="mt-2 mb-3">
-          <b-button size="sm" class="btn-rounded" variant="btn btn-outline-secondary" @click="clearFilters">
-            <i class="i-Reload"></i> {{ $t('Clear') }}
+          <b-button size="sm" class="btn-rounded d-flex align-items-center" variant="outline-secondary" @click="clearFilters">
+            <x :size="16" class="mr-2"></x> {{ $t('Clear') }}
           </b-button>
         </div>
 
@@ -117,9 +117,13 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+import { X } from "lucide-vue";
 
 export default {  
   metaInfo: { title: 'Store Orders' },
+  components: {
+    X
+  },
   data () {
     return {
       isLoading: true,

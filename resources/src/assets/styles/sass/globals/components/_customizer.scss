@@ -41,7 +41,7 @@
 //                 margin: 8px;
 //                 text-indent: -10000px;
 //                 &.purple {
-//                     background: #8B5CF6;
+//                     background: #2d8cff;
 //                 }
 //                 &.blue {
 //                     background: #2f47c2;
@@ -100,7 +100,7 @@
 //                     margin: 8px;
 //                     text-indent: 10000px;
 //                     &.purple {
-//                         background: #8B5CF6;
+//                         background: #2d8cff;
 //                     }
 //                     &.blue {
 //                         background: #2f47c2;
@@ -114,13 +114,15 @@
 .customizer {
   position: fixed;
   z-index: 9999;
-  top: 100px;
+  top: 70px;
   right: -380px;
   transition: 0.3s all ease-in-out;
   width: 380px;
+
   &.open {
     right: 0;
   }
+
   .handle {
     position: absolute;
     display: flex;
@@ -135,25 +137,29 @@
     color: $white;
     font-size: 20px;
     transition: 0.3s all ease-in-out;
+
     &:hover {
       background: $primary;
       color: $white;
     }
   }
+
   .customizer-body {
     // padding: 1rem;
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
+    border-top-left-radius: 00px;
+    border-bottom-left-radius: 00px;
     background: $background;
     box-shadow: 0 4px 20px 1px rgba(0, 0, 0, 0.06),
       0 1px 4px rgba(0, 0, 0, 0.08);
-    max-height: calc(100vh - 140px);
+    max-height: calc(100vh - 70px);
     overflow-y: scroll;
     overflow-x: visible;
+
     .layouts {
       display: flex;
       flex-wrap: wrap;
       margin: 0 -8px;
+
       .layout-box {
         position: relative;
         margin: 0 8px;
@@ -164,9 +170,11 @@
         cursor: pointer;
         width: calc(50% - 16px);
         border: 1px solid rgba(0, 0, 0, 0.08);
+
         img {
           width: 180px;
         }
+
         i {
           display: none;
           position: absolute;
@@ -178,20 +186,24 @@
           line-height: 24px;
           width: 32px;
           color: #ffffff;
-          background: #8b5cf6;
+          background: #2d8cff;
           border-radius: 0 0 0 6px;
         }
+
         &.active {
           border: 1px solid $primary;
+
           i {
             display: inline-block;
           }
         }
       }
     }
+
     .colors {
       display: flex;
       flex-wrap: wrap;
+
       .color {
         width: 36px;
         height: 36px;
@@ -202,18 +214,22 @@
         box-shadow: 0 4px 20px 1px rgba(0, 0, 0, 0.06),
           0 1px 4px rgba(0, 0, 0, 0.03);
         cursor: pointer;
+
         &.purple {
-          background: #8b5cf6;
+          background: #2d8cff;
         }
+
         &.blue {
           background: #2f47c2;
         }
+
         i {
           display: none;
           color: #ffffff;
           font-size: 18px;
           line-height: 36px;
         }
+
         &.active {
           i {
             display: unset;
@@ -235,10 +251,12 @@
   .customizer {
     right: auto;
     left: -380px;
+
     &.open {
       right: auto;
       left: 0;
     }
+
     .handle {
       top: 8px;
       left: auto;

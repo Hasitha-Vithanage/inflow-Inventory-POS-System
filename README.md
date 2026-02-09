@@ -74,7 +74,7 @@
 -   Added  : Clearing cache with a click of a button
 -   Updated : Fix bug in Import Product (without create warehouse)
 -   Updated : Change currency symbol from the right to the left
--   Added  : Video in documentation showing you the steps on how to upgrade stocky
+-   Added  : Video in documentation showing you the steps on how to upgrade InFlow
 -   Updated : Minor bug fixes
 
 # Version 3.3.0 - 06-07-2021
@@ -296,7 +296,7 @@
 
 2) Bug Fixes and Improvements
 
-+ Stocky now requires PHP 8.1.0 or greater.
++ InFlow now requires PHP 8.1.0 or greater.
 + Updated some packages in Vue.js.
 + Fixed the issue with exclusive tax calculations for products.
 + Updated the documentation for better clarity.
@@ -457,7 +457,7 @@
 
 ✅ Added QuickBooks Integration for advanced accounting and auto-syncing invoices and clients
 
-✅ Upgraded to Laravel 12 — Stocky now requires PHP ≥ 8.2
+✅ Upgraded to Laravel 12 — InFlow now requires PHP ≥ 8.2
 
 ✅ Updated Node.js and all dependencies for better performance and build speed
 

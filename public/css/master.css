@@ -1,46 +1,42 @@
 .loading_wrap {
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    background: #fff;
-    display: block;
-    position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+}
+
+.loader_logo {
+  height: 80px;
+  width: 80px;
+  position: relative;
+  /* Centering handled by flex in .loading_wrap */
+}
+
+.loader_logo img {
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+  animation: logo-spin 2s linear infinite;
+}
+
+/* Remove the old ring loader */
+.loading {
+  display: none;
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
   }
 
-  .loader_logo {
-    height: 80px;
-    width: 80px;
-    position: absolute;
-    left: calc(50% - 50px);
-    top: 38%;
+  to {
+    transform: rotate(360deg);
   }
-
-  .loader_logo img {
-    height: 100%;
-    width: 100%;
-  }
-
-  .loading {
-    border: 3px solid rgba(102, 51, 153, 0.45);
-    position: absolute;
-    left: calc(50% - 40px);
-    top: 50%;
-    width: 55px;
-    height: 55px;
-    border-radius: 50%;
-    border-top-color: #8b5cf6;
-    animation: loader 1s ease-in-out infinite;
-    -webkit-animation: loader 1s ease-in-out infinite;
-  }
-
-  @keyframes loader {
-    to {
-      -webkit-transform: rotate(360deg);
-    }
-  }
-
-  @-webkit-keyframes loader {
-    to {
-      -webkit-transform: rotate(360deg);
-    }
-  }
+}

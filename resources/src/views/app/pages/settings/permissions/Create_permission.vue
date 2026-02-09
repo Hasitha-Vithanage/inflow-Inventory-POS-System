@@ -69,7 +69,7 @@
                                   v-model="permissions"
                                   value="dashboard"
                                 >
-                                <span>{{$t('dashboard')}} <i v-b-tooltip.hover.bottom title="if unchecked only welcome message will be displayed in dashboard" class="text-info text-15 font-weight-bold i-Speach-BubbleAsking"></i></span>
+                                <span>{{$t('dashboard')}} <info v-b-tooltip.hover.bottom title="if unchecked only welcome message will be displayed in dashboard" size="14" class="text-info ml-1" :stroke-width="1.5"></info></span>
                                 <span class="checkmark"></span>
                               </label>
                             </b-col>
@@ -3229,7 +3229,7 @@
               <!-- End row -->
               
                <b-col md="12">
-                <b-button variant="primary" type="submit"  :disabled="SubmitProcessing"><i class="i-Yes me-2 font-weight-bold"></i> {{$t('submit')}}</b-button>
+                <b-button variant="primary" type="submit"  :disabled="SubmitProcessing"><check-circle size="16" class="mr-2" :stroke-width="1.5"></check-circle> {{$t('submit')}}</b-button>
                   <div v-once class="typo__p" v-if="SubmitProcessing">
                     <div class="spinner sm spinner-primary mt-3"></div>
                   </div>
@@ -3244,6 +3244,7 @@
 </template>
 
 <script>
+import { CheckCircle, Info } from "lucide-vue";
 import NProgress from "nprogress";
 
 export default {

@@ -21,7 +21,7 @@
             <!-- ========== SECTION 1: BASIC INFORMATION ========== -->
             <div class="form-section">
               <div class="section-header">
-                <i class="i-File section-icon"></i>
+                <FileText size="18" stroke-width="1.5" class="section-icon mr-2"></FileText>
                 <h4 class="section-title">{{ $t('BasicInformation') }}</h4>
               </div>
               <b-card class="section-card">
@@ -114,7 +114,7 @@
                           ></b-form-input>
                           <div class="input-group-append">
                             <button type="button" class="btn-icon-gen" @click="generateNumber()" title="Generate">
-                              <i class="i-Bar-Code"></i>
+                              <Barcode size="14" stroke-width="1.5"></Barcode>
                             </button>
                           </div>
                         </div>
@@ -193,7 +193,7 @@
             <!-- ========== SECTION 2: INVENTORY ========== -->
             <div class="form-section">
               <div class="section-header">
-                <i class="i-Box section-icon"></i>
+                <Box size="18" stroke-width="1.5" class="section-icon mr-2"></Box>
                 <h4 class="section-title">{{ $t('Inventory') }}</h4>
               </div>
               <b-card class="section-card">
@@ -327,7 +327,7 @@
             <!-- ========== SECTION 3: VARIANTS (if applicable) ========== -->
             <div class="form-section" v-if="product.type == 'is_variant'">
               <div class="section-header">
-                <i class="i-Gear section-icon"></i>
+                <Settings size="18" stroke-width="1.5" class="section-icon mr-2"></Settings>
                 <h4 class="section-title">{{ $t('Variants') }}</h4>
               </div>
               <b-card class="section-card">
@@ -341,7 +341,7 @@
                       ></b-form-input>
                       <b-input-group-append>
                         <b-button variant="primary" @click="add_variant(tag)">
-                          <i class="i-Plus me-2"></i>{{ $t('Add') }}
+                          <Plus size="14" stroke-width="1.5" class="mr-2"></Plus>{{ $t('Add') }}
                         </b-button>
                       </b-input-group-append>
                     </b-input-group>
@@ -376,7 +376,7 @@
                             @click="delete_variant(variant.var_id)"
                             title="Delete"
                           >
-                            <i class="i-Close"></i>
+                            <X size="14" stroke-width="1.5"></X>
                           </b-button>
                         </td>
                       </tr>
@@ -393,7 +393,7 @@
             <!-- ========== SECTION 4: PRICING & TAX ========== -->
             <div class="form-section">
               <div class="section-header">
-                <i class="i-Tag section-icon"></i>
+                <Tag size="18" stroke-width="1.5" class="section-icon mr-2"></Tag>
                 <h4 class="section-title">{{ $t('PricingAndTax') }}</h4>
               </div>
               <b-card class="section-card">
@@ -606,7 +606,7 @@
             <!-- ========== SECTION 5: COMBO PRODUCTS ========== -->
             <div class="form-section" v-if="product.type == 'is_combo'">
               <div class="section-header">
-                <i class="i-Bag section-icon"></i>
+                <ShoppingBag size="18" stroke-width="1.5" class="section-icon mr-2"></ShoppingBag>
                 <h4 class="section-title">{{ $t('ComboProducts') }}</h4>
               </div>
               <b-card class="section-card">
@@ -673,7 +673,7 @@
                             @click="delete_materiel(materiel.product_id)"
                             title="Delete"
                           >
-                            <i class="i-Close"></i>
+                            <X size="14" stroke-width="1.5"></X>
                           </b-button>
                         </td>
                       </tr>
@@ -693,7 +693,7 @@
             <!-- ========== SECTION 6: WARRANTY ========== -->
             <div class="form-section">
               <div class="section-header">
-                <i class="i-Shield section-icon"></i>
+                <Shield size="18" stroke-width="1.5" class="section-icon mr-2"></Shield>
                 <h4 class="section-title">{{ $t('Warranty_Guarantee_Tracking') }}</h4>
               </div>
               <b-card class="section-card">
@@ -771,7 +771,7 @@
             <!-- ========== SECTION 7: OPTIONS ========== -->
             <div class="form-section">
               <div class="section-header">
-                <i class="i-Data-Settings section-icon"></i>
+                <Settings size="18" stroke-width="1.5" class="section-icon mr-2"></Settings>
                 <h4 class="section-title">{{ $t('Options') }}</h4>
               </div>
               <b-card class="section-card">
@@ -837,7 +837,7 @@
             <!-- Submit Buttons -->
             <div class="form-actions mt-4">
               <b-button variant="primary" type="submit" :disabled="SubmitProcessing" size="lg">
-                <i class="i-Yes me-2 pr-2"></i>{{ $t('submit') }}
+                <CheckCircle size="18" stroke-width="1.5" class="mr-2"></CheckCircle>{{ $t('submit') }}
               </b-button>
               <div v-if="SubmitProcessing" class="spinner-inline">
                 <div class="spinner sm spinner-primary"></div>
@@ -860,6 +860,10 @@
 import VueTagsInput from "@johmun/vue-tags-input";
 import NProgress from "nprogress";
 import { mapActions, mapGetters } from "vuex";
+import { 
+  FileText, Barcode, Box, Settings, 
+  Plus, X, Tag, ShoppingBag, Shield, CheckCircle 
+} from "lucide-vue";
 
 export default {
   metaInfo: {
@@ -918,7 +922,17 @@ export default {
   },
 
   components: {
-    VueTagsInput
+    VueTagsInput,
+    FileText,
+    Barcode,
+    Box,
+    Settings,
+    Plus,
+    X,
+    Tag,
+    ShoppingBag,
+    Shield,
+    CheckCircle
   },
 
   computed: {
@@ -1309,7 +1323,7 @@ export default {
 
   .section-icon {
     font-size: 1.5rem;
-    color: #667eea;
+    color: #2d8cff;
     margin-right: 0.75rem;
     width: 28px;
     text-align: center;
@@ -1344,7 +1358,7 @@ export default {
   }
 
   .form-control-modern:focus {
-    border-color: #667eea;
+    border-color: #2d8cff;
     box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
   }
 
@@ -1364,7 +1378,7 @@ export default {
   }
 
   .image-upload-wrapper:hover {
-    border-color: #667eea;
+    border-color: #2d8cff;
     background: #f5f7ff;
   }
 
@@ -1375,6 +1389,7 @@ export default {
     border-radius: 8px;
     overflow: hidden;
     border: 1.5px solid #e0e0e0;
+    padding: 10px;
   }
 
   .btn-icon-scan,
@@ -1382,7 +1397,7 @@ export default {
     background: #f5f5f5;
     border: none;
     padding: 0.625rem 0.875rem;
-    color: #667eea;
+    color: #2d8cff;
     cursor: pointer;
     transition: all 0.2s ease;
     display: flex;
@@ -1392,7 +1407,7 @@ export default {
 
   .btn-icon-scan:hover,
   .btn-icon-gen:hover {
-    background: #667eea;
+    background: #2d8cff;
     color: white;
   }
 
@@ -1458,7 +1473,7 @@ export default {
 
   .autocomplete-input:focus {
     outline: none;
-    border-color: #667eea;
+    border-color: #2d8cff;
     box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
   }
 
@@ -1488,7 +1503,7 @@ export default {
 
   .autocomplete-result:hover {
     background-color: #f5f7ff;
-    color: #667eea;
+    color: #2d8cff;
   }
 
   .badge-wrapper {
@@ -1499,7 +1514,7 @@ export default {
 
   .badge-primary-light {
     background-color: #e0e8ff;
-    color: #667eea;
+    color: #2d8cff;
     padding: 0.4rem 0.8rem;
     border-radius: 6px;
     font-weight: 600;
@@ -1511,7 +1526,7 @@ export default {
     background: #f8f9fa;
     padding: 1.25rem;
     border-radius: 8px;
-    border-left: 4px solid #667eea;
+    border-left: 4px solid #2d8cff;
   }
 
   .total-row {
@@ -1527,9 +1542,9 @@ export default {
   }
 
   .total-value {
-    font-size: 1.5rem;
+    font-size: 1rem;
     font-weight: 700;
-    color: #667eea;
+    color: #2d8cff;
   }
 
   /* ===== Options Grid ===== */
@@ -1603,7 +1618,7 @@ export default {
   .summary-value {
     font-size: 1rem;
     font-weight: 700;
-    color: #667eea;
+    color: #2d8cff;
   }
 
   /* ===== Responsive ===== */

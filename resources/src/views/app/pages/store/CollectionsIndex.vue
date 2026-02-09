@@ -7,23 +7,22 @@
     <b-card v-else>
       <!-- Header actions -->
       <div class="d-flex align-items-center justify-content-between flex-wrap mb-3">
-        <div class="d-flex align-items-center">
-          <b-input-group>
-            <b-input-group-prepend is-text>
-              <i class="i-Search-People"></i>
-            </b-input-group-prepend>
-            <b-form-input
-              v-model.trim="q"
-              :placeholder="$t('Search') + '…'"
-              @input="onSearch"
-            />
-            <b-input-group-append>
-              <b-button variant="outline-secondary" @click="refresh" :disabled="busy">
-                <i class="i-Reload"></i>
-              </b-button>
-            </b-input-group-append>
-          </b-input-group>
-        </div>
+          <div class="d-flex align-items-center">
+            <div class="position-relative">
+              <i class="search-icon i-Search-People text-muted position-absolute" style="left: 10px; top: 50%; transform: translateY(-50%); z-index: 1;"></i>
+              <b-form-input
+                v-model.trim="q"
+                :placeholder="$t('Search') + '…'"
+                @input="onSearch"
+                style="padding-left: 35px; min-width: 250px;"
+              />
+            </div>
+            
+            <b-button variant="outline-primary" class="ml-2" @click="refresh" :disabled="busy">
+              <i class="i-Reload"></i>
+            </b-button>
+          </div>
+
 
         <div class="mt-2 mt-md-0">
           <router-link :to="{ name: 'StoreCollectionsCreate' }" class="btn btn-primary">

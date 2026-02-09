@@ -28,11 +28,11 @@
       
         <div slot="table-actions" class="mt-2 mb-3">
           <b-button variant="outline-info m-1" size="sm" v-b-toggle.sidebar-right>
-            <i class="i-Filter-2"></i>
+            <filter-icon size="14" :stroke-width="1.5" class="mr-1"></filter-icon>
             {{ $t("Filter") }}
           </b-button>
           <b-button @click="Adjustment_PDF()" size="sm" variant="outline-success m-1">
-            <i class="i-File-Copy"></i> PDF
+            <file-text-icon size="14" :stroke-width="1.5" class="mr-1"></file-text-icon> PDF
           </b-button>
           <vue-excel-xlsx
               class="btn btn-sm btn-outline-danger ripple m-1"
@@ -42,7 +42,7 @@
               :file-type="'xlsx'"
               :sheet-name="'Adjustments'"
               >
-              <i class="i-File-Excel"></i> EXCEL
+              <file-spreadsheet-icon size="14" :stroke-width="1.5" class="mr-1"></file-spreadsheet-icon> EXCEL
           </vue-excel-xlsx>
           <router-link
             class="btn-sm btn btn-primary btn-icon m-1"
@@ -50,7 +50,7 @@
             to="/app/adjustments/store"
           >
             <span class="ul-btn__icon">
-              <i class="i-Add"></i>
+              <plus-icon size="14" :stroke-width="1.5"></plus-icon>
             </span>
             <span class="ul-btn__text ml-1">{{$t('Add')}}</span>
           </router-link>
@@ -61,11 +61,11 @@
 
 
             <a title="PDF" v-b-tooltip.hover @click="download_adjustment_pdf(props.row , props.row.id)">
-              <i class="i-File-TXT text-25 text-primary cursor-pointer"></i>
+              <file-text-icon size="20" :stroke-width="1.5" class="text-primary cursor-pointer"></file-text-icon>
             </a>
 
             <a v-b-tooltip.hover title="View" class="cursor-pointer" @click="showDetails(props.row.id)">
-              <i class="i-Eye text-25 text-info"></i>
+              <eye-icon size="20" :stroke-width="1.5" class="text-info"></eye-icon>
             </a>
             <router-link
               v-if="currentUserPermissions && currentUserPermissions.includes('adjustment_edit')"
@@ -73,7 +73,7 @@
               title="Edit"
               :to="'/app/adjustments/edit/'+props.row.id"
             >
-              <i class="i-Edit text-25 text-success"></i>
+              <edit-icon size="20" :stroke-width="1.5" class="text-success"></edit-icon>
             </router-link>
             <a
               v-b-tooltip.hover
@@ -82,7 +82,7 @@
               v-if="currentUserPermissions && currentUserPermissions.includes('adjustment_delete')"
               @click="Remove_Adjustment(props.row.id)"
             >
-              <i class="i-Close-Window text-25 text-danger"></i>
+              <trash-2-icon size="20" :stroke-width="1.5" class="text-danger"></trash-2-icon>
             </a>
           </span>
         </template>
@@ -126,13 +126,13 @@
               size="sm"
               block
             >
-              <i class="i-Filter-2"></i>
+              <filter-icon size="14" :stroke-width="1.5" class="mr-1"></filter-icon>
               {{ $t("Filter") }}
             </b-button>
           </b-col>
           <b-col md="6" sm="12">
             <b-button @click="Reset_Filter()" variant="danger m-1" size="sm" block>
-              <i class="i-Power-2"></i>
+              <refresh-cw-icon size="14" :stroke-width="1.5" class="mr-1"></refresh-cw-icon>
               {{ $t("Reset") }}
             </b-button>
           </b-col>
@@ -199,12 +199,25 @@
 </template>
 
 <script>
+import { 
+  Filter, FileText, FileSpreadsheet, Plus, Eye, Edit, Trash2, RefreshCw 
+} from "lucide-vue";
 import { mapActions, mapGetters } from "vuex";
 import NProgress from "nprogress";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 
 export default {
+  components: {
+    FilterIcon: Filter,
+    FileTextIcon: FileText,
+    FileSpreadsheetIcon: FileSpreadsheet,
+    PlusIcon: Plus,
+    EyeIcon: Eye,
+    EditIcon: Edit,
+    Trash2Icon: Trash2,
+    RefreshCwIcon: RefreshCw
+  },
   metaInfo: {
     title: "Adjustment"
   },

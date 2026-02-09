@@ -22,7 +22,7 @@
           >
             <template v-slot:input="picker">
               <b-button variant="light" class="btn-pill">
-                <i class="i-Calendar-4 mr-1"></i>
+                <calendar-icon size="14" :stroke-width="1.5" class="mr-1"></calendar-icon>
                 {{ fmt(picker.startDate) }} - {{ fmt(picker.endDate) }}
               </b-button>
             </template>
@@ -44,10 +44,10 @@
 
         <div class="ml-auto mb-2 d-flex">
           <b-button variant="primary" class="btn-pill mr-2" @click="fetchReport">
-            <i class="i-Reload mr-1"></i> {{$t('Refresh')}}
+            <refresh-cw-icon size="14" :stroke-width="1.5" class="mr-1"></refresh-cw-icon> {{$t('Refresh')}}
           </b-button>
           <b-button variant="danger" class="btn-pill" @click="exportPDF">
-            <i class="i-File-PDF mr-1"></i> {{$t('Export_PDF')}}
+            <file-text-icon size="14" :stroke-width="1.5" class="mr-1"></file-text-icon> {{$t('Export_PDF')}}
           </b-button>
         </div>
       </div>
@@ -67,16 +67,16 @@
       <!-- KPIs -->
       <b-row>
         <b-col md="3" sm="6" class="mb-3">
-          <StatTile icon="i-Edit" :label="$t('Adjustments')" :value="num(kpis.adjustments_count)" theme="blue" />
+          <StatTile icon="EditIcon" :label="$t('Adjustments')" :value="num(kpis.adjustments_count)" theme="blue" />
         </b-col>
         <b-col md="3" sm="6" class="mb-3">
-          <StatTile icon="i-Add" :label="$t('QtyAdded')" :value="formatQty(kpis.qty_added)" theme="green" />
+          <StatTile icon="PlusIcon" :label="$t('QtyAdded')" :value="formatQty(kpis.qty_added)" theme="green" />
         </b-col>
         <b-col md="3" sm="6" class="mb-3">
-          <StatTile icon="i-Remove" :label="$t('QtyRemoved')" :value="formatQty(kpis.qty_removed)" theme="red" />
+          <StatTile icon="MinusIcon" :label="$t('QtyRemoved')" :value="formatQty(kpis.qty_removed)" theme="red" />
         </b-col>
         <b-col md="3" sm="6" class="mb-3">
-          <StatTile icon="i-Arrow-Refresh" :label="$t('NetQty')" :value="formatQty(kpis.net_qty)" theme="purple" />
+          <StatTile icon="RefreshCwIcon" :label="$t('NetQty')" :value="formatQty(kpis.net_qty)" theme="purple" />
         </b-col>
       </b-row>
 
@@ -144,6 +144,9 @@ import VueApexCharts from "vue-apexcharts";
 /* PDF export */
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
+import { 
+  Calendar, RefreshCw, FileText, Edit, Plus, Minus 
+} from "lucide-vue";
 
 const StatTile = {
   name: "StatTile",
@@ -152,7 +155,7 @@ const StatTile = {
   render(h,{props}){
     return h("div",{class:["stat-card",`theme-${props.theme}`,"shadow-soft","rounded-xl","mb-2"]},[
       h("div",{class:"stat-inner"},[
-        h("div",{class:"stat-icon"},[h("i",{class:props.icon})]),
+        h("div",{class:"stat-icon"},[h(props.icon, { props: { size: "22", strokeWidth: 1.5 } })]),
         h("div",{class:"stat-content"},[
           h("div",{class:"stat-label"},props.label),
           h("div",{class:"stat-value"},props.value)
@@ -167,7 +170,13 @@ export default {
   components: {
     apexchart: VueApexCharts,
     "date-range-picker": DateRangePicker,
-    StatTile
+    StatTile,
+    CalendarIcon: Calendar,
+    RefreshCwIcon: RefreshCw,
+    FileTextIcon: FileText,
+    EditIcon: Edit,
+    PlusIcon: Plus,
+    MinusIcon: Minus
   },
   data(){
     const end = new Date();

@@ -43,11 +43,11 @@
         </div>
         <div slot="table-actions" class="mt-2 mb-3">
           <b-button variant="outline-info m-1" size="sm" v-b-toggle.sidebar-right>
-            <i class="i-Filter-2"></i>
+            <Filter size="14" class="mr-1"></Filter>
             {{ $t("Filter") }}
           </b-button>
           <b-button @click="clients_PDF()" size="sm" variant="outline-success m-1">
-            <i class="i-File-Copy"></i> PDF
+            <FileText size="14" class="mr-1"></FileText> PDF
           </b-button>
            <vue-excel-xlsx
               class="btn btn-sm btn-outline-danger ripple m-1"
@@ -57,14 +57,14 @@
               :file-type="'xlsx'"
               :sheet-name="'clients'"
               >
-              <i class="i-File-Excel"></i> EXCEL
+              <FileSpreadsheet size="14" class="mr-1"></FileSpreadsheet> EXCEL
           </vue-excel-xlsx>
          <router-link
             v-if="currentUserPermissions && currentUserPermissions.includes('customers_import')"
             :to="{ name: 'Import_Customers' }"
             class="btn btn-info btn-sm m-1"
           >
-            <i class="i-Download"></i>
+            <Download size="14" class="mr-1"></Download>
             Import Customers
           </router-link>
           <b-button
@@ -73,7 +73,7 @@
             variant="btn btn-primary btn-icon m-1"
             v-if="currentUserPermissions && currentUserPermissions.includes('Customers_add')"
           >
-            <i class="i-Add"></i>
+            <Plus size="14"></Plus>
             {{$t('Add')}}
           </b-button>
         </div>
@@ -107,7 +107,7 @@
                 </template>
 
                  <b-dropdown-item @click="$router.push({ name: 'CustomerLedger', params: { id: props.row.id } })">
-                  <i class="nav-icon i-Receipt font-weight-bold mr-2"></i>
+                  <FileText size="14" class="mr-2"></FileText>
                  {{$t('Customer_Ledger')}}
                 </b-dropdown-item>
 
@@ -116,7 +116,7 @@
                  (currentUserPermissions && currentUserPermissions.includes('Customers_edit'))"
                   @click="Edit_Online_Store_Account(props.row)"
                 >
-                <i class="nav-icon i-Edit font-weight-bold mr-2"></i>
+                <Edit size="14" class="mr-2"></Edit>
                   {{$t('Edit_Online_Store_Account')}}
                 </b-dropdown-item>
 
@@ -124,7 +124,7 @@
                   v-if="props.row.due > 0 && currentUserPermissions && currentUserPermissions.includes('pay_due')"
                   @click="Pay_due(props.row)"
                 >
-                  <i class="nav-icon i-Dollar font-weight-bold mr-2"></i>
+                  <DollarSign size="14" class="mr-2"></DollarSign>
                   {{$t('pay_all_sell_due_at_a_time')}}
                 </b-dropdown-item>
 
@@ -132,19 +132,19 @@
                   v-if="props.row.return_Due > 0 && currentUserPermissions && currentUserPermissions.includes('pay_sale_return_due')"
                   @click="Pay_return_due(props.row)"
                 >
-                  <i class="nav-icon i-Dollar font-weight-bold mr-2"></i>
+                  <DollarSign size="14" class="mr-2"></DollarSign>
                   {{$t('pay_all_sell_return_due_at_a_time')}}
                 </b-dropdown-item>
 
                  <b-dropdown-item
                   @click="$router.push({ name: 'CustomerDetails', params: { id: props.row.id } })"
                 >
-                  <i class="nav-icon i-Eye font-weight-bold mr-2"></i>
+                  <Eye size="14" class="mr-2"></Eye>
                   {{$t('Customer_details')}}
                 </b-dropdown-item>
 
                 <b-dropdown-item @click="openPointsModal(props.row)">
-                  <i class="nav-icon i-Edit font-weight-bold mr-2"></i>
+                  <Edit size="14" class="mr-2"></Edit>
                   {{$t('Adjust_Customer_Points')}}
                 </b-dropdown-item>
                
@@ -152,18 +152,16 @@
                  v-if="currentUserPermissions && currentUserPermissions.includes('Customers_edit')"
                   @click="Edit_Client(props.row)"
                 >
-                  <i class="nav-icon i-Edit font-weight-bold mr-2"></i>
+                  <Edit size="14" class="mr-2"></Edit>
                   {{$t('Edit_Customer')}}
                 </b-dropdown-item>
-
-                
 
                 <b-dropdown-item
                   title="Delete"
                   v-if="currentUserPermissions.includes('Customers_delete')"
                   @click="Remove_Client(props.row.id)"
                 >
-                  <i class="nav-icon i-Close-Window font-weight-bold mr-2"></i>
+                  <XCircle size="14" class="mr-2"></XCircle>
                   {{$t('Delete_Customer')}}
                 </b-dropdown-item>
                 </b-dropdown>
@@ -208,13 +206,13 @@
 
           <b-col md="6" sm="12">
             <b-button @click="Get_Clients(serverParams.page)" variant="primary m-1" size="sm" block>
-              <i class="i-Filter-2"></i>
+              <Filter size="14" class="mr-1"></Filter>
               {{ $t("Filter") }}
             </b-button>
           </b-col>
           <b-col md="6" sm="12">
             <b-button @click="Reset_Filter()" variant="danger m-1" size="sm" block>
-              <i class="i-Power-2"></i>
+              <Power size="14" class="mr-1"></Power>
               {{ $t("Reset") }}
             </b-button>
           </b-col>
@@ -261,7 +259,7 @@
           <b-row>
             <!-- Customer Name -->
             <b-col lg="12" md="12" sm="12" class="mb-3">
-              <h5 class="text-primary"><i class="i-User mr-2"></i>{{ payment.client_name }}</h5>
+              <h5 class="text-primary"><User size="14" class="mr-2"></User>{{ payment.client_name }}</h5>
             </b-col>
 
             <!-- Summary Cards -->
@@ -274,7 +272,7 @@
                     :class="{'border-left-danger': payment.opening_balance > 0}"
                   >
                     <div class="mb-2">
-                      <i class="i-Calendar-4 text-primary" style="font-size: 2rem;"></i>
+                      <Calendar size="32" class="text-primary mb-2"></Calendar>
                     </div>
                     <h6 class="text-muted mb-2">{{ $t('Opening_Balance') }}</h6>
                     <h4 class="mb-0" :class="payment.opening_balance > 0 ? 'text-danger font-weight-bold' : 'text-success'">
@@ -291,7 +289,7 @@
                     :class="{'border-left-danger': payment.due > 0}"
                   >
                     <div class="mb-2">
-                      <i class="i-Shopping-Cart text-warning" style="font-size: 2rem;"></i>
+                      <ShoppingCart size="32" class="text-warning mb-2"></ShoppingCart>
                     </div>
                     <h6 class="text-muted mb-2">Sales Due</h6>
                     <h4 class="mb-0" :class="payment.due > 0 ? 'text-danger font-weight-bold' : 'text-success'">
@@ -308,7 +306,7 @@
                     :class="{'border-left-success': totalDue <= 0}"
                   >
                     <div class="mb-2">
-                      <i class="i-Money-Bag text-danger" style="font-size: 2rem;"></i>
+                      <Banknote size="32" class="text-danger mb-2"></Banknote>
                     </div>
                     <h6 class="text-muted mb-2">Total Due</h6>
                     <h4 class="mb-0 font-weight-bold" :class="totalDue > 0 ? 'text-danger' : 'text-success'">
@@ -324,7 +322,7 @@
             <b-col lg="12" md="12" sm="12" class="mb-3">
               <b-alert variant="info" show class="mb-0">
                 <div class="d-flex align-items-center">
-                  <i class="i-Information mr-2" style="font-size: 1.5rem;"></i>
+                  <Info size="24" class="mr-2 text-info"></Info>
                   <div>
                     <strong>{{ $t('Payment_Allocation') }}:</strong> {{ $t('Payment_Allocation_description') }}
                   </div>
@@ -404,7 +402,7 @@
                 variant="primary"
                 type="submit"
                 :disabled="paymentProcessing"
-              ><i class="i-Yes me-2 font-weight-bold"></i> {{$t('submit')}}</b-button>
+              ><CheckCircle size="14" class="me-2 font-weight-bold"></CheckCircle> {{$t('submit')}}</b-button>
               <div v-once class="typo__p" v-if="paymentProcessing">
                 <div class="spinner sm spinner-primary mt-3"></div>
               </div>
@@ -496,7 +494,7 @@
                 variant="primary"
                 type="submit"
                 :disabled="payment_return_Processing"
-              ><i class="i-Yes me-2 font-weight-bold"></i> {{$t('submit')}}</b-button>
+              ><CheckCircle size="14" class="me-2 font-weight-bold"></CheckCircle> {{$t('submit')}}</b-button>
               <div v-once class="typo__p" v-if="payment_return_Processing">
                 <div class="spinner sm spinner-primary mt-3"></div>
               </div>
@@ -548,7 +546,7 @@
           </div>
         </div>
       <button @click="print_it()" class="btn btn-outline-primary">
-        <i class="i-Billing"></i>
+        <Printer size="14" class="mr-2"></Printer>
         {{$t('print')}}
       </button>
     </b-modal>
@@ -597,7 +595,7 @@
           </div>
         </div>
       <button @click="print_return_due()" class="btn btn-outline-primary">
-        <i class="i-Billing"></i>
+        <Printer size="14" class="mr-2"></Printer>
         {{$t('print')}}
       </button>
     </b-modal>
@@ -674,7 +672,7 @@
           <!-- Custom Fields Section -->
           <div v-if="clientCustomFields && clientCustomFields.length > 0" class="mt-4">
             <h6 class="text-primary mb-3">
-              <i class="i-Data-Settings mr-2"></i>
+              <Settings size="14" class="mr-2"></Settings>
               {{ $t('CustomFields') }}
             </h6>
             <table class="table table-striped table-md">
@@ -839,6 +837,26 @@
 </template>
 
 <script>
+import {
+  Filter,
+  FileText,
+  FileSpreadsheet,
+  Download,
+  Plus,
+  Edit,
+  DollarSign,
+  Eye,
+  XCircle,
+  Power,
+  User,
+  Calendar,
+  ShoppingCart,
+  Banknote,
+  Info,
+  CheckCircle,
+  Printer,
+  Settings
+} from "lucide-vue";
 import { mapActions, mapGetters } from "vuex";
 import NProgress from "nprogress";
 import jsPDF from "jspdf";
@@ -849,6 +867,26 @@ import {
 } from "../../../../utils/priceFormat";
 
 export default {
+  components: {
+    Filter,
+    FileText,
+    FileSpreadsheet,
+    Download,
+    Plus,
+    Edit,
+    DollarSign,
+    Eye,
+    XCircle,
+    Power,
+    User,
+    Calendar,
+    ShoppingCart,
+    Banknote,
+    Info,
+    CheckCircle,
+    Printer,
+    Settings
+  },
   metaInfo: {
     title: "Customer"
   },

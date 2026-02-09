@@ -51,7 +51,7 @@ Vue.component('qrcode-scanner', {
   },
   template: `<div id="reader"></div>`, // Use ref instead of id for dynamic rendering
 
-  mounted () {
+  mounted() {
     this.initializeScanner();
   },
   methods: {
@@ -63,7 +63,7 @@ Vue.component('qrcode-scanner', {
       this.html5QrcodeScanner = new Html5QrcodeScanner('reader', config); // Use id for dynamic rendering
       this.html5QrcodeScanner.render(this.onScanSuccess);
     },
-    onScanSuccess (decodedText, decodedResult) {
+    onScanSuccess(decodedText, decodedResult) {
       if (this.isFirstScan) {
         this.isFirstScan = false;
         this.$emit('result', decodedText, decodedResult);
@@ -82,8 +82,8 @@ Vue.component('qrcode-scanner', {
 
 });
 
-import StockyKit from "./plugins/stocky.kit";
-Vue.use(StockyKit);
+import InFlowKit from "./plugins/InFlow.kit";
+Vue.use(InFlowKit);
 import VueCookies from 'vue-cookies'
 Vue.use(VueCookies);
 
@@ -263,13 +263,13 @@ import { loadI18n } from './plugins/i18n.loader';
 import { setupGlobalOfflineSync } from './utils/globalOfflineSync';
 
 loadI18n().then(i18n => {
- store.commit('SetDefaultLanguage', { i18n, Language: i18n.locale });
+  store.commit('SetDefaultLanguage', { i18n, Language: i18n.locale });
   setupRouterGuards(i18n); // ✅ inject into router
 
   // Initialize global offline sales sync (works from any page)
   try {
     setupGlobalOfflineSync();
-  } catch (e) {}
+  } catch (e) { }
 
   new Vue({
     store,
@@ -280,4 +280,4 @@ loadI18n().then(i18n => {
   }).$mount("#app");
 });
 
-  
+

@@ -42,7 +42,7 @@
        <div slot="table-actions" class="mt-2 mb-3">
         
           <b-button @click="stock_report_PDF()" size="sm" variant="outline-success ripple m-1">
-            <i class="i-File-Copy"></i> PDF
+            <FileText size="14" class="mr-1"></FileText> PDF
           </b-button>
            <vue-excel-xlsx
               class="btn btn-sm btn-outline-danger ripple m-1"
@@ -52,7 +52,7 @@
               :file-type="'xlsx'"
               :sheet-name="'stock_report'"
               >
-              <i class="i-File-Excel"></i> EXCEL
+              <FileSpreadsheet size="14" class="mr-1"></FileSpreadsheet> EXCEL
           </vue-excel-xlsx>
         </div>
 
@@ -72,11 +72,16 @@
 <script>
 import NProgress from "nprogress";
 import jsPDF from "jspdf";
+import { FileText, FileSpreadsheet } from "lucide-vue";
 import autoTable from "jspdf-autotable";
 
 export default {
   metaInfo: {
     title: "Stock Report"
+  },
+  components: {
+    FileText,
+    FileSpreadsheet
   },
   data() {
     return {

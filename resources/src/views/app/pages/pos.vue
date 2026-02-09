@@ -26,7 +26,7 @@
             @keyup="search"
           />
           <button class="action-btn-icon" @click="showModal" :title="$t('Scan')">
-            <i class="i-QR-Code"></i>
+            <qr-code size="18"></qr-code>
           </button>
           <ul v-if="product_filter && product_filter.length" class="pos-autocomplete-results">
             <li
@@ -94,12 +94,12 @@
           :title="$t('Quick_Add_Customer')" 
           v-if="isQuickAddCustomerEnabled && isOnline"
         >
-          <i class="i-Add-User"></i>
+          <UserPlus size="18"></UserPlus>
         </button>
         
         <!-- Today's Sales -->
         <button class="action-btn-icon" :title="$t('Today_Sales')" @click="get_today_sales" v-if="isOnline">
-          <i class="i-Receipt"></i>
+          <file-text size="18"></file-text>
         </button>
 
         <!-- Offline / Sync Status -->
@@ -110,7 +110,7 @@
           @click="syncOfflineSales"
           :title="offlineStatusTitle"
         >
-          <i class="i-Cloud"></i>
+          <cloud size="18"></cloud>
           <span
             v-if="offlineSalesCount > 0"
             class="offline-badge"
@@ -126,16 +126,14 @@
           to="/app/settings/pos_settings"
           :title="$t('POS_Settings')"
         >
-          <i class="i-Gear"></i>
+          <settings size="18"></settings>
         </router-link>
 
         <!-- Languages Dropdown -->
-        <div class="dropdown action-btn-icon" v-if="show_language && isOnline">
-          <b-dropdown id="lang-dd" right offset="8" boundary="window" toggle-class="action-btn-icon dropdown-toggle-no-caret" no-caret>
+        <div class="dropdown" v-if="show_language && isOnline">
+          <b-dropdown id="lang-dd" right offset="8" boundary="window" toggle-class="action-btn-icon dropdown-toggle-no-caret" no-caret variant="link">
             <template #button-content>
-              <a href="#" class="action-btn-icon" @click.prevent>
-                <i class="i-Globe"></i>
-              </a>
+              <globe size="18"></globe>
             </template>
             <div class="menu-icon-grid lang-menu">
               
@@ -149,7 +147,7 @@
 
         <!-- Fullscreen Toggle -->
         <button class="action-btn-icon btn-fullscreen" @click="handleFullScreen" :title="$t('Fullscreen')">
-          <i class="i-Full-Screen"></i>
+          <Maximize size="18"></Maximize>
         </button>
 
         <div class="dropdown">
@@ -172,7 +170,7 @@
 
             <div class="dropdown-menu-left" aria-labelledby="userDropdown">
               <div class="dropdown-header">
-                <i class="i-Lock-User mr-1"></i>
+                <user size="18" class="mr-1"></user>
                 <span>{{ currentUser && (currentUser.username || currentUser.name) }}</span>
               </div>
               <router-link to="/app/profile" class="dropdown-item">{{$t('profil')}}</router-link>
@@ -200,10 +198,10 @@
         </div>
         <div class="top-icons">
           <router-link v-if="isOnline" class="action-btn-icon" to="/app/dashboard" :title="$t('pos.Home')">
-            <i class="i-Home"></i>
+            <home size="18"></home>
           </router-link>
           <button class="action-btn-icon" :title="$t('Today_Sales')" @click="get_today_sales" v-if="isOnline">
-            <i class="i-Receipt"></i>
+            <file-text size="18"></file-text>
           </button>
           <!-- Offline / Sync Status -->
           <button
@@ -213,7 +211,7 @@
             @click="syncOfflineSales"
             :title="offlineStatusTitle"
           >
-            <i class="i-Cloud"></i>
+            <cloud size="18"></cloud>
             <span
               v-if="offlineSalesCount > 0"
               class="offline-badge"
@@ -221,12 +219,10 @@
               {{ offlineSalesCount }}
             </span>
           </button>
-          <div class="dropdown action-btn-icon" v-if="show_language && isOnline">
-            <b-dropdown id="lang-dd-mobile" right offset="8" boundary="window" toggle-class="action-btn-icon dropdown-toggle-no-caret" no-caret>
+          <div class="dropdown" v-if="show_language && isOnline">
+            <b-dropdown id="lang-dd-mobile" right offset="8" boundary="window" toggle-class="action-btn-icon dropdown-toggle-no-caret" no-caret variant="link">
               <template #button-content>
-                <a href="#" class="action-btn-icon" @click.prevent>
-                  <i class="i-Globe"></i>
-                </a>
+                <globe size="18"></globe>
               </template>
               <div class="menu-icon-grid lang-menu">
                 <button class="lang-item" v-for="lang in languages_available" :key="lang.locale" @click="SetLocal(lang.locale)">
@@ -242,7 +238,7 @@
             to="/app/settings/pos_settings"
             :title="$t('POS_Settings')"
           >
-            <i class="i-Gear"></i>
+            <settings size="18"></settings>
           </router-link>
           <div class="dropdown">
             <b-dropdown id="user-dd-mobile" right toggle-class="dropdown-toggle-no-caret p-0 bg-transparent border-0" no-caret variant="link">
@@ -252,7 +248,7 @@
               </template>
               <div class="dropdown-menu-left" aria-labelledby="userDropdown">
                 <div class="dropdown-header">
-                  <i class="i-Lock-User mr-1"></i>
+                  <user size="18" class="mr-1"></user>
                   <span>{{ currentUser && (currentUser.username || currentUser.name) }}</span>
                 </div>
                 <router-link to="/app/profile" class="dropdown-item">{{$t('profil')}}</router-link>
@@ -332,7 +328,7 @@
             @keyup="search"
           />
           <button class="action-btn-icon" @click="showModal" :title="$t('Scan')">
-            <i class="i-QR-Code"></i>
+            <qr-code size="18"></qr-code>
           </button>
           <ul v-if="product_filter && product_filter.length" class="pos-autocomplete-results">
             <li class="pos-autocomplete-item" v-for="product_fil in product_filter" :key="product_fil.id" @mousedown="SearchProduct(product_fil)">
@@ -459,7 +455,7 @@
             <div class="points-left">
               <div class="points-header">
                 <div class="label-line">
-                  <i v-if="pointsConverted" class="i-Yes"></i>
+                  <check-circle v-if="pointsConverted" size="14" class="mr-1"></check-circle>
                   <span>{{ $t('Available_Points') }}</span>
                 </div>
                 <div class="points-value">{{ selectedClientPoints }}</div>
@@ -489,10 +485,10 @@
                     @click="convertPointsToDiscount"
                   >
                     <template v-if="!pointsConverted">
-                      <i class="i-Money"></i> {{ $t('Convert') }}
+                      <dollar-sign size="14" class="mr-1"></dollar-sign> {{ $t('Convert') }}
                     </template>
                     <template v-else>
-                      <i class="i-Yes"></i> {{ $t('Unconverted') }}
+                      <check-circle size="14" class="mr-1"></check-circle> {{ $t('Unconverted') }}
                     </template>
                   </button>
                 </div>
@@ -1083,7 +1079,7 @@
           </div>
         </div>
           <button @click="print_pos()" class="btn btn-outline-primary">
-            <i class="i-Billing"></i>
+            <receipt size="18" class="mr-1"></receipt>
             {{$t('print')}}
           </button>
         </b-modal>
@@ -1115,11 +1111,11 @@
                   <span class="spinner sm spinner-primary"></span>
                 </template>
                 <template v-else>
-                  <i class="i-Arrow-Right"></i>
+                  <arrow-right size="18"></arrow-right>
                 </template>
               </b-button>
               <b-button size="sm" variant="outline-danger" @click="Remove_Draft_Sale(d.id)" :title="$t('Delete')">
-                <i class="i-Remove"></i>
+                <trash2 size="18"></trash2>
               </b-button>
             </td>
           </tr>
@@ -1496,7 +1492,7 @@
   <b-modal id="modal_today_sales" hide-footer size="lg" :title="$t('Today_Sales')">
     <div class="today-sales-grid">
       <div class="ts-card">
-        <div class="ts-icon primary"><i class="i-Money-2"></i></div>
+        <div class="ts-icon primary"><banknote size="24"></banknote></div>
         <div class="ts-content">
           <div class="ts-label">{{ $t('Total_Sales') }}</div>
           <div class="ts-value">{{ formatPriceWithCurrentCurrency(today_sales.total_sales_amount || 0, 2) }}</div>
@@ -1504,7 +1500,7 @@
       </div>
 
       <div class="ts-card">
-        <div class="ts-icon success"><i class="i-Yes"></i></div>
+        <div class="ts-icon success"><check-circle size="24"></check-circle></div>
         <div class="ts-content">
           <div class="ts-label">{{ $t('Total_Amount_Paid') }}</div>
           <div class="ts-value">{{ formatPriceWithCurrentCurrency(today_sales.total_amount_paid || 0, 2) }}</div>
@@ -1517,7 +1513,7 @@
         v-for="method in (today_sales.payment_methods || [])"
         :key="method.id"
       >
-        <div class="ts-icon info"><i class="i-Credit-Card"></i></div>
+        <div class="ts-icon info"><credit-card size="24"></credit-card></div>
         <div class="ts-content">
           <div class="ts-label">{{ method.name }}</div>
           <div class="ts-value">
@@ -1685,80 +1681,56 @@
     </b-modal>
     <!-- FIXED FOOTER BAR -->
     <div class="pos-footer-bar" v-if="productsReady">
-      <!-- Left: Online / Offline indicator (non-clickable) -->
-      <div
-        class="footer-status-indicator"
-        :class="{ 'is-offline': !isOnline }"
-        :title="offlineStatusTitle"
-      >
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path
+      <!-- Left Section: Status & Navigation -->
+      <div class="footer-left-group">
+        <div
+          class="footer-status-indicator"
+          :class="{ 'is-offline': !isOnline }"
+          :title="offlineStatusTitle"
+        >
+          <div class="status-dot"></div>
+          <span class="status-text">
+            {{ isOnline ? ($t('Online') || 'Online') : $t('pos.Offline_Mode') }}
+          </span>
+        </div>
+
+        <div class="footer-nav-buttons">
+          <router-link v-if="isOnline" class="action-btn action-btn-secondary" to="/app/dashboard" :title="$t('pos.Home')">
+            <home size="16"></home>
+            <span>{{ $t('pos.Home') }}</span>
+          </router-link>
+
+          <button
             v-if="isOnline"
-            d="M5 12l4 4 10-10"
-          ></path>
-          <g v-else>
-            <circle cx="12" cy="12" r="9"></circle>
-            <line x1="8" y1="8" x2="16" y2="16"></line>
-          </g>
-        </svg>
-        <span class="status-text">
-          {{ isOnline ? ($t('Online') || 'Online') : $t('pos.Offline_Mode') }}
-        </span>
+            class="action-btn action-btn-secondary"
+            @click="Reset_Pos"
+            :title="$t('pos.Clear_all_items')"
+          >
+            <refresh-cw size="16"></refresh-cw>
+            <span>{{ $t('pos.Reset') }}</span>
+          </button>
+
+          <button class="action-btn action-btn-secondary" @click="Show_Draft_Sales" :title="$t('pos.Drafts_list')" v-if="isOnline">
+            <layers size="16"></layers>
+            <span>{{ $t('pos.Recent_Drafts') }}</span>
+          </button>
+
+          <button class="action-btn action-btn-secondary" @click="Submit_Draft" :disabled="DraftProcessing" :title="$t('pos.Hold_this_sale')" v-if="pos_settings.enable_hold_sales && isOnline">
+            <pause-circle size="16"></pause-circle>
+            <span>{{ DraftProcessing ? $t('pos.Saving') : $t('pos.Hold') }}</span>
+          </button>
+        </div>
       </div>
 
-      <!-- Center/Right: actions -->
-      <div class="footer-main-group">
-        <router-link v-if="isOnline" class="action-btn action-btn-secondary" to="/app/dashboard" :title="$t('pos.Home')">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M3 11l9-8 9 8"></path>
-            <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"></path>
-          </svg>
-          <span>{{ $t('pos.Home') }}</span>
-        </router-link>
-
-        <button
-          v-if="isOnline"
-          class="action-btn action-btn-secondary"
-          @click="Reset_Pos"
-          :title="$t('pos.Clear_all_items')"
-        >
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M1 4v6h6"></path>
-            <path d="M23 20v-6h-6"></path>
-            <path d="M20.49 9A9 9 0 0 0 5.64 5.64"></path>
-            <path d="M3.51 15A9 9 0 0 0 18.36 18.36"></path>
-          </svg>
-          <span>{{ $t('pos.Reset') }}</span>
-        </button>
-
-        <button class="action-btn action-btn-secondary" @click="Show_Draft_Sales" :title="$t('pos.Drafts_list')" v-if="isOnline">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <rect x="3" y="4" width="18" height="14" rx="2" ry="2"></rect>
-            <path d="M7 8h10M7 12h8"></path>
-          </svg>
-          <span>{{ $t('pos.Recent_Drafts') }}</span>
-        </button>
-
-        <button class="action-btn action-btn-secondary" @click="Submit_Draft" :disabled="DraftProcessing" :title="$t('pos.Hold_this_sale')" v-if="pos_settings.enable_hold_sales && isOnline">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="12" cy="12" r="10"></circle>
-            <path d="M10 9v6"></path>
-            <path d="M14 9v6"></path>
-          </svg>
-          <span>{{ DraftProcessing ? $t('pos.Saving') : $t('pos.Hold') }}</span>
-        </button>
-
-        <div class="footer-space"></div>
-
+      <!-- Right Section: Totals & Pay -->
+      <div class="footer-right-group">
         <div class="total-payable-section">
           <span class="payable-label">{{ $t('pos.Total_Payable') }}</span>
           <span class="payable-amount">{{ formatPriceWithCurrentCurrency(GrandTotal, 2) }}</span>
         </div>
 
         <button class="action-btn action-btn-primary" @click="openModernPaymentModal" :disabled="paymentProcessing || details.length === 0" :title="$t('pos.Complete_and_process_payment')">
-          <svg viewBox="0 0 24 24" fill="currentColor">
-            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"></path>
-          </svg>
+          <check-circle size="18" class="mr-2"></check-circle>
           <span>{{ paymentProcessing ? $t('pos.Processing') : $t('pos.Pay_Now') }}</span>
         </button>
       </div>
@@ -1776,6 +1748,12 @@ import { formatPriceDisplay, getPriceFormatSetting } from "../../../utils/priceF
 import { loadStripe } from "@stripe/stripe-js";
 import ModernPaymentModal from "../components/ModernPaymentModal.vue";
 import CustomFieldsForm from "../../../components/CustomFieldsForm.vue";
+import { 
+  UserPlus, ArrowRight, Receipt, Cloud, CreditCard, Maximize, 
+  Settings, Globe, Home, User, DollarSign, Banknote, QrCode, 
+  FileText, Trash2, CheckCircle, LogOut, ChevronDown, Monitor, RefreshCcw,
+  RefreshCw, Layers, PauseCircle, Search
+} from "lucide-vue";
 
 export default {
   components: {
@@ -1783,6 +1761,10 @@ export default {
     barcode: VueBarcode,
     ModernPaymentModal,
     CustomFieldsForm,
+    UserPlus, ArrowRight, Receipt, Cloud, CreditCard, Maximize, 
+    Settings, Globe, Home, User, DollarSign, Banknote, QrCode, 
+    FileText, Trash2, CheckCircle, LogOut, ChevronDown, Monitor, RefreshCcw,
+    RefreshCw, Layers, PauseCircle, Search
   },
   metaInfo: {
     title: "POS"
@@ -6149,12 +6131,12 @@ export default {
 // Color Palette & Typography
 $color-bg-light: #f8f9fb;
 $color-card-bg: #ffffff;
-$color-text-primary: #1a1a2e;
+$color-text-primary: #202020;
 $color-text-secondary: #6b7280;
 $color-text-tertiary: #9ca3af;
 $color-border-light: #e5e7eb;
-$color-gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-$color-gradient-hover: linear-gradient(135deg, #5568d3 0%, #69408f 100%);
+$color-gradient-primary: #2d8cff;
+$color-gradient-hover: #0073ff;
 $color-success: #10b981;
 $color-warning: #f59e0b;
 $color-danger: #ef4444;
@@ -6300,7 +6282,7 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       height: 100%;
       padding: 0 50px 0 40px;
       background: $color-bg-light;
-      border: none;
+      border: 1px solid $color-border-light;
       border-radius: $radius-md;
       font-size: $font-size-sm;
       color: $color-text-primary;
@@ -6308,8 +6290,9 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
       &:focus {
         outline: none;
-        background: white;
-        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        background: $color-bg-light;
+        box-shadow: none;
+        border-color: $color-gradient-primary;
       }
     }
 
@@ -6350,22 +6333,47 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Register status unified button styling */
+.action-btn-icon {
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: $radius-md;
+  background: $color-bg-light;
+  color: $color-text-primary;
+  border: 1px solid $color-border-light !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-decoration: none !important; /* For anchor tags */
+}
+
+.action-btn-icon:hover {
+  background: darken($color-bg-light, 5%);
+  color: $color-text-primary;
+}
+
 .register-status {
   display: inline-flex;
   align-items: center;
 }
 
 .register-status .register-toggle-btn {
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
   background: $color-bg-light;
   color: $color-text-primary;
   border: 1px solid $color-border-light;
-  padding: 4px 10px;
+  padding: 0 16px;
   font-weight: 600;
+  border-radius: $radius-md;
 }
 
 .register-status .register-toggle-btn:hover {
-  background: white;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.08);
+  background: darken($color-bg-light, 5%);
+  box-shadow: none;
 }
 
 .register-status .register-toggle-btn:focus {
@@ -6378,11 +6386,17 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   flex: 1 1 0;
   min-width: 150px;
   max-width: none;
+  border-radius: 12px;
 
   ::v-deep .vs__dropdown-toggle {
     width: 100%;
     min-width: 100%;
-    border: 1px solid #e5e7eb;
+    height: 40px;
+    background: $color-bg-light;
+    border: 1px solid $color-border-light;
+    border-radius: $radius-md;
+    display: flex;
+    align-items: center;
   }
 
   ::v-deep .vs__selected-options {
@@ -6444,7 +6458,7 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 .user-profile {
   width: 40px;
   height: 40px;
-  border-radius: 50%;
+  border-radius: 25%;
   background: $color-gradient-primary;
   display: flex;
   align-items: center;
@@ -6613,7 +6627,7 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     "qty price";
 
   &:hover {
-    border-color: #667eea;
+    border-color: #2d8cff;
     background: white;
     box-shadow: 0 2px 8px rgba(102, 126, 234, 0.1);
   }
@@ -6657,9 +6671,9 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       }
 
       &:hover {
-        border-color: #667eea;
+        border-color: #2d8cff;
         background: rgba(102, 126, 234, 0.06);
-        color: #667eea;
+        color: #2d8cff;
         transform: scale(1.05);
       }
 
@@ -6747,7 +6761,7 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       outline: none;
 
       &:hover {
-        border-color: #667eea;
+        border-color: #2d8cff;
         background: rgba(102, 126, 234, 0.05);
       }
 
@@ -6926,9 +6940,9 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         text-align: center;
         
         &:hover {
-          border-color: #667eea;
+          border-color: #2d8cff;
           background: rgba(102, 126, 234, 0.06);
-          color: #667eea;
+          color: #2d8cff;
         }
         
         &:active {
@@ -7058,6 +7072,12 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   margin-right: 4px;
   cursor: pointer;
   font-size: 16px;
+  height: 40px;
+  width: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: $radius-md;
 }
 
 /* ============================================
@@ -7092,7 +7112,7 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   margin-left: -16px;
   border-radius: 50%;
   border: 3px solid rgba(102, 126, 234, 0.25);
-  border-top-color: #667eea;
+  border-top-color: #2d8cff;
   animation: spinner-rotate 0.8s linear infinite;
 }
 
@@ -7122,11 +7142,11 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   &:hover {
-    border-color: #667eea;
+    border-color: #2d8cff;
     background: rgba(102, 126, 234, 0.05);
 
     svg {
-      color: #667eea;
+      color: #2d8cff;
     }
   }
 
@@ -7164,7 +7184,7 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   height: 100%;
 
   &:hover {
-    border-color: #667eea;
+    border-color: #2d8cff;
     box-shadow: 0 12px 32px rgba(102, 126, 234, 0.15);
     transform: translateY(-6px);
 
@@ -7273,7 +7293,7 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       height: 32px;
       border: none;
       background: rgba(102, 126, 234, 0.1);
-      color: #667eea;
+      color: #2d8cff;
       border-radius: $radius-sm;
       cursor: pointer;
       display: flex;
@@ -7319,90 +7339,120 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 12px;
-  padding: 12px 24px;
-  background: $color-card-bg;
+  gap: 16px;
+  padding: 12px 32px;
+  background: white;
   border-top: 1px solid $color-border-light;
-  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.05);
   z-index: 1000;
   height: auto;
+  min-height: 80px;
+  flex-wrap: wrap;
+}
+
+.footer-left-group {
+  display: flex;
+  align-items: center;
+  gap: 24px;
 }
 
 .footer-status-indicator {
   display: flex;
   align-items: center;
-  gap: 6px;
-  font-size: 15px;
-  color: $color-success;
+  gap: 8px;
+  padding: 8px 16px;
+  background: rgba(16, 185, 129, 0.08);
+  border-radius: 50px;
+  color: #10b981;
+  font-weight: 600;
+  font-size: 13px;
 
-  svg {
-    width: 16px;
-    height: 16px;
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    background: #10b981;
+    border-radius: 50%;
+    box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.2);
   }
 
   &.is-offline {
-    color: $color-warning;
+    background: rgba(239, 68, 68, 0.08);
+    color: #ef4444;
+    .status-dot {
+      background: #ef4444;
+      box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.2);
+    }
   }
 }
 
-.footer-main-group {
+.footer-nav-buttons {
   display: flex;
   align-items: center;
   gap: 12px;
-  flex: 1;
-  justify-content: center;
 }
 
-.footer-main-group .action-btn {
-  padding: 12px 0;
+.footer-right-group {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.footer-main-group {
+  display: none; /* Old group replaced */
 }
 
 .action-btn {
-  padding: 12px 20px;
-  border: none;
-  border-radius: $radius-md;
+  height: 48px;
+  padding: 0 24px;
+  border-radius: 12px;
   font-size: $font-size-sm;
   font-weight: 600;
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 8px;
-  transition: $transition-smooth;
+  gap: 10px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   font-family: $font-family-primary;
-  outline: none;
-  box-shadow: none;
+  border: 1px solid transparent;
 
-  svg {
-    width: 18px;
-    height: 18px;
-  }
-
-  &:hover {
-    transform: translateY(-2px);
-  }
-
-  &:active {
-    transform: translateY(0);
-  }
-
-  &:focus,
-  &:active,
-  &:focus-visible {
-    outline: none !important;
-    box-shadow: none !important;
-  }
   -webkit-tap-highlight-color: transparent;
 }
 
 .action-btn-secondary {
-  border: 1.5px solid $color-border-light;
-  background: white;
-  color: $color-text-secondary;
+  background: #f8fafc;
+  color: #1e293b;
+  border: 1px solid $color-border-light;
+  min-width: 200px;
+  justify-content: center;
 
   &:hover {
-    border-color: #667eea;
-    background: rgba(102, 126, 234, 0.05);
-    color: #667eea;
+    background: #f1f5f9;
+    border-color: #cbd5e1;
+    color: #0f172a;
+  }
+
+  @media (max-width: 1400px) {
+    min-width: 150px;
+    padding: 0 16px;
+  }
+
+  @media (max-width: 1200px) {
+    min-width: 130px;
+    font-size: 11px;
+    gap: 6px;
+  }
+
+  @media (max-width: 1100px) {
+    min-width: 48px;
+    padding: 0 12px;
+    span {
+      display: none;
+    }
+  }
+
+  @media (max-width: 640px) {
+    height: 44px;
+    border-radius: 10px;
   }
 }
 
@@ -7428,9 +7478,9 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   &:hover {
-    border-color: #667eea;
+    border-color: #2d8cff;
     background: rgba(102, 126, 234, 0.05);
-    color: #667eea;
+    color: #2d8cff;
   }
 
   &:focus,
@@ -7467,21 +7517,31 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .action-btn-primary {
-  background: $color-gradient-primary;
+  background: linear-gradient(135deg, #2d8cff 0%, #0066eb 100%);
   color: white;
-  box-shadow: 0 4px 16px rgba(102, 126, 234, 0.25);
-  flex: 1;
-  max-width: 300px;
+  box-shadow: 0 4px 12px rgba(45, 140, 255, 0.2);
+  min-width: 220px;
   justify-content: center;
+  font-size: 16px;
+  height: 52px;
+  border-radius: 14px;
 
   &:hover:not(:disabled) {
-    box-shadow: 0 6px 24px rgba(102, 126, 234, 0.35);
-    background: $color-gradient-hover;
+    box-shadow: 0 8px 24px rgba(45, 140, 255, 0.3);
+    transform: translateY(-2px);
   }
 
   &:disabled {
-    opacity: 0.6;
+    opacity: 0.5;
     cursor: not-allowed;
+  }
+
+  @media (max-width: 1400px) {
+    min-width: 180px;
+  }
+
+  @media (max-width: 1200px) {
+    min-width: 160px;
   }
 }
 
@@ -7513,7 +7573,7 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   text-align: left;
 }
 .lang-item:hover {
-  border-color: #667eea;
+  border-color: #2d8cff;
   background: rgba(102, 126, 234, 0.06);
 }
 .lang-item .flag-icon { width: 20px; height: 14px; object-fit: cover; }
@@ -7606,7 +7666,7 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   color: #fff;
 }
 .ts-icon i { font-size: 18px; }
-.ts-icon.primary { background: #667eea; }
+.ts-icon.primary { background: #2d8cff; }
 .ts-icon.success { background: #10b981; }
 .ts-icon.warning { background: #f59e0b; }
 .ts-icon.info { background: #3b82f6; }
@@ -7622,12 +7682,24 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 .total-payable-section {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  padding: 0 20px;
-  border-radius: $radius-md;
-  background: linear-gradient(135deg, rgba(102, 126, 234, 0.08) 0%, rgba(118, 75, 162, 0.08) 100%);
-  padding: 12px 20px;
+  align-items: flex-end;
+  gap: 2px;
+  padding-right: 12px;
+
+  .payable-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .payable-amount {
+    font-size: 24px;
+    font-weight: 800;
+    color: #1e293b;
+    line-height: 1;
+  }
 }
 
 /* Points convert UI */
@@ -7649,7 +7721,7 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
 }
 .convert-points-btn:hover {
-  border-color: #667eea;
+  border-color: #2d8cff;
   background: rgba(102,126,234,.06);
 }
 .convert-points-btn.converted {
@@ -7702,7 +7774,7 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   font-weight: 700;
   cursor: pointer;
 }
-.convert-btn:hover { border-color: #667eea; background: rgba(102,126,234,.06); }
+.convert-btn:hover { border-color: #2d8cff; background: rgba(102,126,234,.06); }
 .convert-btn.converted { border-color: #9CA3AF; color: #6B7280; }
 .convert-btn:focus,
 .convert-btn:active,
@@ -7782,9 +7854,9 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   &:hover:not(:disabled) {
-    border-color: #667eea;
+    border-color: #2d8cff;
     background: rgba(102, 126, 234, 0.05);
-    color: #667eea;
+    color: #2d8cff;
   }
 
   &:disabled {
@@ -7837,9 +7909,9 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   justify-content: center;
 
   &:hover {
-    border-color: #667eea;
+    border-color: #2d8cff;
     background: rgba(102, 126, 234, 0.05);
-    color: #667eea;
+    color: #2d8cff;
   }
 
   &.active {
@@ -7858,733 +7930,141 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     grid-template-columns: 400px 1fr;
     gap: 20px;
   }
-
-  .products-grid[data-v-4cc49487] {
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  .products-grid {
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
   }
-
-  .pos-header { gap: 16px; }
-
+  .pos-header {
+    gap: 12px;
+    padding: 10px 20px;
+  }
   .header-right {
-    gap: 8px;
-
+    gap: 6px;
+    .register-toggle-btn span { display: none; }
+    .warehouse-select, .customer-select-header { max-width: 180px; }
   }
 }
 
 @media (max-width: 1200px) {
-  .pos-header { gap: 12px; }
-
-  .summary-breakdown {
-    margin-top: 8px;
-    padding-top: 8px;
-    border-top: 1px dashed var(--color-border);
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 6px;
-  }
-
-  .bd-item {
-    display: flex;
-    justify-content: space-between;
-    font-size: 12px;
-    color: #6b7280;
-  }
-
-  .brand-icon {
-    width: 36px;
-    height: 36px;
-    font-size: 18px;
-  }
-
-  .brand-info h2 {
-    font-size: 16px;
-  }
-
-  .brand-info p {
-    font-size: 10px;
-  }
-
-}
-
-@media (max-width: 1000px) {
-  .pos-header { gap: 10px; align-items: stretch; flex-wrap: wrap; }
-
-  .header-left {
-    min-width: 0;
-  }
-
-  .brand-info h2 {
-    font-size: 15px;
-  }
-
-  .header-center {
-    order: 3;
-    flex: 1 1 100%;
-    grid-column: 1 / -1;
-
-    .search-wrapper {
-      width: 100%;
-    }
-  }
-
+  .pos-header { gap: 10px; }
+  .brand-icon { width: 32px; height: 32px; font-size: 16px; }
+  .brand-info h2 { font-size: 14px; }
   .header-right {
-    gap: 6px;
-    flex-wrap: wrap;
-    width: 100%;
-
-
-    .user-profile {
-      width: 36px;
-      height: 36px;
-      font-size: 12px;
-      flex-shrink: 0;
-    }
+    .warehouse-select, .customer-select-header { max-width: 150px; }
   }
-  .pos-codecanyon {
-    height: auto;
-    min-height: 100vh;
-    overflow: visible;
-  }
-
-  .pos-container {
-    grid-template-columns: 1fr;
-    gap: 16px;
-    padding-bottom: 24px;
-    height: auto;
-    overflow: visible;
-  }
-
-  .pos-column-left {
-    gap: 16px;
-    height: auto;
-    flex-direction: row;
-    overflow-x: auto;
-  }
-
-  .card-added-products {
-    max-height: none;
-    flex: 0 0 45%;
-    min-width: 0;
-  }
-
-  .card-summary {
-    flex: 0 0 55%;
-    min-width: 0;
-  }
-
-  .products-grid {
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  }
-  .products-container { padding-bottom: 16px; }
-  .cart-section { max-height: none; }
-  .pos-footer-bar { position: static; }
 }
 
 @media (max-width: 1024px) {
-  .pos-header { gap: 12px; padding: 12px 16px; min-height: auto; position: static !important; height: auto; align-items: stretch; flex-wrap: wrap; }
+  .pos-codecanyon { height: auto; min-height: 100vh; overflow: visible; }
+  .pos-container { grid-template-columns: 1fr; gap: 16px; padding-bottom: 24px; height: auto; overflow: visible; }
+  .pos-column-left { gap: 16px; height: auto; flex-direction: row; overflow-x: auto; }
+  .card-added-products { flex: 0 0 45%; min-width: 0; }
+  .card-summary { flex: 0 0 55%; min-width: 0; }
+  .cart-section { max-height: none; }
   .pos-footer-bar { position: static; }
 
-  /* Tablet layout: stack checkout above Available Products (single column) */
-  .pos-codecanyon { height: auto; min-height: 100vh; overflow: visible; }
-  .pos-container { grid-template-columns: 1fr; height: auto; overflow: visible; }
-  .pos-column-left { height: auto; overflow: visible; }
-
-  /* Checkout card: avoid cramped internal scroll on tablet */
-  .cart-section { max-height: none; }
-  .summary-section { padding-bottom: 16px; }
-
-  /* Available Products card: remove excessive bottom padding on tablet */
-  .products-container { padding-bottom: 16px; }
-
-  /* Show brand icon at tablet size */
-  .header-left {
-    order: 1;
-    display: flex !important;
-    width: 100%;
-    height: auto;
-  }
-
-  .header-center {
-    order: 3;
-    width: 100%;
-    height: 40px;
-
-    .search-wrapper {
-      height: 40px;
-      margin-top: 20px;
-      
-      > .action-btn-icon {
-        width: 36px !important;
-      }
-    }
-  }
-
-  .header-right {
-    order: 2;
-    width: 100%;
-    height: 40px;
-    gap: 6px;
-    flex-wrap: wrap;
-
-
-    .user-profile {
-      width: 40px;
-      height: 40px;
-      flex-shrink: 0;
-    }
-  }
-
-  /* Small size language dropdown toggle (override Bootstrap-Vue) */
-  ::v-deep(button#lang-dd__BV_toggle_) {
-    width: 30px !important;
-    height: 30px !important;
-    min-width: 30px !important;
-    min-height: 30px !important;
-    line-height: 30px !important;
-    padding: 0 !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-  }
-  ::v-deep(button#lang-dd__BV_toggle_ > a.action-btn-icon),
-  ::v-deep(button#lang-dd__BV_toggle_ .action-btn-icon) {
-    width: 30px !important;
-    height: 30px !important;
-    padding: 0 !important;
-    line-height: 30px !important;
-  }
-
-  .brand {
-    gap: 8px;
-  }
-
-  .brand-icon {
-    width: 32px;
-    height: 32px;
-    font-size: 16px;
-  }
-
-  .brand-info h2 {
-    font-size: 14px;
-  }
-
-  .brand-info p {
-    font-size: 10px;
-  }
-
-  .pos-container {
-    padding: 12px 16px;
-    gap: 12px;
-  }
-
-  /* Small screen spacing removed per request */
-
-  /* Compact header icons on small screens */
-  ::v-deep(.action-btn-icon) { width: 30px !important; height: 30px !important; }
-
-  .pos-footer-bar {
-    padding: 12px 16px;
-    gap: 8px;
-    flex-wrap: wrap;
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .footer-status-indicator {
-    width: 100%;
-    justify-content: center;
-    margin-bottom: 4px;
-  }
-
-  .footer-main-group {
-    width: 100%;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  .action-btn[data-v-4cc49487] {
-    padding: 10px 53px;
-    font-size: 12px;
-  }
-
-  .action-btn-primary {
-    max-width: none;
-    flex: 1;
-    min-width: 100%;
-  }
-
-  .total-payable-section {
-    order: -1;
-    width: 100%;
-    margin-bottom: 8px;
-  }
-
-
-  .footer-divider {
-    display: none;
-  }
-
-  .products-grid {
-    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-  }
-  .pos-autocomplete-results { left: 0; right: 0; }
-  
-  /* Filter section full width with 40/40/20 layout */
-  .card.card-products .card-header .filter-section {
-    width: 100%;
-    display: flex;
+  .pos-header {
     gap: 10px;
+    padding: 10px 12px;
+    min-height: auto;
+    height: auto;
+    align-items: center;
+    flex-wrap: wrap;
   }
-  .card.card-products .card-header .filter-section > .flat-select {
-    flex: 0 0 40%;
-    max-width: 40%;
-    min-width: 0;
+  .header-left { order: 1; flex: 0 0 auto; }
+  .header-right {
+    order: 2; flex: 1; justify-content: flex-end; gap: 8px;
+    .warehouse-select, .customer-select-header { max-width: 180px; min-width: 140px; }
+    .action-btn-icon { width: 36px !important; height: 36px !important; svg { width: 16px; height: 16px; flex-shrink: 0; } }
+    .user-profile { width: 36px; height: 36px; }
   }
-  .card.card-products .card-header .filter-section > .reset-filters-btn[data-v-4cc49487] {
-    flex: 0 0 15%;
-    max-width: 15%;
-  }
-  
-  /* Hide specific header actions on small screens */
-  .header-right .btn-new-customer,
-  .header-right .btn-pos-settings,
-  .header-right .btn-fullscreen { display: none !important; }
-
-  .header-right .btn-offline-status {
-    position: relative;
-  }
-
-  .header-right .btn-offline-status.is-offline {
-    border-color: $color-danger;
-    background: $color-danger;
-    color: #fff;
-  }
-
-  .header-right .btn-offline-status.is-offline i {
-    color: #fff;
-  }
-
-  .header-right .btn-offline-status .offline-badge {
-    position: absolute;
-    top: -4px;
-    right: -2px;
-    background: $color-danger;
-    color: #fff;
-    border-radius: 999px;
-    padding: 0 4px;
-    font-size: 10px;
-    line-height: 1.4;
-  }
-
-  /* Hide Available Products heading on small screens */
-  .card.card-products .card-header > h3 { display: none !important; }
+  .header-center { order: 3; flex: 1 1 100%; margin-top: 8px; .search-wrapper { width: 100%; height: 40px; } }
 }
 
 @media (max-width: 640px) {
-  .pos-header { padding: 10px 12px; gap: 10px; min-height: auto; }
-
-  .header-center {
-    height: 38px;
-
-    .search-wrapper {
-      height: 38px;
-    }
-
-    .search-input {
-      padding: 0 10px 0 36px;
-      font-size: 12px;
-    }
-
-    .search-icon {
-      width: 16px;
-      height: 16px;
-      left: 10px;
-    }
-  }
-
+  .pos-header { padding: 8px 12px; gap: 10px; }
   .header-right {
-    height: 38px;
-    gap: 6px;
-
-
-    .user-profile {
-      width: 38px;
-      height: 38px;
-      font-size: 11px;
-    }
+    .btn-new-customer, .btn-pos-settings, .btn-fullscreen { display: none !important; }
+    .warehouse-select, .customer-select-header { max-width: 150px; min-width: 120px; }
   }
-
-  .pos-container {
-    padding: 12px 12px;
-    gap: 10px;
-  }
-
-  .card-header {
-    padding: 14px 16px;
-    h3 {
-      font-size: 15px;
-    }
-  }
-
-  .charge-row {
-    gap: 0;
-
-    label {
-      font-size: 10px;
-    }
-
-    .charge-input-group {
-      width: 100px;
-    }
-  }
-
-  .products-grid {
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-    gap: 12px;
-  }
-  
-  /* Hide elements on small screens */
-  .header-left { display: none !important; }
-  .header-right .btn-new-customer,
-  .header-right .btn-pos-settings,
-  .header-right .btn-fullscreen { display: none !important; }
-  .card.card-products .card-header > h3 { display: none !important; }
-
-  .pagination-footer {
-    gap: 8px;
-    padding: 10px 12px;
-  }
-
-  .pagination-dots {
-    max-width: 250px;
-  }
-
-  .pos-footer-bar {
-    padding: 10px 12px;
-    gap: 6px;
-  }
-
-  .total-payable-section {
-    padding: 10px 12px;
-  }
-
-  .payable-amount {
-    font-size: 18px;
-  }
-
-  /* Ensure filter section is full width with 40/40/20 on ≤640px */
-  .card.card-products .card-header .filter-section {
-    width: 100%;
-    display: flex;
-    gap: 10px;
-  }
-  .card.card-products .card-header .filter-section > .flat-select {
-    flex: 0 0 40%;
-    max-width: 40%;
-    min-width: 0;
-  }
-  .card.card-products .card-header .filter-section > .reset-filters-btn[data-v-4cc49487] {
-    flex: 0 0 15%;
-    max-width: 15%;
-  }
+  .pos-column-left { flex-direction: column; overflow-x: visible; }
+  .card-added-products, .card-summary { flex: 1 1 100%; width: 100%; }
 }
 
 @media (max-width: 480px) {
-  .pos-header[data-v-4cc49487] { padding: 20px 10px; gap: 1px; min-height: auto; }
-  /* Swap headers: hide desktop header, show mobile header */
   .pos-header { display: none !important; }
-  .pos-header-mobile { display: block; padding: 12px 10px; background: $color-card-bg; border-bottom: 1px solid $color-border-light; box-shadow: $shadow-md; }
-
-  .pos-header-mobile .mobile-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+  .pos-header-mobile {
+    display: block; padding: 12px 14px; background: white;
+    border-bottom: 1px solid $color-border-light; box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  }
+  .pos-header-mobile .mobile-row { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
   .pos-header-mobile .mobile-row:last-child { margin-bottom: 0; }
+  .pos-header-mobile .mobile-top { justify-content: space-between; margin-bottom: 12px; }
+  .pos-header-mobile .brand-icon { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; background: $color-bg-light; border: 1px solid $color-border-light; }
+  .pos-header-mobile .top-icons { display: inline-flex; align-items: center; gap: 6px; }
+  .pos-header-mobile .top-icons .action-btn-icon, .pos-header-mobile .user-profile { width: 36px !important; height: 36px !important; border-radius: 8px; }
 
-  .pos-header-mobile .mobile-top { justify-content: space-between; }
-  .pos-header-mobile .mobile-top .brand { display: flex; align-items: center; }
-  .pos-header-mobile .mobile-top .brand .brand-icon { width: 44px; height: 44px; border-radius: $radius-md; display: flex; align-items: center; justify-content: center; font-weight: 700; }
-  .pos-header-mobile .mobile-top .top-icons { display: inline-flex; align-items: center; gap: 6px; }
-  /* Keep icon containers same size as desktop */
-  .pos-header-mobile .mobile-top .top-icons .action-btn-icon { width: 40px !important; height: 40px !important; display: inline-flex; align-items: center; justify-content: center; }
-  .pos-header-mobile .mobile-top .top-icons .btn-pos-settings { width: 40px !important; height: 40px !important; }
-  .pos-header-mobile .mobile-top .top-icons .btn-offline-status { width: 40px !important; height: 40px !important; }
-  .pos-header-mobile .mobile-top .top-icons .btn-offline-status.is-offline { border-color: $color-danger; background: $color-danger; color: #fff; }
-  .pos-header-mobile .mobile-top .top-icons .btn-offline-status.is-offline i { color: #fff; }
-  .pos-header-mobile .mobile-top .top-icons .btn-offline-status .offline-badge { top: -4px; right: -2px; background: $color-danger; color: #fff; border-radius: 999px; padding: 0 4px; font-size: 10px; line-height: 1.4; }
-  .pos-header-mobile .mobile-top .top-icons .user-profile { width: 40px !important; height: 40px !important; }
-  /* Bootstrap-Vue language toggle button size */
-  ::v-deep(button#lang-dd-mobile__BV_toggle_) { width: 40px !important; height: 40px !important; min-width: 40px !important; min-height: 40px !important; padding: 0 !important; display: inline-flex !important; align-items: center !important; justify-content: center !important; }
-  ::v-deep(button#lang-dd-mobile__BV_toggle_ > a.action-btn-icon),
-  ::v-deep(button#lang-dd-mobile__BV_toggle_ .action-btn-icon) { width: 40px !important; height: 40px !important; }
-
-  /* Bootstrap-Vue user dropdown container and toggle size */
-  .pos-header-mobile #user-dd-mobile { width: 40px !important; height: 40px !important; }
-  ::v-deep(button#user-dd-mobile__BV_toggle_) { width: 40px !important; height: 40px !important; min-width: 40px !important; min-height: 40px !important; padding: 0 !important; display: inline-flex !important; align-items: center !important; justify-content: center !important; }
-
-  .pos-header-mobile .warehouse-select,
-  .pos-header-mobile .customer-select-header {
-    width: 100%;
-  }
-
-  .pos-header-mobile .search-wrapper { position: relative; display: flex; align-items: center; height: 36px; width: 100%; }
-  .pos-header-mobile .search-icon { position: absolute; left: 8px; width: 14px; height: 14px; color: $color-text-tertiary; pointer-events: none; }
-  .pos-header-mobile .search-input { width: 100%; height: 100%; padding: 0 36px 0 32px; background: $color-bg-light; border: none; border-radius: $radius-md; font-size: 12px; color: $color-text-primary; }
-  .pos-header-mobile .search-wrapper > .action-btn-icon { position: absolute; right: 0; top: 0; height: 100% !important; width: 32px !important; display: inline-flex; align-items: center; justify-content: center; background: white; border: 1px solid $color-border-light; border-left: 1px solid $color-border-light; border-radius: 0 $radius-md $radius-md 0; }
-
-  /* Reuse existing register button neutral style */
-  .pos-header-mobile .register-status { display: inline-flex; align-items: center; gap: 6px; margin-left: auto; }
-  .pos-header-mobile .register-toggle-btn { background: $color-bg-light; color: $color-text-primary; border: 1px solid $color-border-light; padding: 4px 10px; font-weight: 600; }
-  /* Mobile-only POS header layout */
-  .pos-header {
-    position: static !important;
-    height: auto !important;
-    flex-wrap: wrap; /* allow stacking below top row */
-    align-items: center; /* align brand with icons on the top row */
-  }
-  /* Ensure brand is visible and first */
-  .header-left {
-    display: flex !important;
-    order: 0;
-    width: auto;
-    height: 36px;
-    align-items: center;
-  }
-
-  .header-center {
-    height: 36px;
-
-    .search-wrapper {
-      height: 36px;
-    }
-
-    .search-input {
-      padding: 0 8px 0 32px;
-      font-size: 11px;
-    }
-
-    .search-icon {
-      width: 14px;
-      height: 14px;
-      left: 8px;
-    }
-  }
-
-  /* Place search right below register-status */
-  .header-center {
-    order: 5;
-    width: 100%;
-
-    .search-wrapper {
-      margin-top: 0;
-
-      > .action-btn-icon {
-        width: 32px !important;
-      }
-    }
-
-    .search-input {
-      padding: 0 36px 0 32px;
-    }
-  }
-
-  .header-right {
-    height: 36px;
-    gap: 6px;
-
-
-    .user-profile {
-      width: 36px;
-      height: 36px;
-      font-size: 10px;
-    }
-  }
-
-  /* Arrange header-right content rows and ordering */
-  .header-right {
-    order: 1;
-    width: auto;
-    flex: 1 1 auto;
+  .pos-header-mobile .search-wrapper {
+    position: relative;
     display: flex;
-    flex-wrap: wrap;
-    align-content: flex-start;
-    min-width: 0;
-  }
+    align-items: center;
+    height: 40px;
+    width: 100%;
+    
+    .search-icon {
+      position: absolute;
+      left: 12px;
+      width: 16px !important;
+      height: 16px !important;
+      color: $color-text-tertiary;
+      z-index: 2;
+      pointer-events: none;
+    }
 
-  /* Top row items: i-Receipt, language, profile (brand is separate in .header-left) */
-  .header-right > .action-btn-icon { order: 1; }
-  .header-right > .dropdown.action-btn-icon { order: 2; display: inline-flex !important; }
-  .header-right > .dropdown:not(.action-btn-icon) { order: 3; }
-
-  /* Next rows: register, search (as sibling), then selects full width; move POS settings below */
-  .header-right > .register-status { order: 4; flex: 1 1 100%; min-width: 0; }
-  .header-right > .warehouse-select { order: 6; flex: 1 1 100%; min-width: 0; }
-  .header-right > .customer-select-header { order: 7; flex: 1 1 100%; min-width: 0; }
-  .header-right > .btn-pos-settings { order: 8; display: inline-flex !important; }
-
-  /* Keep brand and icons on the same row */
-  .header-left { flex: 0 0 auto; }
-  .header-right { flex: 1 1 auto; }
-
-  .brand {
-    gap: 6px;
-  }
-
-  .brand-icon {
-    width: 28px;
-    height: 28px;
-    font-size: 14px;
-  }
-
-  .brand-info h2 {
-    font-size: 12px;
-  }
-
-  .brand-info p {
-    font-size: 9px;
-  }
-
-  .pos-container {
-    padding: 8px 10px;
-    padding-bottom: 100px;
-    gap: 8px;
-  }
-
-  .pos-column-left {
-    gap: 12px;
-  }
-
-  .card-header {
-    padding: 12px 12px;
-    h3 {
+    .search-input {
+      flex: 1;
+      height: 100%;
+      padding: 0 44px 0 36px;
+      background: $color-bg-light;
+      border: 1px solid $color-border-light;
+      border-radius: 10px;
       font-size: 13px;
     }
-  }
 
-  .charge-row {
-    gap: 0;
-
-    label {
-      font-size: 10px;
-    }
-
-    .charge-input-group {
-      width: 100px;
-    }
-  }
-
-  .products-grid {
-    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-    gap: 10px;
-  }
-
-  .pagination-footer {
-    gap: 6px;
-    padding: 8px 10px;
-  }
-
-  .pagination-info {
-    min-width: 120px;
-  }
-
-  .pagination-dots {
-    max-width: 200px;
-  }
-
-  .pagination-dot {
-    width: 28px;
-    height: 28px;
-    font-size: 10px;
-  }
-
-  .product-image-wrapper {
-    height: 120px;
-  }
-
-  .product-details {
-    padding: 10px;
-
-    .product-name {
-      font-size: 11px;
-    }
-
-    .product-brand {
-      font-size: 9px;
-    }
-
-    .product-stock {
-      font-size: 10px;
-    }
-
-    .product-footer {
-      .product-price {
-        font-size: 12px;
-      }
+    .action-btn-icon {
+      position: absolute;
+      right: 0;
+      top: 0;
+      height: 40px !important;
+      width: 40px !important;
+      background: transparent;
+      border: none !important;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
     }
   }
 
   .pos-footer-bar {
-    padding: 8px 10px;
-    gap: 4px;
-
-    /* 2x2 footer buttons grid (Home / Reset / Recent Drafts / Hold) */
-    .footer-main-group {
-      width: 100%;
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 8px;
-      justify-content: stretch;
-      align-items: stretch;
-    }
-
-    /* Remove spacer in grid layout */
-    .footer-space {
-      display: none;
-    }
-
-    /* Secondary actions: 50% / 50% */
-    .footer-main-group .action-btn.action-btn-secondary {
-      width: 100%;
-      justify-content: center;
-      padding: 8px 10px;
-      font-size: 10px;
-    }
-
-    /* Total + Pay Now full width below the 2x2 button grid */
-    .total-payable-section,
-    .action-btn-primary {
-      grid-column: 1 / -1;
-      width: 100%;
-    }
-
-    .action-btn {
-      padding: 8px 12px;
-      font-size: 10px;
-    }
-
-    .action-btn-icon {
-      width: 36px;
-      height: 36px;
-
-      svg {
-        width: 14px;
-        height: 14px;
-      }
-    }
-
-    .action-btn-primary {
-      min-width: 100%;
-      padding: 8px 12px;
-    }
+    padding: 12px 16px; height: auto; min-height: auto; flex-direction: column; align-items: stretch; gap: 12px;
   }
+  .footer-left-group { width: 100%; justify-content: space-between; gap: 12px; padding: 0; }
+  .footer-nav-buttons { flex: 1; justify-content: flex-end; gap: 8px; }
+  .footer-right-group { width: 100%; display: flex; justify-content: space-between; align-items: center; gap: 16px; padding-top: 12px; border-top: 1px solid rgba(226, 232, 240, 0.6); }
+  .total-payable-section { flex: 1; padding: 0; align-items: flex-start; .payable-amount { font-size: 20px !important; } }
+  .action-btn-primary { flex: 2; height: 48px; border-radius: 12px; font-size: 15px; font-weight: 700; }
+  .action-btn-secondary { width: 44px !important; height: 44px !important; min-width: 44px !important; border-radius: 10px; span { display: none !important; } svg { width: 18px; height: 18px; } }
 }
 
 .premium-payment-modal {
-  --color-primary: #667eea;
-  --color-secondary: #764ba2;
+  --color-primary: #2d8cff;
+  --color-secondary: #2d8cff;
   --color-success: #10b981;
   --color-danger: #ef4444;
   --color-warning: #f59e0b;
   --color-border: #e5e7eb;
   --color-bg: #f8f9fb;
-  --color-text: #1a1a2e;
+  --color-text: #202020;
   --color-gray: #6b7280;
 }
 

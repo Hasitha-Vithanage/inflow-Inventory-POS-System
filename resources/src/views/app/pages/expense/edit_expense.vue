@@ -141,7 +141,7 @@
 
                 <b-col md="12">
                   <b-form-group>
-                    <b-button variant="primary" type="submit"  :disabled="SubmitProcessing"><i class="i-Yes me-2 font-weight-bold"></i> {{$t('submit')}}</b-button>
+                    <b-button variant="primary" type="submit"  :disabled="SubmitProcessing"><CheckCircle size="14" class="mr-2"></CheckCircle> {{$t('submit')}}</b-button>
                       <div v-once class="typo__p" v-if="SubmitProcessing">
                         <div class="spinner sm spinner-primary mt-3"></div>
                       </div>
@@ -157,11 +157,15 @@
 </template>
 
 <script>
+import { CheckCircle } from "lucide-vue";
 import NProgress from "nprogress";
 
 export default {
   metaInfo: {
     title: "Edit Expense"
+  },
+  components: {
+    CheckCircle
   },
   data() {
     return {

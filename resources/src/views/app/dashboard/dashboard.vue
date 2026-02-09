@@ -22,11 +22,11 @@
                   :clearable="true"
                 >
                   <template v-slot:option="option">
-                    <i class="i-Home1 mr-2"></i>
+                    <home size="18" class="mr-2"></home>
                     {{ option.label }}
                   </template>
                   <template v-slot:selected-option="option">
-                    <i class="i-Home1 mr-2"></i>
+                    <home size="18" class="mr-2"></home>
                     {{ option ? option.label : $t('Filter_by_warehouse') }}
                   </template>
                 </v-select>
@@ -43,7 +43,7 @@
                 >
                   <template v-slot:input="picker">
                     <button type="button" class="date-picker-header-btn">
-                      <i class="i-Calendar-4 mr-2"></i>
+                      <calendar size="18" class="mr-2"></calendar>
                       <span>{{ fmt(picker.startDate) }} - {{ fmt(picker.endDate) }}</span>
                     </button>
                   </template>
@@ -83,7 +83,7 @@
             >
               <template v-slot:input="picker">
                 <b-button variant="light" class="w-100 text-left date-picker-btn">
-                  <i class="i-Calendar-4 mr-2"></i>
+                  <calendar size="18" class="mr-2"></calendar>
                   {{ fmt(picker.startDate) }} - {{ fmt(picker.endDate) }}
                 </b-button>
               </template>
@@ -110,7 +110,7 @@
         <div class="col-lg-3 col-md-6 col-sm-12 mb-3">
           <div class="stat-card sales-card">
             <div class="stat-card-icon">
-              <i class="i-Full-Cart"></i>
+              <shopping-cart size="24"></shopping-cart>
             </div>
             <div class="stat-card-content">
               <p class="stat-card-label">{{ $t('Sales') }}</p>
@@ -127,7 +127,7 @@
         <div class="col-lg-3 col-md-6 col-sm-12 mb-3">
           <div class="stat-card purchases-card">
             <div class="stat-card-icon">
-              <i class="i-Add-Cart"></i>
+              <shopping-bag size="24"></shopping-bag>
             </div>
             <div class="stat-card-content">
               <p class="stat-card-label">{{ $t('Purchases') }}</p>
@@ -144,7 +144,7 @@
         <div class="col-lg-3 col-md-6 col-sm-12 mb-3">
           <div class="stat-card returns-card">
             <div class="stat-card-icon">
-              <i class="i-Right-4"></i>
+              <arrow-right-circle size="24"></arrow-right-circle>
             </div>
             <div class="stat-card-content">
               <p class="stat-card-label">{{ $t('SalesReturn') }}</p>
@@ -161,7 +161,7 @@
         <div class="col-lg-3 col-md-6 col-sm-12 mb-3">
           <div class="stat-card revenue-card">
             <div class="stat-card-icon">
-              <i class="i-Left-4"></i>
+              <arrow-left-circle size="24"></arrow-left-circle>
             </div>
             <div class="stat-card-content">
               <p class="stat-card-label">{{ $t('PurchasesReturn') }}</p>
@@ -182,7 +182,7 @@
         <div class="col-lg-3 col-md-6 col-sm-12 mb-3">
           <div class="stat-card sales-due-card">
             <div class="stat-card-icon">
-              <i class="i-Money-2"></i>
+              <banknote size="24"></banknote>
             </div>
             <div class="stat-card-content">
               <p class="stat-card-label">{{ $t('Sales_Due') }}</p>
@@ -200,7 +200,7 @@
         <div class="col-lg-3 col-md-6 col-sm-12 mb-3">
           <div class="stat-card purchase-due-card">
             <div class="stat-card-icon">
-              <i class="i-Money-Bag"></i>
+              <wallet size="24"></wallet>
             </div>
             <div class="stat-card-content">
               <p class="stat-card-label">
@@ -220,7 +220,7 @@
         <div class="col-lg-3 col-md-6 col-sm-12 mb-3">
           <div class="stat-card invoices-card">
             <div class="stat-card-icon">
-              <i class="i-File-TXT"></i>
+              <file-text size="24"></file-text>
             </div>
             <div class="stat-card-content">
               <p class="stat-card-label">
@@ -240,7 +240,7 @@
         <div class="col-lg-3 col-md-6 col-sm-12 mb-3">
           <div class="stat-card profit-card">
             <div class="stat-card-icon">
-              <i class="i-Money-2"></i>
+              <banknote size="24"></banknote>
             </div>
             <div class="stat-card-content">
               <p class="stat-card-label">
@@ -308,7 +308,7 @@
             <div class="info-card-header">
               <h4 class="info-card-title">{{ $t('Sales_by_Payment') || 'Sales by Payment' }}</h4>
               <div class="info-card-menu">
-                <i class="i-More-Vertical"></i>
+                <more-vertical size="18"></more-vertical>
               </div>
             </div>
             <div class="info-card-body">
@@ -341,7 +341,7 @@
             <div class="info-card-header">
               <h4 class="info-card-title">{{ $t('Stock_Value') || 'Stock Value' }}</h4>
               <div class="info-card-menu">
-                <i class="i-More-Vertical"></i>
+                <more-vertical size="18"></more-vertical>
               </div>
             </div>
             <div class="info-card-body">
@@ -349,7 +349,7 @@
                 <div class="info-card-item-header">
                   <div class="info-card-item-label">
                     <div class="info-card-icon stock-icon-cost">
-                      <i class="i-Dollar-Sign"></i>
+                      <dollar-sign size="18"></dollar-sign>
                     </div>
                     <span>{{ $t('Stock_Value_by_Cost') || 'Stock Value by Cost' }}</span>
                   </div>
@@ -362,7 +362,7 @@
                 <div class="info-card-item-header">
                   <div class="info-card-item-label">
                     <div class="info-card-icon stock-icon-retail">
-                      <i class="i-Tag"></i>
+                      <tag size="18"></tag>
                     </div>
                     <span>{{ $t('Stock_Value_by_Retail') || 'Stock Value by Retail' }}</span>
                   </div>
@@ -375,7 +375,7 @@
                 <div class="info-card-item-header">
                   <div class="info-card-item-label">
                     <div class="info-card-icon stock-icon-wholesale">
-                      <i class="i-Box"></i>
+                      <box size="18"></box>
                     </div>
                     <span>{{ $t('Stock_Value_by_Wholesale') || 'Stock Value by Wholesale' }}</span>
                   </div>
@@ -439,7 +439,7 @@
             <div class="table-card-header">
               <h4 class="table-card-title">{{ $t('StockAlert') }}</h4>
               <router-link to="/app/products/list" class="table-card-link">
-                {{ $t('View') }} {{ $t('All') }} <i class="i-Arrow-Right"></i>
+                {{ $t('View') }} {{ $t('All') }} <arrow-right size="14"></arrow-right>
               </router-link>
             </div>
             <div class="table-card-body">
@@ -493,7 +493,7 @@
             <div class="table-card-header">
               <h4 class="table-card-title">{{ $t('Recent_Sales') }}</h4>
               <router-link to="/app/sales/list" class="table-card-link">
-                {{ $t('View') }} {{ $t('All') }} <i class="i-Arrow-Right"></i>
+                {{ $t('View') }} {{ $t('All') }} <arrow-right size="14"></arrow-right>
               </router-link>
             </div>
             <div class="table-card-body">
@@ -540,7 +540,7 @@
     <div v-else>
       <div class="welcome-card">
         <div class="welcome-icon">
-          <i class="i-Home1"></i>
+          <home size="48"></home>
         </div>
         <h3>{{ $t('Welcome_to_your_Dashboard') }}</h3>
         <p class="text-muted">{{ $t('No_dashboard_permission') }}</p>
@@ -555,6 +555,11 @@ import VueApexCharts from "vue-apexcharts";
 import DateRangePicker from "vue2-daterange-picker";
 import "vue2-daterange-picker/dist/vue2-daterange-picker.css";
 import moment from "moment";
+import { 
+  Home, Calendar, ShoppingCart, ShoppingBag, ArrowRightCircle, 
+  ArrowLeftCircle, Banknote, Wallet, FileText, MoreVertical, 
+  DollarSign, Tag, Box, ArrowRight
+} from "lucide-vue";
 import {
   formatPriceDisplay as formatPriceDisplayHelper,
   getPriceFormatSetting
@@ -564,6 +569,9 @@ export default {
   components: {
     apexchart: VueApexCharts,
     "date-range-picker": DateRangePicker,
+    Home, Calendar, ShoppingCart, ShoppingBag, ArrowRightCircle, 
+    ArrowLeftCircle, Banknote, Wallet, FileText, MoreVertical, 
+    DollarSign, Tag, Box, ArrowRight
   },
   metaInfo: { title: "Dashboard" },
   data() {
@@ -787,7 +795,7 @@ export default {
               toolbar: { show: true },
               fontFamily: "inherit"
             },
-            colors: ["#8B5CF6", "#DDD6FE"],
+            colors: ["#2d8cff", "#c4dfff"],
             plotOptions: {
               bar: {
                 horizontal: false,
@@ -896,7 +904,7 @@ export default {
             },
             labels: productData.map(item => item.name),
             // Use a vibrant, high‑contrast palette so each top product is clearly distinct
-            colors: ["#6366F1", "#10B981", "#F59E0B", "#EF4444", "#EC4899"],
+            colors: ["#6383f1", "#10B981", "#F59E0B", "#EF4444", "#EC4899"],
             legend: {
               position: "bottom",
               fontSize: "12px"
@@ -942,7 +950,7 @@ export default {
               fontFamily: "inherit"
             },
             labels: customerData.map(item => item.name),
-            colors: ["#8B5CF6", "#A78BFA", "#C4B5FD", "#DDD6FE", "#EDE9FE"],
+            colors: ["#2d8cff", "#A78BFA", "#C4B5FD", "#c4dfff", "#EDE9FE"],
             legend: {
               position: "bottom",
               fontSize: "12px"
@@ -1132,7 +1140,7 @@ export default {
 <style scoped>
 /* Dashboard Header */
 .dashboard-header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #2d8cff;
   padding: 2rem;
   border-radius: 12px;
   color: white;
@@ -1323,7 +1331,7 @@ export default {
   border-radius: 8px !important;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
   border: 1px solid #e0e6ed !important;
-  margin-top: 0.5rem !important;
+  margin-top: 1rem !important;
 }
 
 .warehouse-filter >>> .v-select .vs__dropdown-option {
@@ -1335,7 +1343,7 @@ export default {
 }
 
 .warehouse-filter >>> .v-select .vs__dropdown-option--highlight {
-  background: #8B5CF6 !important;
+  background: #2d8cff !important;
   color: white !important;
 }
 
@@ -1362,8 +1370,8 @@ export default {
 }
 
 .date-picker-btn:hover {
-  border-color: #8B5CF6;
-  color: #8B5CF6;
+  border-color: #2d8cff;
+  color: #2d8cff;
 }
 
 .quick-wrap .btn {
@@ -1407,42 +1415,42 @@ export default {
 }
 
 .sales-card .stat-card-icon {
-  background: linear-gradient(135deg, #8B5CF6 0%, #A78BFA 100%);
+  background:#2d8cff;
   color: white;
 }
 
 .purchases-card .stat-card-icon {
-  background: linear-gradient(135deg, #10B981 0%, #34D399 100%);
+  background: #10b981;
   color: white;
 }
 
 .sales-due-card .stat-card-icon {
-  background: linear-gradient(135deg, #0ea5e9 0%, #38bdf8 100%);
+  background: #38bdf8;
   color: white;
 }
 
 .purchase-due-card .stat-card-icon {
-  background: linear-gradient(135deg, #f97316 0%, #fdba74 100%);
+  background: #f97316;
   color: white;
 }
 
 .invoices-card .stat-card-icon {
-  background: linear-gradient(135deg, #a855f7 0%, #d8b4fe 100%);
+  background:#a855f7;
   color: white;
 }
 
 .profit-card .stat-card-icon {
-  background: linear-gradient(135deg, #16a34a 0%, #4ade80 100%);
+  background: #16a34a;
   color: white;
 }
 
 .returns-card .stat-card-icon {
-  background: linear-gradient(135deg, #F59E0B 0%, #FBBF24 100%);
+  background:#F59E0B;
   color: white;
 }
 
 .revenue-card .stat-card-icon {
-  background: linear-gradient(135deg, #EF4444 0%, #F87171 100%);
+  background:#EF4444;
   color: white;
 }
 
@@ -1468,7 +1476,7 @@ export default {
 }
 
 .stat-card-link {
-  color: #8B5CF6;
+  color: #2d8cff;
   font-size: 0.875rem;
   text-decoration: none;
   font-weight: 500;
@@ -1648,15 +1656,15 @@ export default {
 }
 
 .stock-icon-cost {
-  background: linear-gradient(135deg, #3B82F6 0%, #60A5FA 100%);
+  background:#3B82F6;
 }
 
 .stock-icon-retail {
-  background: linear-gradient(135deg, #F59E0B 0%, #FBBF24 100%);
+  background:#F59E0B;
 }
 
 .stock-icon-wholesale {
-  background: linear-gradient(135deg, #8B5CF6 0%, #A78BFA 100%);
+  background:#2d8cff;
 }
 
 .stock-value-item .info-card-item-label {
@@ -1750,11 +1758,11 @@ export default {
 }
 
 .sales-dot {
-  background: #8B5CF6;
+  background: #2d8cff;
 }
 
 .purchases-dot {
-  background: #DDD6FE;
+  background: #c4dfff;
 }
 
 .sent-dot {
@@ -1799,7 +1807,7 @@ export default {
 }
 
 .table-card-link {
-  color: #8B5CF6;
+  color: #2d8cff;
   font-size: 0.875rem;
   text-decoration: none;
   font-weight: 500;
@@ -1982,7 +1990,7 @@ export default {
 .welcome-icon {
   width: 80px;
   height: 80px;
-  background: linear-gradient(135deg, #8B5CF6 0%, #A78BFA 100%);
+  background: linear-gradient(135deg, #2d8cff 0%, #A78BFA 100%);
   border-radius: 50%;
   display: inline-flex;
   align-items: center;
@@ -2000,7 +2008,7 @@ export default {
 
 /* Date Range Picker - Style form-control */
 .date-range-filter >>> .form-control.reportrange-text {
-  background: #764ba200 !important;
+  background: #2d8cff00 !important;
   color: white !important;
   border: none !important;
   padding: 0 !important;

@@ -9,19 +9,21 @@
       <!-- Table header actions -->
       <div class="d-flex flex-wrap align-items-center justify-content-between mb-3">
         <div class="d-flex align-items-center gap-2">
-          <b-input-group>
+          <div class="position-relative">
+            <i class="search-icon i-Search-People text-muted position-absolute" style="left: 10px; top: 50%; transform: translateY(-50%); z-index: 1;"></i>
             <b-form-input
               v-model.trim="searchQuery"
               :placeholder="$t('Search_by_name_email_subject') + '…'"
               @input="debouncedSearch"
+              style="padding-left: 35px; min-width: 250px;"
             />
-            <b-input-group-append>
-              <b-button variant="outline-secondary" :disabled="searching" @click="fetch">
-                <span v-if="searching" class="spinner-border spinner-border-sm mr-1"></span>
-                <i v-else class="i-Search-People"></i>
-              </b-button>
-            </b-input-group-append>
-          </b-input-group>
+          </div>
+          
+          <b-button variant="outline-primary" class="ml-2" :disabled="searching" @click="fetch">
+            <span v-if="searching" class="spinner-border spinner-border-sm"></span>
+            <i v-else class="i-Reload"></i>
+          </b-button>
+
 
           <b-form-checkbox v-model="onlyUnread" class="ml-3" @change="fetch">
             {{ $t('Unread_only') }}

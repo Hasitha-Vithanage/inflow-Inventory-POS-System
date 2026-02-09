@@ -32,7 +32,7 @@
             to="/app/User_Management/permissions/store"
           >
             <span class="ul-btn__icon">
-              <i class="i-Add"></i>
+              <plus size="16" :stroke-width="1.5"></plus>
             </span>
             <span class="ul-btn__text ml-1">{{$t('Add')}}</span>
           </router-link>
@@ -46,7 +46,7 @@
               v-b-tooltip.hover
               :to="'/app/User_Management/permissions/edit/'+props.row.id"
             >
-              <i class="i-Edit text-25 text-success"></i>
+              <edit size="14" class="text-success" :stroke-width="1.5"></edit>
             </router-link>
             <a
               title="Delete"
@@ -54,7 +54,7 @@
               v-if="currentUserPermissions && currentUserPermissions.includes('permissions_delete')"
               @click="Delete_Role(props.row.id)"
             >
-              <i class="i-Close-Window text-25 text-danger"></i>
+              <x-circle size="14" class="text-danger" :stroke-width="1.5"></x-circle>
             </a>
           </span>
         </template>
@@ -65,6 +65,7 @@
 </template>
 
 <script>
+import { Plus, Edit, XCircle } from "lucide-vue";
 import { mapActions, mapGetters } from "vuex";
 import NProgress from "nprogress";
 

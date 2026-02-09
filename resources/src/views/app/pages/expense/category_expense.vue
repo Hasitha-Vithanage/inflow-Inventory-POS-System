@@ -35,7 +35,7 @@
             size="sm"
             variant="primary ripple m-1"
           >
-            <i class="i-Add"></i>
+            <Plus size="14" class="mr-1"></Plus>
             {{$t('Add')}}
           </b-button>
         </div>
@@ -49,7 +49,7 @@
               class="cursor-pointer"
               v-b-tooltip.hover
             >
-              <i class="i-Edit text-25 text-success"></i>
+              <Edit size="18" class="text-success cursor-pointer"></Edit>
             </a>
             <a
               title="Delete"
@@ -58,7 +58,7 @@
               v-if="currentUserPermissions && currentUserPermissions.includes('expense_delete')"
               @click="Delete_Category(props.row.id)"
             >
-              <i class="i-Close-Window text-25 text-danger"></i>
+              <XCircle size="18" class="text-danger cursor-pointer"></XCircle>
             </a>
           </span>
         </template>
@@ -103,7 +103,7 @@
             </b-col>
            
             <b-col md="12" class="mt-3">
-              <b-button variant="primary" type="submit"  :disabled="SubmitProcessing"><i class="i-Yes me-2 font-weight-bold"></i> {{$t('submit')}}</b-button>
+              <b-button variant="primary" type="submit"  :disabled="SubmitProcessing"><CheckCircle size="14" class="mr-2"></CheckCircle> {{$t('submit')}}</b-button>
                 <div v-once class="typo__p" v-if="SubmitProcessing">
                   <div class="spinner sm spinner-primary mt-3"></div>
                 </div>
@@ -117,11 +117,17 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+import { 
+  Plus, Edit, XCircle, CheckCircle 
+} from "lucide-vue";
 import NProgress from "nprogress";
 
 export default {
   metaInfo: {
     title: "Expense Category"
+  },
+  components: {
+    Plus, Edit, XCircle, CheckCircle
   },
   data() {
     return {

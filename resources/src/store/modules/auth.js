@@ -120,7 +120,7 @@ const actions = {
         }
     },
 
-     async loadAvailableLanguages({ commit }) {
+    async loadAvailableLanguages({ commit }) {
         try {
             const response = await axios.get("/languages"); // must return: [{ name, locale, flag }]
             commit('setAvailableLanguages', response.data);
@@ -129,12 +129,12 @@ const actions = {
         }
     },
 
-   logout({ commit }) {
-    axios.post('/logout', {}, { baseURL: '' }) // override the baseURL here
-        .then(() => {
-            // Full page navigation OUT of the SPA
-            window.location.replace('/login');
-        });
+    logout({ commit }) {
+        axios.post('/logout', {}, { baseURL: '' }) // override the baseURL here
+            .then(() => {
+                // Full page navigation OUT of the SPA
+                window.location.replace('/login');
+            });
     }
 };
 

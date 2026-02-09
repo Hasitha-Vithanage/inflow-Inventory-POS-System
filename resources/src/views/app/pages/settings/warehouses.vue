@@ -39,7 +39,7 @@
             class="btn-rounded"
             variant="btn btn-primary btn-icon m-1"
           >
-            <i class="i-Add"></i>
+            <Plus size="14"></Plus>
             {{$t('Add')}}
           </b-button>
         </div>
@@ -47,10 +47,10 @@
         <template slot="table-row" slot-scope="props">
           <span v-if="props.column.field == 'actions'">
             <a @click="Edit_Warehouse(props.row)" title="Edit" v-b-tooltip.hover>
-              <i class="i-Edit text-25 text-success"></i>
+              <Edit size="20" class="text-success mr-2"></Edit>
             </a>
             <a title="Delete" v-b-tooltip.hover @click="Remove_Warehouse(props.row.id)">
-              <i class="i-Close-Window text-25 text-danger"></i>
+              <XCircle size="20" class="text-danger"></XCircle>
             </a>
           </span>
         </template>
@@ -137,7 +137,7 @@
             </b-col>
 
             <b-col md="12" class="mt-3">
-                <b-button variant="primary" type="submit"  :disabled="SubmitProcessing"><i class="i-Yes me-2 font-weight-bold"></i> {{$t('submit')}}</b-button>
+                <b-button variant="primary" type="submit"  :disabled="SubmitProcessing"><CheckCircle size="14" class="me-2 font-weight-bold"></CheckCircle> {{$t('submit')}}</b-button>
                   <div v-once class="typo__p" v-if="SubmitProcessing">
                     <div class="spinner sm spinner-primary mt-3"></div>
                   </div>
@@ -151,11 +151,18 @@
 </template>
 
 <script>
+import { Edit, XCircle, Plus, CheckCircle } from "lucide-vue";
 import NProgress from "nprogress";
 
 export default {
   metaInfo: {
     title: "Warehouse"
+  },
+  components: {
+    Edit,
+    XCircle,
+    Plus,
+    CheckCircle
   },
   data() {
     return {

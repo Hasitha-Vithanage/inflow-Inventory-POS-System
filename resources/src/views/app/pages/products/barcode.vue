@@ -944,7 +944,7 @@ export default {
   .search-header h5 i,
   .products-header h5 i,
   .preview-header h5 i {
-    color: #8b5cf6;
+    color: #2d8cff;
     margin-right: 0.5rem;
   }
 
@@ -956,7 +956,7 @@ export default {
   }
 
   .scan-btn {
-    background: #8b5cf6;
+    background: #2d8cff;
     border: 1px solid #7c3aed;
     color: white;
     padding: 0.625rem 1rem;
@@ -995,7 +995,7 @@ export default {
 
   .modern-input:focus {
     outline: none;
-    border-color: #8b5cf6;
+    border-color: #2d8cff;
     box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
   }
 
@@ -1101,7 +1101,7 @@ export default {
   }
 
   .quantity-input:focus {
-    border-color: #8b5cf6;
+    border-color: #2d8cff;
     box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
     outline: none;
   }
@@ -1143,7 +1143,7 @@ export default {
     width: 18px;
     height: 18px;
     cursor: pointer;
-    accent-color: #8b5cf6;
+    accent-color: #2d8cff;
   }
 
   .checkbox-label {
@@ -1163,7 +1163,7 @@ export default {
 
   .print-btn,
   .print-btn-large {
-    background: #8b5cf6;
+    background: #2d8cff;
     border: 1px solid #7c3aed;
     color: white;
     font-weight: 500;
@@ -1293,7 +1293,7 @@ export default {
   }
 
   .custom-dimensions-input .form-control:focus {
-    border-color: #8b5cf6;
+    border-color: #2d8cff;
     box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
     outline: none;
   }
@@ -1325,11 +1325,11 @@ export default {
   }
 
   ::v-deep .v-select .vs__dropdown-toggle:focus-within {
-    border-color: #8b5cf6;
+    border-color: #2d8cff;
     box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
   }
 
   ::v-deep .v-select.vs--open .vs__dropdown-toggle {
-    border-color: #8b5cf6;
+    border-color: #2d8cff;
   }
 </style>

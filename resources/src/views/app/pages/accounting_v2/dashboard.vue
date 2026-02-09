@@ -166,7 +166,7 @@ export default {
 </script>
 
 <style scoped>
-.kpi { border-left: 4px solid #663399; }
+.kpi { border-left: 4px solid #2d8cff; }
 </style>
 
 

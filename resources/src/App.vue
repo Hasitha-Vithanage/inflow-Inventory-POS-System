@@ -3,7 +3,7 @@
     <!-- Initial app loader: shown immediately after refresh until core data is ready -->
     <div v-if="!Loading" class="initial-loader-overlay">
       <div class="global-sync-card">
-        <div class="global-sync-spinner"></div>
+        <img src="/images/inflow.png" class="global-sync-spinner" alt="Loading..." />
         <h3 class="global-sync-title">
           {{ $t ? ($t('pos.Loading_Application') || 'Loading application') : 'Loading application' }}
         </h3>
@@ -18,7 +18,7 @@
     <!-- Global offline sync fullscreen loader -->
     <div v-if="globalSyncActive" class="global-sync-overlay">
       <div class="global-sync-card">
-        <div class="global-sync-spinner"></div>
+        <img src="/images/inflow.png" class="global-sync-spinner" alt="Loading..." />
         <h3 class="global-sync-title">
           {{ $t ? ($t('pos.Syncing_offline_sales') || 'Syncing offline sales') : 'Syncing offline sales' }}
         </h3>
@@ -65,7 +65,7 @@ export default {
   metaInfo() {
     return {
       // if no subcomponents specify a metaInfo.title, this title will be used
-      title: "Stocky",
+      title: "InFlow",
       titleTemplate: this.titleTemplate,
 
       bodyAttrs: {
@@ -185,13 +185,12 @@ export default {
 }
 
 .global-sync-spinner {
-  width: 40px;
-  height: 40px;
-  border-radius: 999px;
-  border: 3px solid rgba(148, 163, 184, 0.35);
-  border-top-color: #38bdf8;
-  animation: global-sync-spin 0.9s linear infinite;
+  width: 50px;
+  height: auto;
+  animation: global-sync-spin 2s linear infinite;
   margin-bottom: 16px;
+  /* Use the hardcoded inflow.png if we use an img tag, or background-image here if standardizing */
+  /* The template uses <img src="/images/logo.png"> so we must update the template too */
 }
 
 .global-sync-title {
