@@ -364,10 +364,23 @@
                   </validation-provider>
                 </b-col>
 
+                <!-- Shipping Method -->
+                <b-col lg="4" md="4" sm="12" class="mb-3" v-if="currentUserPermissions && currentUserPermissions.includes('edit_tax_discount_shipping_sale')">
+                  <b-form-group :label="$t('Shipping_Method')">
+                    <v-select
+                      v-model="sale.shipping_method_id"
+                      :reduce="label => label.value"
+                      :placeholder="$t('Choose_Shipping_Method')"
+                      :options="shipping_methods.map(m => ({label: m.name + (m.company ? ' (' + m.company.name + ')' : ''), value: m.id}))"
+                      :clearable="true"
+                    />
+                  </b-form-group>
+                </b-col>
+
                   <!-- Status  -->
                 <b-col lg="4" md="4" sm="12" class="mb-3">
-                  <validation-provider name="Status" :rules="{ required: true}">
-                    <b-form-group slot-scope="{ valid, errors }" :label="$t('Status') + ' ' + '*'">
+                  <validation-provider name="Order Status" :rules="{ required: true}">
+                    <b-form-group slot-scope="{ valid, errors }" :label="'Order Status ' + '*'">
                       <v-select
                         :class="{'is-invalid': !!errors.length}"
                         :state="errors[0] ? false : (valid ? true : null)"
@@ -376,9 +389,9 @@
                         :placeholder="$t('Choose_Status')"
                         :options="
                                 [
-                                  {label: 'completed', value: 'completed'},
+                                  {label: 'Complete', value: 'completed'},
                                   {label: 'Pending', value: 'pending'},
-                                  {label: 'ordered', value: 'ordered'}
+                                  {label: 'Ordered', value: 'ordered'}
                                 ]"
                       ></v-select>
                       <b-form-invalid-feedback>{{ errors[0] }}</b-form-invalid-feedback>
@@ -580,6 +593,7 @@ export default {
       clientIsEligible: false,
       pointsConverted: false,
       point_to_amount_rate: 0,
+      shipping_methods: [],
       sale: {
         id: "",
         date: "",
@@ -1239,7 +1253,7 @@ export default {
         (total_without_discount * this.sale.tax_rate) / 100
       );
       this.GrandTotal = parseFloat(
-        total_without_discount + this.sale.TaxNet + this.sale.shipping
+        total_without_discount + this.sale.TaxNet + Number(this.sale.shipping || 0)
       );
 
       var grand_total =  this.GrandTotal.toFixed(2);
@@ -1313,6 +1327,7 @@ export default {
             // Ensure order-level discount method is sent when editing
             discount_Method: String(this.sale.discount_Method || '2'),
             shipping: this.sale.shipping?this.sale.shipping:0,
+            shipping_method_id: this.sale.shipping_method_id || null,
             details: this.details.map(d => ({
               ...d,
               price_type: d.price_type || 'retail'
@@ -1415,6 +1430,7 @@ export default {
           this.details = response.data.details;
           this.clients = response.data.clients;
           this.warehouses = response.data.warehouses;
+          this.shipping_methods = response.data.shipping_methods || [];
           this.point_to_amount_rate = response.data.point_to_amount_rate;
           this.discount_from_points = response.data.discount_from_points || 0;
           this.used_points = this.sale.used_points > 0 ? this.sale.used_points : 0;

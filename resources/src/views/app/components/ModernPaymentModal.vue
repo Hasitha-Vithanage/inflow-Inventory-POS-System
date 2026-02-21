@@ -731,6 +731,7 @@ export default {
             ? String(this.sale.discount_Method)
             : '2',
           shipping: this.sale && this.sale.shipping ? this.sale.shipping : 0,
+          shipping_method_id: this.sale && this.sale.shipping_method_id ? this.sale.shipping_method_id : null,
           details: this.details,
           GrandTotal: this.grandTotal || this.paymentForm.amountDue || this.totalPaid,
           // Multi-payment array with optional per-line account and saved card
@@ -853,6 +854,7 @@ export default {
             ? String(this.sale.discount_Method)
             : '2',
           shipping: this.sale && this.sale.shipping ? this.sale.shipping : 0,
+          shipping_method_id: this.sale && this.sale.shipping_method_id ? this.sale.shipping_method_id : null,
           notes: this.saleNote || (this.sale && this.sale.notes) || '',
           details: normalizedDetails,
           GrandTotal: this.grandTotal || this.paymentForm.amountDue || total,

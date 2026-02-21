@@ -1,0 +1,26 @@
+
+   INFO  Running migrations.  
+
+  2026_02_20_074537_add_packed_at_to_sales_table  4.45ms FAIL
+
+   Illuminate\Database\QueryException 
+
+  SQLSTATE[42S21]: Column already exists: 1060 Duplicate column name 'packed_at' (Connection: mysql, SQL: alter table `sales` add `packed_at` timestamp null after `shipping_status`)
+
+  at vendor\laravel\framework\src\Illuminate\Database\Connection.php:824
+    820▕                     $this->getName(), $query, $this->prepareBindings($bindings), $e
+    821▕                 );
+    822▕             }
+    823▕ 
+  ➜ 824▕             throw new QueryException(
+    825▕                 $this->getName(), $query, $this->prepareBindings($bindings), $e
+    826▕             );
+    827▕         }
+    828▕     }
+
+  1   vendor\laravel\framework\src\Illuminate\Database\Connection.php:570
+      PDOException::("SQLSTATE[42S21]: Column already exists: 1060 Duplicate column name 'packed_at'")
+
+  2   vendor\laravel\framework\src\Illuminate\Database\Connection.php:570
+      PDOStatement::execute()
+

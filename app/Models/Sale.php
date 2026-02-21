@@ -12,6 +12,7 @@ class Sale extends Model
         'date', 'Ref', 'is_pos', 'client_id', 'GrandTotal', 'qte_retturn', 'TaxNet', 'tax_rate', 'notes',
         'total_retturn', 'warehouse_id', 'user_id', 'statut', 'discount', 'discount_Method', 'shipping', 'time', 'used_points', 'earned_points', 'discount_from_points',
         'paid_amount', 'payment_statut', 'created_at', 'updated_at', 'deleted_at', 'shipping_status', 'subscription_id',
+        'shipping_method_id', 'shipping_company_id', 'tracking_number', 'packed_at', 'shipped_at', 'delivered_at',
         // Idempotency key for POS sales; nullable for legacy rows and non-POS flows
         'sale_uuid',
         'quickbooks_invoice_id',
@@ -38,6 +39,11 @@ class Sale extends Model
         'earned_points' => 'double',
         'discount_from_points' => 'double',
         'quickbooks_synced_at' => 'datetime',
+        'shipping_method_id' => 'integer',
+        'shipping_company_id' => 'integer',
+        'packed_at' => 'datetime',
+        'shipped_at' => 'datetime',
+        'delivered_at' => 'datetime',
     ];
 
     public function subscription()
@@ -73,6 +79,21 @@ class Sale extends Model
     public function documents()
     {
         return $this->hasMany('App\Models\SaleDocument', 'sale_id');
+    }
+
+    public function shippingMethod()
+    {
+        return $this->belongsTo(ShippingMethod::class, 'shipping_method_id');
+    }
+
+    public function shippingCompany()
+    {
+        return $this->belongsTo(ShippingCompany::class, 'shipping_company_id');
+    }
+
+    public function shipment()
+    {
+        return $this->hasOne(Shipment::class);
     }
 
     protected static function booted()

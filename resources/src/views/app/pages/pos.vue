@@ -445,6 +445,21 @@
                   <span class="input-suffix">{{ currentUser.currency }}</span>
                 </div>
               </div>
+              <div class="charge-row no-border-bottom" v-if="shipping_methods && shipping_methods.length">
+                <label>{{ $t('ShippingMethod') !== 'ShippingMethod' ? $t('ShippingMethod') : 'Shipping Method' }}</label>
+                <div class="charge-input-group">
+                  <select
+                    v-model="sale.shipping_method_id"
+                    class="flat-select"
+                    style="width:100%;"
+                  >
+                    <option value="">{{ $t('Choose_Shipping_Method') || 'Choose Method' }}</option>
+                    <option v-for="m in shipping_methods" :key="m.id" :value="m.id">
+                      {{ m.name + (m.company ? ' (' + m.company.name + ')' : '') }}
+                    </option>
+                  </select>
+                </div>
+              </div>
 
               <!-- Available Points with Convert -->
               <div
@@ -1913,11 +1928,13 @@ export default {
       selectedClientNetBalance: 0,
       point_to_amount_rate: 0,
       zatcaRenderedPos: false,
+      shipping_methods: [],
       sale: {
         warehouse_id: "",
         client_id: "",
         tax_rate: 0,
         shipping: 0,
+        shipping_method_id: "",
         discount: 0,
         discount_Method: "2", // "1" for percentage, "2" for fixed (default)
         TaxNet: 0,
@@ -2734,6 +2751,7 @@ export default {
           discount: this.sale.discount?this.sale.discount:0,
           discount_Method: String(this.sale.discount_Method || '2'), // Ensure it's always a string: '1' for percentage, '2' for fixed
           shipping: this.sale.shipping?this.sale.shipping:0,
+          shipping_method_id: this.sale.shipping_method_id || null,
           notes: this.sale.notes,
           details: this.details,
           GrandTotal: this.GrandTotal,
@@ -2846,6 +2864,7 @@ export default {
             discount: this.sale.discount?this.sale.discount:0,
             discount_Method: String(this.sale.discount_Method || '2'), // Ensure it's always a string: '1' for percentage, '2' for fixed
             shipping: this.sale.shipping?this.sale.shipping:0,
+            shipping_method_id: this.sale.shipping_method_id || null,
             notes: this.sale.notes,
             details: this.details,
             GrandTotal: this.GrandTotal,
@@ -2925,6 +2944,7 @@ export default {
             TaxNet: this.sale.TaxNet ? this.sale.TaxNet : 0,
             discount: this.sale.discount ? this.sale.discount : 0,
             shipping: this.sale.shipping ? this.sale.shipping : 0,
+            shipping_method_id: this.sale.shipping_method_id || null,
             details: this.details,
             GrandTotal: this.GrandTotal,
             notes: this.sale.notes,
@@ -3075,7 +3095,7 @@ export default {
         (total_without_discount * this.sale.tax_rate) / 100
       );
       this.GrandTotal = parseFloat(
-        total_without_discount + this.sale.TaxNet + this.sale.shipping
+        total_without_discount + this.sale.TaxNet + Number(this.sale.shipping || 0)
       );
     var grand_total =  this.GrandTotal.toFixed(2);
     this.GrandTotal = parseFloat(grand_total);
@@ -3806,6 +3826,7 @@ export default {
       this.sale.tax_rate = 0;
       this.sale.TaxNet = 0;
       this.sale.shipping = 0;
+      this.sale.shipping_method_id = '';
       this.sale.discount = 0;
       this.sale.discount_Method = '2'; // Reset to fixed (default)
       this.sale.notes = '';
@@ -3815,6 +3836,14 @@ export default {
       this.brand_id = "";
       
       this.selectedClientPoints = 0;
+      this.sale.shipping_method_id = response.data.default_shipping_method_id || "";
+      // If we have a default and shipping methods loaded, try to set the cost
+      if (this.sale.shipping_method_id && this.shipping_methods.length > 0) {
+        const method = this.shipping_methods.find(m => m.id === this.sale.shipping_method_id);
+        if (method) {
+           this.sale.shipping = method.cost;
+        }
+      }
       this.points_to_convert = 0;
       this.used_points = 0;
       this.discount_from_points = 0;
@@ -4548,6 +4577,17 @@ export default {
     async onClientSelected(selectedClientId) {
       this.client_name = '';
       this.selectedClientPoints = 0;
+      this.sale.shipping_method_id = response.data.default_shipping_method_id || "";
+      // If we have a default and shipping methods loaded, try to set the cost
+      // Note: shipping_methods might not be fully populated yet if they come from the same response or later call
+      // The shipping_methods are loaded separately via Get_Shipping_Methods() usually called in created()
+      // But we can check if they are already there
+      if (this.sale.shipping_method_id && this.shipping_methods.length > 0) {
+        const method = this.shipping_methods.find(m => m.id === this.sale.shipping_method_id);
+        if (method) {
+           this.sale.shipping = method.cost;
+        }
+      }
       this.points_to_convert = 0;
       this.discount_from_points = 0;
       this.used_points = 0;
@@ -5383,6 +5423,20 @@ export default {
           this.categories = response.data.categories;
           this.brands = response.data.brands;
           this.payment_methods = response.data.payment_methods;
+          this.shipping_methods = response.data.shipping_methods || [];
+          // Default Shipping Method
+          if (response.data.default_shipping_method_id) {
+             this.sale.shipping_method_id = response.data.default_shipping_method_id;
+             // Set shipping cost if methods correspond
+             const method = this.shipping_methods.find(m => m.id === this.sale.shipping_method_id);
+             if (method) {
+                this.sale.shipping = method.cost;
+             }
+          } else if (this.shipping_methods.length > 0) {
+            this.sale.shipping_method_id = this.shipping_methods[0].id;
+             // Set shipping cost
+             this.sale.shipping = this.shipping_methods[0].cost;
+          }
           this.sale.warehouse_id = response.data.defaultWarehouse;
           this.selectedClientId = response.data.defaultClient;
           this.client_name = response.data.default_client_name;
@@ -6574,6 +6628,28 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
   &::placeholder {
     color: $color-text-tertiary;
+  }
+  
+  // v-select specific overrides
+  &.v-select, .v-select {
+    padding: 0; // v-select handles its own padding
+    background: transparent; // let inner toggle handle bg
+    
+    .vs__dropdown-toggle {
+        background: $color-bg-light;
+        border: none;
+        border-radius: $radius-sm;
+        padding: 4px 0 8px 0; // Align text vertically
+    }
+    
+    .vs__selected {
+        color: $color-text-primary;
+        margin: 4px 2px 0 2px;
+    }
+    
+    .vs__open-indicator {
+        fill: $color-text-tertiary;
+    }
   }
 }
 

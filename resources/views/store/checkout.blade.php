@@ -21,15 +21,54 @@
     <div class="col-lg-8">
       <div class="card border-0 shadow-sm rounded-4">
         <div class="card-body p-4">
-          @if ($client)
           <h5 class="mb-3">{{ __('messages.Shipping') }}</h5>
-          <div class="small mb-3">
-            <div class="mb-1"><i class="bi bi-person me-1"></i> {{ $client->name }}</div>
-            <div class="mb-1"><i class="bi bi-telephone me-1"></i> {{ $client->phone }}</div>
-            <div><i class="bi bi-geo-alt me-1"></i> {{ $client->adresse }}</div>
+          <div class="mb-3">
+             <label for="shipping_method_id" class="form-label">{{ __('messages.ShippingMethod') }} <span class="text-danger">*</span></label>
+             <select id="shipping_method_id" class="form-select @error('shipping_method_id') is-invalid @enderror">
+                <option value="" disabled>{{ __('messages.SelectShippingMethod') }}</option>
+                @foreach($shipping_methods as $method)
+                  <option value="{{ $method->id }}" data-name="{{ $method->name }}" {{ ($default_shipping_id == $method->id) ? 'selected' : '' }}>
+                      {{ $method->name }}
+                  </option>
+                @endforeach
+             </select>
+          </div>
+
+          <div id="pickup-info-block" class="alert alert-info d-none mb-3">
+              <i class="bi bi-info-circle me-1"></i> {{ $pickup_policy ?? __('messages.PickupInfo') ?? 'You will collect your order from the store.' }}
+          </div>
+
+          <h5 class="mb-3">{{ __('messages.ShippingDetails') ?? 'Shipping Details' }}</h5>
+          <div id="shipping-details-form">
+              <div class="row g-2 mb-3">
+                  <div class="col-md-6">
+                      <label class="form-label">{{ __('messages.Name') }} <span class="text-danger">*</span></label>
+                      <input type="text" id="shipping_name" class="form-control" value="{{ $client->name ?? '' }}" placeholder="Name">
+                  </div>
+                  <div class="col-md-6">
+                      <label class="form-label">{{ __('messages.Phone') }} <span class="text-danger">*</span></label>
+                      <input type="text" id="shipping_phone" class="form-control" value="{{ $client->phone ?? '' }}" placeholder="Phone">
+                  </div>
+              </div>
+              
+              <div id="shipping-address-fields">
+                  <div class="mb-3">
+                      <label class="form-label">{{ __('messages.Address') }} <span class="text-danger">*</span></label>
+                      <input type="text" id="shipping_address" class="form-control" value="{{ $client->adresse ?? '' }}" placeholder="Address">
+                  </div>
+                  <div class="row g-2 mb-3">
+                      <div class="col-md-6">
+                          <label class="form-label">{{ __('messages.City') }} <span class="text-danger">*</span></label>
+                          <input type="text" id="shipping_city" class="form-control" value="{{ $client->city ?? '' }}" placeholder="City">
+                      </div>
+                      <div class="col-md-6">
+                          <label class="form-label">{{ __('messages.Country') }} <span class="text-danger">*</span></label>
+                          <input type="text" id="shipping_country" class="form-control" value="{{ $client->country ?? '' }}" placeholder="Country">
+                      </div>
+                  </div>
+              </div>
           </div>
           <hr>
-          @endif
 
           <h5 class="mb-3">{{ __('messages.OrderSummary') }}</h5>
 
@@ -140,6 +179,39 @@
   var subEl    = document.getElementById('sum-subtotal');
   var grandEl  = document.getElementById('sum-grand');
   var btn      = document.getElementById('btnPlaceOrder');
+  var shippingSelect = document.getElementById('shipping_method_id');
+  var pickupBlock = document.getElementById('pickup-info-block');
+  
+  // Form inputs
+  var elName = document.getElementById('shipping_name');
+  var elPhone = document.getElementById('shipping_phone');
+  var elAddressBlock = document.getElementById('shipping-address-fields');
+  var elAddress = document.getElementById('shipping_address');
+  var elCity = document.getElementById('shipping_city');
+  var elCountry = document.getElementById('shipping_country');
+
+  // ---- Shipping UI Logic ----
+  function updateShippingUI() {
+      if (!shippingSelect) return;
+      var selectedOption = shippingSelect.options[shippingSelect.selectedIndex];
+      if (!selectedOption) return;
+      
+      var name = selectedOption.getAttribute('data-name') || '';
+      var isPickup = name.toLowerCase().includes('pickup');
+
+      if (isPickup) {
+          if(elAddressBlock) elAddressBlock.classList.add('d-none');
+          if(pickupBlock) pickupBlock.classList.remove('d-none');
+      } else {
+          if(elAddressBlock) elAddressBlock.classList.remove('d-none');
+          if(pickupBlock) pickupBlock.classList.add('d-none');
+      }
+  }
+
+  if (shippingSelect) {
+      shippingSelect.addEventListener('change', updateShippingUI);
+      updateShippingUI(); // init
+  }
 
   // ---- render items + totals ----
   function render(){
@@ -238,6 +310,18 @@
       var cart = getCart();
       if (!cart.items || !cart.items.length) { alert('{{ __("messages.YourCartIsEmpty") }}'); return; }
 
+      var shippingId = shippingSelect ? shippingSelect.value : null;
+      if (!shippingId) { alert('{{ __("messages.PleaseSelectShippingMethod") ?? "Please select a shipping method" }}'); return; }
+
+      // Gather shipping inputs
+      var shippingData = {
+          name: elName ? elName.value : '',
+          phone: elPhone ? elPhone.value : '',
+          address: elAddress ? elAddress.value : '',
+          city: elCity ? elCity.value : '',
+          country: elCountry ? elCountry.value : ''
+      };
+
       var items = cart.items.map(function(i){
         var ids = extractIds(i);
         return {
@@ -253,7 +337,11 @@
       items = items.filter(function(x){ return x.product_id > 0 && x.qty > 0 && x.price >= 0; });
       if (!items.length){ alert('{{ __("messages.YourCartIsEmpty") }}'); return; }
 
-      var payload = { items: items };
+      var payload = { 
+          items: items,
+          shipping_method_id: shippingId,
+          shipping: shippingData
+      };
 
       fetch(CREATE_URL, {
         method: 'POST',
@@ -285,7 +373,9 @@
       .catch(function(err){
         console.error(err);
         var msg = (err && (err.message || err.error)) || '{{ __("messages.CouldNotPlaceOrder") }}';
-        if (err && Array.isArray(err.items) && err.items.length) {
+        if (err && err.errors) {
+            msg = Object.values(err.errors).join('\n'); // Show validation errors
+        } else if (err && Array.isArray(err.items) && err.items.length) {
           msg = '{{ __("messages.InsufficientStockFor") }}\n' + err.items.map(function(x){
             return (x.name || ('#'+x.product_id)) + ' — {{ __("messages.Available") }}: ' + x.available + ', {{ __("messages.Required") }}: ' + x.required;
           }).join('\n');

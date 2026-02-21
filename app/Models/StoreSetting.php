@@ -15,6 +15,7 @@ class StoreSetting extends Model
         'contact_email', 'contact_phone', 'contact_address',
         'seo_meta_title', 'seo_meta_description',
         'topbar_text_left', 'topbar_text_right', 'footer_text',
+        'default_shipping_method_id', 'pickup_policy',
     ];
 
     protected $casts = [

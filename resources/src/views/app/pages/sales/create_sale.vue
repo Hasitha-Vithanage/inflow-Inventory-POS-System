@@ -374,10 +374,24 @@
                   </validation-provider>
                 </b-col>
 
+                <!-- Shipping Method -->
+                <b-col lg="4" md="4" sm="12" class="mb-3" v-if="currentUserPermissions && currentUserPermissions.includes('edit_tax_discount_shipping_sale')">
+                  <b-form-group :label="$t('Shipping_Method')">
+                    <v-select
+                      v-model="sale.shipping_method_id"
+                      :reduce="label => label.value"
+                      :placeholder="$t('Choose_Shipping_Method')"
+                      :options="shipping_methods.map(m => ({label: m.name + (m.company ? ' (' + m.company.name + ')' : ''), value: m.id}))"
+                      :clearable="true"
+                      @input="onShippingMethodChange"
+                    />
+                  </b-form-group>
+                </b-col>
+
                 <!-- Status  -->
                 <b-col lg="4" md="4" sm="12" class="mb-3">
-                  <validation-provider name="Status" :rules="{ required: true}">
-                    <b-form-group slot-scope="{ valid, errors }" :label="$t('Status') + ' ' + '*'">
+                  <validation-provider name="Order Status" :rules="{ required: true}">
+                    <b-form-group slot-scope="{ valid, errors }" :label="'Order Status ' + '*'">
                       <v-select
                         @input="Selected_Status"
                         :class="{'is-invalid': !!errors.length}"
@@ -387,9 +401,9 @@
                         :placeholder="$t('Choose_Status')"
                         :options="
                                 [
-                                  {label: 'completed', value: 'completed'},
+                                  {label: 'Complete', value: 'completed'},
                                   {label: 'Pending', value: 'pending'},
-                                  {label: 'ordered', value: 'ordered'}
+                                  {label: 'Ordered', value: 'ordered'}
                                 ]"
                       ></v-select>
                       <b-form-invalid-feedback>{{ errors[0] }}</b-form-invalid-feedback>
@@ -398,7 +412,7 @@
                 </b-col>
 
                 <!-- PaymentStatus  -->
-                <b-col md="4" v-if="sale.statut == 'completed'">
+                <b-col md="4">
                   <validation-provider name="PaymentStatus">
                     <b-form-group :label="$t('PaymentStatus')">
                       <v-select
@@ -410,7 +424,7 @@
                         :options="
                                 [
                                   {label: 'Paid', value: 'paid'},
-                                  {label: 'partial', value: 'partial'},
+                                  {label: 'Partial', value: 'partial'},
                                   {label: 'Pending', value: 'pending'},
                                 ]"
                       ></v-select>
@@ -419,7 +433,7 @@
                 </b-col>
 
                 <!-- Payment choice -->
-                <b-col md="4" v-if="payment.status != 'pending' && sale.statut == 'completed'">
+                <b-col md="4" v-if="payment.status != 'pending'">
                   <validation-provider name="Payment choice" :rules="{ required: true}">
                     <b-form-group slot-scope="{ valid, errors }" :label="$t('Paymentchoice') + ' ' + '*'">
                       <v-select
@@ -438,7 +452,7 @@
 
 
                   <!-- Received  Amount  -->
-                  <b-col md="4" v-if="payment.status != 'pending' && sale.statut == 'completed'">
+                  <b-col md="4" v-if="payment.status != 'pending'">
                       <validation-provider
                         name="Received Amount"
                         :rules="{ required: true , regex: /^\d*\.?\d*$/}"
@@ -462,7 +476,7 @@
 
 
                 <!-- Amount  -->
-                <b-col md="4" v-if="payment.status != 'pending' && sale.statut == 'completed'">
+                <b-col md="4" v-if="payment.status != 'pending'">
                   <validation-provider
                     name="Amount"
                     :rules="{ required: true , regex: /^\d*\.?\d*$/}"
@@ -486,7 +500,7 @@
                 </b-col>
 
                 <!-- change  Amount  -->
-                <b-col md="4" v-if="payment.status != 'pending' && sale.statut == 'completed'">
+                <b-col md="4" v-if="payment.status != 'pending'">
                   <label>{{$t('Change')}} :</label>
                   <p
                     class="change_amount"
@@ -495,7 +509,7 @@
 
                
                    <!-- Account -->
-                  <b-col lg="4" md="4" sm="12" v-if="payment.status != 'pending' && sale.statut == 'completed'">
+                  <b-col lg="4" md="4" sm="12" v-if="payment.status != 'pending'">
                     <validation-provider name="Account">
                       <b-form-group slot-scope="{ valid, errors }" :label="$t('Account')">
                         <v-select
@@ -894,6 +908,7 @@ export default {
       clientIsEligible: false,
       pointsConverted: false,
       point_to_amount_rate: 0,
+      shipping_methods: [],
       sale: {
         id: "",
         date: new Date().toISOString().slice(0, 10),
@@ -904,6 +919,7 @@ export default {
         tax_rate: 0,
         TaxNet: 0,
         shipping: 0,
+        shipping_method_id: "",
         discount: 0,
         discount_Method: "2", // "1" for percentage, "2" for fixed (default)
       },
@@ -1801,7 +1817,7 @@ export default {
         (total_without_discount * this.sale.tax_rate) / 100
       );
       this.GrandTotal = parseFloat(
-        total_without_discount + this.sale.TaxNet + this.sale.shipping
+        total_without_discount + this.sale.TaxNet + Number(this.sale.shipping || 0)
       );
 
       var grand_total =  this.GrandTotal.toFixed(2);
@@ -1952,6 +1968,12 @@ export default {
       }
     },
 
+    //---------- Shipping Method Change
+    onShippingMethodChange(val) {
+      // Auto-derive shipping_company_id and shipping_status from the selected method
+      // (backend will also do this, but we keep it here for potential future UI use)
+    },
+
     async processPayment() {
       // Legacy helper kept for backward compatibility; Stripe processing removed.
       return this.Create_Sale();
@@ -1982,6 +2004,7 @@ export default {
               discount: this.sale.discount?this.sale.discount:0,
               discount_Method: String(this.sale.discount_Method || '2'), // '1' = percent, '2' = fixed
               shipping: this.sale.shipping?this.sale.shipping:0,
+              shipping_method_id: this.sale.shipping_method_id || null,
               GrandTotal: this.GrandTotal,
               details: this.details,
               payment: this.payment,
@@ -2119,6 +2142,18 @@ export default {
           this.warehouses = response.data.warehouses;
           this.accounts = response.data.accounts;
           this.payment_methods = response.data.payment_methods;
+          this.shipping_methods = response.data.shipping_methods || [];
+          if (response.data.default_shipping_method_id) {
+            this.sale.shipping_method_id = response.data.default_shipping_method_id;
+             // Set shipping cost if methods correspond
+             const method = this.shipping_methods.find(m => m.id === this.sale.shipping_method_id);
+             if (method) {
+                this.sale.shipping = parseFloat(method.cost);
+             }
+          } else if (this.shipping_methods.length > 0) {
+              this.sale.shipping_method_id = this.shipping_methods[0].id;
+              this.sale.shipping = parseFloat(this.shipping_methods[0].cost);
+          }
           this.point_to_amount_rate = response.data.point_to_amount_rate;
           this.isLoading = false;
         })

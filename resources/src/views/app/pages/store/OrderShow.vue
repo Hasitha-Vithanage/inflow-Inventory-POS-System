@@ -2,7 +2,6 @@
   <div class="main-content">
     <breadcumb :page="$t('Order')" :folder="$t('Store')"/>
 
-
     <div v-if="loading" class="loading_page spinner spinner-primary mr-3"></div>
 
     <b-card v-else class="wrapper">
@@ -52,11 +51,18 @@
 
           <b-card class="mb-3">
             <h6>{{ $t('Shipping') }}</h6>
-            <div class="text-muted">{{ order.customer_phone || '-' }}</div>
-            <div class="text-muted">{{ order.customer_address || '-' }}</div>
+            <div class="text-muted" v-if="order.shipping_name">{{ order.shipping_name }}</div>
+            <div class="text-muted">{{ order.shipping_phone || order.customer_phone || '-' }}</div>
+            <div v-if="order.shipping_address" class="text-muted mt-1">
+              {{ order.shipping_address }}
+              <span v-if="order.shipping_city || order.shipping_country">
+                , {{ [order.shipping_city, order.shipping_country].filter(Boolean).join(', ') }}
+              </span>
+            </div>
+            <div v-else class="text-muted small text-uppercase">Store Pickup</div>
           </b-card>
 
-          <!-- NEW: Warehouse card -->
+          <!-- Warehouse card -->
           <b-card class="mb-3">
             <h6>Warehouse</h6>
             <div class="text-muted">
@@ -102,26 +108,24 @@ export default {
     loading:true,
     actionBusy:false,
     order:{ items:[], status:'pending' },
-    code:''
+    code:'',
   }},
+
   mounted(){ this.fetch() },
 
   computed: {
     ...mapGetters(["currentUser"]),
   },
+
   methods:{
     currency(n) {
-      // Prefer currentUser.currency if available
-      let code =
-        this.currentUser.currency;
-
+      let code = this.currentUser.currency;
       try {
         return new Intl.NumberFormat(undefined, {
           style: 'currency',
           currency: code
         }).format(n || 0);
       } catch (e) {
-        // fallback if currency code invalid
         return code + ' ' + Number(n || 0).toFixed(2);
       }
     },
@@ -129,6 +133,7 @@ export default {
     badgeVariant(s){
       return { pending:'warning', confirmed:'success', cancelled:'danger' }[s] || 'secondary'
     },
+
     async fetch(){
       try{
         const {data} = await axios.get(`/store/orders/${this.id}`)
@@ -161,7 +166,6 @@ export default {
               : ('Order confirmed')
             this.$swal('Success', msg, 'success')
           } catch (e) {
-            // Build a helpful error message (show per-item shortages if backend sent them)
             let msg = 'Operation failed. Please try again.'
             const d = e && e.response && e.response.data
             if (d) {

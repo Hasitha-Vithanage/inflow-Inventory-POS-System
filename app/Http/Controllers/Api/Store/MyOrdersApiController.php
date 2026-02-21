@@ -46,6 +46,7 @@ class MyOrdersApiController extends Controller
                 'code' => $o->ref,
                 'status' => $o->status,
                 'total' => (float) $o->total,
+                'shipping_status' => $o->shipping_status,
                 'created_at' => optional($o->created_at)->toDateTimeString() ?: (string) $o->date,
                 'warehouse_name' => optional($o->warehouse)->name, // handy for UI
             ];
@@ -106,6 +107,15 @@ class MyOrdersApiController extends Controller
 
             'subtotal' => $subtotal,
             'shipping' => 0.0,
+            'shipping_method_name' => optional(\App\Models\ShippingMethod::find($order->shipping_method_id))->name,
+            'shipping_status' => $order->shipping_status,
+            'shipping_details' => [
+                'name' => $order->shipping_name,
+                'phone' => $order->shipping_phone,
+                'address' => $order->shipping_address,
+                'city' => $order->shipping_city,
+                'country' => $order->shipping_country,
+            ],
             'discount' => 0.0,
             'total' => (float) $order->total,
 

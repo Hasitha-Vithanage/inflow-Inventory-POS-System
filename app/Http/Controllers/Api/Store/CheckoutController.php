@@ -12,6 +12,26 @@ use Illuminate\Support\Facades\DB;
 
 class CheckoutController extends Controller
 {
+    /**
+     * Display the checkout page with cart items and shipping methods.
+     */
+    public function index()
+    {
+        $user = Auth::guard('store')->user();
+        
+        $shippingMethods = \App\Models\ShippingMethod::where('is_active', 1)->get();
+        $defaultShippingId = \App\Models\Setting::value('default_shipping_method_id');
+        $pickupPolicy = \App\Models\StoreSetting::value('pickup_policy');
+        
+        // Pass data to view
+        return view('store.checkout', [
+            'shipping_methods' => $shippingMethods,
+            'default_shipping_id' => $defaultShippingId,
+            'pickup_policy' => $pickupPolicy,
+            'client' => $user->client ?? null,
+        ]);
+    }
+
     public function store(Request $req)
     {
         // Logged-in ecommerce client (guard: store)
@@ -28,7 +48,31 @@ class CheckoutController extends Controller
             'items.*.qty' => ['required', 'numeric', 'min:1'],
             'items.*.price' => ['required', 'numeric', 'min:0'],
             'warehouse_id' => ['nullable', 'integer'],
+            'shipping_method_id' => ['required', 'integer', 'exists:shipping_methods,id'],
+            'shipping' => ['required', 'array'],
+            'shipping.name' => ['required', 'string', 'max:191'],
+            'shipping.phone' => ['required', 'string', 'max:191'],
+            'shipping.address' => ['nullable', 'string'],
+            'shipping.city' => ['nullable', 'string'],
+            'shipping.country' => ['nullable', 'string'],
         ]);
+
+        // --- Shipping Logic & Validation ---
+        $shippingMethod = \App\Models\ShippingMethod::findOrFail($data['shipping_method_id']);
+        $shippingData = $data['shipping'];
+
+        // Check if "Store Pickup"
+        $isPickup = stripos($shippingMethod->name, 'Pickup') !== false;
+
+        // Validation Rules
+        if ($isPickup) {
+            // Phone/Name required (handled by basic validation above)
+        } else {
+            // Delivery: Require Address details
+             if (empty($shippingData['address']) || empty($shippingData['city']) || empty($shippingData['country'])) {
+                return response()->json(['error' => __('messages.AddressRequiredForDelivery')], 422);
+            }
+        }
 
         // Resolve warehouse: request → settings.default_warehouse_id → first warehouse
         $warehouseId = (int) ($data['warehouse_id'] ?? 0);
@@ -48,7 +92,7 @@ class CheckoutController extends Controller
         // Preload product meta (TaxNet/discount/flags) and verify all exist
         $ids = collect($data['items'])->pluck('product_id')->unique()->values();
         $products = Product::whereIn('id', $ids)
-            ->get(['id', 'TaxNet', 'discount', 'discount_method', 'tax_method'])
+            ->get(['id', 'name', 'TaxNet', 'discount', 'discount_method', 'tax_method'])
             ->keyBy('id');
 
         if ($products->count() !== $ids->count()) {
@@ -102,7 +146,11 @@ class CheckoutController extends Controller
                     ? \App\Models\OnlineOrder::generateRef()
                     : ('SO-'.now()->format('Ymd').'-'.str_pad((string) ((\App\Models\OnlineOrder::max('id') ?? 0) + 1), 4, '0', STR_PAD_LEFT));
 
-        $order = DB::transaction(function () use ($clientId, $warehouseId, $grand, $normalizedItems, $todayDate, $nowTime, $ref) {
+        $shippingCompanyId = $shippingMethod->shipping_company_id;
+        $shippingMethodId = $shippingMethod->id;
+        $shippingStatus = 'pending'; 
+
+        $order = DB::transaction(function () use ($clientId, $warehouseId, $grand, $normalizedItems, $todayDate, $nowTime, $ref, $shippingMethodId, $shippingCompanyId, $shippingStatus, $shippingData) {
             $order = \App\Models\OnlineOrder::create([
                 'date' => $todayDate,
                 'time' => $nowTime,
@@ -111,6 +159,14 @@ class CheckoutController extends Controller
                 'client_id' => $clientId,
                 'warehouse_id' => $warehouseId,
                 'total' => $grand,
+                'shipping_method_id' => $shippingMethodId,
+                'shipping_company_id' => $shippingCompanyId,
+                'shipping_status' => $shippingStatus,
+                'shipping_name' => $shippingData['name'],
+                'shipping_phone' => $shippingData['phone'],
+                'shipping_address' => $shippingData['address'] ?? null,
+                'shipping_city' => $shippingData['city'] ?? null,
+                'shipping_country' => $shippingData['country'] ?? null,
             ]);
 
             $order->items()->createMany($normalizedItems); // OnlineOrderItem boot() will set line_total
@@ -128,3 +184,4 @@ class CheckoutController extends Controller
         ], 201);
     }
 }
+

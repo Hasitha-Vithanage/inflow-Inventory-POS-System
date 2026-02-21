@@ -2982,6 +2982,34 @@
                               </label>
                             </b-col>
 
+                             <!--shipping_methods  -->
+                            <b-col md="6">
+                              <label class="checkbox checkbox-outline-primary">
+                                <input
+                                  type="checkbox"
+                                  checked
+                                  v-model="permissions"
+                                  value="shipping_methods"
+                                >
+                                <span>Shipping Methods</span>
+                                <span class="checkmark"></span>
+                              </label>
+                            </b-col>
+
+                             <!--shipping_companies  -->
+                            <b-col md="6">
+                              <label class="checkbox checkbox-outline-primary">
+                                <input
+                                  type="checkbox"
+                                  checked
+                                  v-model="permissions"
+                                  value="shipping_companies"
+                                >
+                                <span>Shipping Companies</span>
+                                <span class="checkmark"></span>
+                              </label>
+                            </b-col>
+
                               <!--quickbooks_settings  -->
                               <b-col md="6">
                               <label class="checkbox checkbox-outline-primary">

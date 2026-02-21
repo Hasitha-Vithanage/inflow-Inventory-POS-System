@@ -157,9 +157,31 @@ class helpers
                 // 1 234,56 (thousand space, decimal ,)
                 return number_format($number, $decimals, ',', ' ');
                 
-            default:
-                // Fallback to default format
                 return number_format($number, $decimals, '.', ',');
         }
+    }
+
+    // Get Default Shipping Method ID
+    public function getDefaultShippingMethodId()
+    {
+        $setting = Setting::where('deleted_at', '=', null)->first();
+        
+        // 1. Return configured default if set and valid
+        if ($setting && $setting->default_shipping_method_id) {
+            return $setting->default_shipping_method_id;
+        }
+
+        // 2. Fallback: Try to find "Store Pickup"
+        $storePickup = \App\Models\ShippingMethod::where('deleted_at', '=', null)
+            ->where('is_active', true)
+            ->where('name', 'LIKE', '%Store Pickup%')
+            ->first();
+
+        if ($storePickup) {
+            return $storePickup->id;
+        }
+
+        // 3. Fallback: Return null (frontend will pick first available or none)
+        return null;
     }
 }

@@ -482,9 +482,11 @@ Route::middleware(['auth:api', 'Is_Active', 'request.safety', 'token.timeout'])-
     Route::post('subcategories/delete/by_selection', 'SubCategoryController@delete_by_selection');
     Route::get('subcategories/by-category/{category_id}', 'SubCategoryController@getByCategory');
 
-    // ------------------------------- Units --------------------------\\
-    // ------------------------------------------------------------------\\
+    //-------------------------- Shipping Methods ----------------------\\
+    Route::resource('shipping_companies', 'ShippingCompanyController');
+    Route::resource('shipping_methods', 'ShippingMethodController');
 
+    //-------------------------- Units ----------------------\\
     Route::resource('units', 'UnitsController');
     Route::get('get_sub_units_by_base', 'UnitsController@Get_Units_SubBase');
     Route::get('get_units', 'UnitsController@Get_sales_units');
@@ -537,6 +539,9 @@ Route::middleware(['auth:api', 'Is_Active', 'request.safety', 'token.timeout'])-
     // -------------------------------  Sales --------------------------\\
     // ------------------------------------------------------------------\\
 
+    Route::post('sales/print_shipping_labels', 'SalesController@print_shipping_labels');
+    Route::post('sales/print_checklists', 'SalesController@print_checklists');
+    Route::patch('sales/{id}/shipping_status', 'SalesController@updateShippingStatus');
     Route::resource('sales', 'SalesController');
     Route::get('convert_to_sale_data/{id}', 'SalesController@Elemens_Change_To_Sale');
     Route::get('get_payments_by_sale/{id}', 'SalesController@Payments_Sale');

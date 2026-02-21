@@ -1,0 +1,17 @@
+--- Shipping Companies ---
+ID: 1, Name: Pronto, Deleted At: NULL
+ID: 2, Name: Pronto, Deleted At: NULL
+ID: 3, Name: dggd, Deleted At: NULL
+
+--- Shipping Methods ---
+ID: 1, Name: Store Pickup, Deleted At: NULL
+ID: 2, Name: COD, Deleted At: NULL
+
+--- Permissions Check ---
+shipping_methods permission: Found (ID: 193)
+shipping_companies permission: Found (ID: 192)
+
+--- Policy Simulation ---
+Testing with User ID: 1
+Permission Roles Count: 1
+User hasRole result: TRUE

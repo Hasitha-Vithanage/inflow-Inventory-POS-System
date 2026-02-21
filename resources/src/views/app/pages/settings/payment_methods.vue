@@ -103,6 +103,12 @@ export default {
   metaInfo: {
     title: "Payment Methods"
   },
+  components: {
+    Plus,
+    Edit,
+    XCircle,
+    CheckCircle
+  },
   data() {
     return {
       isLoading: true,

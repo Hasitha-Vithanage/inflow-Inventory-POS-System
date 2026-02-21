@@ -277,10 +277,23 @@
                   </validation-provider>
                 </b-col>
 
+                <!-- Shipping Method -->
+                <b-col lg="4" md="4" sm="12" class="mb-3" v-if="shipping_methods && shipping_methods.length && currentUserPermissions && currentUserPermissions.includes('edit_tax_discount_shipping_sale')">
+                  <b-form-group :label="$t('Shipping_Method')">
+                    <v-select
+                      v-model="sale.shipping_method_id"
+                      :reduce="label => label.value"
+                      :placeholder="$t('Choose_Shipping_Method')"
+                      :options="shipping_methods.map(m => ({label: m.name + (m.company ? ' (' + m.company.name + ')' : ''), value: m.id}))"
+                      :clearable="true"
+                    />
+                  </b-form-group>
+                </b-col>
+
                  <!-- Status  -->
                 <b-col lg="4" md="4" sm="12" class="mb-3">
-                  <validation-provider name="Status" :rules="{ required: true}">
-                    <b-form-group slot-scope="{ valid, errors }" :label="$t('Status') + ' ' + '*'">
+                  <validation-provider name="Order Status" :rules="{ required: true}">
+                    <b-form-group slot-scope="{ valid, errors }" :label="'Order Status ' + '*'">
                       <v-select
                         @input="Selected_Status"
                         :class="{'is-invalid': !!errors.length}"
@@ -290,9 +303,9 @@
                         :placeholder="$t('Choose_Status')"
                         :options="
                                 [
-                                  {label: 'completed', value: 'completed'},
+                                  {label: 'Complete', value: 'completed'},
                                   {label: 'Pending', value: 'pending'},
-                                  {label: 'ordered', value: 'ordered'}
+                                  {label: 'Ordered', value: 'ordered'}
                                 ]"
                       ></v-select>
                       <b-form-invalid-feedback>{{ errors[0] }}</b-form-invalid-feedback>
@@ -301,7 +314,7 @@
                 </b-col>
 
                 <!-- PaymentStatus  -->
-                <b-col md="4" v-if="sale.statut == 'completed'">
+                <b-col md="4">
                   <validation-provider name="PaymentStatus">
                     <b-form-group :label="$t('PaymentStatus')">
                       <v-select
@@ -312,7 +325,7 @@
                         :options="
                                 [
                                   {label: 'Paid', value: 'paid'},
-                                  {label: 'partial', value: 'partial'},
+                                  {label: 'Partial', value: 'partial'},
                                   {label: 'Pending', value: 'pending'},
                                 ]"
                       ></v-select>
@@ -321,7 +334,7 @@
                 </b-col>
 
                 <!-- Payment choice -->
-               <b-col md="4" v-if="payment.status != 'pending' && sale.statut == 'completed'">
+               <b-col md="4" v-if="payment.status != 'pending'">
                   <validation-provider name="Payment choice" :rules="{ required: true}">
                     <b-form-group slot-scope="{ valid, errors }" :label="$t('Paymentchoice') + ' ' + '*'">
                       <v-select
@@ -338,7 +351,7 @@
                 </b-col>
 
                  <!-- Received  Amount  -->
-                  <b-col md="4" v-if="payment.status != 'pending' && sale.statut == 'completed'">
+                  <b-col md="4" v-if="payment.status != 'pending'">
                       <validation-provider
                         name="Received Amount"
                         :rules="{ required: true , regex: /^\d*\.?\d*$/}"
@@ -362,7 +375,7 @@
 
 
                 <!-- Amount  -->
-                <b-col md="4" v-if="payment.status != 'pending' && sale.statut == 'completed'">
+                <b-col md="4" v-if="payment.status != 'pending'">
                   <validation-provider
                     name="Amount"
                     :rules="{ required: true , regex: /^\d*\.?\d*$/}"
@@ -386,7 +399,7 @@
                 </b-col>
 
                 <!-- change  Amount  -->
-                <b-col md="4" v-if="payment.status != 'pending' && sale.statut == 'completed'">
+                <b-col md="4" v-if="payment.status != 'pending'">
                   <label>{{$t('Change')}} :</label>
                   <p
                     class="change_amount"
@@ -394,7 +407,7 @@
                 </b-col>
 
                  <!-- Account -->
-                 <b-col lg="4" md="4" sm="12" v-if="payment.status != 'pending' && sale.statut == 'completed'">
+                 <b-col lg="4" md="4" sm="12" v-if="payment.status != 'pending'">
                     <validation-provider name="Account">
                       <b-form-group slot-scope="{ valid, errors }" :label="$t('Account')">
                         <v-select
@@ -604,6 +617,7 @@ export default {
       SubmitProcessing:false,
       Submit_Processing_detail:false,
       warehouses: [],
+      shipping_methods: [],
       payment_methods: [],
       units: [],
       clients: [],
@@ -627,6 +641,7 @@ export default {
         tax_rate: 0,
         TaxNet: 0,
         shipping: 0,
+        shipping_method_id: "",
         discount: 0
       },
       total: 0,
@@ -1240,7 +1255,7 @@ export default {
         (total_without_discount * this.sale.tax_rate) / 100
       );
       this.GrandTotal = parseFloat(
-        total_without_discount + this.sale.TaxNet + this.sale.shipping
+        total_without_discount + this.sale.TaxNet + Number(this.sale.shipping || 0)
       );
 
       var grand_total =  this.GrandTotal.toFixed(2);
@@ -1314,6 +1329,7 @@ export default {
             TaxNet: this.sale.TaxNet?this.sale.TaxNet:0,
             discount: this.sale.discount?this.sale.discount:0,
             shipping: this.sale.shipping?this.sale.shipping:0,
+            shipping_method_id: this.sale.shipping_method_id || null,
             GrandTotal: this.GrandTotal,
             details: this.details,
             payment: this.payment,
@@ -1383,6 +1399,7 @@ export default {
           this.clients = response.data.clients;
           this.warehouses = response.data.warehouses;
           this.payment_methods = response.data.payment_methods;
+          this.shipping_methods = response.data.shipping_methods || [];
           this.Get_Products_By_Warehouse(this.sale.warehouse_id);
           this.Calcul_Total();
           this.isLoading = false;

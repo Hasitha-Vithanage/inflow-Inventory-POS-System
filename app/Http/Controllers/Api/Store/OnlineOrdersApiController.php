@@ -91,11 +91,19 @@ class OnlineOrdersApiController extends Controller
             'id' => $order->id,
             'code' => $order->ref,
             'status' => $order->status,
-            'shipping_status' => null,
+            'shipping_status' => $order->shipping_status,
             'customer_name' => optional($order->client)->name,
             'customer_email' => optional($order->client)->email,
             'customer_phone' => optional($order->client)->phone,
             'customer_address' => optional($order->client)->adresse,
+
+            // Shipping snapshot (what was entered at checkout time)
+            'shipping_name' => $order->shipping_name,
+            'shipping_phone' => $order->shipping_phone,
+            'shipping_address' => $order->shipping_address,
+            'shipping_city' => $order->shipping_city,
+            'shipping_country' => $order->shipping_country,
+            'shipping_method_id' => $order->shipping_method_id,
 
             // NEW
             'warehouse_id' => $order->warehouse_id,
@@ -233,8 +241,10 @@ class OnlineOrdersApiController extends Controller
                     'is_pos' => 0,
                     'client_id' => $order->client_id,
                     'warehouse_id' => $warehouseId,
-                    'statut' => 'completed',
-                    'shipping_status' => null,
+                    'statut' => 'ordered',
+                    'shipping_status' => 'processing',
+                    'shipping_method_id' => $order->shipping_method_id,
+                    'shipping_company_id' => $order->shipping_company_id,
 
                     'discount' => 0,
                     'shipping' => 0,

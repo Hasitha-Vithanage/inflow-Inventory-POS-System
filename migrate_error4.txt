@@ -1,0 +1,7 @@
+
+   INFO  Running migrations.  
+
+  2026_02_20_101319_create_notification_logs_table  1.48ms DONE
+  2026_02_20_103304_update_shipping_statuses_to_processing_on_sales_table  37.24ms DONE
+  2026_02_20_170734_align_shipping_statuses_with_new_workflow  3.79ms DONE
+

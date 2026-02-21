@@ -10,7 +10,7 @@ class Setting extends Model
         'currency_id', 'email', 'CompanyName', 'CompanyPhone', 'CompanyAdress', 'quotation_with_stock',
         'logo', 'footer', 'developed_by', 'client_id', 'warehouse_id', 'default_language', 'show_language',
         'is_invoice_footer', 'invoice_footer', 'invoice_format', 'app_name', 'favicon', 'page_title_suffix', 'point_to_amount_rate',
-        'vat_number', 'company_name_ar', 'zatca_enabled', 'default_tax', 'date_format',
+        'vat_number', 'company_name_ar', 'zatca_enabled', 'default_tax', 'default_shipping_method_id', 'date_format',
         'sale_return_prefix', 'purchase_return_prefix',
         'price_format', 'dark_mode', 'rtl', 'sms_gateway',
         // Login page appearance
@@ -34,6 +34,7 @@ class Setting extends Model
         'point_to_amount_rate' => 'double',
         'zatca_enabled' => 'boolean',
         'default_tax' => 'double',
+        'default_shipping_method_id' => 'integer',
         'backup_cloud_enabled' => 'boolean',
         'backup_keep_local' => 'boolean',
         'backup_s3_path_style' => 'boolean',

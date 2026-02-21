@@ -30,6 +30,8 @@
         :styleClass="showDropdown?'tableOne table-hover vgt-table full-height':'tableOne table-hover vgt-table non-height'"
       >
         <div slot="selected-row-actions">
+          <button class="btn btn-info btn-sm mr-1" @click="Bulk_Print_Labels">Print Shipping Labels</button>
+          <button class="btn btn-info btn-sm mr-1" @click="Bulk_Checklist">Print Checklist</button>
           <button class="btn btn-danger btn-sm" @click="delete_by_selected()">{{$t('Del')}}</button>
         </div>
         <div slot="table-actions" class="mt-2 mb-3">
@@ -137,6 +139,16 @@
                   {{$t('Edit_Shipping')}}
                 </b-dropdown-item>
 
+                <b-dropdown-item title="Print Shipping Label" @click="Print_Label_Row(props.row.id)" v-if="props.row.shipping_status != 'cancelled'">
+                   <FileText size="14" class="mr-2"></FileText>
+                   Print Shipping Label
+                </b-dropdown-item>
+
+                <b-dropdown-item title="Print Checklist" @click="Print_Checklist_Row(props.row.id)" v-if="props.row.shipping_status != 'cancelled'">
+                   <FileText size="14" class="mr-2"></FileText>
+                   Print Checklist
+                </b-dropdown-item>
+
 
                 <b-dropdown-item title="Invoice" @click="Invoice_POS(props.row.id)">
                   <FileText size="14" class="mr-2"></FileText>
@@ -186,7 +198,7 @@
             <span
               v-if="props.row.statut == 'completed'"
               class="badge badge-outline-success"
-            >{{$t('complete')}}</span>
+            >{{$t('Complete')}}</span>
             <span
               v-else-if="props.row.statut == 'pending'"
               class="badge badge-outline-info"
@@ -202,14 +214,19 @@
             <span
               v-else-if="props.row.payment_status == 'partial'"
               class="badge badge-outline-primary"
-            >{{$t('partial')}}</span>
+            >{{$t('Partial')}}</span>
             <span v-else class="badge badge-outline-warning">{{$t('Unpaid')}}</span>
           </div>
           <div v-else-if="props.column.field == 'shipping_status'">
             <span
-              v-if="props.row.shipping_status == 'ordered'"
+              v-if="props.row.shipping_status == 'pending'"
               class="badge badge-outline-warning"
-            >{{$t('Ordered')}}</span>
+            >{{$t('Pending')}}</span>
+
+            <span
+              v-else-if="props.row.shipping_status == 'processing'"
+              class="badge badge-outline-warning"
+            >{{$t('Processing')}}</span>
 
             <span
               v-else-if="props.row.shipping_status == 'packed'"
@@ -217,9 +234,24 @@
             >{{$t('Packed')}}</span>
 
             <span
-              v-else-if="props.row.shipping_status == 'shipped'"
-              class="badge badge-outline-secondary"
-            >{{$t('Shipped')}}</span>
+              v-else-if="props.row.shipping_status == 'dispatched'"
+              class="badge badge-outline-info"
+            >{{$t('Dispatched')}}</span>
+
+            <span
+              v-else-if="props.row.shipping_status == 'in_transit'"
+              class="badge badge-outline-primary"
+            >{{$t('In_Transit')}}</span>
+
+            <span
+              v-else-if="props.row.shipping_status == 'out_for_delivery'"
+              class="badge badge-outline-primary"
+            >{{$t('Out_for_Delivery')}}</span>
+
+             <span
+              v-else-if="props.row.shipping_status == 'ready_for_pickup'"
+              class="badge badge-outline-success"
+            >{{$t('Ready_for_Pickup')}}</span>
 
              <span
               v-else-if="props.row.shipping_status == 'delivered'"
@@ -324,7 +356,7 @@
                 :options="
                       [
                         {label: 'Paid', value: 'paid'},
-                        {label: 'partial', value: 'partial'},
+                        {label: 'Partial', value: 'partial'},
                         {label: 'UnPaid', value: 'unpaid'},
                       ]"
               ></v-select>
@@ -333,6 +365,17 @@
 
            <!-- Shipping Status  -->
           <b-col md="12">
+            <b-form-group :label="$t('Shipping_Method')">
+              <v-select
+                v-model="Filter_shipping_method"
+                :reduce="label => label.value"
+                :placeholder="$t('Choose_Status')"
+                :options="shipping_methods.map(sm => ({label: sm.name, value: sm.id}))"
+              ></v-select>
+            </b-form-group>
+          </b-col>
+
+          <b-col md="12">
             <b-form-group :label="$t('Shipping_status')">
               <v-select
                 v-model="Filter_shipping"
@@ -340,9 +383,13 @@
                 :placeholder="$t('Choose_Status')"
                 :options="
                       [
-                        {label: 'Ordered', value: 'ordered'},
+                        {label: 'Pending', value: 'pending'},
+                        {label: 'Processing', value: 'processing'},
                         {label: 'Packed', value: 'packed'},
-                        {label: 'Shipped', value: 'shipped'},
+                        {label: 'Dispatched', value: 'dispatched'},
+                        {label: 'In Transit', value: 'in_transit'},
+                        {label: 'Out for Delivery', value: 'out_for_delivery'},
+                        {label: 'Ready for Pickup', value: 'ready_for_pickup'},
                         {label: 'Delivered', value: 'delivered'},
                         {label: 'Cancelled', value: 'cancelled'},
                       ]"
@@ -615,7 +662,7 @@
                     :placeholder="$t('Choose_Status')"
                     :options="
                                 [
-                                  {label: 'Ordered', value: 'ordered'},
+                                  {label: 'Processing', value: 'processing'},
                                   {label: 'Packed', value: 'packed'},
                                   {label: 'Shipped', value: 'shipped'},
                                   {label: 'Delivered', value: 'delivered'},
@@ -1421,9 +1468,11 @@ export default {
       Filter_Payment: "",
       Filter_warehouse: "",
       Filter_shipping:"",
+      Filter_shipping_method:"",
       customers: [],
       warehouses: [],
       payment_methods: [],
+      shipping_methods: [],
       shipment: {},
       sales: [],
       sale_due:'',
@@ -1613,7 +1662,7 @@ export default {
           thClass: "text-left"
         },
         {
-          label: this.$t("Status"),
+          label: 'Order Status',
           field: "statut",
           tdClass: "text-left",
           thClass: "text-left"
@@ -1644,6 +1693,13 @@ export default {
           field: "payment_status",
           tdClass: "text-left",
           thClass: "text-left"
+        },
+        {
+          label: this.$t("Shipping_Method") !== 'Shipping_Method' ? this.$t("Shipping_Method") : 'Shipping Method',
+          field: "shipping_method_name",
+          tdClass: "text-left",
+          thClass: "text-left",
+          sortable: false
         },
         {
           label: this.$t("Shipping_status"),
@@ -1832,6 +1888,7 @@ export default {
       this.Filter_status = "";
       this.Filter_Payment = "";
       this.Filter_shipping = "";
+      this.Filter_shipping_method = "";
       this.Filter_Ref = "";
       this.Filter_date = "";
       this.Filter_warehouse = "";
@@ -2257,6 +2314,8 @@ export default {
         this.Filter_Payment = "";
       }else if (this.Filter_shipping === null) {
         this.Filter_shipping = "";
+      }else if (this.Filter_shipping_method === null) {
+        this.Filter_shipping_method = "";
       }
     },
     //----------------------------------------- Get all Sales ------------------------------\\
@@ -2283,6 +2342,8 @@ export default {
             this.Filter_Payment +
             "&shipping_status=" +
             this.Filter_shipping +
+            "&shipping_method_id=" +
+            this.Filter_shipping_method +
             "&SortField=" +
             this.serverParams.sort.field +
             "&SortType=" +
@@ -2298,6 +2359,7 @@ export default {
           this.accounts = response.data.accounts;
           this.warehouses = response.data.warehouses;
           this.payment_methods = response.data.payment_methods;
+          this.shipping_methods = response.data.shipping_methods || [];
           this.totalRows = response.data.totalRows;
           // Complete the animation of theprogress bar.
           NProgress.done();
@@ -2925,6 +2987,81 @@ export default {
             });
         }
       });
+    },
+
+    //--------------------------------- Bulk Print Labels ---------------------------------\\
+    Bulk_Print_Labels() {
+      this.print_labels(this.selectedIds);
+    },
+
+    Print_Label_Row(id) {
+       this.print_labels([id]);
+    },
+
+    print_labels(ids) {
+       if (!ids || ids.length === 0) {
+        this.makeToast("warning", this.$t("PleaseSelect"), this.$t("Warning"));
+        return;
+      }
+      NProgress.start();
+      NProgress.set(0.1);
+      axios
+        .post("sales/print_shipping_labels", { ids: ids })
+        .then(response => {
+          NProgress.done();
+          const html = response.data;
+          // Open in new window
+          const win = window.open("", "_blank");
+          if(win){
+              win.document.write(html);
+              win.document.close();
+          }else{
+              this.makeToast("danger", "Popup blocked", "Error");
+          }
+           this.Get_Sales(this.serverParams.page);
+           // Clear selection if bulk
+           if(ids.length > 1) this.selectedIds = [];
+        })
+        .catch(error => {
+          NProgress.done();
+          this.makeToast("danger", "Failed to print labels. " + (error.response && error.response.data.message ? error.response.data.message : ""), "Error");
+        });
+    },
+
+    //--------------------------------- Bulk Print Checklists ---------------------------------\\
+    Bulk_Checklist() {
+      this.print_checklists(this.selectedIds);
+    },
+    
+    Print_Checklist_Row(id) {
+       this.print_checklists([id]);
+    },
+
+    print_checklists(ids) {
+        if (!ids || ids.length === 0) {
+        this.makeToast("warning", this.$t("PleaseSelect"), this.$t("Warning"));
+        return;
+      }
+      NProgress.start();
+      NProgress.set(0.1);
+      axios
+        .post("sales/print_checklists", { ids: ids })
+        .then(response => {
+           NProgress.done();
+           const html = response.data;
+           const win = window.open("", "_blank");
+            if(win){
+              win.document.write(html);
+              win.document.close();
+          }else{
+              this.makeToast("danger", "Popup blocked", "Error");
+          }
+           if(ids.length > 1) this.selectedIds = [];
+        })
+        .catch(error => {
+          NProgress.done();
+           this.makeToast("danger", "Failed to print checklists", "Error");
+        });
     }
   },
   //----------------------------- Created function-------------------\\

@@ -346,7 +346,6 @@ export default {
         client_name: "",
         Sale_Ref: ""
       },
-      // Optional price format key for frontend display (loaded from system settings/localStorage)
       price_format_key: null
     };
   },

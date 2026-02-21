@@ -119,32 +119,33 @@ class ShipmentController extends BaseController
 
     public function show($id)
     {
-
+        // $id is the sale_id
         $get_shipment = Shipment::where('sale_id', $id)->first();
+        $sale         = Sale::find($id);
 
         if ($get_shipment) {
-
-            $shipment_data['Ref'] = $get_shipment->Ref;
-            $shipment_data['sale_id'] = $get_shipment->sale_id;
-            $shipment_data['delivered_to'] = $get_shipment->delivered_to;
+            $shipment_data['Ref']              = $get_shipment->Ref;
+            $shipment_data['sale_id']          = $get_shipment->sale_id;
+            $shipment_data['delivered_to']     = $get_shipment->delivered_to;
             $shipment_data['shipping_address'] = $get_shipment->shipping_address;
-            $shipment_data['status'] = $get_shipment->status;
+            $shipment_data['status']           = $get_shipment->status;
             $shipment_data['shipping_details'] = $get_shipment->shipping_details;
-
         } else {
-
-            $shipment_data['Ref'] = $this->getNumberOrder();
-            $shipment_data['sale_id'] = $id;
-            $shipment_data['delivered_to'] = '';
+            $shipment_data['Ref']              = $this->getNumberOrder();
+            $shipment_data['sale_id']          = $id;
+            $shipment_data['delivered_to']     = '';
             $shipment_data['shipping_address'] = '';
-            $shipment_data['status'] = '';
+            $shipment_data['status']           = '';
             $shipment_data['shipping_details'] = '';
         }
+
+        // Always pull tracking info from the Sale itself (stored directly on sale)
+        $shipment_data['tracking_number']     = $sale ? $sale->tracking_number     : null;
+        $shipment_data['shipping_company_id'] = $sale ? $sale->shipping_company_id : null;
 
         return response()->json([
             'shipment' => $shipment_data,
         ]);
-
     }
 
     // ----------- Update Shipment-------\\

@@ -72,6 +72,8 @@ class AuthServiceProvider extends ServiceProvider
         'App\Models\Task' => 'App\Policies\TaskPolicy',
         'App\Models\ServiceJob' => 'App\Policies\ServiceJobPolicy',
         'App\Models\Booking' => 'App\Policies\BookingPolicy',
+        'App\Models\ShippingCompany' => 'App\Policies\ShippingCompanyPolicy',
+        'App\Models\ShippingMethod' => 'App\Policies\ShippingMethodPolicy',
 
     ];
 

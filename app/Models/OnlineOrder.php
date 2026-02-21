@@ -13,6 +13,8 @@ class OnlineOrder extends Model
     protected $fillable = [
         'date', 'time', 'ref',
         'client_id', 'warehouse_id',
+        'shipping_method_id', 'shipping_company_id', 'shipping_status',
+        'shipping_name', 'shipping_phone', 'shipping_address', 'shipping_city', 'shipping_country',
         'total',
         'status',
     ];

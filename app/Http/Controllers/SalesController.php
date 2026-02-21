@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Mail\CustomEmail;
 use App\Models\Account;
 use App\Models\Client;
+use App\Models\ShippingMethod;
 use App\Models\EmailMessage;
 use App\Models\PaymentMethod;
 use App\Models\PaymentSale;
@@ -73,6 +74,7 @@ class SalesController extends BaseController
             4 => '=',
             5 => '=',
             6 => 'like',
+            7 => '=',
         ];
         $columns = [
             0 => 'Ref',
@@ -82,11 +84,12 @@ class SalesController extends BaseController
             4 => 'warehouse_id',
             5 => 'date',
             6 => 'shipping_status',
+            7 => 'shipping_method_id',
         ];
         $data = [];
 
         // Check If User Has Permission View  All Records
-        $Sales = Sale::with('facture', 'client', 'warehouse', 'user')
+        $Sales = Sale::with('facture', 'client', 'warehouse', 'user', 'shippingMethod')
             ->where('deleted_at', '=', null)
             ->where(function ($query) use ($view_records) {
                 if (! $view_records) {
@@ -134,8 +137,10 @@ class SalesController extends BaseController
             $item['created_by'] = $Sale['user']->username;
             $item['statut'] = $Sale['statut'];
             $item['shipping_status'] = $Sale['shipping_status'];
+            $item['shipping_method_name'] = $Sale['shippingMethod'] ? $Sale['shippingMethod']->name : '---';
             $item['discount'] = $Sale['discount'];
             $item['shipping'] = $Sale['shipping'];
+            $item['tracking_number'] = $Sale['tracking_number'];
             $item['warehouse_name'] = $Sale['warehouse']['name'];
             $item['client_id'] = $Sale['client']['id'];
             $item['client_name'] = $Sale['client']['name'];
@@ -169,6 +174,7 @@ class SalesController extends BaseController
         $customers = client::where('deleted_at', '=', null)->get(['id', 'name']);
         $accounts = Account::where('deleted_at', '=', null)->orderBy('id', 'desc')->get(['id', 'account_name']);
         $payment_methods = PaymentMethod::whereNull('deleted_at')->get(['id', 'name']);
+        $shipping_methods = ShippingMethod::whereNull('deleted_at')->where('is_active', true)->get(['id', 'name']);
 
         // get warehouses assigned to user
         $user_auth = auth()->user();
@@ -187,6 +193,7 @@ class SalesController extends BaseController
             'warehouses' => $warehouses,
             'accounts' => $accounts,
             'payment_methods' => $payment_methods,
+            'shipping_methods' => $shipping_methods,
         ]);
     }
 
@@ -223,6 +230,29 @@ class SalesController extends BaseController
             $order->payment_statut = 'unpaid';
             $order->notes = $request->notes;
             $order->user_id = Auth::user()->id;
+
+            // Shipping method integration
+            if ($request->shipping_method_id) {
+                $order->shipping_method_id = $request->shipping_method_id;
+                $method = ShippingMethod::find($request->shipping_method_id);
+                if ($method) {
+                    $order->shipping_company_id = $method->shipping_company_id;
+                    // Auto-derive shipping_status from sale status
+                    if ($request->statut === 'completed') {
+                        $order->shipping_status = 'delivered';
+                    } elseif ($request->statut === 'pending') {
+                        $order->shipping_status = 'pending';
+                    } else {
+                        $order->shipping_status = 'processing';
+                    }
+                }
+            } elseif ($request->has('shipping_method_id')) {
+                // Explicitly cleared
+                $order->shipping_method_id = null;
+                $order->shipping_company_id = null;
+                $order->shipping_status = null;
+            }
+
             $order->save();
 
             $data = $request['details'];
@@ -717,7 +747,28 @@ class SalesController extends BaseController
                     $payment_statut = 'unpaid';
                 }
 
-                $current_Sale->update([
+                // Shipping method integration for update
+                $updateShipping = [];
+                if ($request->shipping_method_id) {
+                    $updateShipping['shipping_method_id'] = $request->shipping_method_id;
+                    $method = ShippingMethod::find($request->shipping_method_id);
+                    if ($method) {
+                        $updateShipping['shipping_company_id'] = $method->shipping_company_id;
+                        if ($request->statut === 'completed') {
+                            $updateShipping['shipping_status'] = 'delivered';
+                        } elseif ($request->statut === 'pending') {
+                            $updateShipping['shipping_status'] = 'pending';
+                        } else {
+                            $updateShipping['shipping_status'] = 'processing';
+                        }
+                    }
+                } elseif ($request->has('shipping_method_id')) {
+                    $updateShipping['shipping_method_id'] = null;
+                    $updateShipping['shipping_company_id'] = null;
+                    $updateShipping['shipping_status'] = null;
+                }
+
+                $current_Sale->update(array_merge([
                     'date' => $request['date'],
                     'client_id' => $request['client_id'],
                     'warehouse_id' => $request['warehouse_id'],
@@ -736,7 +787,7 @@ class SalesController extends BaseController
                     'used_points' => $new_used,
                     'earned_points' => $new_earned,
                     'discount_from_points' => $request['discount_from_points'],
-                ]);
+                ], $updateShipping));
             }
 
             return $current_Sale;
@@ -1124,6 +1175,12 @@ class SalesController extends BaseController
         $sale_details['due'] = number_format($sale_details['GrandTotal'] - $sale_details['paid_amount'], 2, '.', '');
         $sale_details['payment_status'] = $sale_data->payment_statut;
         $sale_details['discount_from_points'] = $sale_data->discount_from_points ?? 0;
+        // Shipping method data for detail view
+        $sale_details['shipping_status'] = $sale_data->shipping_status;
+        $sale_details['shipping_method_id'] = $sale_data->shipping_method_id;
+        $sale_details['shipping_company_id'] = $sale_data->shipping_company_id;
+        $sale_details['shipping_method_name'] = $sale_data->shippingMethod ? $sale_data->shippingMethod->name : null;
+        $sale_details['shipping_company_name'] = $sale_data->shippingCompany ? $sale_data->shippingCompany->name : null;
 
         if (SaleReturn::where('sale_id', $id)->where('deleted_at', '=', null)->exists()) {
             $sellReturn = SaleReturn::where('sale_id', $id)->where('deleted_at', '=', null)->first();
@@ -1623,8 +1680,11 @@ class SalesController extends BaseController
         $clients = Client::where('deleted_at', '=', null)->get(['id', 'name']);
         $accounts = Account::where('deleted_at', '=', null)->get(['id', 'account_name']);
         $payment_methods = PaymentMethod::whereNull('deleted_at')->get(['id', 'name']);
+        $shipping_methods = ShippingMethod::where('is_active', true)->whereNull('deleted_at')->with('company')->get();
         $stripe_key = config('app.STRIPE_KEY');
         $settings = Setting::where('deleted_at', '=', null)->first();
+        $helpers = new \App\utils\helpers();
+
 
         return response()->json([
             'stripe_key' => $stripe_key,
@@ -1632,7 +1692,10 @@ class SalesController extends BaseController
             'warehouses' => $warehouses,
             'accounts' => $accounts,
             'payment_methods' => $payment_methods,
+            'shipping_methods' => $shipping_methods,
+            'default_shipping_method_id' => $helpers->getDefaultShippingMethodId(),
             'point_to_amount_rate' => $settings->point_to_amount_rate,
+
         ]);
 
     }
@@ -1690,6 +1753,9 @@ class SalesController extends BaseController
             $sale['discount'] = $Sale_data->discount;
             $sale['discount_Method'] = $Sale_data->discount_Method ?? '2'; // ensure method is sent
             $sale['shipping'] = $Sale_data->shipping;
+            $sale['shipping_method_id'] = $Sale_data->shipping_method_id;
+            $sale['shipping_company_id'] = $Sale_data->shipping_company_id;
+            $sale['shipping_status'] = $Sale_data->shipping_status;
             $sale['statut'] = $Sale_data->statut;
             $sale['notes'] = $Sale_data->notes;
 
@@ -1807,6 +1873,7 @@ class SalesController extends BaseController
             }
 
             $clients = Client::where('deleted_at', '=', null)->get(['id', 'name']);
+            $shipping_methods = ShippingMethod::where('is_active', true)->whereNull('deleted_at')->with('company')->get();
             $settings = Setting::where('deleted_at', '=', null)->first();
 
             return response()->json([
@@ -1814,6 +1881,7 @@ class SalesController extends BaseController
                 'sale' => $sale,
                 'clients' => $clients,
                 'warehouses' => $warehouses,
+                'shipping_methods' => $shipping_methods,
                 'discount_from_points' => $Sale_data->discount_from_points,
                 'point_to_amount_rate' => $settings->point_to_amount_rate,
             ]);
@@ -1980,6 +2048,7 @@ class SalesController extends BaseController
             'sale' => $sale,
             'clients' => $clients,
             'warehouses' => $warehouses,
+            'shipping_methods' => ShippingMethod::where('is_active', true)->whereNull('deleted_at')->with('company')->get(),
         ]);
 
     }
@@ -2752,6 +2821,156 @@ class SalesController extends BaseController
         return response()->json([
             'message' => 'Document deleted successfully',
             'status' => true,
+        ]);
+    }
+
+    // ------------------------------------------------------------------
+    // Bulk Print Shipping Labels
+    // ------------------------------------------------------------------
+    public function print_shipping_labels(Request $request)
+    {
+        $ids = $request->ids;
+        if (!$ids || !is_array($ids)) {
+            return response()->json(['success' => false, 'message' => 'No sales selected'], 400);
+        }
+
+        // Identify pickup shipping methods (by name)
+        // Adjust keywords as necessary for your setup
+        $pickup_methods = ShippingMethod::where('name', 'LIKE', '%pickup%')
+                                        ->orWhere('name', 'LIKE', '%collection%')
+                                        ->pluck('id');
+
+        // 1. Update status to 'packed' for eligible orders (not cancelled/refunded AND not pickup)
+        Sale::whereIn('id', $ids)
+            ->where('statut', '!=', 'cancelled')
+            ->where('shipping_status', '!=', 'cancelled')
+            ->where(function($q) use ($pickup_methods) {
+                 $q->whereNull('shipping_method_id')
+                   ->orWhereNotIn('shipping_method_id', $pickup_methods);
+            })
+            ->update([
+                'shipping_status' => 'packed',
+                'packed_at' => Carbon::now(),
+            ]);
+
+        // 2. Retrieve sales for printing
+        $sales = Sale::whereIn('id', $ids)
+            ->with(['details', 'client', 'shippingMethod', 'warehouse', 'shipment'])
+            ->where('statut', '!=', 'cancelled')
+            ->get();
+
+        if ($sales->isEmpty()) {
+            return response()->json(['success' => false, 'message' => 'No valid sales to print (all might be cancelled)'], 400);
+        }
+
+        $pos_settings = PosSetting::where('deleted_at', '=', null)->first();
+
+        return view('sales.print_labels', compact('sales', 'pos_settings'));
+    }
+
+    // ------------------------------------------------------------------
+    // Bulk Print Checklists
+    // ------------------------------------------------------------------
+    public function print_checklists(Request $request)
+    {
+        $ids = $request->ids;
+        if (!$ids || !is_array($ids)) {
+            return response()->json(['success' => false, 'message' => 'No sales selected'], 400);
+        }
+
+        $sales = Sale::whereIn('id', $ids)
+            ->with(['details', 'client', 'shippingMethod', 'shipment'])
+            ->where('statut', '!=', 'cancelled')
+            ->get();
+
+        if ($sales->isEmpty()) {
+            return response()->json(['success' => false, 'message' => 'No valid sales to print'], 400);
+        }
+
+        return view('sales.print_checklists', compact('sales'));
+    }
+
+    // ------------------------------------------------------------------
+    // Update Shipping Status (lightweight - for Shipment Operations page)
+    // ------------------------------------------------------------------
+    public function updateShippingStatus(Request $request, $id)
+    {
+        $this->authorizeForUser($request->user('api'), 'update', Sale::class);
+
+        $request->validate([
+            'shipping_status'     => 'required|string|in:processing,dispatched,shipped,in_transit,out_for_delivery,ready_for_pickup,delivered,returned',
+            'delivered_to'        => 'nullable|string|max:255',
+            'shipping_address'    => 'nullable|string',
+            'shipping_details'    => 'nullable|string',
+            'tracking_number'     => 'nullable|string|min:5|max:100',
+            'shipping_company_id' => 'nullable|integer|exists:shipping_companies,id',
+        ]);
+
+        $sale = Sale::findOrFail($id);
+
+        // ─── 1. Determine effective shipping_status (auto-ship rule) ──
+        $trackingNumber    = $request->tracking_number;
+        $shippingCompanyId = $request->shipping_company_id;
+        $hasTracking       = !empty($trackingNumber) && strlen($trackingNumber) >= 5;
+        $hasCompany        = !empty($shippingCompanyId);
+
+        // Auto-ship rule: tracking + company → force Dispatched
+        $effectiveStatus = $request->shipping_status;
+        if ($hasTracking && $hasCompany && !in_array($effectiveStatus, ['delivered', 'returned', 'in_transit', 'out_for_delivery'])) {
+            $effectiveStatus = 'dispatched';
+        }
+
+        // ─── 2. Build Sale update payload ─────────────────────────────
+        $saleUpdate = ['shipping_status' => $effectiveStatus];
+
+        // Tracking fields on Sale
+        // We only overwrite if a value is provided OR if the tracking auto-rule is engaged.
+        if ($request->has('tracking_number'))     $saleUpdate['tracking_number']     = $trackingNumber;
+        if ($request->has('shipping_company_id')) $saleUpdate['shipping_company_id'] = $shippingCompanyId;
+
+        // Auto-stamp timestamps
+        if ($effectiveStatus === 'dispatched' && !$sale->packed_at) { // re-using packed_at for dispatch logically
+            $saleUpdate['packed_at'] = \Carbon\Carbon::now();
+        } elseif (($effectiveStatus === 'delivered' || $effectiveStatus === 'ready_for_pickup') && !$sale->delivered_at) {
+            $saleUpdate['delivered_at'] = \Carbon\Carbon::now();
+        }
+
+        // --- ORDER STATUT INTERCONNECTIONS ---
+        // If Shipping is marked Delivered or Collected/Ready, Complete the Order.
+        if ($effectiveStatus === 'delivered' || $effectiveStatus === 'ready_for_pickup') {
+            $saleUpdate['statut'] = 'completed';
+        }
+        // If Shipping is Returned, Return the Order.
+        if ($effectiveStatus === 'returned') {
+            $saleUpdate['statut'] = 'returned';
+        }
+
+        $sale->update($saleUpdate);
+
+        // ─── 3. Sync Shipment model record ────────────────────────────
+        $shipmentData = ['status' => $effectiveStatus];
+        if ($request->filled('delivered_to'))     $shipmentData['delivered_to']    = $request->delivered_to;
+        if ($request->filled('shipping_address')) $shipmentData['shipping_address'] = $request->shipping_address;
+        if ($request->filled('shipping_details')) $shipmentData['shipping_details'] = $request->shipping_details;
+
+        Shipment::updateOrCreate(
+            ['sale_id' => $sale->id],
+            array_merge($shipmentData, [
+                'user_id' => Auth::id(),
+                'date'    => now()->toDateString(),
+            ])
+        );
+
+        // ─── 4. Dispatch Notifications if newly Dispatched ───────────────
+        $oldStatus = $sale->getOriginal('shipping_status');
+        if ($effectiveStatus === 'dispatched' && $oldStatus !== 'dispatched') {
+            \App\Services\ShippedNotificationService::sendNotifications($sale);
+        }
+
+        return response()->json([
+            'success'         => true,
+            'shipping_status' => $effectiveStatus,
+            'auto_shipped'    => ($hasTracking && $hasCompany && $request->shipping_status !== 'dispatched'),
         ]);
     }
 }

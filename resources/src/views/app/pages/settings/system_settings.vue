@@ -395,6 +395,18 @@
                     </b-form-group>
                   </b-col>
                   
+                      <!-- Default Shipping Method -->
+                       <b-col lg="6" md="6" sm="12" class="mb-3">
+                        <b-form-group :label="$t('DefaultShippingMethod') || 'Default Shipping Method'">
+                          <v-select
+                            v-model="setting.default_shipping_method_id"
+                            :reduce="label => label.value"
+                            :placeholder="$t('Choose_Shipping_Method') || 'Choose Shipping Method'"
+                            :options="shipping_methods.map(method => ({label: method.name, value: method.id}))"
+                          />
+                        </b-form-group>
+                      </b-col>
+                  
                       <!-- Time Zone -->
                       <b-col lg="6" md="6" sm="12" class="mb-3">
                         <b-form-group :label="$t('Time_Zone')">
@@ -2595,6 +2607,7 @@ export default {
       clients: [],
       warehouses: [],
       sms_gateway: [],
+      shipping_methods: [], // Added shipping methods list
       zones_array:[],
       languages:[],
       sidebarLayoutOptions: [
@@ -2638,6 +2651,7 @@ export default {
         footer:"",
         developed_by:"",
         default_language:"",
+        default_shipping_method_id: "", // Added default shipping method
         date_format: 'YYYY-MM-DD',
         // Optional price format for frontend display
         price_format: "",
@@ -3326,6 +3340,7 @@ export default {
       self.data.append("footer", self.setting.footer);
       self.data.append("developed_by", self.setting.developed_by);
       self.data.append("default_language", self.setting.default_language);
+      self.data.append("default_shipping_method_id", self.setting.default_shipping_method_id || "");
       self.data.append("sms_gateway", self.setting.sms_gateway);
       self.data.append("is_invoice_footer", self.setting.is_invoice_footer);
       self.data.append("invoice_footer", self.setting.invoice_footer);
@@ -4118,9 +4133,10 @@ export default {
           }
           
           this.currencies      = response.data.currencies;
-          this.clients         = response.data.clients;
-          this.warehouses      = response.data.warehouses;
-          this.sms_gateway     = response.data.sms_gateway;
+          this.clients = response.data.clients;
+          this.warehouses = response.data.warehouses;
+          this.shipping_methods = response.data.shipping_methods || []; // Map shipping methods
+          this.payment_gateways = response.data.payment_gateways;
           this.zones_array    = response.data.zones_array;
           this.languages      = response.data.languages;
           this.isLoading = false;

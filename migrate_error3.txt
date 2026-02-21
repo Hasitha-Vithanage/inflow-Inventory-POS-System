@@ -1,0 +1,26 @@
+
+   INFO  Running migrations.  
+
+  2026_02_20_101319_create_notification_logs_table  5.11ms FAIL
+
+   Illuminate\Database\QueryException 
+
+  SQLSTATE[42S01]: Base table or view already exists: 1050 Table 'notification_logs' already exists (Connection: mysql, SQL: create table `notification_logs` (`id` bigint unsigned not null auto_increment primary key, `sale_id` bigint unsigned not null, `channel` varchar(50) not null, `status` varchar(50) not null, `error_message` text null, `created_at` timestamp null, `updated_at` timestamp null) default character set utf8mb4 engine = InnoDB)
+
+  at vendor\laravel\framework\src\Illuminate\Database\Connection.php:824
+    820▕                     $this->getName(), $query, $this->prepareBindings($bindings), $e
+    821▕                 );
+    822▕             }
+    823▕ 
+  ➜ 824▕             throw new QueryException(
+    825▕                 $this->getName(), $query, $this->prepareBindings($bindings), $e
+    826▕             );
+    827▕         }
+    828▕     }
+
+  1   vendor\laravel\framework\src\Illuminate\Database\Connection.php:570
+      PDOException::("SQLSTATE[42S01]: Base table or view already exists: 1050 Table 'notification_logs' already exists")
+
+  2   vendor\laravel\framework\src\Illuminate\Database\Connection.php:570
+      PDOStatement::execute()
+

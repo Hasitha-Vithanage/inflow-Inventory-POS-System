@@ -11,6 +11,7 @@ use App\Models\sms_gateway;
 use App\Models\User;
 use App\Models\UserWarehouse;
 use App\Models\Warehouse;
+use App\Models\ShippingMethod;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Intervention\Image\ImageManagerStatic as Image;
@@ -143,6 +144,8 @@ class SettingsController extends Controller
             'purchase_return_prefix' => $request['purchase_return_prefix'] ?? null,
             // Optional price format for frontend display (POS, etc.)
             'price_format' => $request['price_format'] ?? $setting->price_format,
+            'default_shipping_method_id' => (!empty($request['default_shipping_method_id']) && $request['default_shipping_method_id'] != 'null') ? $request['default_shipping_method_id'] : null,
+
             // Cloud backup settings
             'backup_cloud_enabled' => ($request['backup_cloud_enabled'] == '1' || $request['backup_cloud_enabled'] == 'true' || $request['backup_cloud_enabled'] === 1 || $request['backup_cloud_enabled'] === true) ? 1 : 0,
             'backup_keep_local' => ($request['backup_keep_local'] == '1' || $request['backup_keep_local'] == 'true' || $request['backup_keep_local'] === 1 || $request['backup_keep_local'] === true) ? 1 : 0,
@@ -531,6 +534,7 @@ class SettingsController extends Controller
             $item['default_language'] = $settings->default_language;
             $item['is_invoice_footer'] = $settings->is_invoice_footer;
             $item['invoice_footer'] = $settings->invoice_footer;
+            $item['default_shipping_method_id'] = $settings->default_shipping_method_id;
             // Invoice format for POS printing: 'thermal' (default) or 'a4'
             $item['invoice_format'] = in_array($settings->invoice_format, ['thermal', 'a4'], true)
                 ? $settings->invoice_format
@@ -619,6 +623,7 @@ class SettingsController extends Controller
             }
 
             $languages = Language::where('is_active', true)->get(['name', 'locale']);
+            $shipping_methods = ShippingMethod::where('deleted_at', '=', null)->where('is_active', true)->get(['id', 'name']);
 
             return response()->json([
                 'settings' => $item,
@@ -626,6 +631,7 @@ class SettingsController extends Controller
                 'clients' => $clients,
                 'warehouses' => $warehouses,
                 'sms_gateway' => $sms_gateway,
+                'shipping_methods' => $shipping_methods,
                 'zones_array' => $zones_array,
                 'languages' => $languages,
             ], 200);

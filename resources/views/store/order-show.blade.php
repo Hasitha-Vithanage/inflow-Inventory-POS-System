@@ -47,8 +47,11 @@
             <div class="text-end">
               <span id="o-status-badge" class="badge rounded-pill bg-secondary">—</span>
               <div class="small text-muted mt-2">
-                <i class="bi bi-shop"></i>
-                <span id="o-warehouse">—</span>
+                <i class="bi bi-shop"></i> <span id="o-warehouse">—</span>
+              </div>
+              <div class="small text-muted mt-1">
+                <i class="bi bi-truck"></i> <span id="o-shipping-method">—</span>
+                 <span id="o-shipping-status" class="badge bg-light text-dark border ms-1">—</span>
               </div>
             </div>
           </div>
@@ -116,6 +119,22 @@
                 <li><span class="badge bg-danger">cancelled</span> {{ __('messages.StatusCancelledHelp') }}</li>
               </ul>
             </div>
+            </div>
+          </div>
+
+          {{-- Shipping Details Card --}}
+          <div class="card border-0 shadow-sm rounded-4 mt-3">
+            <div class="card-body p-4">
+              <h6 class="mb-3">{{ __('messages.ShippingDetails') }}</h6>
+              <div class="small">
+                  <div class="mb-1"><i class="bi bi-person me-2 text-muted"></i> <span id="sd-name">—</span></div>
+                  <div class="mb-1"><i class="bi bi-telephone me-2 text-muted"></i> <span id="sd-phone">—</span></div>
+                  <div id="sd-address-block">
+                      <div class="mb-1"><i class="bi bi-geo-alt me-2 text-muted"></i> <span id="sd-address">—</span></div>
+                      <div class="ms-4"><span id="sd-city">—</span>, <span id="sd-country">—</span></div>
+                  </div>
+              </div>
+            </div>
           </div>
 
         </div>
@@ -155,7 +174,15 @@
     shipping:  document.getElementById('o-shipping'),
     discount:  document.getElementById('o-discount'),
     total:     document.getElementById('o-total'),
+    shippingMethod: document.getElementById('o-shipping-method'),
+    shippingStatus: document.getElementById('o-shipping-status'),
     empty:     document.getElementById('o-empty'),
+    sdName:    document.getElementById('sd-name'),
+    sdPhone:   document.getElementById('sd-phone'),
+    sdAddressBlock: document.getElementById('sd-address-block'),
+    sdAddress: document.getElementById('sd-address'),
+    sdCity:    document.getElementById('sd-city'),
+    sdCountry: document.getElementById('sd-country'),
   };
 
   function money(n){ return cur + Number(n||0).toFixed(2); }
@@ -181,6 +208,22 @@
 
       el.badge.className  = badgeClass(o.status);
       el.badge.textContent= o.status || '—';
+
+      el.shippingMethod.textContent = o.shipping_method_name || '—';
+      el.shippingStatus.textContent = o.shipping_status || 'ordered';
+
+      // Shipping Details
+      if (el.sdName) el.sdName.textContent = o.shipping_details?.name || '—';
+      if (el.sdPhone) el.sdPhone.textContent = o.shipping_details?.phone || '—';
+      
+      if (o.shipping_details?.address) {
+          if(el.sdAddressBlock) el.sdAddressBlock.classList.remove('d-none');
+          if(el.sdAddress) el.sdAddress.textContent = o.shipping_details.address;
+          if(el.sdCity) el.sdCity.textContent = o.shipping_details.city || '';
+          if(el.sdCountry) el.sdCountry.textContent = o.shipping_details.country || '';
+      } else {
+          if(el.sdAddressBlock) el.sdAddressBlock.classList.add('d-none');
+      }
 
       // items
       el.items.innerHTML = '';

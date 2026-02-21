@@ -869,7 +869,9 @@
               currentUserPermissions.includes('warehouse') ||
               currentUserPermissions.includes('backup') ||
               currentUserPermissions.includes('payment_methods') ||
-              currentUserPermissions.includes('currency')
+              currentUserPermissions.includes('currency') ||
+              currentUserPermissions.includes('shipping_companies') ||
+              currentUserPermissions.includes('shipping_methods')
             )"
             :class="{ active: isActiveRoute('settings'), 'has-submenu': true, open: openMenus.includes('settings') }"
             class="nav-item"
@@ -888,6 +890,21 @@
               </li>
 
              
+
+              <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('shipping_companies')">
+                <router-link to="/app/settings/shipping_companies" class="submenu-link">
+                  <truck class="submenu-icon" size="18"></truck>
+                  <span>{{ $t('ShippingCompanies') || 'Shipping Companies' }}</span>
+                </router-link>
+              </li>
+
+              <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('shipping_methods')">
+                <router-link to="/app/settings/shipping_methods" class="submenu-link">
+                  <truck class="submenu-icon" size="18"></truck>
+                  <span>{{ $t('ShippingMethods') || 'Shipping Methods' }}</span>
+                </router-link>
+              </li>
+
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('woocommerce_settings')">
                 <router-link :to="{ name: 'woocommerce_settings' }" class="submenu-link">
                   <link2 class="submenu-icon" size="18"></link2>
@@ -1324,7 +1341,7 @@ import {
   Trophy, Lock, Bug, Briefcase, Aperture, 
   Clock, CalendarDays, Bell, CircleDollarSign, ChevronDown, 
   ChevronRight, ArrowDown, MessageSquare, Key, Plus, HardHat,
-  Link2, Mail, Calculator, Upload, Warehouse, XCircle, ArrowLeft, Vault, Star, Building, Box
+  Link2, Mail, Calculator, Upload, Warehouse, XCircle, ArrowLeft, Vault, Star, Building, Box, Truck
 } from "lucide-vue";
 
 export default {
@@ -1341,7 +1358,7 @@ export default {
     Trophy, Lock, Bug, Briefcase, Aperture, 
     Clock, CalendarDays, Bell, CircleDollarSign, ChevronDown, 
     ChevronRight, ArrowDown, MessageSquare, Key, Plus, HardHat,
-    Link2, Mail, Calculator, Upload, Warehouse, XCircle, ArrowLeft, Vault, Star, Building, Box
+    Link2, Mail, Calculator, Upload, Warehouse, XCircle, ArrowLeft, Vault, Star, Building, Box, Truck
   },
   
   data() {

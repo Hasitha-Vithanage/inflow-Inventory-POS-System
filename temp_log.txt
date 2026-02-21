@@ -1,0 +1,100 @@
+﻿            {
+                "name": "Anker Soundcore Liberty 5 ANC Earbuds",
+                "quantity": 1,
+                "Net_price": 0,
+                "unit_price": 22499,
+                "line_total": 22499,
+                "subtotal": 22499
+            }
+        ]
+    },
+    "completed": false,
+    "socket": null
+}  
+[2026-02-19 16:10:38] production.INFO: CreatePOS Request: {"client_id":1,"warehouse_id":1,"tax_rate":0,"TaxNet":0,"discount":0,"discount_Method":"2","shipping":0,"notes":null,"details":[{"id":null,"code":"49735785","product_type":"is_single","current":37,"quantity":1,"check_qty":null,"discount":0,"DiscountNet":0,"discount_Method":"1","sale_unit_id":1,"fix_stock":37,"fix_price":22499,"name":"Anker Soundcore Liberty 5 ANC Earbuds","unitSale":"Ea","Net_price":22499,"Unit_price":22499,"Unit_price_wholesale":22000,"wholesale_Net_price":22000,"min_price":21000,"price_type":"retail","retail_unit_price":22499,"wholesale_unit_price":22000,"Total_price":22499,"subtotal":22499,"product_id":6,"detail_id":1,"taxe":0,"tax_percent":0,"tax_method":"1","product_variant_id":null,"is_imei":0,"imei_number":null}],"GrandTotal":22499,"payments":[{"amount":22499,"payment_method_id":2,"account_id":null}],"send_email":false,"send_sms":false,"payment_note":null,"discount_from_points":0,"used_points":0,"draft_sale_id":null,"sale_uuid":"b20e60dd-674f-4fea-9177-f0d7bd516c6b"} 
+[2026-02-19 16:10:38] production.WARNING: QuickBooks sync failed (non-blocking on POS): Call to undefined relationship [saleDetails] on model [App\Models\Sale]. {"sale_id":27,"trace":"#0 C:\\xampp\\htdocs\\inflow\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Builder.php(969): Illuminate\\Database\\Eloquent\\RelationNotFoundException::make(Object(App\\Models\\Sale), 'saleDetails')
+#1 C:\\xampp\\htdocs\\inflow\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Relations\\Relation.php(119): Illuminate\\Database\\Eloquent\\Builder->Illuminate\\Database\\Eloquent\\{closure}()
+#2 C:\\xampp\\htdocs\\inflow\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Builder.php(965): Illuminate\\Database\\Eloquent\\Relations\\Relation::noConstraints(Object(Closure))
+#3 C:\\xampp\\htdocs\\inflow\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Builder.php(939): Illuminate\\Database\\Eloquent\\Builder->getRelation('saleDetails')
+#4 C:\\xampp\\htdocs\\inflow\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Builder.php(919): Illuminate\\Database\\Eloquent\\Builder->eagerLoadRelation(Array, 'saleDetails', Object(Closure))
+#5 C:\\xampp\\htdocs\\inflow\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Builder.php(885): Illuminate\\Database\\Eloquent\\Builder->eagerLoadRelations(Array)
+#6 C:\\xampp\\htdocs\\inflow\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Concerns\\BuildsQueries.php(366): Illuminate\\Database\\Eloquent\\Builder->get(Array)
+#7 C:\\xampp\\htdocs\\inflow\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Builder.php(568): Illuminate\\Database\\Eloquent\\Builder->first(Array)
+#8 C:\\xampp\\htdocs\\inflow\\app\\Jobs\\SyncSaleToQuickBooks.php(21): Illuminate\\Database\\Eloquent\\Builder->find(27)
+#9 C:\\xampp\\htdocs\\inflow\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(36): App\\Jobs\\SyncSaleToQuickBooks->handle(Object(App\\Services\\QuickBooksService))
+#10 C:\\xampp\\htdocs\\inflow\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Util.php(43): Illuminate\\Container\\BoundMethod::Illuminate\\Container\\{closure}()
+#11 C:\\xampp\\htdocs\\inflow\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(96): Illuminate\\Container\\Util::unwrapIfClosure(Object(Closure))
+#12 C:\\xampp\\htdocs\\inflow\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(35): Illuminate\\Container\\BoundMethod::callBoundMethod(Object(Illuminate\\Foundation\\Application), Array, Object(Closure))
+#13 C:\\xampp\\htdocs\\inflow\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php(836): Illuminate\\Container\\BoundMethod::call(Object(Illuminate\\Foundation\\Application), Array, Array, NULL)
+#14 C:\\xampp\\htdocs\\inflow\\vendor\\laravel\\framework\\src\\Illuminate\\Bus\\Dispatcher.php(129): Illuminate\\Container\\Container->call(Array)
+#15 C:\\xampp\\htdocs\\inflow\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Bus\\Dispatcher->Illuminate\\Bus\\{closure}(Object(App\\Jobs\\SyncSaleToQuickBooks))
+#16 C:\\xampp\\htdocs\\inflow\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(137): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(App\\Jobs\\SyncSaleToQuickBooks))
+#17 C:\\xampp\\htdocs\\inflow\\vendor\\laravel\\framework\\src\\Illuminate\\Bus\\Dispatcher.php(133): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#18 C:\\xampp\\htdocs\\inflow\\vendor\\laravel\\framework\\src\\Illuminate\\Queue\\CallQueuedHandler.php(134): Illuminate\\Bus\\Dispatcher->dispatchNow(Object(App\\Jobs\\SyncSaleToQuickBooks), false)
+#19 C:\\xampp\\htdocs\\inflow\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Queue\\CallQueuedHandler->Illuminate\\Queue\\{closure}(Object(App\\Jobs\\SyncSaleToQuickBooks))
+#20 C:\\xampp\\htdocs\\inflow\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(137): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(App\\Jobs\\SyncSaleToQuickBooks))
+#21 C:\\xampp\\htdocs\\inflow\\vendor\\laravel\\framework\\src\\Illuminate\\Queue\\CallQueuedHandler.php(127): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#22 C:\\xampp\\htdocs\\inflow\\vendor\\laravel\\framework\\src\\Illuminate\\Queue\\CallQueuedHandler.php(68): Illuminate\\Queue\\CallQueuedHandler->dispatchThroughMiddleware(Object(Illuminate\\Queue\\Jobs\\SyncJob), Object(App\\Jobs\\SyncSaleToQuickBooks))
+#23 C:\\xampp\\htdocs\\inflow\\vendor\\laravel\\framework\\src\\Illuminate\\Queue\\Jobs\\Job.php(102): Illuminate\\Queue\\CallQueuedHandler->call(Object(Illuminate\\Queue\\Jobs\\SyncJob), Array)
+#24 C:\\xampp\\htdocs\\inflow\\vendor\\laravel\\framework\\src\\Illuminate\\Queue\\SyncQueue.php(130): Illuminate\\Queue\\Jobs\\Job->fire()
+#25 C:\\xampp\\htdocs\\inflow\\vendor\\laravel\\framework\\src\\Illuminate\\Queue\\SyncQueue.php(106): Illuminate\\Queue\\SyncQueue->executeJob(Object(App\\Jobs\\SyncSaleToQuickBooks), '', NULL)
+#26 C:\\xampp\\htdocs\\inflow\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\DatabaseTransactionsManager.php(211): Illuminate\\Queue\\SyncQueue->Illuminate\\Queue\\{closure}()
+#27 C:\\xampp\\htdocs\\inflow\\vendor\\laravel\\framework\\src\\Illuminate\\Queue\\SyncQueue.php(105): Illuminate\\Database\\DatabaseTransactionsManager->addCallback(Object(Closure))
+#28 C:\\xampp\\htdocs\\inflow\\vendor\\laravel\\framework\\src\\Illuminate\\Bus\\Dispatcher.php(246): Illuminate\\Queue\\SyncQueue->push(Object(App\\Jobs\\SyncSaleToQuickBooks), '', NULL)
+#29 C:\\xampp\\htdocs\\inflow\\vendor\\laravel\\framework\\src\\Illuminate\\Bus\\Dispatcher.php(230): Illuminate\\Bus\\Dispatcher->pushCommandToQueue(Object(Illuminate\\Queue\\SyncQueue), Object(App\\Jobs\\SyncSaleToQuickBooks))
+#30 C:\\xampp\\htdocs\\inflow\\vendor\\laravel\\framework\\src\\Illuminate\\Bus\\Dispatcher.php(80): Illuminate\\Bus\\Dispatcher->dispatchToQueue(Object(App\\Jobs\\SyncSaleToQuickBooks))
+#31 C:\\xampp\\htdocs\\inflow\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bus\\PendingDispatch.php(251): Illuminate\\Bus\\Dispatcher->dispatch(Object(App\\Jobs\\SyncSaleToQuickBooks))
+#32 C:\\xampp\\htdocs\\inflow\\app\\Http\\Controllers\\PosController.php(433): Illuminate\\Foundation\\Bus\\PendingDispatch->__destruct()
+#33 C:\\xampp\\htdocs\\inflow\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Controller.php(54): App\\Http\\Controllers\\PosController->CreatePOS(Object(Illuminate\\Http\\Request))
+#34 C:\\xampp\\htdocs\\inflow\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\ControllerDispatcher.php(43): Illuminate\\Routing\\Controller->callAction('CreatePOS', Array)
+#35 C:\\xampp\\htdocs\\inflow\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(265): Illuminate\\Routing\\ControllerDispatcher->dispatch(Object(Illuminate\\Routing\\Route), Object(App\\Http\\Controllers\\PosController), 'CreatePOS')
+#36 C:\\xampp\\htdocs\\inflow\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(211): Illuminate\\Routing\\Route->runController()
+#37 C:\\xampp\\htdocs\\inflow\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(822): Illuminate\\Routing\\Route->run()
+#38 C:\\xampp\\htdocs\\inflow\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Routing\\Router->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#39 C:\\xampp\\htdocs\\inflow\\app\\Http\\Middleware\\EnforceApiTokenTimeout.php(77): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#40 C:\\xampp\\htdocs\\inflow\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(219): App\\Http\\Middleware\\EnforceApiTokenTimeout->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#41 C:\\xampp\\htdocs\\inflow\\app\\Http\\Middleware\\RequestSafety.php(76): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#42 C:\\xampp\\htdocs\\inflow\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(219): App\\Http\\Middleware\\RequestSafety->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#43 C:\\xampp\\htdocs\\inflow\\app\\Http\\Middleware\\Is_Active.php(18): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#44 C:\\xampp\\htdocs\\inflow\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(219): App\\Http\\Middleware\\Is_Active->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#45 C:\\xampp\\htdocs\\inflow\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\SubstituteBindings.php(50): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#46 C:\\xampp\\htdocs\\inflow\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(219): Illuminate\\Routing\\Middleware\\SubstituteBindings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#47 C:\\xampp\\htdocs\\inflow\\vendor\\laravel\\framework\\src\\Illuminate\\Auth\\Middleware\\Authenticate.php(63): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#48 C:\\xampp\\htdocs\\inflow\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(219): Illuminate\\Auth\\Middleware\\Authenticate->handle(Object(Illuminate\\Http\\Request), Object(Closure), 'api')
+#49 C:\\xampp\\htdocs\\inflow\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(137): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#50 C:\\xampp\\htdocs\\inflow\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(821): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#51 C:\\xampp\\htdocs\\inflow\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(800): Illuminate\\Routing\\Router->runRouteWithinStack(Object(Illuminate\\Routing\\Route), Object(Illuminate\\Http\\Request))
+#52 C:\\xampp\\htdocs\\inflow\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(764): Illuminate\\Routing\\Router->runRoute(Object(Illuminate\\Http\\Request), Object(Illuminate\\Routing\\Route))
+#53 C:\\xampp\\htdocs\\inflow\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(753): Illuminate\\Routing\\Router->dispatchToRoute(Object(Illuminate\\Http\\Request))
+#54 C:\\xampp\\htdocs\\inflow\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(200): Illuminate\\Routing\\Router->dispatch(Object(Illuminate\\Http\\Request))
+#55 C:\\xampp\\htdocs\\inflow\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(180): Illuminate\\Foundation\\Http\\Kernel->Illuminate\\Foundation\\Http\\{closure}(Object(Illuminate\\Http\\Request))
+#56 C:\\xampp\\htdocs\\inflow\\app\\Http\\Middleware\\SetSessionConfig.php(22): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#57 C:\\xampp\\htdocs\\inflow\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(219): App\\Http\\Middleware\\SetSessionConfig->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#58 C:\\xampp\\htdocs\\inflow\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#59 C:\\xampp\\htdocs\\inflow\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull.php(31): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#60 C:\\xampp\\htdocs\\inflow\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(219): Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#61 C:\\xampp\\htdocs\\inflow\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#62 C:\\xampp\\htdocs\\inflow\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TrimStrings.php(51): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#63 C:\\xampp\\htdocs\\inflow\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(219): Illuminate\\Foundation\\Http\\Middleware\\TrimStrings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#64 C:\\xampp\\htdocs\\inflow\\vendor\\laravel\\framework\\src\\Illuminate\\Http\\Middleware\\ValidatePostSize.php(27): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#65 C:\\xampp\\htdocs\\inflow\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(219): Illuminate\\Http\\Middleware\\ValidatePostSize->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#66 C:\\xampp\\htdocs\\inflow\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance.php(109): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#67 C:\\xampp\\htdocs\\inflow\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(219): Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#68 C:\\xampp\\htdocs\\inflow\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(137): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#69 C:\\xampp\\htdocs\\inflow\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(175): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#70 C:\\xampp\\htdocs\\inflow\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(144): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
+#71 C:\\xampp\\htdocs\\inflow\\public\\index.php(52): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
+#72 {main}"} 
+[2026-02-19 16:10:39] production.INFO: Broadcasting [CartUpdated] on channels [pos-cart] with payload:
+{
+    "cart": {
+        "currency": "LKR",
+        "discount": 0,
+        "TaxNet": 0,
+        "shipping": 0,
+        "GrandTotal": 0,
+        "details": []
+    },
+    "completed": true,
+    "socket": null
+}  

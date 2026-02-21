@@ -38,8 +38,8 @@
           </router-link>
         </div>
 
-        <template slot="table-row" slot-scope="props" v-if="props.row.id !==1">
-          <span v-if="props.column.field == 'actions'">
+        <template slot="table-row" slot-scope="props">
+          <span v-if="props.column.field == 'actions' && props.row.id !== 1">
             <router-link 
               v-if="currentUserPermissions && currentUserPermissions.includes('permissions_edit')"
               title="Edit"
@@ -72,6 +72,11 @@ import NProgress from "nprogress";
 export default {
   metaInfo: {
     title: "Permissions"
+  },
+  components: {
+    Plus,
+    Edit,
+    XCircle
   },
   data() {
     return {

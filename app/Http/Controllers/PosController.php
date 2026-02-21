@@ -110,9 +110,25 @@ class PosController extends BaseController
                 // Ensure discount_Method is saved correctly: '1' for percentage, '2' for fixed
                 $order->discount_Method = $request->has('discount_Method') ? (string) $request->discount_Method : '2';
                 $order->shipping = $request->shipping;
+                // Shipping method integration
+                if ($request->shipping_method_id) {
+                    $order->shipping_method_id = $request->shipping_method_id;
+                    $method = \App\Models\ShippingMethod::find($request->shipping_method_id);
+                    if ($method) {
+                        $order->shipping_company_id = $method->shipping_company_id;
+                        if (stripos($method->name, 'Store Pickup') !== false) {
+                            $order->statut = 'completed';
+                            $order->shipping_status = 'delivered';
+                        } else {
+                            $order->statut = 'ordered';
+                            $order->shipping_status = 'processing';
+                        }
+                    }
+                } else {
+                    $order->statut = 'completed';
+                }
                 $order->GrandTotal = $request->GrandTotal;
                 $order->notes = $request->notes;
-                $order->statut = 'completed';
                 $order->payment_statut = 'unpaid';
                 $order->user_id = Auth::user()->id;
                 if (! empty($saleUuid)) {
@@ -916,6 +932,20 @@ class PosController extends BaseController
                 // Ensure discount_Method is saved correctly: '1' for percentage, '2' for fixed
                 $order->discount_Method = $request->has('discount_Method') ? (string) $request->discount_Method : '2';
                 $order->shipping = $request->shipping;
+                // Shipping method integration
+                if ($request->shipping_method_id) {
+                    $order->shipping_method_id = $request->shipping_method_id;
+                    $method = \App\Models\ShippingMethod::find($request->shipping_method_id);
+                    if ($method) {
+                        $order->shipping_company_id = $method->shipping_company_id;
+                        // All shipping methods (including Store Pickup) default to 'ordered'
+                        if (!$request->shipping_status) {
+                            $order->shipping_status = 'ordered';
+                        } else {
+                            $order->shipping_status = $request->shipping_status;
+                        }
+                    }
+                }
                 $order->GrandTotal = $request->GrandTotal;
                 $order->notes = $request->notes;
                 $order->statut = 'completed';
@@ -1416,6 +1446,7 @@ class PosController extends BaseController
             'default_client_points' => $default_client_points,
             'default_client_eligible' => $default_client_eligible,
             'point_to_amount_rate' => $settings->point_to_amount_rate,
+            'default_shipping_method_id' => $helpers->getDefaultShippingMethodId(),
         ]);
     }
 
@@ -1690,6 +1721,8 @@ class PosController extends BaseController
         $clients = Client::where('deleted_at', '=', null)->get(['id', 'name', 'phone']);
         $settings = Setting::where('deleted_at', '=', null)->with('Client')->first();
         $accounts = Account::where('deleted_at', '=', null)->orderBy('id', 'desc')->get(['id', 'account_name']);
+        $helpers = new \App\utils\helpers();
+
 
         // get warehouses assigned to user
         $user_auth = auth()->user();
@@ -1785,6 +1818,8 @@ class PosController extends BaseController
             'point_to_amount_rate' => $settings->point_to_amount_rate,
             'default_tax' => $settings->default_tax ?? 0,
             'pos_settings' => $pos_setting,
+            'shipping_methods' => \App\Models\ShippingMethod::where('is_active', true)->whereNull('deleted_at')->with('company')->get(),
+            'default_shipping_method_id' => $helpers->getDefaultShippingMethodId(),
         ]);
     }
 

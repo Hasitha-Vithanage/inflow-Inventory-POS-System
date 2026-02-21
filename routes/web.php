@@ -75,7 +75,7 @@ if ($installed === true) {
 
             // Account pages (require login on 'store' guard)
             Route::middleware(['web', 'auth:store'])->group(function () {
-                Route::view('/checkout', 'store.checkout')->name('checkout');
+                Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
                 Route::view('/thank-you', 'store.thank-you')->name('store.thankyou');
 
                 Route::get('/account', [AccountPagesController::class, 'account'])->name('account');
