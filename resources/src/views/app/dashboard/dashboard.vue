@@ -265,13 +265,14 @@
               <h4 class="chart-card-title">{{ $t('Sales') }} &amp; {{ $t('Purchases') }}</h4>
             </div>
             <div class="chart-card-body">
-              <apexchart
-                v-if="!loading"
-                type="bar"
-                height="350"
-                :options="chartSalesOptions"
-                :series="chartSalesSeries"
-              ></apexchart>
+<apexchart
+  v-if="!loading"
+  :key="'prod-' + warehouse_id"
+  type="donut"
+  height="350"
+  :options="chartProductOptions"
+  :series="chartProductSeries"
+/>
               <div v-else class="text-center py-5">
                 <div class="spinner spinner-primary"></div>
               </div>
@@ -285,13 +286,13 @@
               <h4 class="chart-card-title">{{ $t('Top_Selling_Products') }} ({{ new Date().getFullYear() }})</h4>
             </div>
             <div class="chart-card-body">
-              <apexchart
-                v-if="!loading"
-                type="donut"
-                height="350"
-                :options="chartProductOptions"
-                :series="chartProductSeries"
-              ></apexchart>
+<apexchart
+  v-if="!loading"
+  type="pie"
+  height="350"
+  :options="chartCustomerOptions"
+  :series="chartCustomerSeries"
+/>
               <div v-else class="text-center py-5">
                 <div class="spinner spinner-primary"></div>
               </div>
@@ -894,81 +895,79 @@ export default {
             }
           };
 
-          // Top Selling Products Chart (Donut Chart)
-          const productData = responseData.product_report.original;
-          this.chartProductSeries = productData.map(item => item.value);
-          this.chartProductOptions = {
-            chart: {
-              type: "donut",
-              fontFamily: "inherit"
-            },
-            labels: productData.map(item => item.name),
-            // Use a vibrant, high‑contrast palette so each top product is clearly distinct
-            colors: ["#6383f1", "#10B981", "#F59E0B", "#EF4444", "#EC4899"],
-            legend: {
-              position: "bottom",
-              fontSize: "12px"
-            },
-            dataLabels: {
-              enabled: true,
-              formatter: function(val) {
-                return Math.floor(val) + "%";
-              }
-            },
-            plotOptions: {
-              pie: {
-                donut: {
-                  size: "65%",
-                  labels: {
-                    show: true,
-                    total: {
-                      show: true,
-                      label: totalSalesLabel,
-                      formatter: function() {
-                        return Math.floor(productData.reduce((sum, item) => sum + item.value, 0));
-                      }
-                    }
-                  }
-                }
-              }
-            },
-            tooltip: {
-              y: {
-                formatter: function(val) {
-                  return Math.floor(val) + " " + salesLabel;
-                }
-              }
-            }
-          };
+// -------- FIXED TOP SELLING PRODUCTS (Apex) --------
+const productRaw = responseData?.product_report?.original || [];
 
-          // Top Customers Chart (Pie Chart)
-          const customerData = responseData.customers.original;
-          this.chartCustomerSeries = customerData.map(item => item.value);
-          this.chartCustomerOptions = {
-            chart: {
-              type: "pie",
-              fontFamily: "inherit"
-            },
-            labels: customerData.map(item => item.name),
-            colors: ["#2d8cff", "#A78BFA", "#C4B5FD", "#c4dfff", "#EDE9FE"],
-            legend: {
-              position: "bottom",
-              fontSize: "12px"
-            },
-            dataLabels: {
-              enabled: true,
-              formatter: function(val) {
-                return Math.floor(val) + "%";
-              }
-            },
-            tooltip: {
-              y: {
-                formatter: function(val) {
-                  return Math.floor(val) + " " + salesLabel;
-                }
-              }
-            }
-          };
+const productClean = productRaw.map(item => ({
+  name: item.name,
+  value: Number(item.value) || 0
+}));
+
+this.chartProductSeries = productClean.map(item => item.value);
+
+this.chartProductOptions = {
+  chart: {
+    type: "donut",
+    fontFamily: "inherit"
+  },
+  labels: productClean.map(item => item.name),
+  legend: {
+    position: "bottom"
+  },
+  dataLabels: {
+    enabled: true,
+    formatter: function (val) {
+      return Math.round(val) + "%";
+    }
+  },
+  tooltip: {
+    y: {
+      formatter: function (val) {
+        return val;
+      }
+    }
+  },
+  noData: {
+    text: "No data"
+  }
+};
+
+// -------- FIXED TOP CUSTOMERS (Apex) --------
+const customerRaw = responseData?.customers?.original || [];
+
+const customerClean = customerRaw.map(item => ({
+  name: item.name,
+  value: Number(item.value) || 0
+}));
+
+this.chartCustomerSeries = customerClean.map(item => item.value);
+
+this.chartCustomerOptions = {
+  chart: {
+    type: "pie",
+    fontFamily: "inherit"
+  },
+  labels: customerClean.map(item => item.name),
+  legend: {
+    position: "bottom"
+  },
+  dataLabels: {
+    enabled: true,
+    formatter: function (val) {
+      return Math.round(val) + "%";
+    }
+  },
+  tooltip: {
+    y: {
+      formatter: function (val) {
+        return val;
+      }
+    }
+  },
+  noData: {
+    text: "No data"
+  }
+};
 
           // Payment Sent/Received Chart (Area Chart)
           this.chartPaymentSeries = [

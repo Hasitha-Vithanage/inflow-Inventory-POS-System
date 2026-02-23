@@ -22,6 +22,7 @@ class Setting extends Model
         'backup_gdrive_folder_id', 'backup_gdrive_access_token', 'backup_gdrive_refresh_token',
         'backup_gdrive_client_id', 'backup_gdrive_client_secret',
         'backup_dropbox_path', 'backup_dropbox_access_token',
+        'notification_preferences',
     ];
 
     protected $casts = [
@@ -38,6 +39,7 @@ class Setting extends Model
         'backup_cloud_enabled' => 'boolean',
         'backup_keep_local' => 'boolean',
         'backup_s3_path_style' => 'boolean',
+        'notification_preferences' => 'array',
     ];
 
     public function Currency()

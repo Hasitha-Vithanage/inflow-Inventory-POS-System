@@ -743,6 +743,10 @@ Route::middleware(['auth:api', 'Is_Active', 'request.safety', 'token.timeout'])-
     Route::get('get_emails_template', 'Notifications_Template@get_emails_template');
     Route::put('update_custom_email', 'Notifications_Template@update_custom_email');
 
+    // notification preferences
+    Route::get('notification_preferences', 'SettingsController@getNotificationPreferences');
+    Route::put('notification_preferences', 'SettingsController@updateNotificationPreferences');
+
     // ------------------------------- Payment_gateway Settings ------------------------\\
 
     Route::post('payment_gateway', 'Payment_gateway_SettingsController@Update_payment_gateway');

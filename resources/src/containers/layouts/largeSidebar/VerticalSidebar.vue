@@ -960,7 +960,12 @@
                   <span>{{ $t('email_templates') }}</span>
                 </router-link>
               </li>
-              <!-- POS Settings (dedicated page) -->
+              <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('notification_template')">
+                <router-link to="/app/settings/notification_settings" class="submenu-link">
+                  <bell class="submenu-icon" size="18"></bell>
+                  <span>Notification Settings</span>
+                </router-link>
+              </li>
               <li class="submenu-item" v-if="currentUserPermissions && currentUserPermissions.includes('pos_settings')">
                 <router-link to="/app/settings/pos_settings" class="submenu-link">
                   <settings2 class="submenu-icon" size="18"></settings2>

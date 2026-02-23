@@ -1678,7 +1678,15 @@ const baseRoutes = [
                             )
                     },
 
-                    // Login Device Management (Security Sessions)
+                    // Notification Settings
+                    {
+                        name: "notification_settings",
+                        path: "notification_settings",
+                        component: () =>
+                            import(
+                                /* webpackChunkName: "notification_settings" */ "./views/app/pages/settings/notification_settings"
+                            )
+                    },
                     {
                         name: "login_devices",
                         path: "login_devices",

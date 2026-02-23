@@ -811,4 +811,37 @@ class SettingsController extends Controller
 
         return response()->json(['success' => true]);
     }
+
+    // -------------- Notification Preferences ---------------\\
+
+    public function getNotificationPreferences(Request $request)
+    {
+        $settings = Setting::where('deleted_at', '=', null)->first();
+
+        $default = [
+            'order_placed'    => ['email' => true, 'sms' => true, 'whatsapp' => true],
+            'order_confirmed' => ['email' => true, 'sms' => true, 'whatsapp' => true],
+            'order_packed'    => ['email' => true, 'sms' => true, 'whatsapp' => true],
+            'order_shipped'   => ['email' => true, 'sms' => true, 'whatsapp' => true],
+        ];
+
+        return response()->json([
+            'notification_preferences' => $settings->notification_preferences ?? $default,
+        ]);
+    }
+
+    public function updateNotificationPreferences(Request $request)
+    {
+        $prefs = $request->input('notification_preferences', []);
+
+        $settings = Setting::where('deleted_at', '=', null)->first();
+        if (!$settings) {
+            return response()->json(['error' => 'Settings not found'], 404);
+        }
+
+        $settings->notification_preferences = $prefs;
+        $settings->save();
+
+        return response()->json(['success' => true, 'notification_preferences' => $settings->notification_preferences]);
+    }
 }
