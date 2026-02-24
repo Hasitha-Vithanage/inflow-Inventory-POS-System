@@ -174,6 +174,10 @@ class CheckoutController extends Controller
             return $order;
         });
 
+        try {
+            \App\Services\StatusNotificationService::send('order_placed', $order->id, 'online_order');
+        } catch (\Throwable $e) { \Log::error($e->getMessage()); }
+
         return response()->json([
             'id' => $order->id,
             'ref' => $order->ref,

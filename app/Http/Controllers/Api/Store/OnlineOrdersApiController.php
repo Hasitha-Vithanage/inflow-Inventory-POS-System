@@ -313,6 +313,10 @@ class OnlineOrdersApiController extends Controller
                 return $sale;
             });
 
+            try {
+                \App\Services\StatusNotificationService::send('order_confirmed', $sale->id, 'sale');
+            } catch (\Throwable $e) { \Log::error($e->getMessage()); }
+
             return response()->json([
                 'ok' => true,
                 'status' => 'confirmed',

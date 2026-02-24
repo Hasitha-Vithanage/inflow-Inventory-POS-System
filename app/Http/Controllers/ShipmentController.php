@@ -111,6 +111,16 @@ class ShipmentController extends BaseController
                 'shipping_status' => $request['status'],
             ]);
 
+            if ($request['status'] === 'packed') {
+                try {
+                    \App\Services\StatusNotificationService::send('order_packed', $request['sale_id'], 'sale');
+                } catch (\Throwable $e) { \Log::error($e->getMessage()); }
+            } elseif (in_array($request['status'], ['shipped', 'delivered', 'dispatched'])) {
+                try {
+                    \App\Services\StatusNotificationService::send('order_shipped', $request['sale_id'], 'sale');
+                } catch (\Throwable $e) { \Log::error($e->getMessage()); }
+            }
+
         }, 10);
 
         return response()->json(['success' => true]);
@@ -160,12 +170,24 @@ class ShipmentController extends BaseController
 
         \DB::transaction(function () use ($request, $id) {
 
-            Shipment::whereId($id)->update($request->all());
+            $shipment = Shipment::findOrFail($id);
+            $oldStatus = $shipment->status;
+            $shipment->update($request->all());
 
             $sale = Sale::findOrFail($request['sale_id']);
             $sale->update([
                 'shipping_status' => $request['status'],
             ]);
+
+            if ($request['status'] === 'packed' && $oldStatus !== 'packed') {
+                try {
+                    \App\Services\StatusNotificationService::send('order_packed', $request['sale_id'], 'sale');
+                } catch (\Throwable $e) { \Log::error($e->getMessage()); }
+            } elseif (in_array($request['status'], ['shipped', 'delivered', 'dispatched']) && !in_array($oldStatus, ['shipped', 'delivered', 'dispatched'])) {
+                try {
+                    \App\Services\StatusNotificationService::send('order_shipped', $request['sale_id'], 'sale');
+                } catch (\Throwable $e) { \Log::error($e->getMessage()); }
+            }
 
         }, 10);
 

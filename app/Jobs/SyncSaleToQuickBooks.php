@@ -18,7 +18,7 @@ class SyncSaleToQuickBooks implements ShouldQueue
 
     public function handle(QuickBooksService $qb): void
     {
-        $sale = Sale::with(['saleDetails.product', 'client'])->find($this->saleId);
+        $sale = Sale::with(['details.product', 'client'])->find($this->saleId);
         if (! $sale) {
             return;
         }

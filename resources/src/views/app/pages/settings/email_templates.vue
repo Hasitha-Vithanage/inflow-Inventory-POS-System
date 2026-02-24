@@ -128,7 +128,82 @@
                   </form>
 
                 </b-tab>
+                <!-- New Order Lifecycle Tabs -->
+                <b-tab title="Order Placed">
+                  <form @submit.prevent="update_custom_email('order_placed')">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <span><strong>{{$t('Available_Tags')}}: </strong></span><p>{contact_name}, {business_name}, {invoice_number}, {invoice_url}, {total_amount}</p>
+                      </div><hr>
+                      <div class="form-group col-md-12">
+                        <label>Email Subject</label>
+                        <input type="text" v-model="order_placed.subject" class="form-control" placeholder="Email Subject">
+                      </div>
+                      <div class="form-group col-md-12">
+                        <label>Email Body</label>
+                        <vue-editor id="editor_order_placed" v-model="order_placed.body" :editor-toolbar="customToolbar"></vue-editor>
+                      </div>
+                    </div>
+                    <div class="row mt-3"><div class="col-md-6"><button type="submit" :disabled="Submit_Processing" class="btn btn-primary"><span v-if="Submit_Processing" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> <check-circle size="16" class="mr-2" :stroke-width="1.5"></check-circle> {{$t('submit')}}</button></div></div>
+                  </form>
+                </b-tab>
 
+                <b-tab title="Order Confirmed">
+                  <form @submit.prevent="update_custom_email('order_confirmed')">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <span><strong>{{$t('Available_Tags')}}: </strong></span><p>{contact_name}, {business_name}, {invoice_number}, {invoice_url}, {total_amount}</p>
+                      </div><hr>
+                      <div class="form-group col-md-12">
+                        <label>Email Subject</label>
+                        <input type="text" v-model="order_confirmed.subject" class="form-control" placeholder="Email Subject">
+                      </div>
+                      <div class="form-group col-md-12">
+                        <label>Email Body</label>
+                        <vue-editor id="editor_order_confirmed" v-model="order_confirmed.body" :editor-toolbar="customToolbar"></vue-editor>
+                      </div>
+                    </div>
+                    <div class="row mt-3"><div class="col-md-6"><button type="submit" :disabled="Submit_Processing" class="btn btn-primary"><span v-if="Submit_Processing" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> <check-circle size="16" class="mr-2" :stroke-width="1.5"></check-circle> {{$t('submit')}}</button></div></div>
+                  </form>
+                </b-tab>
+
+                <b-tab title="Order Packed">
+                  <form @submit.prevent="update_custom_email('order_packed')">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <span><strong>{{$t('Available_Tags')}}: </strong></span><p>{contact_name}, {business_name}, {invoice_number}, {invoice_url}, {total_amount}</p>
+                      </div><hr>
+                      <div class="form-group col-md-12">
+                        <label>Email Subject</label>
+                        <input type="text" v-model="order_packed.subject" class="form-control" placeholder="Email Subject">
+                      </div>
+                      <div class="form-group col-md-12">
+                        <label>Email Body</label>
+                        <vue-editor id="editor_order_packed" v-model="order_packed.body" :editor-toolbar="customToolbar"></vue-editor>
+                      </div>
+                    </div>
+                    <div class="row mt-3"><div class="col-md-6"><button type="submit" :disabled="Submit_Processing" class="btn btn-primary"><span v-if="Submit_Processing" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> <check-circle size="16" class="mr-2" :stroke-width="1.5"></check-circle> {{$t('submit')}}</button></div></div>
+                  </form>
+                </b-tab>
+
+                <b-tab title="Order Shipped / Dispatched">
+                  <form @submit.prevent="update_custom_email('order_shipped')">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <span><strong>{{$t('Available_Tags')}}: </strong></span><p>{contact_name}, {business_name}, {invoice_number}, {tracking_number}, {shipping_company}, {invoice_url}</p>
+                      </div><hr>
+                      <div class="form-group col-md-12">
+                        <label>Email Subject</label>
+                        <input type="text" v-model="order_shipped.subject" class="form-control" placeholder="Email Subject">
+                      </div>
+                      <div class="form-group col-md-12">
+                        <label>Email Body</label>
+                        <vue-editor id="editor_order_shipped" v-model="order_shipped.body" :editor-toolbar="customToolbar"></vue-editor>
+                      </div>
+                    </div>
+                    <div class="row mt-3"><div class="col-md-6"><button type="submit" :disabled="Submit_Processing" class="btn btn-primary"><span v-if="Submit_Processing" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> <check-circle size="16" class="mr-2" :stroke-width="1.5"></check-circle> {{$t('submit')}}</button></div></div>
+                  </form>
+                </b-tab>
               </b-tabs>
 
 
@@ -224,7 +299,82 @@
                   </form>
 
                 </b-tab>
+                <!-- New Order Lifecycle Tabs -->
+                <b-tab title="Order Placed">
+                  <form @submit.prevent="update_custom_email('order_placed')">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <span><strong>{{$t('Available_Tags')}}: </strong></span><p>{contact_name}, {business_name}, {invoice_number}, {invoice_url}, {total_amount}</p>
+                      </div><hr>
+                      <div class="form-group col-md-12">
+                        <label>Email Subject</label>
+                        <input type="text" v-model="order_placed.subject" class="form-control" placeholder="Email Subject">
+                      </div>
+                      <div class="form-group col-md-12">
+                        <label>Email Body</label>
+                        <vue-editor id="editor_order_placed" v-model="order_placed.body" :editor-toolbar="customToolbar"></vue-editor>
+                      </div>
+                    </div>
+                    <div class="row mt-3"><div class="col-md-6"><button type="submit" :disabled="Submit_Processing" class="btn btn-primary"><span v-if="Submit_Processing" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> <check-circle size="16" class="mr-2" :stroke-width="1.5"></check-circle> {{$t('submit')}}</button></div></div>
+                  </form>
+                </b-tab>
 
+                <b-tab title="Order Confirmed">
+                  <form @submit.prevent="update_custom_email('order_confirmed')">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <span><strong>{{$t('Available_Tags')}}: </strong></span><p>{contact_name}, {business_name}, {invoice_number}, {invoice_url}, {total_amount}</p>
+                      </div><hr>
+                      <div class="form-group col-md-12">
+                        <label>Email Subject</label>
+                        <input type="text" v-model="order_confirmed.subject" class="form-control" placeholder="Email Subject">
+                      </div>
+                      <div class="form-group col-md-12">
+                        <label>Email Body</label>
+                        <vue-editor id="editor_order_confirmed" v-model="order_confirmed.body" :editor-toolbar="customToolbar"></vue-editor>
+                      </div>
+                    </div>
+                    <div class="row mt-3"><div class="col-md-6"><button type="submit" :disabled="Submit_Processing" class="btn btn-primary"><span v-if="Submit_Processing" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> <check-circle size="16" class="mr-2" :stroke-width="1.5"></check-circle> {{$t('submit')}}</button></div></div>
+                  </form>
+                </b-tab>
+
+                <b-tab title="Order Packed">
+                  <form @submit.prevent="update_custom_email('order_packed')">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <span><strong>{{$t('Available_Tags')}}: </strong></span><p>{contact_name}, {business_name}, {invoice_number}, {invoice_url}, {total_amount}</p>
+                      </div><hr>
+                      <div class="form-group col-md-12">
+                        <label>Email Subject</label>
+                        <input type="text" v-model="order_packed.subject" class="form-control" placeholder="Email Subject">
+                      </div>
+                      <div class="form-group col-md-12">
+                        <label>Email Body</label>
+                        <vue-editor id="editor_order_packed" v-model="order_packed.body" :editor-toolbar="customToolbar"></vue-editor>
+                      </div>
+                    </div>
+                    <div class="row mt-3"><div class="col-md-6"><button type="submit" :disabled="Submit_Processing" class="btn btn-primary"><span v-if="Submit_Processing" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> <check-circle size="16" class="mr-2" :stroke-width="1.5"></check-circle> {{$t('submit')}}</button></div></div>
+                  </form>
+                </b-tab>
+
+                <b-tab title="Order Shipped / Dispatched">
+                  <form @submit.prevent="update_custom_email('order_shipped')">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <span><strong>{{$t('Available_Tags')}}: </strong></span><p>{contact_name}, {business_name}, {invoice_number}, {tracking_number}, {shipping_company}, {invoice_url}</p>
+                      </div><hr>
+                      <div class="form-group col-md-12">
+                        <label>Email Subject</label>
+                        <input type="text" v-model="order_shipped.subject" class="form-control" placeholder="Email Subject">
+                      </div>
+                      <div class="form-group col-md-12">
+                        <label>Email Body</label>
+                        <vue-editor id="editor_order_shipped" v-model="order_shipped.body" :editor-toolbar="customToolbar"></vue-editor>
+                      </div>
+                    </div>
+                    <div class="row mt-3"><div class="col-md-6"><button type="submit" :disabled="Submit_Processing" class="btn btn-primary"><span v-if="Submit_Processing" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> <check-circle size="16" class="mr-2" :stroke-width="1.5"></check-circle> {{$t('submit')}}</button></div></div>
+                  </form>
+                </b-tab>
               </b-tabs>
 
             </div>
@@ -276,6 +426,10 @@ export default {
         subject:'',
         body:'',
       },
+      order_placed:{ subject:'', body:'' },
+      order_confirmed:{ subject:'', body:'' },
+      order_packed:{ subject:'', body:'' },
+      order_shipped:{ subject:'', body:'' },
 
       custom_email_body:'',
       custom_email_subject:'',
@@ -319,7 +473,19 @@ export default {
               }else if(email_type == 'purchase'){
                 this.custom_email_body = this.purchase.body;
                 this.custom_email_subject =  this.purchase.subject;
-              }else if(email_type == 'payment_sent'){
+                      }else if(email_type == 'order_placed'){
+          this.custom_email_subject = this.order_placed.subject;
+          this.custom_email_body = this.order_placed.body;
+        }else if(email_type == 'order_confirmed'){
+          this.custom_email_subject = this.order_confirmed.subject;
+          this.custom_email_body = this.order_confirmed.body;
+        }else if(email_type == 'order_packed'){
+          this.custom_email_subject = this.order_packed.subject;
+          this.custom_email_body = this.order_packed.body;
+        }else if(email_type == 'order_shipped'){
+          this.custom_email_subject = this.order_shipped.subject;
+          this.custom_email_body = this.order_shipped.body;
+        }else if(email_type == 'payment_sent'){
                 this.custom_email_body = this.payment_sent.body;
                 this.custom_email_subject =  this.payment_sent.subject;
               }

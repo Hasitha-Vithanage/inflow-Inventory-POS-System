@@ -144,8 +144,68 @@
                   </div>
                 </div>
               </form>
+                        </b-tab>
+
+            <!-- New Order Lifecycle Tabs -->
+            <b-tab title="Order Placed">
+              <form @submit.prevent="update_sms_body('order_placed')">
+                <div class="row">
+                  <div class="col-md-12">
+                    <span><strong>{{$t('Available_Tags')}}: </strong></span><p>{contact_name}, {business_name}, {invoice_number}, {invoice_url}, {total_amount}</p>
+                  </div><hr>
+                  <div class="form-group col-md-12">
+                    <label>SMS Body</label>
+                    <textarea v-model="sms_body_order_placed" class="form-control" style="height: 150px!important;"></textarea>
+                  </div>
+                </div>
+                <div class="row mt-3"><div class="col-md-6"><button type="submit" :disabled="Submit_Processing" class="btn btn-primary"><i class="i-Yes me-2"></i> {{$t('submit')}}</button></div></div>
+              </form>
             </b-tab>
 
+            <b-tab title="Order Confirmed">
+              <form @submit.prevent="update_sms_body('order_confirmed')">
+                <div class="row">
+                  <div class="col-md-12">
+                    <span><strong>{{$t('Available_Tags')}}: </strong></span><p>{contact_name}, {business_name}, {invoice_number}, {invoice_url}, {total_amount}</p>
+                  </div><hr>
+                  <div class="form-group col-md-12">
+                    <label>SMS Body</label>
+                    <textarea v-model="sms_body_order_confirmed" class="form-control" style="height: 150px!important;"></textarea>
+                  </div>
+                </div>
+                <div class="row mt-3"><div class="col-md-6"><button type="submit" :disabled="Submit_Processing" class="btn btn-primary"><i class="i-Yes me-2"></i> {{$t('submit')}}</button></div></div>
+              </form>
+            </b-tab>
+
+            <b-tab title="Order Packed">
+              <form @submit.prevent="update_sms_body('order_packed')">
+                <div class="row">
+                  <div class="col-md-12">
+                    <span><strong>{{$t('Available_Tags')}}: </strong></span><p>{contact_name}, {business_name}, {invoice_number}, {invoice_url}, {total_amount}</p>
+                  </div><hr>
+                  <div class="form-group col-md-12">
+                    <label>SMS Body</label>
+                    <textarea v-model="sms_body_order_packed" class="form-control" style="height: 150px!important;"></textarea>
+                  </div>
+                </div>
+                <div class="row mt-3"><div class="col-md-6"><button type="submit" :disabled="Submit_Processing" class="btn btn-primary"><i class="i-Yes me-2"></i> {{$t('submit')}}</button></div></div>
+              </form>
+            </b-tab>
+
+            <b-tab title="Order Shipped / Dispatched">
+              <form @submit.prevent="update_sms_body('order_shipped')">
+                <div class="row">
+                  <div class="col-md-12">
+                    <span><strong>{{$t('Available_Tags')}}: </strong></span><p>{contact_name}, {business_name}, {invoice_number}, {tracking_number}, {shipping_company}, {invoice_url}</p>
+                  </div><hr>
+                  <div class="form-group col-md-12">
+                    <label>SMS Body</label>
+                    <textarea v-model="sms_body_order_shipped" class="form-control" style="height: 150px!important;"></textarea>
+                  </div>
+                </div>
+                <div class="row mt-3"><div class="col-md-6"><button type="submit" :disabled="Submit_Processing" class="btn btn-primary"><i class="i-Yes me-2"></i> {{$t('submit')}}</button></div></div>
+              </form>
+            </b-tab>
 
           </b-tabs>
 
@@ -242,11 +302,54 @@
     </div>
   </div>
 
+  <!--  Notification Preferences Card --------------- -->
+  <div class="row mt-4">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <h4 class="mb-0">Notification Preferences</h4>
+          <small class="text-muted">Enable or disable Email, SMS, and WhatsApp per order event</small>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered text-center">
+              <thead class="thead-light">
+                <tr>
+                  <th class="text-left">Event</th>
+                  <th><i class="nav-icon i-Mail"></i> Email</th>
+                  <th><i class="nav-icon i-SMS"></i> SMS</th>
+                  <th> WhatsApp</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(channels, event) in notification_preferences" :key="event">
+                  <td class="text-left font-weight-bold" style="text-transform: capitalize">
+                    {{ event.replace(/_/g, ' ') }}
+                  </td>
+                  <td><b-form-checkbox v-model="notification_preferences[event].email" switch size="lg" /></td>
+                  <td><b-form-checkbox v-model="notification_preferences[event].sms" switch size="lg" /></td>
+                  <td><b-form-checkbox v-model="notification_preferences[event].whatsapp" switch size="lg" /></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="row mt-3">
+            <div class="col-md-6">
+              <button @click="saveNotificationPreferences" :disabled="savingPrefs" class="btn btn-primary">
+                <span v-if="savingPrefs" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                <i class="i-Yes me-2"></i> Save Preferences
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>
 
-
-
-  </div>
+  </div><!-- end v-else -->
+</div><!-- main-content -->
 </template>
 
 <script>
@@ -263,6 +366,28 @@ export default {
       
       isLoading: true,
       Submit_Processing :false,
+      sms_body_order_placed: '',
+      sms_body_order_confirmed: '',
+      sms_body_order_packed: '',
+      sms_body_order_shipped: '',
+      savingPrefs: false,
+      notification_preferences: {
+        order_placed:    { email: true, sms: true, whatsapp: true },
+        order_confirmed: { email: true, sms: true, whatsapp: true },
+        order_packed:    { email: true, sms: true, whatsapp: true },
+        order_shipped:   { email: true, sms: true, whatsapp: true },
+      },
+      sms_body_order_placed: '',
+      sms_body_order_confirmed: '',
+      sms_body_order_packed: '',
+      sms_body_order_shipped: '',
+      savingPrefs: false,
+      notification_preferences: {
+        order_placed:    { email: true, sms: true, whatsapp: true },
+        order_confirmed: { email: true, sms: true, whatsapp: true },
+        order_packed:    { email: true, sms: true, whatsapp: true },
+        order_shipped:   { email: true, sms: true, whatsapp: true },
+      },
       sms_body_sale: '',
       sms_body_quotation: '',
       sms_body_payment_received: '',
@@ -296,6 +421,14 @@ export default {
           this.sms_body = this.sms_body_purchase;
         }else if(sms_body_type == 'payment_sent'){
           this.sms_body = this.sms_body_payment_sent;
+                }else if(sms_body_type == 'order_placed'){
+          this.sms_body = this.sms_body_order_placed;
+        }else if(sms_body_type == 'order_confirmed'){
+          this.sms_body = this.sms_body_order_confirmed;
+        }else if(sms_body_type == 'order_packed'){
+          this.sms_body = this.sms_body_order_packed;
+        }else if(sms_body_type == 'order_shipped'){
+          this.sms_body = this.sms_body_order_shipped;
         }else if(sms_body_type == 'subscription_reminder'){
           this.sms_body = this.sms_body_subscription_reminder;
         }
@@ -334,6 +467,10 @@ export default {
           this.sms_body_purchase = response.data.sms_body_purchase;
           this.sms_body_payment_sent = response.data.sms_body_payment_sent;
           this.sms_body_subscription_reminder = response.data.sms_body_subscription_reminder;
+            this.sms_body_order_placed = response.data.sms_body_order_placed;
+            this.sms_body_order_confirmed = response.data.sms_body_order_confirmed;
+            this.sms_body_order_packed = response.data.sms_body_order_packed;
+            this.sms_body_order_shipped = response.data.sms_body_order_shipped;
 
           this.isLoading = false;
         })
@@ -350,12 +487,33 @@ export default {
 
   //----------------------------- Created function-------------------
 
+      getNotificationPreferences() {
+      axios.get("notification_preferences").then(response => {
+          if (response.data.notification_preferences) {
+            this.notification_preferences = response.data.notification_preferences;
+          }
+        }).catch(() => {});
+    },
+    saveNotificationPreferences() {
+      this.savingPrefs = true;
+      axios.put("notification_preferences", { notification_preferences: this.notification_preferences })
+        .then(() => {
+          this.makeToast("success", "Notification preferences saved", this.$t("Success"));
+          this.savingPrefs = false;
+        }).catch(() => {
+          this.makeToast("danger", "Failed to save preferences", this.$t("Failed"));
+          this.savingPrefs = false;
+        });
+    },
+
   created: function() {
     this.get_sms_template();
+    this.getNotificationPreferences();
 
 
     Fire.$on("Event_sms", () => {
       this.get_sms_template();
+    this.getNotificationPreferences();
     });
   }
 };

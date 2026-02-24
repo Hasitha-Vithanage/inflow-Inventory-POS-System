@@ -78,14 +78,22 @@ class Notifications_Template extends Controller
             $sms_body_subscription_reminder = '';
         }
 
-        return response()->json([
+        // ---Order Lifecycle SMS
+        $lifecycle_events = ['order_placed', 'order_confirmed', 'order_packed', 'order_shipped'];
+        $lifecycle_sms = [];
+        foreach ($lifecycle_events as $eventName) {
+            $msg = SMSMessage::where('name', $eventName)->where('deleted_at', '=', null)->first();
+            $lifecycle_sms['sms_body_' . $eventName] = $msg ? $msg->text : '';
+        }
+
+        return response()->json(array_merge([
             'sms_body_sale' => $sms_body_sale,
             'sms_body_quotation' => $sms_body_quotation,
             'sms_body_payment_received' => $sms_body_payment_received,
             'sms_body_purchase' => $sms_body_purchase,
             'sms_body_payment_sent' => $sms_body_payment_sent,
             'sms_body_subscription_reminder' => $sms_body_subscription_reminder,
-        ], 200);
+        ], $lifecycle_sms), 200);
 
     }
 
@@ -172,13 +180,24 @@ class Notifications_Template extends Controller
             $payment_sent['body'] = '';
         }
 
-        return response()->json([
+        // ---Order Lifecycle Emails
+        $lifecycle_events = ['order_placed', 'order_confirmed', 'order_packed', 'order_shipped'];
+        $lifecycle_emails = [];
+        foreach ($lifecycle_events as $eventName) {
+            $msg = EmailMessage::where('name', $eventName)->where('deleted_at', '=', null)->first();
+            $lifecycle_emails[$eventName] = [
+                'subject' => $msg ? $msg->subject : '',
+                'body' => $msg ? $msg->body : '',
+            ];
+        }
+
+        return response()->json(array_merge([
             'sale' => $sale,
             'quotation' => $quotation,
             'payment_received' => $payment_received,
             'purchase' => $purchase,
             'payment_sent' => $payment_sent,
-        ], 200);
+        ], $lifecycle_emails), 200);
 
     }
 

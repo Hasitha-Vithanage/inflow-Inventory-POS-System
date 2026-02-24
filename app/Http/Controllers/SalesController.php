@@ -455,6 +455,13 @@ class SalesController extends BaseController
             $qboSync = 'failed';
         }
 
+        // Fire sale_created notification
+        try {
+            \App\Services\StatusNotificationService::send('order_placed', $sale->id, 'sale');
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\Log::error('sale_created notification failed: ' . $e->getMessage());
+        }
+
         return response()->json([
             'success' => true,
             'sale_id' => $sale->id,
@@ -2840,7 +2847,17 @@ class SalesController extends BaseController
                                         ->orWhere('name', 'LIKE', '%collection%')
                                         ->pluck('id');
 
-        // 1. Update status to 'packed' for eligible orders (not cancelled/refunded AND not pickup)
+        // 1. Get eligible sales before updating
+        $eligibleSales = Sale::whereIn('id', $ids)
+            ->where('statut', '!=', 'cancelled')
+            ->where('shipping_status', '!=', 'cancelled')
+            ->where(function($q) use ($pickup_methods) {
+                 $q->whereNull('shipping_method_id')
+                   ->orWhereNotIn('shipping_method_id', $pickup_methods);
+            })
+            ->get();
+
+        // 1b. Update status to 'packed' for eligible orders (not cancelled/refunded AND not pickup)
         Sale::whereIn('id', $ids)
             ->where('statut', '!=', 'cancelled')
             ->where('shipping_status', '!=', 'cancelled')
@@ -2852,6 +2869,17 @@ class SalesController extends BaseController
                 'shipping_status' => 'packed',
                 'packed_at' => Carbon::now(),
             ]);
+
+        // 1c. Fire notifications for all newly packed sales
+        foreach ($eligibleSales as $sale) {
+            if ($sale->shipping_status !== 'packed') {
+                try {
+                    \App\Services\StatusNotificationService::send('order_packed', $sale->id, 'sale');
+                } catch (\Throwable $e) {
+                    \Illuminate\Support\Facades\Log::error('order_packed notification failed: ' . $e->getMessage());
+                }
+            }
+        }
 
         // 2. Retrieve sales for printing
         $sales = Sale::whereIn('id', $ids)
@@ -2945,6 +2973,9 @@ class SalesController extends BaseController
             $saleUpdate['statut'] = 'returned';
         }
 
+        // capture old status BEFORE update() resets model originals
+        $oldStatus = $sale->shipping_status;
+
         $sale->update($saleUpdate);
 
         // ─── 3. Sync Shipment model record ────────────────────────────
@@ -2962,9 +2993,12 @@ class SalesController extends BaseController
         );
 
         // ─── 4. Dispatch Notifications if newly Dispatched ───────────────
-        $oldStatus = $sale->getOriginal('shipping_status');
         if ($effectiveStatus === 'dispatched' && $oldStatus !== 'dispatched') {
-            \App\Services\ShippedNotificationService::sendNotifications($sale);
+            try {
+                \App\Services\StatusNotificationService::send('order_shipped', $sale->id, 'sale');
+            } catch (\Throwable $e) {
+                \Illuminate\Support\Facades\Log::error('order_shipped notification failed: ' . $e->getMessage());
+            }
         }
 
         return response()->json([

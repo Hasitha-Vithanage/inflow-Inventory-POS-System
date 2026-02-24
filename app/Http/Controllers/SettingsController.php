@@ -600,6 +600,15 @@ class SettingsController extends Controller
                 $item['backup_dropbox_has_access_token'] = !empty($settings->backup_dropbox_access_token);
             }
 
+            // Notification preferences
+            $defaultPrefs = [
+                'order_placed'    => ['email' => true, 'sms' => true, 'whatsapp' => true],
+                'order_confirmed' => ['email' => true, 'sms' => true, 'whatsapp' => true],
+                'order_packed'    => ['email' => true, 'sms' => true, 'whatsapp' => true],
+                'order_shipped'   => ['email' => true, 'sms' => true, 'whatsapp' => true],
+            ];
+            $item['notification_preferences'] = $settings->notification_preferences ?? $defaultPrefs;
+
             $zones_array = [];
             $timestamp = time();
             foreach (timezone_identifiers_list() as $key => $zone) {
