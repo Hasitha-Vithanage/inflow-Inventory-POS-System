@@ -60,8 +60,8 @@
                 styleClass="order-table vgt-table mt-2"
               >
                <div slot="table-actions" class="mt-2 mb-3">
-                <b-button @click="Quotation_PDF()" size="sm" variant="outline-success ripple m-1">
-                  <i class="i-File-Copy"></i> PDF
+                <b-button @click="Quotation_PDF()" size="sm" variant="outline-danger ripple m-1">
+                  <FileText size="14" class="mr-1"></FileText> PDF
                 </b-button>
               </div>
                 <template slot="table-row" slot-scope="props">
@@ -112,8 +112,8 @@
                 styleClass="order-table vgt-table mt-2"
               >
                <div slot="table-actions" class="mt-2 mb-3">
-                <b-button @click="Sales_PDF()" size="sm" variant="outline-success ripple m-1">
-                  <i class="i-File-Copy"></i> PDF
+                <b-button @click="Sales_PDF()" size="sm" variant="outline-danger ripple m-1">
+                  <FileText size="14" class="mr-1"></FileText> PDF
                 </b-button>
               </div>
                 <template slot="table-row" slot-scope="props">
@@ -208,8 +208,8 @@
                 styleClass="order-table vgt-table mt-2"
               >
                <div slot="table-actions" class="mt-2 mb-3">
-                <b-button @click="Sale_Return_PDF()" size="sm" variant="outline-success ripple m-1">
-                  <i class="i-File-Copy"></i> PDF
+                <b-button @click="Sale_Return_PDF()" size="sm" variant="outline-danger ripple m-1">
+                  <FileText size="14" class="mr-1"></FileText> PDF
                 </b-button>
               </div>
                 <template slot="table-row" slot-scope="props">
@@ -285,8 +285,8 @@
                 styleClass="order-table vgt-table mt-2"
               >
                <div slot="table-actions" class="mt-2 mb-3">
-                <b-button @click="Returns_Purchase_PDF()" size="sm" variant="outline-success ripple m-1">
-                  <i class="i-File-Copy"></i> PDF
+                <b-button @click="Returns_Purchase_PDF()" size="sm" variant="outline-danger ripple m-1">
+                  <FileText size="14" class="mr-1"></FileText> PDF
                 </b-button>
               </div>
                 <template slot="table-row" slot-scope="props">
@@ -362,8 +362,8 @@
                 styleClass="order-table vgt-table mt-2"
               >
                <div slot="table-actions" class="mt-2 mb-3">
-                <b-button @click="Expense_PDF()" size="sm" variant="outline-success ripple m-1">
-                  <i class="i-File-Copy"></i> PDF
+                <b-button @click="Expense_PDF()" size="sm" variant="outline-danger ripple m-1">
+                  <FileText size="14" class="mr-1"></FileText> PDF
                 </b-button>
               </div>
               <template slot="table-row" slot-scope="props">
@@ -407,6 +407,7 @@ import { mapActions, mapGetters } from "vuex";
 import VueApexCharts from "vue-apexcharts";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
+import { FileText } from "lucide-vue";
 import {
   formatPriceDisplay as formatPriceDisplayHelper,
   getPriceFormatSetting
@@ -415,6 +416,7 @@ import {
 export default {
   components: {
     apexchart: VueApexCharts,
+    FileText,
     StatTile: {
       name: "StatTile",
       functional: true,
@@ -518,7 +520,7 @@ export default {
             formatter: (val, opts) => {
               const idx = opts && typeof opts.seriesIndex === 'number' ? opts.seriesIndex : -1;
               const extra = idx >= 0 ? (this.apexValueExtra[idx] || 0) : 0;
-              return `${this.$t('Stock_Value_by_Price') || 'Stock Value by Price'}: ${this.formatNumber(val, 2)}\n${this.$t('Stock_Value_by_Cost') || 'Stock Value by Cost'}: ${this.formatNumber(extra, 2)}`;
+              return `${this.$t('Stock_Value_by_Price') || 'Stock Value by Price'}: ${this.formatPriceDisplay(val, 2)}\n${this.$t('Stock_Value_by_Cost') || 'Stock Value by Cost'}: ${this.formatPriceDisplay(extra, 2)}`;
             }
           }
         }
@@ -834,7 +836,7 @@ export default {
         this.$t("Categorie"),
         this.$t("warehouse")
       ];
-      const body = (this.expenses || []).map(r => ([ r.date, r.Ref, r.amount, r.category_name, r.warehouse_name ]));
+      const body = (this.expenses || []).map(r => ([ r.date, r.Ref, this.formatPriceDisplay(r.amount, 2), r.category_name, r.warehouse_name ]));
 
       const marginX = 40;
       const rtl =
@@ -890,7 +892,7 @@ export default {
       ];
       const body = (this.returns_purchase || []).map(r => ([
         r.Ref, r.provider_name, r.warehouse_name, r.purchase_ref,
-        r.GrandTotal, r.paid_amount, r.due, r.statut, r.payment_status
+        this.formatPriceDisplay(r.GrandTotal, 2), this.formatPriceDisplay(r.paid_amount, 2), this.formatPriceDisplay(r.due, 2), r.statut, r.payment_status
       ]));
 
       const marginX = 40;
@@ -937,7 +939,7 @@ export default {
       ];
       const body = (this.returns_sale || []).map(r => ([
         r.Ref, r.client_name, r.sale_ref, r.warehouse_name,
-        r.GrandTotal, r.paid_amount, r.due, r.statut, r.payment_status
+        this.formatPriceDisplay(r.GrandTotal, 2), this.formatPriceDisplay(r.paid_amount, 2), this.formatPriceDisplay(r.due, 2), r.statut, r.payment_status
       ]));
 
       const marginX = 40; const rtl = (this.$i18n && ['ar','fa','ur','he'].includes(this.$i18n.locale)) || (typeof document !== 'undefined' && document.documentElement.dir === 'rtl');
@@ -972,7 +974,7 @@ export default {
       pdf.setFont('Vazirmatn','normal');
 
       const headers = [ this.$t('Reference'), this.$t('Customer'), this.$t('warehouse'), this.$t('Status'), this.$t('Total'), this.$t('Paid'), this.$t('Due'), this.$t('PaymentStatus'), this.$t('Shipping_status') ];
-      const body = (this.sales||[]).map(r=>[ r.Ref, r.client_name, r.warehouse_name, r.statut, r.GrandTotal, r.paid_amount, r.due, r.payment_status, r.shipping_status ]);
+      const body = (this.sales||[]).map(r=>[ r.Ref, r.client_name, r.warehouse_name, r.statut, this.formatPriceDisplay(r.GrandTotal, 2), this.formatPriceDisplay(r.paid_amount, 2), this.formatPriceDisplay(r.due, 2), r.payment_status, r.shipping_status ]);
 
       const marginX = 40; const rtl = (this.$i18n && ['ar','fa','ur','he'].includes(this.$i18n.locale)) || (typeof document!=='undefined' && document.documentElement.dir==='rtl');
 
@@ -1013,9 +1015,18 @@ export default {
         { header: self.$t("Status"), dataKey: "statut" },
         { header: self.$t("Total"), dataKey: "GrandTotal" }
       ];
+        const body = (self.quotations || []).map(q => ({
+          date: q.date,
+          Ref: q.Ref,
+          client_name: q.client_name,
+          warehouse_name: q.warehouse_name,
+          statut: q.statut,
+          GrandTotal: self.formatPriceDisplay(q.GrandTotal, 2)
+        }));
+
       autoTable(pdf, {
              columns: columns,
-             body: self.quotations,
+             body: body,
              startY: 70,
              theme: "grid", 
              didDrawPage: (data) => {

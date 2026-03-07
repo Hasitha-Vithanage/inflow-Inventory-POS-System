@@ -21,9 +21,10 @@ class ShippingCompanyController extends BaseController
 
         $companies = ShippingCompany::where('deleted_at', '=', null)
             ->where(function ($query) use ($request) {
-                return $query->when($request->filled('search'), function ($query) use ($request) {
+            return $query->when($request->filled('search'), function ($query) use ($request) {
                     return $query->where('name', 'LIKE', "%{$request->search}%");
-                });
+                }
+                );
             });
 
         $totalRows = $companies->count();
@@ -86,6 +87,22 @@ class ShippingCompanyController extends BaseController
         ShippingCompany::whereId($id)->update([
             'deleted_at' => Carbon::now(),
         ]);
+
+        return response()->json(['success' => true]);
+    }
+
+    // -------------- Delete by selection  ---------------\\
+
+    public function delete_by_selection(Request $request)
+    {
+        $this->authorizeForUser($request->user('api'), 'delete', ShippingCompany::class);
+
+        $selectedIds = $request->selectedIds;
+        foreach ($selectedIds as $company_id) {
+            ShippingCompany::whereId($company_id)->update([
+                'deleted_at' => Carbon::now(),
+            ]);
+        }
 
         return response()->json(['success' => true]);
     }

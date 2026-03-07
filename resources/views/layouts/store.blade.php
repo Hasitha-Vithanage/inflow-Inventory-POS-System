@@ -471,7 +471,12 @@
   /* 2) Badge updater + offcanvas renderer */
   (function(){
     var badge = document.getElementById('cart-badge');
-    function money(v, c){ return (c||'$') + (Number(v||0).toFixed(2)); }
+    function money(v, c){
+      var sym = c || '$';
+      var n = Number(v || 0);
+      var formatted = n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      return sym + ' ' + formatted;
+    }
     function updateBadge(){
       if(!badge) return;
       var c = CartLS.get();

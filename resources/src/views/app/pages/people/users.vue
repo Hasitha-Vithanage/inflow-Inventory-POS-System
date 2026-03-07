@@ -29,11 +29,11 @@
             <Filter size="14" class="mr-1"></Filter>
             {{ $t("Filter") }}
           </b-button>
-          <b-button @click="Users_PDF()" size="sm" variant="outline-success m-1">
+          <b-button @click="Users_PDF()" size="sm" variant="outline-danger m-1">
             <FileText size="14" class="mr-1"></FileText> PDF
           </b-button>
            <vue-excel-xlsx
-              class="btn btn-sm btn-outline-danger ripple m-1"
+              class="btn btn-sm btn-outline-success ripple m-1"
               :data="users"
               :columns="columns"
               :file-name="'users'"
@@ -56,22 +56,23 @@
         <template slot="table-row" slot-scope="props">
           <span v-if="props.column.field == 'actions'">
             <a
-              @click="Edit_User(props.row)"
               v-if="currentUserPermissions && currentUserPermissions.includes('users_edit')"
+              @click="Edit_User(props.row)"
+              class="btn-action btn-edit"
               title="Edit"
-              class="cursor-pointer"
               v-b-tooltip.hover
             >
-              <Edit size="20" class="text-success mr-2"></Edit>
+              <Edit size="14" />
             </a>
+
             <a
-              @click="Remove_User(props.row.id)"
               v-if="currentUserPermissions && currentUserPermissions.includes('users_delete') && currentUser && props.row.id !== currentUser.id"
+              @click="Remove_User(props.row.id)"
+              class="btn-action btn-delete"
               title="Delete"
-              class="cursor-pointer"
               v-b-tooltip.hover
             >
-              <XCircle size="20" class="text-danger"></XCircle>
+              <XCircle size="14" />
             </a>
           </span>
 
@@ -146,7 +147,7 @@
 </template>
 
 <script>
-import { Filter, FileText, FileSpreadsheet, Plus, Edit, XCircle, Power } from "lucide-vue";
+import { Filter, FileText, FileSpreadsheet, Plus, Edit, XCircle, Power, MoreHorizontal } from "lucide-vue";
 import { mapActions, mapGetters } from "vuex";
 import NProgress from "nprogress";
 import jsPDF from "jspdf";
@@ -163,7 +164,8 @@ export default {
     Plus,
     Edit,
     XCircle,
-    Power
+    Power,
+    MoreHorizontal
   },
   data() {
     return {

@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="main-content p-2 p-md-4">
     <breadcumb :page="$t('Seller_report')" :folder="$t('Reports')" />
 
@@ -70,7 +70,7 @@
             :file-type="'xlsx'"
             :sheet-name="'Seller_report'"
           >
-            <i class="i-File-Excel mr-1"></i>
+            <FileSpreadsheet size="14" class="mr-1"></FileSpreadsheet>
             <span>EXCEL</span>
           </vue-excel-xlsx>
 
@@ -254,6 +254,7 @@
 
 <script>
 import NProgress from "nprogress";
+import { FileSpreadsheet } from "lucide-vue";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import DateRangePicker from "vue2-daterange-picker";
@@ -300,6 +301,7 @@ export default {
     title: "Report Seller",
   },
   components: {
+    FileSpreadsheet,
     apexchart: VueApexCharts,
     "date-range-picker": DateRangePicker,
     StatTile,

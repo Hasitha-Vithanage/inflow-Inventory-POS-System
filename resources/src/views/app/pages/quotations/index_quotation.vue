@@ -35,21 +35,21 @@
         </div>
         <div slot="table-actions" class="mt-2 mb-3">
           <b-button variant="outline-info ripple m-1" size="sm" v-b-toggle.sidebar-right>
-            <i class="i-Filter-2"></i>
+            <Filter size="14" class="mr-1"></Filter>
             {{ $t("Filter") }}
           </b-button>
-          <b-button @click="Quotation_PDF()" size="sm" variant="outline-success ripple m-1">
-            <i class="i-File-Copy"></i> PDF
+          <b-button @click="Quotation_PDF()" size="sm" variant="outline-danger ripple m-1">
+            <FileText size="14" class="mr-1"></FileText> PDF
           </b-button>
           <vue-excel-xlsx
-              class="btn btn-sm btn-outline-danger ripple m-1"
+              class="btn btn-sm btn-outline-success ripple m-1"
               :data="quotations"
               :columns="columns"
               :file-name="'quotations'"
               :file-type="'xlsx'"
               :sheet-name="'quotations'"
               >
-              <i class="i-File-Excel"></i> EXCEL
+              <FileSpreadsheet size="14" class="mr-1"></FileSpreadsheet> EXCEL
           </vue-excel-xlsx>
           <router-link
             class="btn-sm btn btn-primary ripple btn-icon m-1"
@@ -67,35 +67,41 @@
           <span v-if="props.column.field == 'date'">
             {{ formatDisplayDate(props.row.date) }}
           </span>
-          <span v-else-if="props.column.field == 'actions'">
-            <div>
+          <span v-if="props.column.field == 'actions'">
               <b-dropdown
-                id="dropdown-left"
+                id="dropdown-action"
                 variant="link"
-                text="Left align"
-                toggle-class="text-decoration-none"
-                size="lg"
+                toggle-class="text-decoration-none p-0"
+                size="sm"
                 no-caret
               >
-                <template v-slot:button-content class="_r_btn border-0">
-                  <span class="_dot _r_block-dot bg-dark"></span>
-                  <span class="_dot _r_block-dot bg-dark"></span>
-                  <span class="_dot _r_block-dot bg-dark"></span>
+                <template v-slot:button-content>
+                  <span class="_r_block-dot">
+                    <MoreHorizontal size="18"></MoreHorizontal>
+                  </span>
                 </template>
-                <b-navbar-nav>
-                  <b-dropdown-item title="Show" :to="'/app/quotations/detail/'+props.row.id">
-                    <i class="nav-icon i-Eye font-weight-bold mr-2"></i>
-                    {{$t('DetailQuote')}}
-                  </b-dropdown-item>
-                </b-navbar-nav>
+
+                <b-dropdown-item title="Show" :to="'/app/quotations/detail/'+props.row.id">
+                  <Eye size="14" class="mr-2"></Eye>
+                  {{$t('DetailQuote')}}
+                </b-dropdown-item>
 
                 <b-dropdown-item
                   title="Edit"
                   v-if="currentUserPermissions.includes('Quotations_edit')"
                   :to="'/app/quotations/edit/'+props.row.id"
                 >
-                  <i class="nav-icon i-Pen-2 font-weight-bold mr-2"></i>
+                  <Edit size="14" class="mr-2"></Edit>
                   {{$t('EditQuote')}}
+                </b-dropdown-item>
+
+                 <b-dropdown-item
+                  title="Delete"
+                  v-if="currentUserPermissions.includes('Quotations_delete')"
+                  @click="Remove_Quotation(props.row.id)"
+                >
+                  <X size="14" class="mr-2"></X>
+                  {{$t('DeleteQuote')}}
                 </b-dropdown-item>
 
                 <b-dropdown-item
@@ -103,47 +109,38 @@
                   v-if="currentUserPermissions.includes('Quotations_edit')"
                   :to="'/app/quotations/Create_sale/'+props.row.id"
                 >
-                  <i class="nav-icon i-Add font-weight-bold mr-2"></i>
+                  <Plus size="14" class="mr-2"></Plus>
                   {{$t('CreateSale')}}
                 </b-dropdown-item>
 
                 <b-dropdown-item title="PDF" @click="Quote_pdf(props.row , props.row.id)">
-                  <i class="nav-icon i-File-TXT font-weight-bold mr-2"></i>
+                   <FileText size="14" class="mr-2"></FileText>
                   {{$t('DownloadPdf')}}
                 </b-dropdown-item>
 
                 <b-dropdown-item title=" WhatsApp Notification" @click="Send_WhatsApp(props.row.id)">
-                  <i class="nav-icon i-Envelope-2 font-weight-bold mr-2"></i>
+                   <Mail size="14" class="mr-2"></Mail>
                   WhatsApp Notification
                 </b-dropdown-item>
 
                 <b-dropdown-item title="Email" @click="SendEmail(props.row.id)">
-                  <i class="nav-icon i-Envelope-2 font-weight-bold mr-2"></i>
+                   <Mail size="14" class="mr-2"></Mail>
                   {{$t('email_notification')}}
                 </b-dropdown-item>
 
                  <b-dropdown-item title="SMS" @click="Quote_SMS(props.row.id)">
-                  <i class="nav-icon i-Speach-Bubble font-weight-bold mr-2"></i>
+                   <MessageSquare size="14" class="mr-2"></MessageSquare>
                   {{$t('sms_notification')}}
                 </b-dropdown-item>
 
-                <b-dropdown-item
-                  title="Delete"
-                  v-if="currentUserPermissions.includes('Quotations_delete')"
-                  @click="Remove_Quotation(props.row.id)"
-                >
-                  <i class="nav-icon i-Close-Window font-weight-bold mr-2"></i>
-                  {{$t('DeleteQuote')}}
-                </b-dropdown-item>
               </b-dropdown>
-            </div>
           </span>
           <div v-else-if="props.column.field == 'statut'">
             <span
               v-if="props.row.statut == 'sent'"
-              class="badge badge-outline-success"
+              class="status-badge status-success"
             >{{$t('Sent')}}</span>
-            <span v-else class="badge badge-outline-info">{{$t('Pending')}}</span>
+            <span v-else class="status-badge status-info">{{$t('Pending')}}</span>
           </div>
           <div v-else-if="props.column.field == 'Ref'">
             <router-link
@@ -216,21 +213,12 @@
             </b-form-group>
           </b-col>
 
-          <b-col md="6" sm="12">
-            <b-button
-              @click="Get_Quotations(serverParams.page)"
-              variant="primary ripple m-1"
-              size="sm"
-              block
-            >
-              <i class="i-Filter-2"></i>
-              {{ $t("Filter") }}
+          <b-col md="12" class="mt-3">
+            <b-button @click="Get_Quotations(serverParams.page)" variant="primary" size="sm" block>
+              <Filter size="16" class="mr-1"></Filter> {{ $t("Filter") }}
             </b-button>
-          </b-col>
-          <b-col md="6" sm="12">
-            <b-button @click="Reset_Filter()" variant="danger ripple m-1" size="sm" block>
-              <i class="i-Power-2"></i>
-              {{ $t("Reset") }}
+            <b-button @click="Reset_Filter()" variant="danger" size="sm" block>
+              <Power size="16" class="mr-1"></Power> {{ $t("Reset") }}
             </b-button>
           </b-col>
         </b-row>
@@ -241,6 +229,10 @@
 
 
 <script>
+import { 
+  Plus, Edit, Eye, Filter, Power, 
+  FileText, FileSpreadsheet, MoreHorizontal, X, Mail, MessageSquare
+} from "lucide-vue";
 import { mapActions, mapGetters } from "vuex";
 import NProgress from "nprogress";
 import jsPDF from "jspdf";
@@ -252,6 +244,10 @@ import {
 } from "../../../../utils/priceFormat";
 
 export default {
+  components: {
+    Plus, Edit, Eye, Filter, Power, 
+    FileText, FileSpreadsheet, MoreHorizontal, X, Mail, MessageSquare
+  },
   metaInfo: {
     title: "Quotation"
   },
@@ -454,11 +450,11 @@ export default {
         r.client_name,
         r.warehouse_name,
         r.statut,
-        r.GrandTotal
+        this.formatPriceDisplay(r.GrandTotal, 2)
       ]));
 
       const totalGrandTotal = (this.quotations || []).reduce((s, q) => s + parseFloat(q.GrandTotal || 0), 0);
-      const footer = [[ this.$t('Total'), '', '', '', '', totalGrandTotal.toFixed(2) ]];
+      const footer = [[ this.$t('Total'), '', '', '', '', this.formatPriceDisplay(totalGrandTotal, 2) ]];
 
       const marginX = 40;
       const rtl =

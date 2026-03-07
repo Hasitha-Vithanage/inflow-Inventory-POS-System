@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="main-content p-2 p-md-4">
     <breadcumb :page="$t('Payment_Purchases')" :folder="$t('Reports')" />
 
@@ -44,8 +44,8 @@
             <b-button size="sm" variant="outline-info" class="btn-pill mr-2" v-b-toggle.sidebar-right>
               <i class="i-Filter-2 mr-1"></i>{{$t('Filter')}}
             </b-button>
-            <b-button size="sm" variant="outline-success" class="btn-pill mr-2" @click="exportPDF">
-              <i class="i-File-Copy mr-1"></i>PDF
+            <b-button size="sm" variant="outline-danger" class="btn-pill mr-2" @click="exportPDF">
+              <FileText size="14" class="mr-1"></FileText>PDF
             </b-button>
             <vue-excel-xlsx
               class="btn btn-sm btn-outline-danger btn-pill mr-2"
@@ -55,7 +55,7 @@
               :file-type="'xlsx'"
               :sheet-name="'payments_purchases'"
             >
-              <i class="i-File-Excel mr-1"></i>EXCEL
+              <FileSpreadsheet size="14" class="mr-1"></FileSpreadsheet>EXCEL
             </vue-excel-xlsx>
             <b-button variant="primary" size="sm" class="btn-pill" @click="Payments_Purchases(1)">
               <i class="i-Reload mr-1"></i>{{$t('Refresh')}}
@@ -184,6 +184,7 @@
 
 <script>
 import NProgress from "nprogress";
+import { FileText, FileSpreadsheet } from "lucide-vue";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import DateRangePicker from "vue2-daterange-picker";
@@ -197,7 +198,7 @@ import {
 
 export default {
   metaInfo: { title: "Payment Purchases" },
-  components: { "date-range-picker": DateRangePicker, apexchart: VueApexCharts },
+  components: {FileText, FileSpreadsheet,  "date-range-picker": DateRangePicker, apexchart: VueApexCharts },
 
   data() {
     const end = new Date();

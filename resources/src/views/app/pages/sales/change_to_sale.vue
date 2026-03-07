@@ -138,10 +138,13 @@
                             <div class="quantity">
                               <b-input-group>
                                 <b-input-group-prepend>
-                                  <span
-                                    class="btn btn-primary btn-sm"
+                                  <button
+                                    type="button"
+                                    class="btn btn-qty"
                                     @click="decrement(detail ,detail.detail_id)"
-                                  >-</span>
+                                  >
+                                    <Minus />
+                                  </button>
                                 </b-input-group-prepend>
                                 <input
                                   class="form-control"
@@ -151,10 +154,13 @@
                                   v-model.number="detail.quantity"
                                 >
                                 <b-input-group-append>
-                                  <span
-                                    class="btn btn-primary btn-sm"
+                                  <button
+                                    type="button"
+                                    class="btn btn-qty"
                                     @click="increment(detail ,detail.detail_id)"
-                                  >+</span>
+                                  >
+                                    <Plus />
+                                  </button>
                                 </b-input-group-append>
                               </b-input-group>
                             </div>
@@ -602,8 +608,13 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 import NProgress from "nprogress";
+import { Plus, Minus } from "lucide-vue";
 
 export default {
+  components: {
+    Plus,
+    Minus
+  },
   metaInfo: {
     title: "Create Sale"
   },

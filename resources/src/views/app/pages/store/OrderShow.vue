@@ -7,10 +7,31 @@
     <b-card v-else class="wrapper">
       <div class="d-flex justify-content-between align-items-center mb-3">
         <h5 class="mb-0">{{ code }}</h5>
-        <div class="d-flex align-items-center">
-          <b-badge :variant="badgeVariant(order.status)" class="mr-2 text-uppercase">
+        <div class="d-flex align-items-center" style="gap: 10px;">
+          <span :class="badgeVariant(order.status)" class="mr-2 text-uppercase">
             {{ order.status }}
-          </b-badge>
+          </span>
+
+          <template v-if="order.status === 'pending'">
+             <b-button 
+              size="sm" 
+              variant="success" 
+              class="btn-action"
+              @click="confirmOrder"
+              :disabled="actionBusy"
+            >
+              {{ $t('Confirm') }}
+            </b-button>
+            <b-button 
+              size="sm" 
+              variant="danger" 
+              class="btn-action"
+              @click="cancelOrder"
+              :disabled="actionBusy"
+            >
+              {{ $t('Cancel') }}
+            </b-button>
+          </template>
         </div>
       </div>
 
@@ -43,7 +64,7 @@
 
         <div class="col-md-5">
           <b-card class="mb-3">
-            <h6>Customer</h6>
+            <h6>{{ $t('Customer') }}</h6>
             <div class="text-muted">{{ order.customer_name }}</div>
             <div class="text-muted">{{ order.customer_email }}</div>
             <div class="text-muted">{{ order.customer_phone }}</div>
@@ -59,34 +80,34 @@
                 , {{ [order.shipping_city, order.shipping_country].filter(Boolean).join(', ') }}
               </span>
             </div>
-            <div v-else class="text-muted small text-uppercase">Store Pickup</div>
+            <div v-else class="text-muted small text-uppercase">{{ $t('Store_Pickup') }}</div>
           </b-card>
 
           <!-- Warehouse card -->
           <b-card class="mb-3">
-            <h6>Warehouse</h6>
+            <h6>{{ $t('Warehouse') }}</h6>
             <div class="text-muted">
               {{ order.warehouse_name || '-' }}
             </div>
           </b-card>
 
           <b-card class="mb-3">
-            <h6>Summary</h6>
+            <h6>{{ $t('Summary') }}</h6>
             <ul class="list-unstyled mb-0">
               <li class="d-flex justify-content-between">
-                <span>Subtotal</span>
+                <span>{{ $t('Subtotal') }}</span>
                 <strong>{{ currency(order.subtotal) }}</strong>
               </li>
               <li v-if="Number(order.shipping || 0) > 0" class="d-flex justify-content-between">
-                <span>Shipping</span>
+                <span>{{ $t('Shipping') }}</span>
                 <strong>{{ currency(order.shipping || 0) }}</strong>
               </li>
               <li v-if="Number(order.discount || 0) > 0" class="d-flex justify-content-between">
-                <span>Discount</span>
+                <span>{{ $t('Discount') }}</span>
                 <strong>-{{ currency(order.discount || 0) }}</strong>
               </li>
               <li class="d-flex justify-content-between border-top pt-2">
-                <span>Total</span>
+                <span>{{ $t('Total') }}</span>
                 <strong>{{ currency(order.total) }}</strong>
               </li>
             </ul>
@@ -100,6 +121,11 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+import { 
+  formatPriceWithSymbol, 
+  getPriceFormatSetting 
+} from "../../../../utils/priceFormat";
+
 
 export default {
   metaInfo: { title: 'Store Order' },
@@ -107,6 +133,7 @@ export default {
   data(){ return {
     loading:true,
     actionBusy:false,
+    price_format_key: null,
     order:{ items:[], status:'pending' },
     code:'',
   }},
@@ -119,19 +146,19 @@ export default {
 
   methods:{
     currency(n) {
-      let code = this.currentUser.currency;
-      try {
-        return new Intl.NumberFormat(undefined, {
-          style: 'currency',
-          currency: code
-        }).format(n || 0);
-      } catch (e) {
-        return code + ' ' + Number(n || 0).toFixed(2);
+      const code = this.currentUser.currency;
+      if (!this.price_format_key) {
+        this.price_format_key = getPriceFormatSetting({ store: this.$store }) || null;
       }
+      return formatPriceWithSymbol(n || 0, code, 2, this.price_format_key);
     },
 
     badgeVariant(s){
-      return { pending:'warning', confirmed:'success', cancelled:'danger' }[s] || 'secondary'
+      return { 
+        pending   : 'status-badge status-warning', 
+        confirmed : 'status-badge status-success', 
+        cancelled : 'status-badge status-danger' 
+      }[s] || 'status-badge status-secondary'
     },
 
     async fetch(){

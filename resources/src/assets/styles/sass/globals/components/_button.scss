@@ -5,35 +5,65 @@ html [type="button"],
 }
 
 .btn {
+    font-weight: 600 !important;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    letter-spacing: 0.01em;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+
+    &.btn-block {
+        display: flex;
+        width: 100%;
+    }
+
+    svg, i, .ul-btn__icon {
+        margin: 0 !important;
+        display: flex;
+        align-items: center;
+    }
+
+    .ul-btn__text {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
 
     &.rounded,
     &.btn-rounded {
-        border-radius: 12px !important;
+        border-radius: 8px !important;
     }
 
     &.btn-xl {
-        padding: .75rem 2rem;
-        font-size: 1.18rem;
+        padding: 0.875rem 2.5rem;
+        font-size: 1.125rem;
     }
 
-    padding: .5rem 1.25rem;
+    padding: 0.5rem 1.25rem;
 
     &:focus {
-        box-shadow: none;
+        outline: none;
+        box-shadow: 0 0 0 3px rgba($primary, 0.25);
     }
 }
 
 .btn,
 .btn-sm,
 .btn-group-sm>.btn {
-    border-radius: 0.75rem !important;
-    border-width: 2px !important;
+    border-radius: 8px !important;
+    border-width: 1px !important;
+}
+
+.btn-sm,
+.btn-group-sm>.btn {
+    padding: 0.4rem 0.875rem !important;
+    font-size: 0.8125rem !important;
 }
 
 .btn-group,
 .btn-group-vertical {
     display: flex !important;
-    gap: 10px;
+    gap: 8px;
     background: transparent !important;
     border: none !important;
 
@@ -45,17 +75,13 @@ html [type="button"],
 
     &>.btn,
     &>.btn-group>.btn {
-        border-radius: 0.75rem !important;
+        border-radius: 8px !important;
         margin-right: 0 !important;
         flex: none !important; // Prevent stretching if not needed
     }
 }
 
-.btn-secondary,
-.btn-raised-secondary {
-    color: $foreground !important;
-    background-color: $background !important;
-}
+
 
 .btn-icon {
 
@@ -137,35 +163,78 @@ html [type="button"],
 
 .btn-raised {
     color: #fff;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+
+    &:hover {
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        transform: translateY(-1px);
+    }
 }
 
-@each $name,
-$value in $theme-colors {
+@each $name, $value in $theme-colors {
 
-    .btn-#{$name},
-    .btn-outline-#{$name} {
+    .btn-#{$name} {
         border-color: $value;
+        background-color: $value;
+        color: #fff;
+
+        @if $name == 'light' {
+            color: $gray-900;
+        }
 
         .btn-spinner {
-            // Remove old glow animation
             animation: btn-spin 2s linear infinite !important;
         }
 
         &:hover {
-            background: $value;
-            box-shadow: 0 8px 25px -8px $value;
-            border-color: $value;
+            background-color: darken($value, 5%) !important;
+            border-color: darken($value, 5%) !important;
+            color: #fff !important;
+            box-shadow: 0 4px 6px -1px rgba($value, 0.2), 0 2px 4px -1px rgba($value, 0.1);
+            transform: translateY(-1px);
+
+            @if $name == 'light' {
+                color: $gray-900 !important;
+            }
         }
 
         &:focus {
-            box-shadow: none;
-            box-shadow: 0 8px 25px -8px $value;
+            box-shadow: 0 0 0 3px rgba($value, 0.25);
+        }
+    }
+
+    .btn-outline-#{$name} {
+        background-color: rgba($value, 0.08) !important;
+        color: $value !important;
+        border-color: rgba($value, 0.2) !important;
+
+        @if $name == 'light' {
+            color: $gray-900 !important;
+            border-color: rgba($gray-600, 0.2) !important;
+            background-color: #fff !important;
+        }
+
+        &:hover {
+            background-color: $value !important;
+            border-color: $value !important;
+            color: #fff !important;
+            box-shadow: 0 4px 6px -1px rgba($value, 0.2), 0 2px 4px -1px rgba($value, 0.1);
+            transform: translateY(-1px);
+
+            @if $name == 'light' {
+                background-color: $gray-100 !important;
+                color: $gray-900 !important;
+                border-color: rgba($gray-600, 0.3) !important;
+            }
+        }
+
+        &:focus {
+            box-shadow: 0 0 0 3px rgba($value, 0.25) !important;
         }
     }
 
     .btn-raised.btn-raised-#{$name} {
         background: $value;
-        box-shadow: 0 4px 6px rgba($value, .11), 0 1px 3px rgba($value, .08);
     }
 }
 
@@ -284,4 +353,83 @@ $value in $theme-colors {
     transform: scale(0, 0);
     opacity: .3;
     transition: 0s;
+}
+
+/* Standardized Action Buttons */
+.btn-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 10px;
+    margin-right: 6px;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    border: 1px solid transparent;
+    background-color: transparent;
+    color: #64748b;
+    padding: 0;
+    text-decoration: none !important;
+
+    svg,
+    i {
+        width: 16px !important;
+        height: 16px !important;
+        stroke-width: 2px !important;
+    }
+
+    &:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+
+    // Variations
+    &.btn-view {
+        background-color: rgba($info, 0.12) !important;
+        border-color: rgba($info, 0.05);
+        color: $info;
+
+        &:hover {
+            background-color: $info !important;
+            border-color: $info;
+            color: #ffffff !important;
+        }
+    }
+
+    &.btn-edit {
+        background-color: rgba($success, 0.12) !important;
+        border-color: rgba($success, 0.05);
+        color: $success;
+
+        &:hover {
+            background-color: $success !important;
+            border-color: $success;
+            color: #ffffff !important;
+        }
+    }
+
+    &.btn-delete {
+        background-color: rgba($danger, 0.12) !important;
+        border-color: rgba($danger, 0.05);
+        color: $danger;
+
+        &:hover {
+            background-color: $danger !important;
+            border-color: $danger;
+            color: #ffffff !important;
+        }
+    }
+
+    &.btn-copy {
+        background-color: rgba($secondary, 0.12) !important;
+        border-color: rgba($secondary, 0.05);
+        color: $secondary;
+
+        &:hover {
+            background-color: $secondary !important;
+            border-color: $secondary;
+            color: #ffffff !important;
+        }
+    }
 }

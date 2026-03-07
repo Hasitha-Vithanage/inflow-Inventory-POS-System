@@ -559,10 +559,10 @@ export default {
       return status;
     },
     statusClass(status) {
-      if (status === "pending") return "pending";
-      if (status === "confirmed") return "confirmed";
-      if (status === "cancelled") return "cancelled";
-      if (status === "completed") return "completed";
+      if (status === "pending") return "status-info";
+      if (status === "confirmed") return "status-success";
+      if (status === "cancelled") return "status-danger";
+      if (status === "completed") return "status-success";
       return "";
     },
     getBookings(page) {
@@ -1568,36 +1568,7 @@ export default {
   }
 }
 
-.status-badge {
-  display: inline-flex;
-  align-items: center;
-  padding: 0.45rem 0.9rem;
-  border-radius: 999px;
-  font-weight: 600;
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-
-  &.pending {
-    background: #fed7aa; /* soft orange */
-    color: #9a3412;
-  }
-
-  &.confirmed {
-    background: #dbeafe; /* blue */
-    color: #1d4ed8;
-  }
-
-  &.cancelled {
-    background: #fee2e2; /* red */
-    color: #b91c1c;
-  }
-
-  &.completed {
-    background: #bbf7d0; /* green */
-    color: #15803d;
-  }
-}
+// Status badge base is now global in _badges.scss
 
 .modern-sidebar {
   ::v-deep {

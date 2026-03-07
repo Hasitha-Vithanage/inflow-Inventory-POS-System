@@ -49,26 +49,27 @@
       >
         <template slot="table-row" slot-scope="props">
           <span v-if="props.column.field === 'is_read'">
-            <b-badge :variant="props.row.is_read ? 'secondary' : 'warning'">
+            <span :class="props.row.is_read ? 'status-badge status-secondary' : 'status-badge status-warning'">
               {{ props.row.is_read ? $t('Read') : $t('Unread') }}
-            </b-badge>
+            </span>
           </span>
 
           <span v-else-if="props.column.field === 'actions'">
             <a
               v-b-tooltip.hover
               :title="$t('View')"
+              class="cursor-pointer"
               @click="showMessage(props.row.id)"
             >
-              <i class="i-Eye text-20 text-primary"></i>
+              <Eye size="18" class="text-primary" />
             </a>
             <a
               v-b-tooltip.hover
               :title="$t('Delete')"
-              class="ml-2"
+              class="ml-2 cursor-pointer"
               @click="remove(props.row.id)"
             >
-              <i class="i-Close-Window text-20 text-danger"></i>
+              <Trash2 size="18" class="text-danger" />
             </a>
           </span>
 
@@ -126,11 +127,13 @@
 </template>
 
 <script>
+import { Eye, Trash2 } from 'lucide-vue';
 
 export default {
   metaInfo: {
     title: "Store Messages"
   },
+  components: { Eye, Trash2 },
   data () {
     return {
       isLoading: true,

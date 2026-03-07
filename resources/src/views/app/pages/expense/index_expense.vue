@@ -34,11 +34,11 @@
             <Filter size="14" class="mr-1"></Filter>
             {{ $t("Filter") }}
           </b-button>
-          <b-button @click="Expense_PDF()" size="sm" variant="outline-success ripple m-1">
+          <b-button @click="Expense_PDF()" size="sm" variant="outline-danger ripple m-1">
             <FileText size="14" class="mr-1"></FileText> PDF
           </b-button>
            <vue-excel-xlsx
-              class="btn btn-sm btn-outline-danger ripple m-1"
+              class="btn btn-sm btn-outline-success ripple m-1"
               :data="expenses"
               :columns="columns"
               :file-name="'Expenses'"
@@ -69,31 +69,37 @@
             </span>
             <span v-else class="text-muted">-</span>
           </span>
+          <span v-else-if="props.column.field == 'amount'">
+            {{ formatPriceWithSymbol(currentUser.currency, props.row.amount, 2) }}
+          </span>
           <span v-else-if="props.column.field == 'actions'">
             <a
-              title="Attach Documents"
-              class="cursor-pointer mr-2"
-              v-b-tooltip.hover
               @click="Manage_Documents(props.row.id)"
+              class="btn-action btn-view"
+              title="Attach Documents"
+              v-b-tooltip.hover
             >
-              <FileText size="14" class="text-info"></FileText>
+              <FileText size="16" :stroke-width="2" />
             </a>
+
             <router-link
               v-if="currentUserPermissions && currentUserPermissions.includes('expense_edit')"
+              :to="'/app/expenses/edit/'+props.row.id"
+              class="btn-action btn-edit"
               title="Edit"
               v-b-tooltip.hover
-              :to="'/app/expenses/edit/'+props.row.id"
             >
-              <Edit size="14" class="text-success"></Edit>
+              <Edit size="16" :stroke-width="2" />
             </router-link>
+
             <a
-              title="Delete"
-              class="cursor-pointer ml-2"
-              v-b-tooltip.hover
               v-if="currentUserPermissions && currentUserPermissions.includes('expense_delete')"
               @click="Remove_Expense(props.row.id)"
+              class="btn-action btn-delete"
+              title="Delete"
+              v-b-tooltip.hover
             >
-              <XCircle size="14" class="text-danger"></XCircle>
+              <XCircle size="16" :stroke-width="2" />
             </a>
           </span>
         </template>
@@ -278,16 +284,20 @@ import NProgress from "nprogress";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import { 
-  Filter, FileText, FileSpreadsheet, Plus, Edit, XCircle, Upload, Download, X, Power 
+  Filter, FileText, FileSpreadsheet, Plus, Edit, XCircle, Upload, Download, Power, MoreHorizontal 
 } from "lucide-vue";
 import Util from '../../../../utils';
+import { 
+  formatPriceDisplay as formatPriceDisplayHelper, 
+  getPriceFormatSetting 
+} from "../../../../utils/priceFormat";
 
 export default {
   metaInfo: {
     title: "Expense"
   },
   components: {
-    Filter, FileText, FileSpreadsheet, Plus, Edit, XCircle, Upload, Download, X, Power
+    Filter, FileText, FileSpreadsheet, Plus, Edit, XCircle, Upload, Download, Power, MoreHorizontal
   },
   data() {
     return {
@@ -319,7 +329,8 @@ export default {
       documents: [],
       selectedFiles: [],
       currentExpenseId: null,
-      uploadProcessing: false
+      uploadProcessing: false,
+      price_format_key: null
     };
   },
 
@@ -425,7 +436,7 @@ export default {
         expense.category_name,
         expense.warehouse_name,
         expense.payment_method,
-        expense.amount
+        self.formatPriceDisplay(expense.amount, 2)
       ]));
 
       // Calculate totals
@@ -438,7 +449,7 @@ export default {
         '',
         '',
         '',
-        totalGrandTotal.toFixed(2)
+        self.formatPriceDisplay(totalGrandTotal, 2)
       ]];
 
       const marginX = 40;
@@ -821,6 +832,41 @@ export default {
             });
         }
       });
+    },
+
+    //------------------------------Formetted Numbers -------------------------\\
+    formatNumber(number, dec) {
+      const value = (typeof number === "string"
+        ? number
+        : number.toString()
+      ).split(".");
+      if (dec <= 0) return value[0];
+      let formated = value[1] || "";
+      if (formated.length > dec)
+        return `${value[0]}.${formated.substr(0, dec)}`;
+      while (formated.length < dec) formated += "0";
+      return `${value[0]}.${formated}`;
+    },
+
+    // Price formatting for display only (does NOT affect calculations or stored values)
+    formatPriceDisplay(number, dec) {
+      try {
+        const decimals = Number.isInteger(dec) ? dec : 0;
+        const key = this.price_format_key || getPriceFormatSetting({ store: this.$store });
+        if (key) {
+          this.price_format_key = key;
+        }
+        const effectiveKey = key || null;
+        return formatPriceDisplayHelper(number, decimals, effectiveKey);
+      } catch (e) {
+        return this.formatNumber(number, dec);
+      }
+    },
+
+    formatPriceWithSymbol(symbol, number, dec) {
+      const safeSymbol = symbol || "";
+      const value = this.formatPriceDisplay(number, dec);
+      return safeSymbol ? `${safeSymbol} ${value}` : value;
     },
 
   },

@@ -31,12 +31,12 @@
             {{ $t("Filter") }}
           </b-button>
 
-          <b-button @click="Product_PDF()" size="sm" variant="outline-success m-1">
+          <b-button @click="Product_PDF()" size="sm" variant="outline-danger m-1">
             <FileText size="14" stroke-width="1.5" class="mr-1"></FileText> PDF
           </b-button>
 
           <vue-excel-xlsx
-            class="btn btn-sm btn-outline-danger ripple m-1"
+            class="btn btn-sm btn-outline-success ripple m-1"
             :data="products"
             :columns="excelColumns"
             :file-name="'products'"
@@ -69,43 +69,55 @@
         <template slot="table-row" slot-scope="props">
           <!-- actions -->
           <span v-if="props.column.field === 'actions'">
-            <router-link
-              v-if="can('products_view')"
-              v-b-tooltip.hover
-              title="View"
-              :to="{ name:'detail_product', params: { id: props.row.id} }"
+            <b-dropdown
+              id="dropdown-action"
+              variant="link"
+              toggle-class="text-decoration-none p-0"
+              size="sm"
+              no-caret
             >
-              <Eye size="20" stroke-width="1.5" class="text-info mr-2"></Eye>
-            </router-link>
+              <template v-slot:button-content>
+                <span class="_r_block-dot">
+                  <MoreHorizontal size="18"></MoreHorizontal>
+                </span>
+              </template>
 
-            <router-link
-              v-if="can('products_edit')"
-              v-b-tooltip.hover
-              title="Edit"
-              :to="{ name:'edit_product', params: { id: props.row.id } }"
-            >
-              <Edit size="20" stroke-width="1.5" class="text-success mr-2"></Edit>
-            </router-link>
+              <b-dropdown-item
+                v-if="can('products_view')"
+                title="View"
+                :to="{ name:'detail_product', params: { id: props.row.id} }"
+              >
+                <Eye size="14" class="mr-2"></Eye>
+                {{$t('ProductDetail')}}
+              </b-dropdown-item>
 
-            <a
-              v-if="can('products_add')"
-              @click="Duplicate_Product(props.row.id)"
-              v-b-tooltip.hover
-              title="Duplicate"
-              class="cursor-pointer"
-            >
-              <Copy size="20" stroke-width="1.5" class="text-warning mr-2"></Copy>
-            </a>
+               <b-dropdown-item
+                v-if="can('products_edit')"
+                title="Edit"
+                :to="{ name:'edit_product', params: { id: props.row.id } }"
+              >
+                <Edit size="14" class="mr-2"></Edit>
+                {{$t('EditProduct')}}
+              </b-dropdown-item>
 
-            <a
-              v-if="can('products_delete')"
-              @click="Remove_Product(props.row.id)"
-              v-b-tooltip.hover
-              title="Delete"
-              class="cursor-pointer"
-            >
-              <X size="20" stroke-width="1.5" class="text-danger"></X>
-            </a>
+              <b-dropdown-item
+                v-if="can('products_add')"
+                title="Duplicate"
+                @click="Duplicate_Product(props.row.id)"
+              >
+                <Copy size="14" class="mr-2"></Copy>
+                {{$t('DuplicateProduct')}}
+              </b-dropdown-item>
+
+              <b-dropdown-item
+                v-if="can('products_delete')"
+                title="Delete"
+                @click="Remove_Product(props.row.id)"
+              >
+                <X size="14" class="mr-2"></X>
+                {{$t('DeleteProduct')}}
+              </b-dropdown-item>
+            </b-dropdown>
           </span>
 
           <!-- image (own slot, no html column flag) -->
@@ -195,15 +207,12 @@
               </b-form-group>
             </b-col>
 
-            <b-col md="12">
-              <b-button @click="Get_Products(serverParams.page)" variant="primary m-1" size="sm" block>
-                <Filter size="14" stroke-width="1.5" class="mr-1"></Filter> {{ $t("Filter") }}
+            <b-col md="12" class="mt-3">
+              <b-button @click="Get_Products(serverParams.page)" variant="primary" size="sm" block>
+                <Filter size="16" class="mr-1"></Filter> {{ $t("Filter") }}
               </b-button>
-            </b-col>
-
-            <b-col md="6" sm="12">
-              <b-button @click="Reset_Filter()" variant="danger m-1" size="sm" block>
-                <Power size="14" stroke-width="1.5" class="mr-1"></Power> {{ $t("Reset") }}
+              <b-button @click="Reset_Filter()" variant="danger" size="sm" block mt-2>
+                <Power size="16" class="mr-1"></Power> {{ $t("Reset") }}
               </b-button>
             </b-col>
           </b-row>
@@ -251,7 +260,7 @@
 import { mapGetters } from "vuex";
 import { 
   Plus, Edit, Eye, Trash2, Copy, Filter, 
-  Download, FileSpreadsheet, FileText, Power, X 
+  Download, FileSpreadsheet, FileText, Power, X, MoreHorizontal 
 } from "lucide-vue";
 import NProgress from "nprogress";
 import jsPDF from "jspdf";
@@ -265,7 +274,7 @@ export default {
   metaInfo: { title: "Products" },
   components: {
     Plus, Edit, Eye, Trash2, Copy, Filter, 
-    Download, FileSpreadsheet, FileText, Power, X
+    Download, FileSpreadsheet, FileText, Power, X, MoreHorizontal
   },
   data() {
     return {
@@ -400,8 +409,8 @@ export default {
         p.name,
         p.code,
         p.category,
-        p.cost,
-        p.price,
+        this.formatPriceDisplay(p.cost, 2),
+        this.formatPriceDisplay(p.price, 2),
         p.unit,
         p.quantity
       ]));

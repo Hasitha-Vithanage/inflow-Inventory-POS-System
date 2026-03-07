@@ -898,10 +898,10 @@
                   <tr v-for="payment_pos in payments">
                     <td style="text-align: left;" colspan="1">{{payment_pos.payment_method?payment_pos.payment_method.name:'---'}}</td>
                     <td style="text-align: center;" colspan="2">
-                      {{formatNumber(payment_pos.montant ,2)}}
+                      {{formatPriceDisplay(payment_pos.montant ,2)}}
                     </td>
                     <td style="text-align: right;" colspan="1">
-                      {{formatNumber(payment_pos.change ,2)}}
+                      {{formatPriceDisplay(payment_pos.change ,2)}}
                     </td>
                   </tr>
                 </tbody>
@@ -1059,10 +1059,10 @@
                   <tr v-for="payment_pos in payments">
                     <td style="text-align: left;" colspan="1">{{payment_pos.payment_method?payment_pos.payment_method.name:'---'}}</td>
                     <td style="text-align: center;" colspan="2">
-                      {{formatNumber(payment_pos.montant ,2)}}
+                      {{formatPriceDisplay(payment_pos.montant ,2)}}
                     </td>
                     <td style="text-align: right;" colspan="1">
-                      {{formatNumber(payment_pos.change ,2)}}
+                      {{formatPriceDisplay(payment_pos.change ,2)}}
                     </td>
                   </tr>
                 </tbody>
@@ -1119,7 +1119,7 @@
             <td>{{ d.date }}</td>
             <td>{{ d.Ref }}</td>
             <td>{{ d.client_name }}</td>
-            <td class="text-right">{{ formatNumber(d.GrandTotal, 2) }}</td>
+            <td class="text-right">{{ formatPriceDisplay(d.GrandTotal, 2) }}</td>
             <td class="text-right">
               <b-button size="sm" variant="outline-success" class="mr-2" @click="loadDraftSale(d.id)" :disabled="openingDraftId === d.id" :title="openingDraftId === d.id ? $t('Loading') : $t('Open')">
                 <template v-if="openingDraftId === d.id">
@@ -1759,7 +1759,7 @@ import { mapActions, mapGetters } from "vuex";
 import vueEasyPrint from "vue-easy-print";
 import VueBarcode from "vue-barcode";
 import Util from "../../../utils";
-import { formatPriceDisplay, getPriceFormatSetting } from "../../../utils/priceFormat";
+import { formatPriceDisplay as formatPriceDisplayHelper, getPriceFormatSetting } from "../../../utils/priceFormat";
 import { loadStripe } from "@stripe/stripe-js";
 import ModernPaymentModal from "../components/ModernPaymentModal.vue";
 import CustomFieldsForm from "../../../components/CustomFieldsForm.vue";
@@ -3028,7 +3028,7 @@ export default {
           this.price_format_key = key;
         }
         const effectiveKey = key || null;
-        return formatPriceDisplay(number, decimals, effectiveKey);
+        return formatPriceDisplayHelper(number, decimals, effectiveKey);
       } catch (e) {
         // Fallback: keep legacy behavior
         return this.formatNumber(number, dec);

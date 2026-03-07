@@ -38,11 +38,11 @@
         styleClass="mt-5 table-hover tableOne vgt-table"
       >
       <div slot="table-actions" class="mt-2 mb-3">
-        <b-button @click="export_PDF()" size="sm" variant="outline-success ripple m-1">
+        <b-button @click="export_PDF()" size="sm" variant="outline-danger ripple m-1">
           <FileText size="14" class="mr-1"></FileText> PDF
         </b-button>
          <vue-excel-xlsx
-              class="btn btn-sm btn-outline-danger ripple m-1"
+              class="btn btn-sm btn-outline-success ripple m-1"
               :data="products"
               :columns="columns"
               :file-name="'product_report'"
@@ -244,7 +244,7 @@ export default {
         product.code,
         product.name,
         product.sold_qty,
-        product.sold_amount
+        self.formatPriceDisplay(product.sold_amount, 2)
       ]));
 
       // Calculate totals
@@ -255,7 +255,7 @@ export default {
         self.$t("Total"),
         '',
         totalsold_qty.toFixed(2),
-        totalsold_amount.toFixed(2)
+        self.formatPriceDisplay(totalsold_amount, 2)
       ]];
 
       const marginX = 40;

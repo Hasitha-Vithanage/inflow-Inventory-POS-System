@@ -94,7 +94,7 @@
                           <th scope="col">{{$t('Qty')}}</th>
                           <th scope="col">{{$t('type')}}</th>
                           <th scope="col" class="text-center">
-                            <trash-2-icon size="20" :stroke-width="1.5"></trash-2-icon>
+                            <trash-2-icon :size="16" :stroke-width="2"></trash-2-icon>
                           </th>
                         </tr>
                       </thead>
@@ -115,10 +115,13 @@
                             <div class="quantity">
                               <b-input-group>
                                 <b-input-group-prepend>
-                                  <span
-                                    class="btn btn-primary btn-sm"
+                                  <button
+                                    type="button"
+                                    class="btn btn-qty"
                                     @click="decrement(detail ,detail.detail_id)"
-                                  >-</span>
+                                  >
+                                    <MinusIcon :size="16" />
+                                  </button>
                                 </b-input-group-prepend>
 
                                 <input
@@ -129,10 +132,13 @@
                                   v-model.number="detail.quantity"
                                 >
                                 <b-input-group-append>
-                                  <span
-                                    class="btn btn-primary btn-sm"
+                                  <button
+                                    type="button"
+                                    class="btn btn-qty"
                                     @click="increment(detail ,detail.detail_id)"
-                                  >+</span>
+                                  >
+                                    <PlusIcon :size="16" />
+                                  </button>
                                 </b-input-group-append>
                               </b-input-group>
                             </div>
@@ -150,13 +156,15 @@
                             </select>
                           </td>
                           <td>
-                            <a
+                            <button
+                              type="button"
                               @click="Remove_Product(detail.detail_id)"
-                              class="btn btn-icon btn-sm"
-                              title="Delete"
+                              class="btn-action btn-delete"
+                              v-b-tooltip.hover
+                              :title="$t('Delete')"
                             >
-                              <trash-2-icon size="20" :stroke-width="1.5" class="text-danger"></trash-2-icon>
-                            </a>
+                              <trash-2-icon :size="16" :stroke-width="2" />
+                            </button>
                           </td>
                         </tr>
                       </tbody>
@@ -192,13 +200,15 @@
 </template>
 
 <script>
-import { Trash2, CheckCircle } from "lucide-vue";
+import { Trash2, CheckCircle, Plus, Minus } from "lucide-vue";
 import NProgress from "nprogress";
 
 export default {
   components: {
     Trash2Icon: Trash2,
-    CheckCircleIcon: CheckCircle
+    CheckCircleIcon: CheckCircle,
+    PlusIcon: Plus,
+    MinusIcon: Minus
   },
   metaInfo: {
     title: "Create Adjustment"

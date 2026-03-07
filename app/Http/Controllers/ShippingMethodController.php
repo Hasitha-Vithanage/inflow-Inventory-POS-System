@@ -22,9 +22,10 @@ class ShippingMethodController extends BaseController
 
         $methods = ShippingMethod::where('deleted_at', '=', null)
             ->where(function ($query) use ($request) {
-                return $query->when($request->filled('search'), function ($query) use ($request) {
+            return $query->when($request->filled('search'), function ($query) use ($request) {
                     return $query->where('name', 'LIKE', "%{$request->search}%");
-                });
+                }
+                );
             });
 
         $totalRows = $methods->count();
@@ -73,7 +74,7 @@ class ShippingMethodController extends BaseController
 
         // Prevent modification of critical store pickup (optional, but good practice if user manually tries)
         // Usually we prevent deletion primarily.
-        
+
         ShippingMethod::whereId($id)->update([
             'name' => $request['name'],
         ]);
@@ -93,9 +94,28 @@ class ShippingMethodController extends BaseController
             return response()->json(['success' => false, 'message' => 'Store Pickup cannot be deleted.']);
         }
 
-        $method->update([
+        ShippingMethod::whereId($id)->update([
             'deleted_at' => Carbon::now(),
         ]);
+
+        return response()->json(['success' => true]);
+    }
+
+    // -------------- Delete by selection  ---------------\\
+
+    public function delete_by_selection(Request $request)
+    {
+        $this->authorizeForUser($request->user('api'), 'delete', ShippingMethod::class);
+
+        $selectedIds = $request->selectedIds;
+        foreach ($selectedIds as $method_id) {
+            $method = ShippingMethod::findOrFail($method_id);
+            if ($method->name !== 'Store Pickup') {
+                ShippingMethod::whereId($method_id)->update([
+                    'deleted_at' => Carbon::now(),
+                ]);
+            }
+        }
 
         return response()->json(['success' => true]);
     }

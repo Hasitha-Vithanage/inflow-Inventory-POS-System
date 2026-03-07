@@ -84,7 +84,10 @@
   const T_VARIANT  = @json(__('messages.Variant'));
 
   function money(val, currency) {
-    return (currency || CURRENCY) + (Number(val || 0).toFixed(2));
+    var sym = currency || CURRENCY;
+    var n = Number(val || 0);
+    var formatted = n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    return sym + ' ' + formatted;
   }
 
   function escapeHtml(s){

@@ -1,4 +1,5 @@
 import store from "./store";
+import { formatPriceDisplay, formatPriceWithSymbol } from "./utils/priceFormat";
 
 import Vue from "vue";
 import router, { setupRouterGuards } from "./router";
@@ -254,6 +255,19 @@ Vue.use(VueI18n);
 
 
 Vue.component("breadcumb", Breadcumb);
+
+Vue.mixin({
+  methods: {
+    formatPriceDisplay(number, dec) {
+      const decimals = Number.isInteger(dec) ? dec : 0;
+      return formatPriceDisplay({ store: this.$store }, number, decimals);
+    },
+    formatPriceWithSymbol(symbol, number, dec) {
+      const decimals = Number.isInteger(dec) ? dec : 0;
+      return formatPriceWithSymbol({ store: this.$store }, symbol, number, decimals);
+    }
+  }
+});
 
 Vue.config.productionTip = true;
 Vue.config.silent = true;

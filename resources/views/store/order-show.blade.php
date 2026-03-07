@@ -185,7 +185,11 @@
     sdCountry: document.getElementById('sd-country'),
   };
 
-  function money(n){ return cur + Number(n||0).toFixed(2); }
+  function money(n){
+    var val = Number(n||0);
+    var formatted = val.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    return cur + ' ' + formatted;
+  }
   function badgeClass(status){
     status = String(status||'').toLowerCase();
     return status === 'pending'   ? 'badge pending'

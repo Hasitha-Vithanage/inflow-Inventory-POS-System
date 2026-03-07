@@ -55,18 +55,18 @@
   
          <div slot="table-actions" class="mt-2 mb-3">
           
-            <b-button @click="report_pdf()" size="sm" variant="outline-success ripple m-1">
-              <i class="i-File-Copy"></i> PDF
+            <b-button @click="report_pdf()" size="sm" variant="outline-danger ripple m-1">
+              <FileText size="14" class="mr-1"></FileText> PDF
             </b-button>
              <vue-excel-xlsx
-                class="btn btn-sm btn-outline-danger ripple m-1"
+                class="btn btn-sm btn-outline-success ripple m-1"
                 :data="reports"
                 :columns="columns"
                 :file-name="'sales_by_category_report'"
                 :file-type="'xlsx'"
                 :sheet-name="'sales_by_category_report'"
                 >
-                <i class="i-File-Excel"></i> EXCEL
+                <FileSpreadsheet size="14" class="mr-1"></FileSpreadsheet> EXCEL
             </vue-excel-xlsx>
           </div>
         </vue-good-table>
@@ -77,6 +77,7 @@
   
   <script>
   import NProgress from "nprogress";
+import { FileText, FileSpreadsheet } from "lucide-vue";
   import jsPDF from "jspdf";
   import autoTable from "jspdf-autotable";
   import { mapGetters } from "vuex";
@@ -91,7 +92,7 @@
   } from "../../../../utils/priceFormat";
   
   export default {
-    components: { DateRangePicker },
+    components: {FileText, FileSpreadsheet,  DateRangePicker },
     metaInfo: {
       title: "Sales By Category"
     },
@@ -215,13 +216,16 @@
         
         let footer = [{
           category_name: self.$t("Total"),
-          total_sales: `${totalGrandTotal.toFixed(2)}`,
+          total_sales: self.formatPriceDisplay(totalGrandTotal, 2),
           
         }];
 
         autoTable(pdf, {
              columns: columns,
-             body: self.reports,
+             body: (self.reports || []).map(r => ({
+               category_name: r.category_name,
+               total_sales: self.formatPriceDisplay(r.total_sales, 2)
+             })),
              foot: footer,
              startY: 70,
              theme: "grid", 

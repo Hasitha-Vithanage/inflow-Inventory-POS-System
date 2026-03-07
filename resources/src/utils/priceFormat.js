@@ -108,6 +108,19 @@ export function getPriceFormatSetting({ settings = null, store = null } = {}) {
     }
   }
 
+  // 3) LocalStorage fallback (cached via cachePriceFormat)
+  if (typeof window !== 'undefined' && window.localStorage) {
+    try {
+      const cached = window.localStorage.getItem('app_price_format');
+      const key = normalizePriceFormatKey(cached);
+      if (key) {
+        return key;
+      }
+    } catch (e) {
+      // ignore
+    }
+  }
+
   // No valid setting => use default behavior (caller should treat null as "legacy" formatting)
   return null;
 }
@@ -124,3 +137,16 @@ export function cachePriceFormat(formatKey) {
   }
 }
 
+// Format a numeric value with a currency symbol according to the selected price format.
+// - value: number or numeric-like
+// - symbol: currency symbol string (e.g., '$', '€', 'Rs.')
+// - decimals: integer number of decimal places
+// - formatKey: one of PRICE_FORMATS keys or label text
+export function formatPriceWithSymbol(value, symbol = '', decimals = 2, formatKey = null) {
+  const formattedValue = formatPriceDisplay(value, decimals, formatKey);
+  if (!symbol) return formattedValue;
+  
+  // Clean symbol and ensure space if needed
+  const s = String(symbol).trim();
+  return s ? `${s} ${formattedValue}` : formattedValue;
+}

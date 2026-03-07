@@ -2883,7 +2883,7 @@ class SalesController extends BaseController
 
         // 2. Retrieve sales for printing
         $sales = Sale::whereIn('id', $ids)
-            ->with(['details', 'client', 'shippingMethod', 'warehouse', 'shipment'])
+            ->with(['details.product', 'client', 'shippingMethod', 'warehouse', 'shipment'])
             ->where('statut', '!=', 'cancelled')
             ->get();
 

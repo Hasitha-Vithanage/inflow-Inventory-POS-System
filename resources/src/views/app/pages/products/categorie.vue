@@ -41,11 +41,11 @@
 
           <!-- Actions -->
           <span v-if="props.column.field === 'actions'">
-            <a v-b-tooltip.hover :title="$t('Edit')" @click="openEdit(props.row)">
-              <edit size="20" class="text-success mr-2"></edit>
+            <a @click="openEdit(props.row)" class="btn-action btn-edit" v-b-tooltip.hover :title="$t('Edit')">
+              <Edit size="16" :stroke-width="2" />
             </a>
-            <a v-b-tooltip.hover :title="$t('Delete')" @click="removeOne(props.row.id)">
-              <x size="20" class="text-danger"></x>
+            <a @click="removeOne(props.row.id)" class="btn-action btn-delete" v-b-tooltip.hover :title="$t('Delete')">
+              <XCircle size="16" :stroke-width="2" />
             </a>
           </span>
 
@@ -119,7 +119,7 @@
 </template>
 
 <script>
-import { Edit, X } from "lucide-vue";
+import { Edit, XCircle } from "lucide-vue";
 import NProgress from 'nprogress'
 import 'bootstrap-icons/font/bootstrap-icons.css'
 
@@ -152,7 +152,7 @@ export default {
 
   components: {
     Edit,
-    X
+    XCircle
   },
   data() {
     return {

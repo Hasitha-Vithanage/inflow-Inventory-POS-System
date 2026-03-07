@@ -21,6 +21,7 @@
           enabled: true ,
           clearSelectionText: '',
         }"
+        @on-selected-rows-change="selectionChanged"
         :pagination-options="{
         enabled: true,
         mode: 'records',
@@ -29,6 +30,9 @@
       }"
         styleClass="table-hover tableOne vgt-table"
       >
+        <div slot="selected-row-actions">
+          <button class="btn btn-danger btn-sm" @click="delete_by_selected()">{{$t('Del')}}</button>
+        </div>
         <div slot="table-actions" class="mt-2 mb-3">
           <b-button @click="New_Company()" class="btn-rounded" variant="btn btn-primary btn-icon m-1">
             <i class="i-Add"></i>
@@ -38,11 +42,11 @@
 
         <template slot="table-row" slot-scope="props">
           <span v-if="props.column.field == 'actions'">
-            <a @click="Edit_Company(props.row)" title="Edit" v-b-tooltip.hover>
-              <edit size="20" class="text-success mr-2"></edit>
+            <a @click="Edit_Company(props.row)" class="btn-action btn-edit" title="Edit" v-b-tooltip.hover>
+              <Edit size="16" :stroke-width="2" />
             </a>
-            <a title="Delete" v-b-tooltip.hover @click="Remove_Company(props.row.id)">
-              <x size="20" class="text-danger"></x>
+            <a @click="Remove_Company(props.row.id)" class="btn-action btn-delete" title="Delete" v-b-tooltip.hover>
+              <XCircle size="16" :stroke-width="2" />
             </a>
           </span>
         </template>
@@ -89,7 +93,7 @@
 
 
 <script>
-import { Edit, X } from "lucide-vue";
+import { Edit, XCircle } from "lucide-vue";
 import NProgress from "nprogress";
 
 export default {
@@ -98,7 +102,7 @@ export default {
   },
   components: {
     Edit,
-    X
+    XCircle
   },
   data() {
     return {
@@ -113,6 +117,7 @@ export default {
         page: 1,
         perPage: 10
       },
+      selectedIds: [],
       totalRows: "",
       search: "",
       limit: "10",
@@ -146,6 +151,14 @@ export default {
   },
 
   methods: {
+    //---- Event Select Rows
+    selectionChanged({ selectedRows }) {
+      this.selectedIds = [];
+      selectedRows.forEach((row, index) => {
+        this.selectedIds.push(row.id);
+      });
+    },
+
     //---- update Params Table
     updateParams(newProps) {
       this.serverParams = Object.assign({}, this.serverParams, newProps);
@@ -355,6 +368,49 @@ export default {
               Fire.$emit("Delete_Company");
             })
             .catch(() => {
+              this.$swal(
+                this.$t("Delete_Failed"),
+                this.$t("Delete_Therewassomethingwronge"),
+                "warning"
+              );
+            });
+        }
+      });
+    },
+
+    //--------------------------------- Delete by selection --------------------\\
+    delete_by_selected() {
+      if (this.selectedIds.length <= 0) {
+        this.makeToast("warning", this.$t("Select_at_least_one"), this.$t("Warning"));
+        return;
+      }
+      this.$swal({
+        title: this.$t("Delete_Title"),
+        text: this.$t("Delete_Text"),
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        cancelButtonText: this.$t("Delete_cancelButtonText"),
+        confirmButtonText: this.$t("Delete_confirmButtonText")
+      }).then(result => {
+        if (result.value) {
+          NProgress.start();
+          NProgress.set(0.1);
+          axios
+            .post("shipping_companies/delete/by_selection", {
+              selectedIds: this.selectedIds
+            })
+            .then(() => {
+              this.$swal(
+                this.$t("Delete_Deleted"),
+                this.$t("Deleted_in_successfully"),
+                "success"
+              );
+              Fire.$emit("Delete_Company");
+            })
+            .catch(() => {
+              setTimeout(() => NProgress.done(), 500);
               this.$swal(
                 this.$t("Delete_Failed"),
                 this.$t("Delete_Therewassomethingwronge"),

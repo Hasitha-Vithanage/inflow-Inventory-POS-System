@@ -19,8 +19,8 @@
       >
         <template slot="table-row" slot-scope="props">
           <span v-if="props.column.field==='actions'">
-            <a v-b-tooltip.hover :title="$t('Delete')" class="ml-2" @click="remove(props.row.id)">
-              <i class="i-Close-Window text-20 text-danger"></i>
+            <a v-b-tooltip.hover :title="$t('Delete')" class="ml-2 cursor-pointer" @click="remove(props.row.id)">
+              <Trash2 size="18" class="text-danger" />
             </a>
           </span>
           <span v-else>{{ props.formattedRow[props.column.field] }}</span>
@@ -31,10 +31,13 @@
 </template>
 
 <script>
+import { Trash2 } from 'lucide-vue';
+
 export default {
   metaInfo: {
     title: "Store Subscribers"
   },
+  components: { Trash2 },
   data () {
     return {
       isLoading: true,

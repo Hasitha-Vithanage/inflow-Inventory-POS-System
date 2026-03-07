@@ -114,7 +114,7 @@
                           <th scope="col">{{$t('Tax')}}</th>
                           <th scope="col">{{$t('SubTotal')}}</th>
                           <th scope="col" class="text-center">
-                            <i class="fa fa-trash"></i>
+                            <Trash2 :size="16" :stroke-width="2" />
                           </th>
                         </tr>
                       </thead>
@@ -135,7 +135,7 @@
                             <span class="badge badge-success">{{detail.name}}</span>
                            
                           </td>
-                          <td>{{currentUser.currency}} {{formatNumber(detail.Net_price, 3)}}</td>
+                          <td>{{formatPriceWithSymbol(currentUser.currency, detail.Net_price, 3)}}</td>
                           <td>
                             <span class="badge badge-warning" v-if="detail.product_type == 'is_service'">----</span>
                             <span class="badge badge-warning" v-else>{{detail.stock}} {{detail.unitSale}}</span>
@@ -144,10 +144,14 @@
                             <div class="quantity">
                               <b-input-group>
                                 <b-input-group-prepend>
-                                  <span v-show="detail.no_unit !== 0 || detail.product_type == 'is_service'"
-                                    class="btn btn-primary btn-sm"
+                                  <button
+                                    v-show="detail.no_unit !== 0 || detail.product_type == 'is_service'"
+                                    type="button"
+                                    class="btn btn-qty"
                                     @click="decrement(detail ,detail.detail_id)"
-                                  >-</span>
+                                  >
+                                    <Minus />
+                                  </button>
                                 </b-input-group-prepend>
                                 <input
                                   class="form-control"
@@ -158,21 +162,41 @@
                                   :disabled="detail.del === 1 || (detail.no_unit === 0 && detail.product_type != 'is_service')"
                                 >
                                 <b-input-group-append>
-                                  <span v-show="detail.no_unit !== 0 || detail.product_type == 'is_service'"
-                                    class="btn btn-primary btn-sm"
+                                  <button
+                                    v-show="detail.no_unit !== 0 || detail.product_type == 'is_service'"
+                                    type="button"
+                                    class="btn btn-qty"
                                     @click="increment(detail ,detail.detail_id)"
-                                  >+</span>
+                                  >
+                                    <Plus />
+                                  </button>
                                 </b-input-group-append>
                               </b-input-group>
                             </div>
                           </td>
-                          <td>{{currentUser.currency}} {{formatNumber(detail.DiscountNet * detail.quantity, 2)}}</td>
-                          <td>{{currentUser.currency}} {{formatNumber(detail.taxe * detail.quantity , 2)}}</td>
-                          <td>{{currentUser.currency}} {{detail.subtotal.toFixed(2)}}</td>
+                          <td>{{formatPriceWithSymbol(currentUser.currency, detail.DiscountNet * detail.quantity, 2)}}</td>
+                          <td>{{formatPriceWithSymbol(currentUser.currency, detail.taxe * detail.quantity , 2)}}</td>
+                          <td>{{formatPriceWithSymbol(currentUser.currency, detail.subtotal, 2)}}</td>
                           <td v-show="detail.no_unit !== 0 || detail.product_type == 'is_service'">
-                            <i v-if="currentUserPermissions && currentUserPermissions.includes('edit_product_sale')"
-                             @click="Modal_Updat_Detail(detail)" class="i-Edit text-25 text-success cursor-pointer"></i>
-                            <i @click="delete_Product_Detail(detail.detail_id)" class="i-Close-Window text-25 text-danger cursor-pointer"></i>
+                            <button
+                              v-if="currentUserPermissions && currentUserPermissions.includes('edit_product_sale')"
+                              type="button"
+                              @click="Modal_Updat_Detail(detail)"
+                              class="btn-action btn-edit mr-2"
+                              v-b-tooltip.hover
+                              :title="$t('Edit')"
+                            >
+                              <Edit :size="16" :stroke-width="2" />
+                            </button>
+                            <button
+                              type="button"
+                              @click="delete_Product_Detail(detail.detail_id)"
+                              class="btn-action btn-delete"
+                              v-b-tooltip.hover
+                              :title="$t('Delete')"
+                            >
+                              <XCircle :size="16" :stroke-width="2" />
+                            </button>
                           </td>
                         </tr>
                       </tbody>
@@ -184,9 +208,8 @@
                   <table class="table table-striped table-sm">
                     <tbody>
                       <tr>
-                        <td class="bold">{{$t('OrderTax')}}</td>
                         <td>
-                          <span>{{currentUser.currency}} {{sale.TaxNet.toFixed(2)}} ({{formatNumber(sale.tax_rate ,2)}} %)</span>
+                          <span>{{formatPriceWithSymbol(currentUser.currency, sale.TaxNet, 2)}} ({{formatNumber(sale.tax_rate ,2)}} %)</span>
                         </td>
                       </tr>
                       <tr>
@@ -194,20 +217,20 @@
                         <td>
                           <!-- If percentage: show percent value AND discount amount; else amount only -->
                           <template v-if="String(sale.discount_Method || '2') === '1'">
-                            {{ formatNumber(sale.discount, 2) }}% ({{ currentUser.currency }} {{ getCurrentSaleDiscountAmount().toFixed(2) }})
+                            {{ formatNumber(sale.discount, 2) }}% ({{ formatPriceWithSymbol(currentUser.currency, getCurrentSaleDiscountAmount(), 2) }})
                           </template>
                           <template v-else>
-                            {{currentUser.currency}} {{ getCurrentSaleDiscountAmount().toFixed(2) }}
+                            {{formatPriceWithSymbol(currentUser.currency, getCurrentSaleDiscountAmount(), 2)}}
                           </template>
                         </td>
                       </tr>
                       <tr v-if="discount_from_points && discount_from_points > 0">
                         <td class="bold">{{$t('Discount_from_Points')}}</td>
-                        <td>{{currentUser.currency}} {{discount_from_points.toFixed(2)}}</td>
+                        <td>{{formatPriceWithSymbol(currentUser.currency, discount_from_points, 2)}}</td>
                       </tr>
                       <tr>
                         <td class="bold">{{$t('Shipping')}}</td>
-                        <td>{{currentUser.currency}} {{sale.shipping.toFixed(2)}}</td>
+                        <td>{{formatPriceWithSymbol(currentUser.currency, sale.shipping, 2)}}</td>
                       </tr>
                       <tr>
                         <td>
@@ -216,7 +239,7 @@
                         <td>
                           <span
                             class="font-weight-bold"
-                          >{{currentUser.currency}} {{GrandTotal.toFixed(2)}}</span>
+                          >{{formatPriceWithSymbol(currentUser.currency, GrandTotal, 2)}}</span>
                         </td>
                       </tr>
                     </tbody>
@@ -333,8 +356,7 @@
 
                   <div class="result mt-2" v-if="discount_from_points > 0">
                     ✅ Discount of
-                    <strong>{{ discount_from_points }}</strong>
-                    {{ currentUser.currency }}
+                    <strong>{{ formatPriceWithSymbol(currentUser.currency, discount_from_points, 2) }}</strong>
                     will be applied
                   </div>
                 </b-col>
@@ -563,8 +585,16 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 import NProgress from "nprogress";
+import { Edit, XCircle, Trash2, Plus, Minus } from "lucide-vue";
 
 export default {
+  components: {
+    Edit,
+    XCircle,
+    Trash2,
+    Plus,
+    Minus
+  },
   metaInfo: {
     title: "Edit Sale"
   },

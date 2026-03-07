@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="main-content">
     <breadcumb :page="$t('ProductQuantityAlerts')" :folder="$t('Reports')"/>
     <div v-if="isLoading" class="loading_page spinner spinner-primary mr-3"></div>
@@ -34,18 +34,18 @@
 
       <div slot="table-actions" class="mt-2 mb-3">
         
-          <b-button @click="stock_alert_PDF()" size="sm" variant="outline-success ripple m-1">
-            <i class="i-File-Copy"></i> PDF
+          <b-button @click="stock_alert_PDF()" size="sm" variant="outline-danger ripple m-1">
+            <FileText size="14" class="mr-1"></FileText> PDF
           </b-button>
            <vue-excel-xlsx
-              class="btn btn-sm btn-outline-danger ripple m-1"
+              class="btn btn-sm btn-outline-success ripple m-1"
               :data="products"
               :columns="columns"
               :file-name="'Alerts_report'"
               :file-type="'xlsx'"
               :sheet-name="'Alerts_report'"
               >
-              <i class="i-File-Excel"></i> EXCEL
+              <FileSpreadsheet size="14" class="mr-1"></FileSpreadsheet> EXCEL
           </vue-excel-xlsx>
         </div>
 
@@ -61,10 +61,14 @@
 
 <script>
 import NProgress from "nprogress";
+import { FileText, FileSpreadsheet } from "lucide-vue";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 
 export default {
+  components: {
+    FileText, FileSpreadsheet
+  },
   metaInfo: {
     title: "Products Alert"
   },

@@ -1,6 +1,10 @@
 .badge {
     font-weight: 600;
+    padding: 0.35rem 0.6rem;
+    border-radius: 6px;
+    font-size: 0.75rem;
 }
+
 @each $name, $value in $theme-colors {
     .badge-outline-#{$name} {
         background: unset;
@@ -8,8 +12,10 @@
         color: $value;
     }
 }
+
 .badge-top-container {
     position: relative;
+
     .badge {
         position: absolute;
         top: 2px;
@@ -21,15 +27,18 @@
 // begin::badge-pill
 @each $name, $value in $theme-colors {
     .ul-badge-pill-#{$name} {
-        background: $value;
-        border-radius: 50%;
-        width: 25px;
-        height: 18px;
-        color: #fff;
-        line-height: 20px;
+        background: rgba($value, 0.15);
+        border-radius: 50rem;
+        padding: 0.25rem 0.6rem;
+        color: darken($value, 15%);
         font-size: 0.8rem;
+        font-weight: 600;
+        display: inline-block;
+        line-height: 1;
+        text-align: center;
     }
 }
+
 // end-of-badge-pill
 
 
@@ -44,36 +53,39 @@
         line-height: 20px;
         justify-content: center;
 
-        &.lg{
+        &.lg {
             // large badge
-            width:40px;
+            width: 40px;
             height: 40px;
             line-height: 30px;
             font-size: 1.2rem;
-    
+
         }
-        &.xl{
-            width:50px;
+
+        &.xl {
+            width: 50px;
             height: 50px;
             line-height: 40px;
             font-size: 1.3rem;
             font-weight: bold;
         }
-        &.sm{
+
+        &.sm {
             width: 18px;
-            height:18px;
+            height: 18px;
             line-height: 13px;
             justify-content: center;
-            
+
         }
-        &.pill{
+
+        &.pill {
             width: 45px;
-            height:18px;
+            height: 18px;
             line-height: 13px;
-            border-radius:10px;
+            border-radius: 10px;
         }
     }
-   
+
 }
 
 @each $name, $value in $theme-colors {
@@ -100,37 +112,33 @@
         justify-content: center;
     }
 }
+
 // end of outline 
 //ul badge square------------------------------//
 @each $name, $value in $theme-colors {
     .badge-square-#{$name} {
-        background: $value;
-        border-radius: 20%;
-        width: 25px;
-        height: 25px;
-        color: #fff;
-        line-height: 20px;
+        background: rgba($value, 0.15);
+        border-radius: 6px;
+        padding: 0.35rem 0.6rem;
+        color: darken($value, 15%);
         text-align: center;
+        font-weight: 600;
+        font-size: 0.8rem;
 
-        &.lg{
+        &.lg {
             // large badge
-            width:40px;
-            height: 40px;
-            line-height: 30px;
-            font-size: 1.2rem;
+            padding: 0.5rem 0.8rem;
+            font-size: 1rem;
         }
-        &.xl{
-            width:50px;
-            height: 50px;
-            line-height: 40px;
-            font-size: 1.3rem;
-            font-weight: bold;
+
+        &.xl {
+            padding: 0.75rem 1rem;
+            font-size: 1.25rem;
+            font-weight: 700;
         }
-        
     }
-    
-   
 }
+
 // end of ul-badge-square------------------//
 // not working this way
 // .ul-badge-round{
@@ -146,58 +154,103 @@
 //         width:25px;
 //         height: 25px;
 //     }
-   
+
 // }
 // large
 
 
 //opacity round
 .badge-round {
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    line-height: 30px;
-    font-size: 1.2rem;
-
-    
+    border-radius: 50rem;
+    padding: 0.35rem 0.6rem;
+    font-size: 0.8rem;
+    font-weight: 600;
 }
+
 @each $name, $value in $theme-colors {
     .badge-round.badge-round-opacity-#{$name} {
-        background: lighten($value, 40%);
-        color:$value;
-        
+        background: rgba($value, 0.15) !important;
+        color: darken($value, 15%) !important;
     }
 }
+
 // end-opacity-round
 
 // begin square opacity
 
-.badge-square{
-    border-radius: 20%;
-    width: 40px;
-    height: 40px;
-    line-height: 30px;
-    font-size: 1.2rem;
+.badge-square {
+    border-radius: 6px;
+    padding: 0.35rem 0.6rem;
+    font-size: 0.8rem;
+    font-weight: 600;
 }
+
 @each $name, $value in $theme-colors {
-    .badge-square.badge-square-opacity-#{$name} {
-        background: lighten($value, 40%);
-        color:$value;
-        
+
+    .badge-square.badge-square-opacity-#{$name},
+    .badge-opacity-#{$name} {
+        background: rgba($value, 0.15) !important;
+        color: darken($value, 15%) !important;
     }
 }
-.w-badge{
-    border-radius: 0;
-    padding: 4px;
+
+.w-badge {
+    border-radius: 4px;
+    padding: 4px 8px;
     color: #fff;
 }
-.r-badge{
-    padding: 4px;
+
+.r-badge {
+    padding: 4px 8px;
+    border-radius: 4px;
 }
 
 // end square opacity
 
+/* Standardized Status Badges */
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.4rem 1rem;
+    border-radius: 10px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    line-height: 1;
+    white-space: nowrap;
+    border: 1px solid transparent;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
 
-
-
-
+    &.status-success {
+        background-color: rgba($success, 0.12) !important;
+        border-color: rgba($success, 0.05);
+        color: $success;
+    }
+    &.status-info {
+        background-color: rgba($info, 0.12) !important;
+        border-color: rgba($info, 0.05);
+        color: $info;
+    }
+    &.status-warning {
+        background-color: rgba($warning, 0.12) !important;
+        border-color: rgba($warning, 0.05);
+        color: $warning;
+    }
+    &.status-danger {
+        background-color: rgba($danger, 0.12) !important;
+        border-color: rgba($danger, 0.05);
+        color: $danger;
+    }
+    &.status-primary {
+        background-color: rgba($primary, 0.12) !important;
+        border-color: rgba($primary, 0.05);
+        color: $primary;
+    }
+    &.status-secondary {
+        background-color: rgba($secondary, 0.12) !important;
+        border-color: rgba($secondary, 0.05);
+        color: $secondary;
+    }
+}

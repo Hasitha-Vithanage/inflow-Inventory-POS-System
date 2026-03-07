@@ -73,27 +73,27 @@
               </td>
 
               <td class="text-right">
-                <div class="btn-group btn-group-sm">
+                <div class="d-flex align-items-center justify-content-end">
                 
                   <!-- Edit -->
                   <router-link
                     :to="{ name: 'StoreCollectionsEdit', params: { id: c.id } }"
-                    class="btn btn-outline-primary btn-sm"
+                    class="cursor-pointer"
                     :class="{ disabled: busy }"
                     title="Edit"
                   >
-                    <i class="i-Pen-2"></i>
+                    <Edit size="20" class="text-success"></Edit>
                   </router-link>
 
                   <!-- Delete -->
-                  <b-button
-                    variant="outline-danger"
-                    :disabled="busyId === c.id"
+                  <a
+                    class="cursor-pointer"
+                    :class="{ disabled: busyId === c.id }"
                     @click="destroy(c)"
                     title="Delete"
                   >
-                    <i class="i-Close"></i>
-                  </b-button>
+                    <XCircle size="20" class="text-danger"></XCircle>
+                  </a>
                 </div>
               </td>
             </tr>
@@ -111,10 +111,14 @@
 </template>
 
 <script>
+import { Edit, XCircle } from "lucide-vue";
 
 export default {
   metaInfo: {
     title: "Store Collections Index"
+  },
+  components: {
+    Edit, XCircle
   },
 
   data () {
@@ -229,7 +233,19 @@ export default {
     },
 
     async destroy (c) {
-      if (!confirm(this.$t('Confirm_Delete_This_Item'))) return
+      const r = this.$swal
+        ? await this.$swal({
+            title: this.$t('Delete_Title'),
+            text: this.$t('Delete_Text'),
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: this.$t('Delete_cancelButtonText'),
+            confirmButtonText: this.$t('Delete_confirmButtonText')
+          })
+        : { value: window.confirm(this.$t('Confirm_Delete_This_Item')) }
+      if (!(r && (r.value === true || r.isConfirmed === true))) return
       try {
         this.busyId = c.id
         await axios.delete('/admin/store/collections/' + c.id)

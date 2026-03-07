@@ -119,10 +119,13 @@
                             <div class="quantity">
                               <b-input-group>
                                 <b-input-group-prepend v-if="detail.product_type != 'is_combo'">
-                                  <span
-                                    class="btn btn-primary btn-sm"
+                                  <button
+                                    type="button"
+                                    class="btn btn-qty"
                                     @click="decrement(detail ,detail.detail_id)"
-                                  >-</span>
+                                  >
+                                    <MinusIcon :size="16" />
+                                  </button>
                                 </b-input-group-prepend>
 
                                 <input
@@ -134,10 +137,13 @@
                                   :disabled="detail.product_type == 'is_combo' || detail.del === 1"
                                 >
                                 <b-input-group-append v-if="detail.product_type != 'is_combo'">
-                                  <span
-                                    class="btn btn-primary btn-sm"
+                                  <button
+                                    type="button"
+                                    class="btn btn-qty"
                                     @click="increment(detail ,detail.detail_id)"
-                                  >+</span>
+                                  >
+                                    <PlusIcon :size="16" />
+                                  </button>
                                 </b-input-group-append>
                               </b-input-group>
                             </div>
@@ -201,13 +207,15 @@
 </template>
 
 <script>
-import { Trash2, CheckCircle } from "lucide-vue";
+import { Trash2, CheckCircle, Plus, Minus } from "lucide-vue";
 import NProgress from "nprogress";
 
 export default {
   components: {
     Trash2Icon: Trash2,
-    CheckCircleIcon: CheckCircle
+    CheckCircleIcon: CheckCircle,
+    PlusIcon: Plus,
+    MinusIcon: Minus
   },
   metaInfo: {
     title: "Edit Adjustment"

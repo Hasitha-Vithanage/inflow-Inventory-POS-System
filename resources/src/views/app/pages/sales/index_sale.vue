@@ -2,7 +2,9 @@
   <div class="main-content">
     <breadcumb :page="$t('ListSales')" :folder="$t('Sales')"/>
     <div v-if="isLoading" class="loading_page spinner spinner-primary mr-3"></div>
-    <div v-else>
+    <b-card v-else class="wrapper">
+      <!-- Search This Table handled by vue-good-table internally or by custom search if needed -->
+
       <vue-good-table
         mode="remote"
         :columns="columns"
@@ -39,11 +41,11 @@
             <Filter size="14" class="mr-1"></Filter>
             {{ $t("Filter") }}
           </b-button>
-          <b-button @click="Sales_PDF()" size="sm" variant="outline-success ripple m-1">
+          <b-button @click="Sales_PDF()" size="sm" variant="outline-danger ripple m-1">
             <FileText size="14" class="mr-1"></FileText> PDF
           </b-button>
           <vue-excel-xlsx
-              class="btn btn-sm btn-outline-danger ripple m-1"
+              class="btn btn-sm btn-outline-success ripple m-1"
               :data="sales"
               :columns="columns"
               :file-name="'sales'"
@@ -66,35 +68,40 @@
 
         <template slot="table-row" slot-scope="props">
           <span v-if="props.column.field == 'actions'">
-            <div>
               <b-dropdown
-                id="dropdown-right"
+                id="dropdown-action"
                 variant="link"
-                text="right align"
-                toggle-class="text-decoration-none"
-                size="lg"
-                right
+                toggle-class="text-decoration-none p-0"
+                size="sm"
                 no-caret
               >
-                <template v-slot:button-content class="_r_btn border-0">
-                  <span class="_dot _r_block-dot bg-dark"></span>
-                  <span class="_dot _r_block-dot bg-dark"></span>
-                  <span class="_dot _r_block-dot bg-dark"></span>
+                <template v-slot:button-content>
+                  <span class="_r_block-dot">
+                    <MoreHorizontal size="18"></MoreHorizontal>
+                  </span>
                 </template>
-                <b-navbar-nav>
-                  <b-dropdown-item title="Show" :to="'/app/sales/detail/'+props.row.id">
-                    <Eye size="14" class="mr-2"></Eye>
-                    {{$t('SaleDetail')}}
-                  </b-dropdown-item>
-                </b-navbar-nav>
 
-                 <b-dropdown-item 
+                <b-dropdown-item title="Show" :to="'/app/sales/detail/'+props.row.id">
+                  <Eye size="14" class="mr-2"></Eye>
+                  {{$t('DetailSale')}}
+                </b-dropdown-item>
+
+                <b-dropdown-item
                   title="Edit"
                   v-if="currentUserPermissions.includes('Sales_edit') && props.row.sale_has_return == 'no'"
                   :to="'/app/sales/edit/'+props.row.id"
                 >
                   <Edit size="14" class="mr-2"></Edit>
                   {{$t('EditSale')}}
+                </b-dropdown-item>
+
+                 <b-dropdown-item
+                  title="Delete"
+                  v-if="currentUserPermissions.includes('Sales_delete')"
+                  @click="Remove_Sale(props.row.id , props.row.sale_has_return)"
+                >
+                  <X size="14" class="mr-2"></X>
+                  {{$t('DeleteSale')}}
                 </b-dropdown-item>
 
                 <b-dropdown-item
@@ -131,13 +138,6 @@
                   {{$t('AddPayment')}}
                 </b-dropdown-item>
 
-                <b-dropdown-item
-                  v-if="currentUserPermissions.includes('shipment')"
-                  @click="Edit_Shipment(props.row.id)"
-                >
-                  <Edit size="14" class="mr-2"></Edit>
-                  {{$t('Edit_Shipping')}}
-                </b-dropdown-item>
 
                 <b-dropdown-item title="Print Shipping Label" @click="Print_Label_Row(props.row.id)" v-if="props.row.shipping_status != 'cancelled'">
                    <FileText size="14" class="mr-2"></FileText>
@@ -180,16 +180,7 @@
                   {{$t('Attach_Documents')}}
                 </b-dropdown-item>
 
-                <b-dropdown-item
-                  title="Delete"
-                  v-if="currentUserPermissions.includes('Sales_delete')"
-                  @click="Remove_Sale(props.row.id , props.row.sale_has_return)"
-                >
-                  <XCircle size="14" class="mr-2"></XCircle>
-                  {{$t('DeleteSale')}}
-                </b-dropdown-item>
               </b-dropdown>
-            </div>
           </span>
           <span v-else-if="props.column.field == 'date'">
             {{ formatDisplayDate(props.row.date) }}
@@ -197,68 +188,68 @@
           <div v-else-if="props.column.field == 'statut'">
             <span
               v-if="props.row.statut == 'completed'"
-              class="badge badge-outline-success"
+              class="status-badge status-success"
             >{{$t('Complete')}}</span>
             <span
               v-else-if="props.row.statut == 'pending'"
-              class="badge badge-outline-info"
+              class="status-badge status-info"
             >{{$t('Pending')}}</span>
-            <span v-else class="badge badge-outline-warning">{{$t('Ordered')}}</span>
+            <span v-else class="status-badge status-warning">{{$t('Ordered')}}</span>
           </div>
 
           <div v-else-if="props.column.field == 'payment_status'">
             <span
               v-if="props.row.payment_status == 'paid'"
-              class="badge badge-outline-success"
+              class="status-badge status-success"
             >{{$t('Paid')}}</span>
             <span
               v-else-if="props.row.payment_status == 'partial'"
-              class="badge badge-outline-primary"
+              class="status-badge status-primary"
             >{{$t('Partial')}}</span>
-            <span v-else class="badge badge-outline-warning">{{$t('Unpaid')}}</span>
+            <span v-else class="status-badge status-warning">{{$t('Unpaid')}}</span>
           </div>
           <div v-else-if="props.column.field == 'shipping_status'">
             <span
               v-if="props.row.shipping_status == 'pending'"
-              class="badge badge-outline-warning"
+              class="status-badge status-warning"
             >{{$t('Pending')}}</span>
 
             <span
               v-else-if="props.row.shipping_status == 'processing'"
-              class="badge badge-outline-warning"
+              class="status-badge status-warning"
             >{{$t('Processing')}}</span>
 
             <span
               v-else-if="props.row.shipping_status == 'packed'"
-              class="badge badge-outline-info"
+              class="status-badge status-info"
             >{{$t('Packed')}}</span>
 
             <span
               v-else-if="props.row.shipping_status == 'dispatched'"
-              class="badge badge-outline-info"
+              class="status-badge status-info"
             >{{$t('Dispatched')}}</span>
 
             <span
               v-else-if="props.row.shipping_status == 'in_transit'"
-              class="badge badge-outline-primary"
+              class="status-badge status-primary"
             >{{$t('In_Transit')}}</span>
 
             <span
               v-else-if="props.row.shipping_status == 'out_for_delivery'"
-              class="badge badge-outline-primary"
+              class="status-badge status-primary"
             >{{$t('Out_for_Delivery')}}</span>
 
              <span
               v-else-if="props.row.shipping_status == 'ready_for_pickup'"
-              class="badge badge-outline-success"
+              class="status-badge status-success"
             >{{$t('Ready_for_Pickup')}}</span>
 
              <span
               v-else-if="props.row.shipping_status == 'delivered'"
-              class="badge badge-outline-success"
+              class="status-badge status-success"
             >{{$t('Delivered')}}</span>
 
-            <span v-else-if="props.row.shipping_status == 'cancelled'" class="badge badge-outline-danger">{{$t('Cancelled')}}</span>
+            <span v-else-if="props.row.shipping_status == 'cancelled'" class="status-badge status-danger">{{$t('Cancelled')}}</span>
           </div>
           <span v-else-if="props.column.field == 'GrandTotal'">
             {{ formatPriceWithSymbol(currentUser.currency, props.row.GrandTotal, 2) }}
@@ -285,137 +276,7 @@
             </div>
         </template>
       </vue-good-table>
-    </div>
-
-    <!-- Sidebar Filter -->
-    <b-sidebar id="sidebar-right" :title="$t('Filter')" bg-variant="white" right shadow>
-      <div class="px-3 py-2">
-        <b-row>
-          <!-- date  -->
-          <b-col md="12">
-            <b-form-group :label="$t('date')">
-              <b-form-input type="date" v-model="Filter_date"></b-form-input>
-            </b-form-group>
-          </b-col>
-
-          <!-- Reference -->
-          <b-col md="12">
-            <b-form-group :label="$t('Reference')">
-              <b-form-input label="Reference" :placeholder="$t('Reference')" v-model="Filter_Ref"></b-form-input>
-            </b-form-group>
-          </b-col>
-
-          <!-- Customer  -->
-          <b-col md="12">
-            <b-form-group :label="$t('Customer')">
-              <v-select
-                :reduce="label => label.value"
-                :placeholder="$t('Choose_Customer')"
-                v-model="Filter_Client"
-                :options="customers.map(customers => ({label: customers.name, value: customers.id}))"
-              />
-            </b-form-group>
-          </b-col>
-
-          <!-- warehouse -->
-          <b-col md="12">
-            <b-form-group :label="$t('warehouse')">
-              <v-select
-                v-model="Filter_warehouse"
-                :reduce="label => label.value"
-                :placeholder="$t('Choose_Warehouse')"
-                :options="warehouses.map(warehouses => ({label: warehouses.name, value: warehouses.id}))"
-              />
-            </b-form-group>
-          </b-col>
-
-          <!-- Status  -->
-          <b-col md="12">
-            <b-form-group :label="$t('Status')">
-              <v-select
-                v-model="Filter_status"
-                :reduce="label => label.value"
-                :placeholder="$t('Choose_Status')"
-                :options="
-                      [
-                        {label: 'completed', value: 'completed'},
-                        {label: 'Pending', value: 'pending'},
-                        {label: 'Ordered', value: 'ordered'},
-                      ]"
-              ></v-select>
-            </b-form-group>
-          </b-col>
-
-          <!-- Payment Status  -->
-          <b-col md="12">
-            <b-form-group :label="$t('PaymentStatus')">
-              <v-select
-                v-model="Filter_Payment"
-                :reduce="label => label.value"
-                :placeholder="$t('Choose_Status')"
-                :options="
-                      [
-                        {label: 'Paid', value: 'paid'},
-                        {label: 'Partial', value: 'partial'},
-                        {label: 'UnPaid', value: 'unpaid'},
-                      ]"
-              ></v-select>
-            </b-form-group>
-          </b-col>
-
-           <!-- Shipping Status  -->
-          <b-col md="12">
-            <b-form-group :label="$t('Shipping_Method')">
-              <v-select
-                v-model="Filter_shipping_method"
-                :reduce="label => label.value"
-                :placeholder="$t('Choose_Status')"
-                :options="shipping_methods.map(sm => ({label: sm.name, value: sm.id}))"
-              ></v-select>
-            </b-form-group>
-          </b-col>
-
-          <b-col md="12">
-            <b-form-group :label="$t('Shipping_status')">
-              <v-select
-                v-model="Filter_shipping"
-                :reduce="label => label.value"
-                :placeholder="$t('Choose_Status')"
-                :options="
-                      [
-                        {label: 'Pending', value: 'pending'},
-                        {label: 'Processing', value: 'processing'},
-                        {label: 'Packed', value: 'packed'},
-                        {label: 'Dispatched', value: 'dispatched'},
-                        {label: 'In Transit', value: 'in_transit'},
-                        {label: 'Out for Delivery', value: 'out_for_delivery'},
-                        {label: 'Ready for Pickup', value: 'ready_for_pickup'},
-                        {label: 'Delivered', value: 'delivered'},
-                        {label: 'Cancelled', value: 'cancelled'},
-                      ]"
-              ></v-select>
-            </b-form-group>
-          </b-col>
-
-          <b-col md="6" sm="12">
-            <b-button
-              @click="Get_Sales(serverParams.page)"
-              variant="primary btn-block ripple m-1"
-              size="sm"
-            >
-                <Filter size="14" class="mr-1"></Filter>
-              {{ $t("Filter") }}
-            </b-button>
-          </b-col>
-          <b-col md="6" sm="12">
-            <b-button @click="Reset_Filter()" variant="danger ripple btn-block m-1" size="sm">
-              <Power size="14" class="mr-1"></Power>
-              {{ $t("Reset") }}
-            </b-button>
-          </b-col>
-        </b-row>
-      </div>
-    </b-sidebar>
+    </b-card>
 
     <!-- Modal Show Payments-->
     <b-modal hide-footer size="lg" id="Show_payment" :title="$t('ShowPayment')">
@@ -674,26 +535,6 @@
               </validation-provider>
             </b-col>
 
-            <b-col md="12">
-              <b-form-group :label="$t('delivered_to')">
-                <b-form-input
-                  label="delivered_to"
-                  v-model="shipment.delivered_to"
-                  :placeholder="$t('delivered_to')"
-                ></b-form-input>
-              </b-form-group>
-            </b-col>
-
-            <b-col md="12">
-              <b-form-group :label="$t('Adress')">
-                <textarea
-                  v-model="shipment.shipping_address"
-                  rows="4"
-                  class="form-control"
-                  :placeholder="$t('Enter_Address')"
-                ></textarea>
-              </b-form-group>
-            </b-col>
 
             <b-col md="12">
               <b-form-group :label="$t('Please_provide_any_details')">
@@ -1407,6 +1248,125 @@
         </b-col>
       </b-row>
     </b-modal>
+    <!-- Sidebar Filter -->
+    <b-sidebar id="sidebar-right" :title="$t('Filter')" bg-variant="white" right shadow>
+      <div class="px-3 py-2">
+        <b-row>
+          <!-- date  -->
+          <b-col md="12">
+            <b-form-group :label="$t('date')">
+              <b-form-input type="date" v-model="Filter_date"></b-form-input>
+            </b-form-group>
+          </b-col>
+
+          <!-- Reference -->
+          <b-col md="12">
+            <b-form-group :label="$t('Reference')">
+              <b-form-input label="Reference" :placeholder="$t('Reference')" v-model="Filter_Ref"></b-form-input>
+            </b-form-group>
+          </b-col>
+
+          <!-- Customer  -->
+          <b-col md="12">
+            <b-form-group :label="$t('Customer')">
+              <v-select
+                :reduce="label => label.value"
+                :placeholder="$t('Choose_Customer')"
+                v-model="Filter_Client"
+                :options="customers.map(customers => ({label: customers.name, value: customers.id}))"
+              />
+            </b-form-group>
+          </b-col>
+
+          <!-- warehouse -->
+          <b-col md="12">
+            <b-form-group :label="$t('warehouse')">
+              <v-select
+                v-model="Filter_warehouse"
+                :reduce="label => label.value"
+                :placeholder="$t('Choose_Warehouse')"
+                :options="warehouses.map(warehouses => ({label: warehouses.name, value: warehouses.id}))"
+              />
+            </b-form-group>
+          </b-col>
+
+          <!-- Status  -->
+          <b-col md="12">
+            <b-form-group :label="$t('Status')">
+              <v-select
+                v-model="Filter_status"
+                :reduce="label => label.value"
+                :placeholder="$t('Choose_status')"
+                :options="[
+                  {label: 'Completed', value: 'completed'},
+                  {label: 'Pending', value: 'pending'},
+                  {label: 'Ordered', value: 'ordered'}
+                ]"
+              ></v-select>
+            </b-form-group>
+          </b-col>
+
+          <!-- Payment Status  -->
+          <b-col md="12">
+            <b-form-group :label="$t('PaymentStatus')">
+              <v-select
+                v-model="Filter_Payment"
+                :reduce="label => label.value"
+                :placeholder="$t('Choose_status')"
+                :options="[
+                  {label: 'Paid', value: 'paid'},
+                  {label: 'Partial', value: 'partial'},
+                  {label: 'Unpaid', value: 'unpaid'}
+                ]"
+              ></v-select>
+            </b-form-group>
+          </b-col>
+
+          <!-- Shipping Method  -->
+          <b-col md="12">
+            <b-form-group :label="$t('Shipping_Method')">
+              <v-select
+                v-model="Filter_shipping_method"
+                :reduce="label => label.value"
+                :placeholder="$t('Choose_status')"
+                :options="shipping_methods.map(sm => ({label: sm.name, value: sm.id}))"
+              ></v-select>
+            </b-form-group>
+          </b-col>
+
+          <!-- Shipping Status  -->
+          <b-col md="12">
+            <b-form-group :label="$t('ShippingStatus')">
+              <v-select
+                v-model="Filter_shipping"
+                :reduce="label => label.value"
+                :placeholder="$t('Choose_status')"
+                :options="[
+                  {label: 'Pending', value: 'pending'},
+                  {label: 'Processing', value: 'processing'},
+                  {label: 'Packed', value: 'packed'},
+                  {label: 'Dispatched', value: 'dispatched'},
+                  {label: 'In Transit', value: 'in_transit'},
+                  {label: 'Out for Delivery', value: 'out_for_delivery'},
+                  {label: 'Ready for Pickup', value: 'ready_for_pickup'},
+                  {label: 'Delivered', value: 'delivered'},
+                  {label: 'Cancelled', value: 'cancelled'}
+                ]"
+              ></v-select>
+            </b-form-group>
+          </b-col>
+
+          <b-col md="12" class="mt-3">
+            <b-button @click="Get_Sales(serverParams.page)" variant="primary" size="sm" block>
+              <Filter size="16" class="mr-1"></Filter> {{ $t("Filter") }}
+            </b-button>
+            <b-button @click="Reset_Filter()" variant="danger" size="sm" block>
+              <Power size="16" class="mr-1"></Power> {{ $t("Reset") }}
+            </b-button>
+          </b-col>
+        </b-row>
+      </div>
+    </b-sidebar>
   </div>
 </template>
 
@@ -1415,7 +1375,8 @@ import { mapActions, mapGetters } from "vuex";
 import { 
   Plus, ArrowLeft, Receipt, X, XCircle, Download, 
   Mail, Eye, FileText, Copy, FileSpreadsheet, Filter, 
-  Banknote, Edit, Power, MessageSquare, Upload, CheckCircle 
+  Banknote, Edit, Power, MessageSquare, Upload, CheckCircle,
+  MoreHorizontal
 } from "lucide-vue";
 import NProgress from "nprogress";
 import jsPDF from "jspdf";
@@ -1433,7 +1394,8 @@ export default {
     barcode: VueBarcode,
     Plus, ArrowLeft, Receipt, X, XCircle, Download, 
     Mail, Eye, FileText, Copy, FileSpreadsheet, Filter, 
-    Banknote, Edit, Power, MessageSquare, Upload, CheckCircle
+    Banknote, Edit, Power, MessageSquare, Upload, CheckCircle,
+    MoreHorizontal
   },
   metaInfo: {
     title: "Sales"
@@ -1627,8 +1589,8 @@ export default {
         {
           label: this.$t("Action"),
           field: "actions",
-          tdClass: "text-right",
-          thClass: "text-right",
+          tdClass: "text-center",
+          thClass: "text-center",
           sortable: false
         },
         {
@@ -1664,35 +1626,35 @@ export default {
         {
           label: 'Order Status',
           field: "statut",
-          tdClass: "text-left",
-          thClass: "text-left"
+          tdClass: "text-center",
+          thClass: "text-center"
         },
         {
           label: this.$t("Total"),
           field: "GrandTotal",
-          tdClass: "text-left",
-          thClass: "text-left",
+          tdClass: "text-right font-weight-bold",
+          thClass: "text-right",
           sortable: false
         },
         {
           label: this.$t("Paid"),
           field: "paid_amount",
-          tdClass: "text-left",
-          thClass: "text-left",
+          tdClass: "text-right font-weight-bold",
+          thClass: "text-right",
           sortable: false
         },
         {
           label: this.$t("Due"),
           field: "due",
-          tdClass: "text-left",
-          thClass: "text-left",
+          tdClass: "text-right font-weight-bold",
+          thClass: "text-right",
           sortable: false
         },
         {
           label: this.$t("PaymentStatus"),
           field: "payment_status",
-          tdClass: "text-left",
-          thClass: "text-left"
+          tdClass: "text-center",
+          thClass: "text-center"
         },
         {
           label: this.$t("Shipping_Method") !== 'Shipping_Method' ? this.$t("Shipping_Method") : 'Shipping Method',
@@ -1704,14 +1666,14 @@ export default {
         {
           label: this.$t("Shipping_status"),
           field: "shipping_status",
-          tdClass: "text-left",
-          thClass: "text-left"
+          tdClass: "text-center",
+          thClass: "text-center"
         },
         {
           label: this.$t("Documents"),
           field: "documents",
-          tdClass: "text-left",
-          thClass: "text-left",
+          tdClass: "text-center",
+          thClass: "text-center",
           sortable: false
         }
       ];
@@ -1990,9 +1952,9 @@ export default {
         r.client_name, 
         r.warehouse_name, 
         r.statut, 
-        r.GrandTotal, 
-        r.paid_amount, 
-        r.due, 
+        this.formatPriceDisplay(r.GrandTotal, 2), 
+        this.formatPriceDisplay(r.paid_amount, 2), 
+        this.formatPriceDisplay(r.due, 2), 
         r.payment_status 
       ]);
 
@@ -2007,9 +1969,9 @@ export default {
         '', 
         '', 
         '', 
-        totals.t.toFixed(2), 
-        totals.p.toFixed(2), 
-        totals.d.toFixed(2), 
+        this.formatPriceDisplay(totals.t, 2), 
+        this.formatPriceDisplay(totals.p, 2), 
+        this.formatPriceDisplay(totals.d, 2), 
         '' 
       ]];
 

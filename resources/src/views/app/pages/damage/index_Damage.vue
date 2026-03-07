@@ -28,21 +28,21 @@
       
         <div slot="table-actions" class="mt-2 mb-3">
           <b-button variant="outline-info m-1" size="sm" v-b-toggle.sidebar-right>
-            <i class="i-Filter-2"></i>
+            <Filter size="14" class="mr-1"></Filter>
             {{ $t("Filter") }}
           </b-button>
-          <b-button @click="Damage_PDF()" size="sm" variant="outline-success m-1">
-            <i class="i-File-Copy"></i> {{$t('Export_PDF')}}
+          <b-button @click="Damage_PDF()" size="sm" variant="outline-danger m-1">
+            <FileText size="14" class="mr-1"></FileText> {{$t('Export_PDF')}}
           </b-button>
           <vue-excel-xlsx
-              class="btn btn-sm btn-outline-danger ripple m-1"
+              class="btn btn-sm btn-outline-success ripple m-1"
               :data="damages"
               :columns="columns"
               :file-name="'Damages'"
               :file-type="'xlsx'"
               :sheet-name="'Damages'"
               >
-              <i class="i-File-Excel"></i> EXCEL
+              <FileSpreadsheet size="14" class="mr-1"></FileSpreadsheet> EXCEL
           </vue-excel-xlsx>
           <router-link
             class="btn-sm btn btn-primary btn-icon m-1"
@@ -50,7 +50,7 @@
             to="/app/damages/store"
           >
             <span class="ul-btn__icon">
-              <i class="i-Add"></i>
+              <Plus size="14" class="mr-1"></Plus>
             </span>
             <span class="ul-btn__text ml-1">{{$t('Add')}}</span>
           </router-link>
@@ -117,13 +117,13 @@
               size="sm"
               block
             >
-              <i class="i-Filter-2"></i>
+              <Filter size="14" class="mr-1"></Filter>
               {{ $t("Filter") }}
             </b-button>
           </b-col>
           <b-col md="6" sm="12">
             <b-button @click="Reset_Filter()" variant="danger m-1" size="sm" block>
-              <i class="i-Power-2"></i>
+              <Power size="14" class="mr-1"></Power>
               {{ $t("Reset") }}
             </b-button>
           </b-col>
@@ -185,12 +185,20 @@
 
 <script>
 import { mapGetters } from "vuex";
+import { Filter, FileText, FileSpreadsheet, Plus, Power } from "lucide-vue";
 import NProgress from "nprogress";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 
 export default {
   metaInfo: { title: "Damage" },
+  components: {
+    Filter,
+    FileText,
+    FileSpreadsheet,
+    Plus,
+    Power
+  },
   data() {
     return {
       isLoading: true,

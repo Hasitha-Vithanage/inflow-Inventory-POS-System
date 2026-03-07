@@ -377,7 +377,11 @@
   const CURRENCY = @json($currency);
 
   const safeParse = (str) => { try { return JSON.parse(str || '[]'); } catch(e){ return []; } };
-  const money     = (v) => CURRENCY + Number(v||0).toFixed(2);
+  const money     = (v) => {
+    const n = Number(v||0);
+    const formatted = n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    return CURRENCY + ' ' + formatted;
+  };
   const html      = (s) => String(s||'').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'}[m]));
 
   /* ---------- QUICK VIEW ---------- */

@@ -42,11 +42,11 @@
 
         <template slot="table-row" slot-scope="props">
           <span v-if="props.column.field == 'actions'">
-            <a @click="Edit_Brand(props.row)" title="Edit" v-b-tooltip.hover>
-              <edit size="20" class="text-success mr-2"></edit>
+            <a @click="Edit_Brand(props.row)" class="btn-action btn-edit" title="Edit" v-b-tooltip.hover>
+              <Edit size="16" :stroke-width="2" />
             </a>
-            <a title="Delete" v-b-tooltip.hover @click="Delete_Brand(props.row.id)">
-              <x size="20" class="text-danger"></x>
+            <a @click="Delete_Brand(props.row.id)" class="btn-action btn-delete" title="Delete" v-b-tooltip.hover>
+              <XCircle size="16" :stroke-width="2" />
             </a>
           </span>
           <span v-else-if="props.column.field == 'image'">
@@ -141,7 +141,7 @@
 </template>
 
 <script>
-import { Edit, X } from "lucide-vue";
+import { Edit, XCircle } from "lucide-vue";
 import NProgress from "nprogress";
 
 export default {
@@ -150,7 +150,7 @@ export default {
   },
   components: {
     Edit,
-    X
+    XCircle
   },
   data() {
     return {

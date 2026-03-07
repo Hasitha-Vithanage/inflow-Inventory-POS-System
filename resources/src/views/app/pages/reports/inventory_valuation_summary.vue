@@ -37,7 +37,7 @@
         </div>
 
         <div slot="table-actions" class="mt-2 mb-3">
-          <b-button @click="stock_report_PDF()" size="sm" variant="outline-success ripple m-1">
+          <b-button @click="stock_report_PDF()" size="sm" variant="outline-danger ripple m-1">
             <file-text size="14" class="mr-1"></file-text> PDF
           </b-button>
         </div>

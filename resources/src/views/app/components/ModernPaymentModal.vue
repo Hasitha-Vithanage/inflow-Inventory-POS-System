@@ -267,6 +267,12 @@ import {
   CreditCard, Building, FileText, Wallet, X, History, Check 
 } from "lucide-vue";
 import Util from "../../../utils";
+import { 
+  formatPriceDisplay, 
+  formatPriceWithSymbol, 
+  getPriceFormatSetting 
+} from "../../../utils/priceFormat";
+
 export default {
   name: 'ModernPaymentModal',
   components: {
@@ -453,13 +459,15 @@ export default {
     formatCurrency(value) {
       const num = Number(value);
       const isValid = !isNaN(num);
-      const amount = isValid ? Math.abs(num) : 0;
-      const formattedNumber = new Intl.NumberFormat('en-US', {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2
-      }).format(amount);
-      const sign = isValid && num < 0 ? '-' : '';
-      return `${sign}${this.currency} ${formattedNumber}`;
+      const amount = isValid ? num : 0;
+      
+      // Use the global/system price_format setting
+      const key = this.price_format_key || getPriceFormatSetting({ store: this.$store });
+      if (key) {
+        this.price_format_key = key;
+      }
+      
+      return formatPriceWithSymbol(amount, this.currency, 2, key);
     },
     addPaymentLine() {
       if (Number(this.paymentForm.amountDue) === 0) {

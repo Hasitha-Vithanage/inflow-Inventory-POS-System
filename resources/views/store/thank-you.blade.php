@@ -72,7 +72,11 @@
 (function(){
   const CURRENCY = document.querySelector('meta[name="currency"]')?.content || @json($currency);
   const NOIMG    = @json(asset('images/products/no-image.png'));
-  const fmt = v => CURRENCY + Number(v || 0).toFixed(2);
+  const fmt = v => {
+    const n = Number(v || 0);
+    const formatted = n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    return CURRENCY + ' ' + formatted;
+  };
 
   const empty   = document.getElementById('ty-empty');
   const wrap    = document.getElementById('ty-receipt');

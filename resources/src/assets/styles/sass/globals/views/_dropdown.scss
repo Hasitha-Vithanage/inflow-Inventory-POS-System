@@ -1,20 +1,68 @@
-.tab-border{
-    border:1px dashed #ebedf2!important;
-    margin: 30px 0!important;
+.tab-border {
+    border: 1px dashed #ebedf2 !important;
+    margin: 30px 0 !important;
 }
 
 
 
 
-span._r_block-dot{
-    display: block;
-    margin: 2px 0;
+span._r_block-dot {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background-color: #f1f5f9 !important;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    color: #64748b;
+    margin: 0;
+
+    svg {
+        width: 18px;
+        height: 18px;
+        stroke-width: 2.5px;
+    }
 }
 
-._r_btn{
-    border:1px solid #e8ecfa;
+/* Hover effect for the dropdown toggle */
+button.btn-link:hover span._r_block-dot,
+.show>button.btn-link span._r_block-dot,
+.show>a.btn-link span._r_block-dot {
+    background-color: #3b82f6 !important;
+    border-color: #3b82f6 !important;
+    color: #ffffff !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
-._r_drop_right{
-    padding-right: 14px!important;
+._r_btn {
+    border: none !important;
+    padding: 0 !important;
+    background: transparent !important;
+    text-decoration: none !important;
+    box-shadow: none !important;
+
+    &:hover,
+    &:focus,
+    &:active {
+        text-decoration: none !important;
+        box-shadow: none !important;
+        outline: none !important;
+    }
+}
+
+button.btn-link._r_btn,
+a.btn-link._r_btn {
+    text-decoration: none !important;
+
+    &:hover,
+    &:focus {
+        text-decoration: none !important;
+    }
+}
+
+._r_drop_right {
+    padding-right: 14px !important;
 }

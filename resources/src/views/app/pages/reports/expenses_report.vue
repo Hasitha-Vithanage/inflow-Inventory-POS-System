@@ -63,20 +63,28 @@
   
          <div slot="table-actions" class="mt-2 mb-3">
           
-            <b-button @click="Expenses_report_pdf()" size="sm" variant="outline-success ripple m-1">
-              <i class="i-File-Copy"></i> PDF
+            <b-button @click="Expenses_report_pdf()" size="sm" variant="outline-danger ripple m-1">
+              <FileText size="14" class="mr-1"></FileText> PDF
             </b-button>
              <vue-excel-xlsx
-                class="btn btn-sm btn-outline-danger ripple m-1"
+                class="btn btn-sm btn-outline-success ripple m-1"
                 :data="reports"
                 :columns="columns"
                 :file-name="'Expenses_report'"
                 :file-type="'xlsx'"
                 :sheet-name="'Expenses_report'"
                 >
-                <i class="i-File-Excel"></i> EXCEL
+                <FileSpreadsheet size="14" class="mr-1"></FileSpreadsheet> EXCEL
             </vue-excel-xlsx>
           </div>
+          <template slot="table-row" slot-scope="props">
+            <span v-if="props.column.field == 'total_expenses'">
+              {{ formatPriceWithSymbol(currentUser && currentUser.currency, props.row.total_expenses, 2) }}
+            </span>
+            <span v-else>
+              {{ props.formattedRow[props.column.field] }}
+            </span>
+          </template>
         </vue-good-table>
       </b-card>
     </div>
@@ -87,6 +95,7 @@
 import NProgress from "nprogress";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
+import { FileText, FileSpreadsheet } from "lucide-vue";
 
 import DateRangePicker from 'vue2-daterange-picker'
 //you need to import the CSS manually
@@ -99,7 +108,11 @@ import {
 } from "../../../../utils/priceFormat";
   
   export default {
-    components: { DateRangePicker },
+    components: { 
+      DateRangePicker,
+      FileText,
+      FileSpreadsheet
+    },
     metaInfo: {
       title: "Expenses Report"
     },
@@ -154,6 +167,7 @@ import {
     },
   
     computed: {
+      ...mapGetters(["currentUser"]),
       columns() {
         return [
           {
@@ -182,12 +196,14 @@ import {
     methods: {
 
       sumCount(rowObj) {
-     
+        if (!rowObj || !rowObj.children || !Array.isArray(rowObj.children)) {
+            return this.formatPriceWithSymbol(this.currentUser && this.currentUser.currency, 0, 2);
+        }
         let sum = 0;
         for (let i = 0; i < rowObj.children.length; i++) {
           sum += rowObj.children[i].total_expenses;
         }
-        return sum;
+        return this.formatPriceWithSymbol(this.currentUser && this.currentUser.currency, sum, 2);
       },
   
        //----------------------------------- Sales PDF ------------------------------\\
@@ -210,13 +226,17 @@ import {
         
         let footer = [{
           category_name: self.$t("Total"),
-          total_expenses: `${totalGrandTotal.toFixed(2)}`,
-          
+          total_expenses: self.formatPriceDisplay(totalGrandTotal, 2),
         }];
+
+        const body = (self.reports || []).map(r => ({
+           category_name: r.category_name,
+           total_expenses: self.formatPriceDisplay(r.total_expenses, 2)
+        }));
 
         autoTable(pdf, {
              columns: columns,
-             body: self.reports,
+             body: body,
              foot: footer,
              startY: 70,
              theme: "grid", 

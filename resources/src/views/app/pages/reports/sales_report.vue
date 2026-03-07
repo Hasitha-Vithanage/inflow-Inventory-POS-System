@@ -48,11 +48,11 @@
             <Filter size="14" class="mr-1"></Filter>
             {{ $t("Filter") }}
           </b-button>
-          <b-button @click="Sales_PDF()" size="sm" variant="outline-success ripple m-1">
+          <b-button @click="Sales_PDF()" size="sm" variant="outline-danger ripple m-1">
             <FileText size="14" class="mr-1"></FileText> PDF
           </b-button>
            <vue-excel-xlsx
-              class="btn btn-sm btn-outline-danger ripple m-1"
+              class="btn btn-sm btn-outline-success ripple m-1"
               :data="sales"
               :columns="columns"
               :file-name="'sales_report'"
@@ -70,25 +70,25 @@
           <div v-else-if="props.column.field == 'statut'">
             <span
               v-if="props.row.statut == 'completed'"
-              class="badge badge-outline-success"
+              class="status-badge status-success"
             >{{$t('complete')}}</span>
             <span
               v-else-if="props.row.statut == 'pending'"
-              class="badge badge-outline-info"
+              class="status-badge status-info"
             >{{$t('Pending')}}</span>
-            <span v-else class="badge badge-outline-warning">{{$t('Ordered')}}</span>
+            <span v-else class="status-badge status-warning">{{$t('Ordered')}}</span>
           </div>
 
           <div v-else-if="props.column.field == 'payment_status'">
             <span
               v-if="props.row.payment_status == 'paid'"
-              class="badge badge-outline-success"
+              class="status-badge status-success"
             >{{$t('Paid')}}</span>
             <span
               v-else-if="props.row.payment_status == 'partial'"
-              class="badge badge-outline-primary"
+              class="status-badge status-primary"
             >{{$t('partial')}}</span>
-            <span v-else class="badge badge-outline-warning">{{$t('Unpaid')}}</span>
+            <span v-else class="status-badge status-warning">{{$t('Unpaid')}}</span>
           </div>
           <span v-else-if="props.column.field === 'Ref' && props.row.id">
             <router-link :to="{ name: 'detail_sale', params: { id: props.row.id } }" class="text-primary">
@@ -575,9 +575,9 @@ export default {
         sale.client_name,
         sale.warehouse_name,
         sale.statut,
-        sale.GrandTotal,
-        sale.paid_amount,
-        sale.due,
+        self.formatPriceDisplay(sale.GrandTotal, 2),
+        self.formatPriceDisplay(sale.paid_amount, 2),
+        self.formatPriceDisplay(sale.due, 2),
         sale.payment_status,
         sale.user_name || '---'
       ]));
@@ -592,9 +592,9 @@ export default {
         '',
         '',
         '',
-        totalGrandTotal.toFixed(2),
-        totalPaidAmount.toFixed(2),
-        totalDue.toFixed(2),
+        self.formatPriceDisplay(totalGrandTotal, 2),
+        self.formatPriceDisplay(totalPaidAmount, 2),
+        self.formatPriceDisplay(totalDue, 2),
         '',
         ''
       ]];

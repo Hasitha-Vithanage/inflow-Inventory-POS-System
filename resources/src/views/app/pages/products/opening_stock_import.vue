@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="main-content import-products">
     <!-- Hero -->
     <div class="hero shadow-sm mb-4">
@@ -157,7 +157,7 @@
 
             <div class="mt-2">
               <a :href="exampleHref" class="btn btn-outline-info btn-sm" target="_blank" rel="noopener">
-                <i class="i-File-Excel mr-1"></i>Download example
+                <FileSpreadsheet size="14" class="mr-1"></FileSpreadsheet>Download example
               </a>
             </div>
           </b-card>
@@ -273,6 +273,7 @@
 
 <script>
 import NProgress from 'nprogress';
+import { FileSpreadsheet } from "lucide-vue";
 // axios assumed globally available
 
 export default {
@@ -331,6 +332,9 @@ export default {
         ? '/import/exemples/opening_stock_single.xlsx'
         : '/import/exemples/opening_stock_variants.xlsx';
     }
+  },
+  components: {
+    FileSpreadsheet
   },
   methods: {
     toast: function (msg, title, variant) {

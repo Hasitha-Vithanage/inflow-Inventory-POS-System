@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="main-content">
     <breadcumb :page="$t('stock_report')" :folder="$t('Reports')"/>
     <div v-if="isLoading" class="loading_page spinner spinner-primary mr-3"></div>
@@ -73,19 +73,19 @@
                 styleClass="tableOne table-hover vgt-table"
               >
               <div slot="table-actions" class="mt-2 mb-3">
-                <b-button @click="Sales_PDF()" size="sm" variant="outline-success ripple m-1">
-                  <i class="i-File-Copy"></i> PDF
+                <b-button @click="Sales_PDF()" size="sm" variant="outline-danger ripple m-1">
+                  <FileText size="14" class="mr-1"></FileText> PDF
                 </b-button>
 
                 <vue-excel-xlsx
-                    class="btn btn-sm btn-outline-danger ripple m-1"
+                    class="btn btn-sm btn-outline-success ripple m-1"
                     :data="sales"
                     :columns="columns_sales"
                     :file-name="'sales_report'"
                     :file-type="'xlsx'"
                     :sheet-name="'sales_report'"
                     >
-                    <i class="i-File-Excel"></i> EXCEL
+                    <FileSpreadsheet size="14" class="mr-1"></FileSpreadsheet> EXCEL
                 </vue-excel-xlsx>
 
               </div>
@@ -130,19 +130,19 @@
                 styleClass="tableOne table-hover vgt-table"
               >
               <div slot="table-actions" class="mt-2 mb-3">
-                <b-button @click="Quotation_PDF()" size="sm" variant="outline-success ripple m-1">
-                  <i class="i-File-Copy"></i> PDF
+                <b-button @click="Quotation_PDF()" size="sm" variant="outline-danger ripple m-1">
+                  <FileText size="14" class="mr-1"></FileText> PDF
                 </b-button>
 
                 <vue-excel-xlsx
-                    class="btn btn-sm btn-outline-danger ripple m-1"
+                    class="btn btn-sm btn-outline-success ripple m-1"
                     :data="quotations"
                     :columns="columns_quotations"
                     :file-name="'Quotation_report'"
                     :file-type="'xlsx'"
                     :sheet-name="'Quotation_report'"
                     >
-                    <i class="i-File-Excel"></i> EXCEL
+                    <FileSpreadsheet size="14" class="mr-1"></FileSpreadsheet> EXCEL
                 </vue-excel-xlsx>
               </div>
                 <template slot="table-row" slot-scope="props">
@@ -186,19 +186,19 @@
                 styleClass="tableOne table-hover vgt-table"
               >
               <div slot="table-actions" class="mt-2 mb-3">
-                <b-button @click="Purchase_PDF()" size="sm" variant="outline-success ripple m-1">
-                  <i class="i-File-Copy"></i> PDF
+                <b-button @click="Purchase_PDF()" size="sm" variant="outline-danger ripple m-1">
+                  <FileText size="14" class="mr-1"></FileText> PDF
                 </b-button>
 
                 <vue-excel-xlsx
-                    class="btn btn-sm btn-outline-danger ripple m-1"
+                    class="btn btn-sm btn-outline-success ripple m-1"
                     :data="purchases"
                     :columns="columns_purchases"
                     :file-name="'purchases_report'"
                     :file-type="'xlsx'"
                     :sheet-name="'purchases_report'"
                     >
-                    <i class="i-File-Excel"></i> EXCEL
+                    <FileSpreadsheet size="14" class="mr-1"></FileSpreadsheet> EXCEL
                 </vue-excel-xlsx>
               </div>
                 <template slot="table-row" slot-scope="props">
@@ -242,19 +242,19 @@
                 styleClass="tableOne table-hover vgt-table"
               >
               <div slot="table-actions" class="mt-2 mb-3">
-                <b-button @click="Sale_Return_PDF()" size="sm" variant="outline-success ripple m-1">
-                  <i class="i-File-Copy"></i> PDF
+                <b-button @click="Sale_Return_PDF()" size="sm" variant="outline-danger ripple m-1">
+                  <FileText size="14" class="mr-1"></FileText> PDF
                 </b-button>
 
                 <vue-excel-xlsx
-                    class="btn btn-sm btn-outline-danger ripple m-1"
+                    class="btn btn-sm btn-outline-success ripple m-1"
                     :data="sales_return"
                     :columns="columns_sales_return"
                     :file-name="'sales_return_report'"
                     :file-type="'xlsx'"
                     :sheet-name="'sales_return_report'"
                     >
-                    <i class="i-File-Excel"></i> EXCEL
+                    <FileSpreadsheet size="14" class="mr-1"></FileSpreadsheet> EXCEL
                 </vue-excel-xlsx>
               </div>
                 <template slot="table-row" slot-scope="props">
@@ -298,19 +298,19 @@
                 styleClass="tableOne table-hover vgt-table"
               >
                <div slot="table-actions" class="mt-2 mb-3">
-                <b-button @click="Returns_Purchase_PDF()" size="sm" variant="outline-success ripple m-1">
-                  <i class="i-File-Copy"></i> PDF
+                <b-button @click="Returns_Purchase_PDF()" size="sm" variant="outline-danger ripple m-1">
+                  <FileText size="14" class="mr-1"></FileText> PDF
                 </b-button>
 
                 <vue-excel-xlsx
-                    class="btn btn-sm btn-outline-danger ripple m-1"
+                    class="btn btn-sm btn-outline-success ripple m-1"
                     :data="purchases_return"
                     :columns="columns_purchase_return"
                     :file-name="'purchases_return_report'"
                     :file-type="'xlsx'"
                     :sheet-name="'purchases_return_report'"
                     >
-                    <i class="i-File-Excel"></i> EXCEL
+                    <FileSpreadsheet size="14" class="mr-1"></FileSpreadsheet> EXCEL
                 </vue-excel-xlsx>
               </div>
                 <template slot="table-row" slot-scope="props">
@@ -354,8 +354,8 @@
                 styleClass="tableOne table-hover vgt-table"
               >
               <div slot="table-actions" class="mt-2 mb-3">
-                <b-button @click="Transfer_PDF()" size="sm" variant="outline-success ripple m-1">
-                  <i class="i-File-Copy"></i> PDF
+                <b-button @click="Transfer_PDF()" size="sm" variant="outline-danger ripple m-1">
+                  <FileText size="14" class="mr-1"></FileText> PDF
                 </b-button>
               </div>
                
@@ -385,8 +385,8 @@
                 styleClass="tableOne table-hover vgt-table"
               >
                <div slot="table-actions" class="mt-2 mb-3">
-                <b-button @click="Adjustment_PDF()" size="sm" variant="outline-success ripple m-1">
-                  <i class="i-File-Copy"></i> PDF
+                <b-button @click="Adjustment_PDF()" size="sm" variant="outline-danger ripple m-1">
+                  <FileText size="14" class="mr-1"></FileText> PDF
                 </b-button>
               </div>
               </vue-good-table>
@@ -404,6 +404,7 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+import { FileText, FileSpreadsheet } from "lucide-vue";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import {
@@ -412,6 +413,9 @@ import {
 } from "../../../../utils/priceFormat";
 
 export default {
+  components: {
+    FileText, FileSpreadsheet
+  },
   data() {
     return {
       totalRows_quotations: "",

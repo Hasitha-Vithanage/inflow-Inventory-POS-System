@@ -46,11 +46,11 @@
 
         <template slot="table-row" slot-scope="props">
           <span v-if="props.column.field == 'actions'">
-            <a @click="Edit_Department(props.row)" class="cursor-pointer" title="Edit" v-b-tooltip.hover>
-              <i class="i-Edit text-25 text-success"></i>
+            <a @click="Edit_Department(props.row)" class="btn-action btn-edit" title="Edit" v-b-tooltip.hover>
+              <Edit size="16" :stroke-width="2" />
             </a>
-            <a title="Delete" v-b-tooltip.hover class="cursor-pointer" @click="Remove_Department(props.row.id)">
-              <i class="i-Close-Window text-25 text-danger"></i>
+            <a @click="Remove_Department(props.row.id)" class="btn-action btn-delete" title="Delete" v-b-tooltip.hover>
+              <XCircle size="16" :stroke-width="2" />
             </a>
           </span>
         </template>
@@ -129,11 +129,17 @@
 </template>
 
 <script>
+import { Edit, XCircle, MoreHorizontal } from "lucide-vue";
 import NProgress from "nprogress";
 
 export default {
   metaInfo: {
     title: "Department"
+  },
+  components: {
+    Edit,
+    XCircle,
+    MoreHorizontal
   },
   data() {
     return {

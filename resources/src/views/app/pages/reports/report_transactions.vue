@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="main-content">
     <breadcumb :page="$t('Report_Transactions')" :folder="$t('Reports')"/>
 
@@ -68,18 +68,18 @@
             <i class="i-Filter-2"></i>
             {{ $t("Filter") }}
           </b-button>
-          <b-button @click="Payment_PDF()" size="sm" variant="outline-success ripple m-1">
-            <i class="i-File-Copy"></i> PDF
+          <b-button @click="Payment_PDF()" size="sm" variant="outline-danger ripple m-1">
+            <FileText size="14" class="mr-1"></FileText> PDF
           </b-button>
           <vue-excel-xlsx
-              class="btn btn-sm btn-outline-danger ripple m-1"
+              class="btn btn-sm btn-outline-success ripple m-1"
               :data="payments"
               :columns="columns"
               :file-name="'payments'"
               :file-type="'xlsx'"
               :sheet-name="'payments'"
               >
-              <i class="i-File-Excel"></i> EXCEL
+              <FileSpreadsheet size="14" class="mr-1"></FileSpreadsheet> EXCEL
           </vue-excel-xlsx>
         </div>
       </vue-good-table>
@@ -89,7 +89,7 @@
           <!-- PDF Button -->
           <div class="mb-3 text-right">
             <b-button @click="Payment_Summary_PDF()" size="sm" variant="outline-primary ripple">
-              <i class="i-File-Copy"></i> Summary PDF
+              <FileText size="14" class="mr-1"></FileText> Summary PDF
             </b-button>
           </div>
 
@@ -208,6 +208,7 @@
 
 <script>
 import NProgress from "nprogress";
+import { FileText, FileSpreadsheet } from "lucide-vue";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import DateRangePicker from 'vue2-daterange-picker'
@@ -225,7 +226,7 @@ export default {
   metaInfo: {
     title: "Report Transactions"
   },
-  components: { DateRangePicker },
+  components: {FileText, FileSpreadsheet,  DateRangePicker },
 
   data() {
     return {
@@ -514,13 +515,22 @@ export default {
         client_name: '',
         payment_method: '',
         account_name: '',
-        montant: `${totalGrandTotal.toFixed(2)}`,
+        montant: this.formatPriceDisplay(totalGrandTotal, 2),
         user_name: ''
       }];
 
       autoTable(pdf, {
         columns: columns,
-        body: this.payments,
+        body: (this.payments || []).map(r => ({
+          date: r.date,
+          Ref: r.Ref,
+          Ref_Sale: r.Ref_Sale,
+          client_name: r.client_name,
+          payment_method: r.payment_method,
+          account_name: r.account_name,
+          montant: this.formatPriceDisplay(r.montant, 2),
+          user_name: r.user_name
+        })),
         foot: footer,
         startY: 70,
         theme: "grid",

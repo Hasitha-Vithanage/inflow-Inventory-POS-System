@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="main-content">
     <breadcumb :page="$t('product_report')" :folder="$t('Reports')"/>
     <div v-if="isLoading" class="loading_page spinner spinner-primary mr-3"></div>
@@ -72,19 +72,19 @@
                   {{ $t("Filter") }}
                 </b-button>
 
-                <b-button @click="Sales_PDF()" size="sm" variant="outline-success ripple m-1">
-                  <i class="i-File-Copy"></i> PDF
+                <b-button @click="Sales_PDF()" size="sm" variant="outline-danger ripple m-1">
+                  <FileText size="14" class="mr-1"></FileText> PDF
                 </b-button>
 
                  <vue-excel-xlsx
-                    class="btn btn-sm btn-outline-danger ripple m-1"
+                    class="btn btn-sm btn-outline-success ripple m-1"
                     :data="sales"
                     :columns="columns_sales"
                     :file-name="'product_report'"
                     :file-type="'xlsx'"
                     :sheet-name="'product_report'"
                     >
-                    <i class="i-File-Excel"></i> EXCEL
+                    <FileSpreadsheet size="14" class="mr-1"></FileSpreadsheet> EXCEL
                 </vue-excel-xlsx>
 
               </div>
@@ -187,6 +187,7 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+import { FileText, FileSpreadsheet } from "lucide-vue";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import DateRangePicker from 'vue2-daterange-picker'
@@ -203,7 +204,7 @@ export default {
   metaInfo: {
     title: "Products Report"
   },
-  components: { DateRangePicker },
+  components: {FileText, FileSpreadsheet,  DateRangePicker },
   data() {
     return {
       totalRows_sales: "",

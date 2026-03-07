@@ -43,22 +43,22 @@
         <template slot="table-row" slot-scope="props">
           <span v-if="props.column.field == 'actions'">
             <a
-              @click="Edit_Category(props.row)"
               v-if="currentUserPermissions && currentUserPermissions.includes('expense_edit')"
+              @click="Edit_Category(props.row)"
+              class="btn-action btn-edit"
               title="Edit"
-              class="cursor-pointer"
               v-b-tooltip.hover
             >
-              <Edit size="18" class="text-success cursor-pointer"></Edit>
+              <Edit size="16" :stroke-width="2" />
             </a>
             <a
-              title="Delete"
-              class="cursor-pointer"
-              v-b-tooltip.hover
               v-if="currentUserPermissions && currentUserPermissions.includes('expense_delete')"
               @click="Delete_Category(props.row.id)"
+              class="btn-action btn-delete"
+              title="Delete"
+              v-b-tooltip.hover
             >
-              <XCircle size="18" class="text-danger cursor-pointer"></XCircle>
+              <XCircle size="16" :stroke-width="2" />
             </a>
           </span>
         </template>
@@ -118,7 +118,7 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 import { 
-  Plus, Edit, XCircle, CheckCircle 
+  Plus, Edit, XCircle, X, CheckCircle, MoreHorizontal 
 } from "lucide-vue";
 import NProgress from "nprogress";
 
@@ -127,7 +127,7 @@ export default {
     title: "Expense Category"
   },
   components: {
-    Plus, Edit, XCircle, CheckCircle
+    Plus, Edit, XCircle, CheckCircle, MoreHorizontal
   },
   data() {
     return {

@@ -265,14 +265,14 @@
               <h4 class="chart-card-title">{{ $t('Sales') }} &amp; {{ $t('Purchases') }}</h4>
             </div>
             <div class="chart-card-body">
-<apexchart
-  v-if="!loading"
-  :key="'prod-' + warehouse_id"
-  type="donut"
-  height="350"
-  :options="chartProductOptions"
-  :series="chartProductSeries"
-/>
+              <apexchart
+                v-if="!loading"
+                :key="'sales-' + warehouse_id"
+                type="bar"
+                height="350"
+                :options="chartSalesOptions"
+                :series="chartSalesSeries"
+              />
               <div v-else class="text-center py-5">
                 <div class="spinner spinner-primary"></div>
               </div>
@@ -286,13 +286,14 @@
               <h4 class="chart-card-title">{{ $t('Top_Selling_Products') }} ({{ new Date().getFullYear() }})</h4>
             </div>
             <div class="chart-card-body">
-<apexchart
-  v-if="!loading"
-  type="pie"
-  height="350"
-  :options="chartCustomerOptions"
-  :series="chartCustomerSeries"
-/>
+              <apexchart
+                v-if="!loading"
+                :key="'prod-' + warehouse_id"
+                type="donut"
+                height="350"
+                :options="chartProductOptions"
+                :series="chartProductSeries"
+              />
               <div v-else class="text-center py-5">
                 <div class="spinner spinner-primary"></div>
               </div>
@@ -908,14 +909,54 @@ this.chartProductSeries = productClean.map(item => item.value);
 this.chartProductOptions = {
   chart: {
     type: "donut",
-    fontFamily: "inherit"
+    fontFamily: "inherit",
+    animations: {
+      enabled: true,
+      easing: "easeinout",
+      speed: 800,
+    }
   },
+  colors: ["#2d8cff", "#10b981", "#F59E0B", "#EF4444", "#8b5cf6"],
   labels: productClean.map(item => item.name),
+  stroke: {
+    show: true,
+    colors: ["#ffffff"],
+    width: 2
+  },
+  plotOptions: {
+    pie: {
+      donut: {
+        size: '65%',
+      },
+      expandOnClick: false
+    }
+  },
   legend: {
-    position: "bottom"
+    position: "bottom",
+    fontSize: "13px",
+    fontFamily: "inherit",
+    fontWeight: 500,
+    markers: {
+      width: 12,
+      height: 12,
+      radius: 6,
+    },
+    itemMargin: {
+      horizontal: 10,
+      vertical: 5
+    }
   },
   dataLabels: {
     enabled: true,
+    style: {
+      fontSize: "13px",
+      fontFamily: "inherit",
+      fontWeight: 600,
+      colors: ["#ffffff"]
+    },
+    dropShadow: {
+      enabled: false
+    },
     formatter: function (val) {
       return Math.round(val) + "%";
     }
@@ -945,14 +986,51 @@ this.chartCustomerSeries = customerClean.map(item => item.value);
 this.chartCustomerOptions = {
   chart: {
     type: "pie",
-    fontFamily: "inherit"
+    fontFamily: "inherit",
+    animations: {
+      enabled: true,
+      easing: "easeinout",
+      speed: 800,
+    }
   },
+  colors: ["#2d8cff", "#10b981", "#F59E0B", "#EF4444", "#8b5cf6"],
   labels: customerClean.map(item => item.name),
+  stroke: {
+    show: true,
+    colors: ["#ffffff"],
+    width: 2
+  },
+  plotOptions: {
+    pie: {
+      expandOnClick: false
+    }
+  },
   legend: {
-    position: "bottom"
+    position: "bottom",
+    fontSize: "13px",
+    fontFamily: "inherit",
+    fontWeight: 500,
+    markers: {
+      width: 12,
+      height: 12,
+      radius: 6,
+    },
+    itemMargin: {
+      horizontal: 10,
+      vertical: 5
+    }
   },
   dataLabels: {
     enabled: true,
+    style: {
+      fontSize: "13px",
+      fontFamily: "inherit",
+      fontWeight: 600,
+      colors: ["#ffffff"]
+    },
+    dropShadow: {
+      enabled: false
+    },
     formatter: function (val) {
       return Math.round(val) + "%";
     }
@@ -1386,75 +1464,111 @@ this.chartCustomerOptions = {
 
 /* Stat Cards */
 .stat-card {
-  background: white;
-  border-radius: 12px;
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
   padding: 1.5rem;
   display: flex;
   align-items: center;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
   height: 100%;
 }
 
 .stat-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  transform: translateY(-4px);
+  border-color: #cbd5e1;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
 }
 
 .stat-card-icon {
-  width: 60px;
-  height: 60px;
-  border-radius: 12px;
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 1.5rem;
-  margin-right: 1rem;
+  margin-right: 1.25rem;
   flex-shrink: 0;
+  transition: all 0.3s ease;
 }
 
 .sales-card .stat-card-icon {
-  background:#2d8cff;
-  color: white;
+  background: rgba(45, 140, 255, 0.12);
+  color: #2d8cff;
+}
+.sales-card:hover .stat-card-icon {
+  background: #2d8cff;
+  color: #ffffff;
 }
 
 .purchases-card .stat-card-icon {
+  background: rgba(16, 185, 129, 0.12);
+  color: #10b981;
+}
+.purchases-card:hover .stat-card-icon {
   background: #10b981;
-  color: white;
+  color: #ffffff;
 }
 
 .sales-due-card .stat-card-icon {
+  background: rgba(56, 189, 248, 0.12);
+  color: #38bdf8;
+}
+.sales-due-card:hover .stat-card-icon {
   background: #38bdf8;
-  color: white;
+  color: #ffffff;
 }
 
 .purchase-due-card .stat-card-icon {
+  background: rgba(249, 115, 22, 0.12);
+  color: #f97316;
+}
+.purchase-due-card:hover .stat-card-icon {
   background: #f97316;
-  color: white;
+  color: #ffffff;
 }
 
 .invoices-card .stat-card-icon {
-  background:#a855f7;
-  color: white;
+  background: rgba(168, 85, 247, 0.12);
+  color: #a855f7;
+}
+.invoices-card:hover .stat-card-icon {
+  background: #a855f7;
+  color: #ffffff;
 }
 
 .profit-card .stat-card-icon {
+  background: rgba(22, 163, 74, 0.12);
+  color: #16a34a;
+}
+.profit-card:hover .stat-card-icon {
   background: #16a34a;
-  color: white;
+  color: #ffffff;
 }
 
 .returns-card .stat-card-icon {
-  background:#F59E0B;
-  color: white;
+  background: rgba(245, 158, 11, 0.12);
+  color: #F59E0B;
+}
+.returns-card:hover .stat-card-icon {
+  background: #F59E0B;
+  color: #ffffff;
 }
 
 .revenue-card .stat-card-icon {
-  background:#EF4444;
-  color: white;
+  background: rgba(239, 68, 68, 0.12);
+  color: #EF4444;
+}
+.revenue-card:hover .stat-card-icon {
+  background: #EF4444;
+  color: #ffffff;
 }
 
 .stat-card-content {
   flex: 1;
+  min-width: 0;
 }
 
 .stat-card-label {
@@ -1466,12 +1580,11 @@ this.chartCustomerOptions = {
 
 .stat-card-value {
   color: #1f2937;
-  font-size: 1.4rem;
+  font-size: 1.15rem;
   font-weight: 700;
   margin: 0 0 0.5rem 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  word-break: break-word;
+  line-height: 1.2;
 }
 
 .stat-card-link {
@@ -1492,17 +1605,19 @@ this.chartCustomerOptions = {
 
 /* Info Cards (Sales by Payment & Stock Value) */
 .info-card {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  transition: all 0.3s ease;
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   height: 100%;
   display: flex;
   flex-direction: column;
 }
 
 .info-card:hover {
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  border-color: #cbd5e1;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
 }
 
 .info-card-header {
@@ -1630,6 +1745,7 @@ this.chartCustomerOptions = {
 .stock-value-item {
   padding: 1rem 0;
   border-bottom: 1px solid #f3f4f6;
+  transition: all 0.2s ease;
 }
 
 .stock-value-item:last-child {
@@ -1644,26 +1760,41 @@ this.chartCustomerOptions = {
 .info-card-icon {
   width: 40px;
   height: 40px;
-  border-radius: 8px;
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
   margin-right: 0.75rem;
   flex-shrink: 0;
   font-size: 1.125rem;
-  color: white;
+  transition: all 0.3s ease;
 }
 
 .stock-icon-cost {
-  background:#3B82F6;
+  background: rgba(59, 130, 246, 0.12);
+  color: #3b82f6;
+}
+.stock-value-item:hover .stock-icon-cost {
+  background: #3b82f6;
+  color: #ffffff;
 }
 
 .stock-icon-retail {
-  background:#F59E0B;
+  background: rgba(245, 158, 11, 0.12);
+  color: #F59E0B;
+}
+.stock-value-item:hover .stock-icon-retail {
+  background: #F59E0B;
+  color: #ffffff;
 }
 
 .stock-icon-wholesale {
-  background:#2d8cff;
+  background: rgba(45, 140, 255, 0.12);
+  color: #2d8cff;
+}
+.stock-value-item:hover .stock-icon-wholesale {
+  background: #2d8cff;
+  color: #ffffff;
 }
 
 .stock-value-item .info-card-item-label {
@@ -1679,15 +1810,17 @@ this.chartCustomerOptions = {
 
 /* Chart Cards */
 .chart-card {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
   overflow: visible; /* allow dropdowns (date range) to be fully visible */
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .chart-card:hover {
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  border-color: #cbd5e1;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
 }
 
 .chart-card-header {
@@ -1779,15 +1912,17 @@ this.chartCustomerOptions = {
 
 /* Table Cards */
 .table-card {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
   overflow: hidden;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .table-card:hover {
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  border-color: #cbd5e1;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
 }
 
 .table-card-header {

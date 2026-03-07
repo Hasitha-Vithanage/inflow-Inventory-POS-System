@@ -128,7 +128,7 @@
                             <span class="badge badge-success">{{detail.name}}</span>
                             <i @click="Modal_Updat_Detail(detail)" class="i-Edit"></i>
                           </td>
-                          <td>{{currentUser.currency}} {{formatNumber(detail.Net_cost, 3)}}</td>
+                           <td>{{formatPriceWithSymbol(currentUser.currency, detail.Net_cost, 3)}}</td>
                           <td>
                             <span
                               class="badge badge-outline-warning"
@@ -138,10 +138,13 @@
                             <div class="quantity">
                               <b-input-group>
                                 <b-input-group-prepend>
-                                  <span
-                                    class="btn btn-primary btn-sm"
+                                  <button
+                                    type="button"
+                                    class="btn btn-qty"
                                     @click="decrement(detail ,detail.detail_id)"
-                                  >-</span>
+                                  >
+                                    <Minus />
+                                  </button>
                                 </b-input-group-prepend>
                                 <input
                                   class="form-control"
@@ -149,17 +152,20 @@
                                   v-model.number="detail.quantity"
                                 >
                                 <b-input-group-append>
-                                  <span
-                                    class="btn btn-primary btn-sm"
+                                  <button
+                                    type="button"
+                                    class="btn btn-qty"
                                     @click="increment(detail ,detail.detail_id)"
-                                  >+</span>
+                                  >
+                                    <Plus />
+                                  </button>
                                 </b-input-group-append>
                               </b-input-group>
                             </div>
                           </td>
-                          <td>{{currentUser.currency}} {{formatNumber(detail.DiscountNet * detail.quantity, 2)}}</td>
-                          <td>{{currentUser.currency}} {{formatNumber(detail.taxe * detail.quantity, 2)}}</td>
-                           <td>{{currentUser.currency}} {{detail.subtotal.toFixed(2)}}</td>
+                           <td>{{formatPriceWithSymbol(currentUser.currency, detail.DiscountNet * detail.quantity, 2)}}</td>
+                          <td>{{formatPriceWithSymbol(currentUser.currency, detail.taxe * detail.quantity, 2)}}</td>
+                           <td>{{formatPriceWithSymbol(currentUser.currency, detail.subtotal, 2)}}</td>
                           <td>
                             <a
                               @click="delete_Product_Detail(detail.detail_id)"
@@ -181,16 +187,16 @@
                       <tr>
                         <td class="bold">{{$t('OrderTax')}}</td>
                         <td>
-                          <span>{{currentUser.currency}} {{transfer.TaxNet.toFixed(2)}} ({{formatNumber(transfer.tax_rate ,2)}} %)</span>
+                          <span>{{formatPriceWithSymbol(currentUser.currency, transfer.TaxNet, 2)}} ({{formatNumber(transfer.tax_rate ,2)}} %)</span>
                         </td>
                       </tr>
                       <tr>
                         <td class="bold">{{$t('Discount')}}</td>
-                        <td>{{currentUser.currency}} {{transfer.discount.toFixed(2)}}</td>
+                        <td>{{formatPriceWithSymbol(currentUser.currency, transfer.discount, 2)}}</td>
                       </tr>
                       <tr>
                         <td class="bold">{{$t('Shipping')}}</td>
-                        <td>{{currentUser.currency}} {{transfer.shipping.toFixed(2)}}</td>
+                        <td>{{formatPriceWithSymbol(currentUser.currency, transfer.shipping, 2)}}</td>
                       </tr>
                       <tr>
                         <td>
@@ -199,7 +205,7 @@
                         <td>
                           <span
                             class="font-weight-bold"
-                          >{{currentUser.currency}} {{GrandTotal.toFixed(2)}}</span>
+                          >{{formatPriceWithSymbol(currentUser.currency, GrandTotal, 2)}}</span>
                         </td>
                       </tr>
                     </tbody>
@@ -462,8 +468,13 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 import NProgress from "nprogress";
+import { Plus, Minus } from "lucide-vue";
 
 export default {
+  components: {
+    Plus,
+    Minus
+  },
   metaInfo: {
     title: "Create Transfer"
   },
@@ -1071,6 +1082,14 @@ export default {
         .then(response => { 
           this.warehouses = response.data.warehouses;
           this.to_warehouses = response.data.to_warehouses;
+
+          // Auto-select default "From Warehouse" (prefer one named "Default Warehouse", else first)
+          if (this.warehouses.length > 0 && !this.transfer.from_warehouse) {
+            const defaultWh = this.warehouses.find(w => w.name && w.name.toLowerCase().includes('default')) || this.warehouses[0];
+            this.transfer.from_warehouse = defaultWh.id;
+            this.Get_Products_By_Warehouse(defaultWh.id);
+          }
+
           this.isLoading = false;
         })
         .catch(response => {

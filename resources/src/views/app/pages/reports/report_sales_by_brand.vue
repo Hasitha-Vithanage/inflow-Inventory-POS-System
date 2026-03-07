@@ -46,19 +46,27 @@
         >
   
          <div slot="table-actions" class="mt-2 mb-3">
+          <template slot="table-row" slot-scope="props">
+            <span v-if="props.column.field == 'total_sales'">
+              {{ formatPriceWithSymbol(currentUser && currentUser.currency, props.row.total_sales, 2) }}
+            </span>
+            <span v-else>
+              {{ props.formattedRow[props.column.field] }}
+            </span>
+          </template>
           
-            <b-button @click="report_pdf()" size="sm" variant="outline-success ripple m-1">
-              <i class="i-File-Copy"></i> PDF
+            <b-button @click="report_pdf()" size="sm" variant="outline-danger ripple m-1">
+              <FileText size="14" class="mr-1"></FileText> PDF
             </b-button>
              <vue-excel-xlsx
-                class="btn btn-sm btn-outline-danger ripple m-1"
+                class="btn btn-sm btn-outline-success ripple m-1"
                 :data="reports"
                 :columns="columns"
                 :file-name="'sales_by_brand_report'"
                 :file-type="'xlsx'"
                 :sheet-name="'sales_by_brand_report'"
                 >
-                <i class="i-File-Excel"></i> EXCEL
+                <FileSpreadsheet size="14" class="mr-1"></FileSpreadsheet> EXCEL
             </vue-excel-xlsx>
           </div>
         </vue-good-table>
@@ -69,6 +77,7 @@
   
   <script>
   import NProgress from "nprogress";
+import { FileText, FileSpreadsheet } from "lucide-vue";
   import jsPDF from "jspdf";
   import autoTable from "jspdf-autotable";
   import { mapGetters } from "vuex";
@@ -78,8 +87,13 @@
   import 'vue2-daterange-picker/dist/vue2-daterange-picker.css'
   import moment from 'moment'
   
+  import {
+    formatPriceDisplay as formatPriceDisplayHelper,
+    getPriceFormatSetting
+  } from "../../../../utils/priceFormat";
+  
   export default {
-    components: { DateRangePicker },
+    components: {FileText, FileSpreadsheet,  DateRangePicker },
     metaInfo: {
       title: "Sales By Brand"
     },
@@ -127,7 +141,8 @@
         currency: "",
         reports: [],
         report: {},
-        warehouse_id: 0
+        warehouse_id: 0,
+        price_format_key: null
       };
     },
   
@@ -165,7 +180,7 @@
       for (let i = 0; i < rowObj.children.length; i++) {
         sum += rowObj.children[i].total_sales;
       }
-      return sum.toFixed(2) + ' ' + this.currency;
+      return this.formatPriceWithSymbol(this.currentUser && this.currentUser.currency, sum, 2);
     },
 
   
@@ -188,13 +203,16 @@
         
         let footer = [{
           brand_name: self.$t("Total"),
-          total_sales: `${totalGrandTotal.toFixed(2)}`,
+          total_sales: self.formatPriceDisplay(totalGrandTotal, 2),
           
         }];
 
         autoTable(pdf, {
              columns: columns,
-             body: self.reports,
+             body: (self.reports || []).map(r => ({
+               brand_name: r.brand_name,
+               total_sales: self.formatPriceDisplay(r.total_sales, 2)
+             })),
              foot: footer,
              startY: 70,
              theme: "grid", 
@@ -264,6 +282,28 @@
       },
   
       //------------------------------Formetted Numbers -------------------------\\
+      formatPriceDisplay(number, dec) {
+        try {
+          const decimals = Number.isInteger(dec) ? dec : 2;
+          const n = Number(number || 0);
+          const key = this.price_format_key || getPriceFormatSetting({ store: this.$store });
+          if (key) {
+            this.price_format_key = key;
+          }
+          const effectiveKey = key || null;
+          return formatPriceDisplayHelper(n, decimals, effectiveKey);
+        } catch (e) {
+          const n = Number(number || 0);
+          return n.toLocaleString(undefined, { maximumFractionDigits: dec || 2 });
+        }
+      },
+
+      formatPriceWithSymbol(symbol, number, dec) {
+        const safeSymbol = symbol || "";
+        const value = this.formatPriceDisplay(number, dec);
+        return safeSymbol ? `${safeSymbol} ${value}` : value;
+      },
+
       formatNumber(number, dec) {
         const value = (typeof number === "string"
           ? number

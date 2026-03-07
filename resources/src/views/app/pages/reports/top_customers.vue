@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="main-content">
     <breadcumb :page="$t('Top_customers')" :folder="$t('Reports')"/>
     <div v-if="isLoading" class="loading_page spinner spinner-primary mr-3"></div>
@@ -20,8 +20,8 @@
       styleClass="table-hover tableOne vgt-table"
     >
      <div slot="table-actions" class="mt-2 mb-3">
-        <b-button @click="export_PDF()" size="sm" variant="outline-success ripple m-1">
-          <i class="i-File-Copy"></i> PDF
+        <b-button @click="export_PDF()" size="sm" variant="outline-danger ripple m-1">
+          <FileText size="14" class="mr-1"></FileText> PDF
         </b-button>
       </div>
 
@@ -39,6 +39,7 @@
 
 <script>
 import NProgress from "nprogress";
+import { FileText } from "lucide-vue";
 import { mapGetters } from "vuex";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
@@ -48,6 +49,9 @@ import {
 } from "../../../../utils/priceFormat";
 
 export default {
+  components: {
+    FileText
+  },
   metaInfo: {
     title: "Top Customers"
   },

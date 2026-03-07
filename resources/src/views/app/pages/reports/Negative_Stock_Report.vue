@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="main-content p-2 p-md-4">
     <breadcumb :page="$t('Negative_Stock_Report')" :folder="$t('Reports')" />
 
@@ -39,7 +39,7 @@
                 :file-name="'negative_stock_report'"
                 :file-type="'xlsx'"
                 :sheet-name="'negative_stock_report'"
-              ><i class="i-File-Excel mr-1"></i>{{$t('EXCEL')}}</vue-excel-xlsx>
+              ><FileSpreadsheet size="14" class="mr-1"></FileSpreadsheet>{{$t('EXCEL')}}</vue-excel-xlsx>
             </div>
           </div>
         </div>
@@ -76,13 +76,14 @@
 
 <script>
 import NProgress from 'nprogress';
+import { FileSpreadsheet } from "lucide-vue";
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import VueApexCharts from 'vue-apexcharts';
 
 export default {
   metaInfo: { title: 'Negative Stock Report' },
-  components: { apexchart: VueApexCharts },
+  components: {FileSpreadsheet,  apexchart: VueApexCharts },
   data(){
     return {
       warehouses: [],

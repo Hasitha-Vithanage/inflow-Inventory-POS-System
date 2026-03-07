@@ -26,20 +26,27 @@
 
 
       <!-- Filters -->
-      <div class="row mb-3">
-        <div class="col-md-3">
-          <b-form-input v-model="search" :placeholder="$t('Search')" @keyup.enter="reload" />
-        </div>
-        <div class="col-md-3">
-          <b-form-select v-model="status" :options="statusOptions" @change="reload" />
-        </div>
-        <div class="col-md-3">
-          <b-form-datepicker v-model="dateFrom" :placeholder="$t('From')" @input="reload"/>
-        </div>
-        <div class="col-md-3">
-          <b-form-datepicker v-model="dateTo" :placeholder="$t('To')" @input="reload"/>
-        </div>
-      </div>
+      <b-card-body class="px-0 pt-0">
+        <b-row class="mb-3 mx-n1 align-items-stretch">
+          <b-col lg="3" md="6" sm="12" class="mb-2 mb-lg-0 px-1">
+            <b-form-input v-model="search" :placeholder="$t('Search')" @keyup.enter="reload" class="h-100" />
+          </b-col>
+          <b-col lg="2" md="6" sm="12" class="mb-2 mb-lg-0 px-1">
+            <b-form-select v-model="status" :options="statusOptions" @change="reload" class="h-100" />
+          </b-col>
+          <b-col lg="3" md="6" sm="12" class="mb-2 mb-lg-0 px-1">
+            <b-form-datepicker v-model="dateFrom" :placeholder="$t('From')" @input="reload" class="h-100" />
+          </b-col>
+          <b-col lg="3" md="6" sm="12" class="mb-2 mb-lg-0 px-1">
+            <b-form-datepicker v-model="dateTo" :placeholder="$t('To')" @input="reload" class="h-100" />
+          </b-col>
+          <b-col lg="1" md="12" class="d-flex align-items-stretch justify-content-lg-end px-1">
+            <b-button size="sm" class="btn-rounded d-flex align-items-center justify-content-center w-100 filter-clear-btn" variant="outline-secondary" @click="clearFilters">
+              <x :size="16" class="mr-1"></x> {{ $t('Clear') }}
+            </b-button>
+          </b-col>
+        </b-row>
+      </b-card-body>
 
       <!-- Table -->
       <vue-good-table
@@ -54,16 +61,11 @@
         @on-sort-change="onSortChange"
         styleClass="table-hover tableOne vgt-table"
       >
-        <div slot="table-actions" class="mt-2 mb-3">
-          <b-button size="sm" class="btn-rounded d-flex align-items-center" variant="outline-secondary" @click="clearFilters">
-            <x :size="16" class="mr-2"></x> {{ $t('Clear') }}
-          </b-button>
-        </div>
 
         <template slot="table-row" slot-scope="props">
           <!-- Status -->
           <span v-if="props.column.field === 'status'">
-            <b-badge :variant="badgeVariant(props.row.status)">{{ props.row.status }}</b-badge>
+            <span :class="badgeVariant(props.row.status)">{{ props.row.status }}</span>
           </span>
 
           <!-- Money -->
@@ -73,34 +75,36 @@
 
           <!-- Actions -->
           <span v-else-if="props.column.field === 'actions'">
-            <div class="btn-group btn-group-sm">
-              <template v-if="props.row.status === 'pending'">
-                <b-button
-                  :disabled="actionBusyId === props.row.id"
-                  variant="outline-success"
-                  @click="confirmOrder(props.row)"
-                >
-                  <span v-if="actionBusyId === props.row.id" class="spinner-border spinner-border-sm"></span>
-                  <span v-else>{{ $t('Confirm') }}</span>
-                </b-button>
+            <div class="d-flex align-items-center justify-content-center gap-1">
+              <a
+                class="cursor-pointer"
+                v-b-tooltip.hover
+                :title="$t('Confirm')"
+                @click="props.row.status === 'pending' ? confirmOrder(props.row) : null"
+                :style="props.row.status !== 'pending' ? 'opacity: 0.4; pointer-events: none;' : ''"
+              >
+                <span v-if="actionBusyId === props.row.id" class="spinner-border spinner-border-sm text-success"></span>
+                <Check v-else size="20" :class="props.row.status === 'pending' ? 'text-success' : 'text-secondary'"></Check>
+              </a>
 
-                <b-button
-                  :disabled="actionBusyId === props.row.id"
-                  variant="outline-danger"
-                  @click="cancelOrder(props.row)"
-                >
-                  <span v-if="actionBusyId === props.row.id" class="spinner-border spinner-border-sm"></span>
-                  <span v-else>{{ $t('Cancel') }}</span>
-                </b-button>
-              </template>
+              <a
+                class="cursor-pointer"
+                v-b-tooltip.hover
+                :title="$t('Cancel')"
+                @click="props.row.status === 'pending' ? cancelOrder(props.row) : null"
+                :style="props.row.status !== 'pending' ? 'opacity: 0.4; pointer-events: none;' : ''"
+              >
+                <span v-if="actionBusyId === props.row.id" class="spinner-border spinner-border-sm text-danger"></span>
+                <XCircle v-else size="20" :class="props.row.status === 'pending' ? 'text-danger' : 'text-secondary'"></XCircle>
+              </a>
 
               <router-link
-                class="btn btn-outline-primary btn-sm"
+                class="cursor-pointer"
                 :to="{ name:'StoreOrderShow', params:{ id: props.row.id } }"
                 v-b-tooltip.hover
-                :title="$t('Details')"
+                :title="$t('View')"
               >
-                <i class="i-Eye"></i>
+                <Eye size="20" class="text-info"></Eye>
               </router-link>
             </div>
           </span>
@@ -117,12 +121,16 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-import { X } from "lucide-vue";
+import { X, Check, XCircle, Eye } from "lucide-vue";
+import {
+  formatPriceWithSymbol,
+  getPriceFormatSetting
+} from "../../../../utils/priceFormat";
 
 export default {  
   metaInfo: { title: 'Store Orders' },
   components: {
-    X
+    X, Check, XCircle, Eye
   },
   data () {
     return {
@@ -150,10 +158,10 @@ export default {
       columns: [
         { label: this.$t('Order'),    field: 'code',          sortable: true },
         { label: this.$t('Customer'), field: 'customer_name', sortable: true },
-        { label: this.$t('Status'),   field: 'status',        sortable: true },
-        { label: this.$t('Total'),    field: 'total',         sortable: true, type: 'number' },
+        { label: this.$t('Status'),   field: 'status',        sortable: true, thClass: 'text-center', tdClass: 'text-center' },
+        { label: this.$t('Total'),    field: 'total',         sortable: true, type: 'number', thClass: 'text-right', tdClass: 'text-right font-weight-bold' },
         { label: this.$t('Date'),     field: 'created_at',    sortable: true },
-        { label: this.$t('Actions'),  field: 'actions' }
+        { label: this.$t('Actions'),  field: 'actions',       sortable: false, thClass: 'text-center', tdClass: 'text-center' }
       ],
 
       serverParams: {
@@ -174,23 +182,15 @@ export default {
   methods: {
     // ------- helpers -------
     currency(n) {
-      // Prefer currentUser.currency if available
-      let code =
-        this.currentUser.currency;
-
-      try {
-        return new Intl.NumberFormat(undefined, {
-          style: 'currency',
-          currency: code
-        }).format(n || 0);
-      } catch (e) {
-        // fallback if currency code invalid
-        return code + ' ' + Number(n || 0).toFixed(2);
+      const code = this.currentUser.currency;
+      if (!this._price_format_key) {
+        this._price_format_key = getPriceFormatSetting({ store: this.$store }) || null;
       }
+      return formatPriceWithSymbol(n || 0, code, 2, this._price_format_key);
     },
     badgeVariant (s) {
-      var map = { pending: 'warning', confirmed: 'success', cancelled: 'danger' }
-      return map[s] || 'secondary'
+      var map = { pending: 'status-badge status-warning', confirmed: 'status-badge status-success', cancelled: 'status-badge status-danger' }
+      return map[s] || 'status-badge status-secondary'
     },
     toDateStr (d) {
       if (!d) return ''

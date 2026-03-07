@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="main-content">
     <breadcumb :page="$t('Product_purchases_report')" :folder="$t('Reports')"/>
     <div v-if="isLoading" class="loading_page spinner spinner-primary mr-3"></div>
@@ -58,18 +58,18 @@
             <i class="i-Filter-2"></i>
             {{ $t("Filter") }}
           </b-button>
-          <b-button @click="Purchases_PDF()" size="sm" variant="outline-success ripple m-1">
-            <i class="i-File-Copy"></i> PDF
+          <b-button @click="Purchases_PDF()" size="sm" variant="outline-danger ripple m-1">
+            <FileText size="14" class="mr-1"></FileText> PDF
           </b-button>
           <vue-excel-xlsx
-              class="btn btn-sm btn-outline-danger ripple m-1"
+              class="btn btn-sm btn-outline-success ripple m-1"
               :data="purchases"
               :columns="columns"
               :file-name="'purchases'"
               :file-type="'xlsx'"
               :sheet-name="'purchases'"
               >
-              <i class="i-File-Excel"></i> EXCEL
+              <FileSpreadsheet size="14" class="mr-1"></FileSpreadsheet> EXCEL
           </vue-excel-xlsx>
          
         </div>
@@ -133,6 +133,7 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+import { FileText, FileSpreadsheet } from "lucide-vue";
 import NProgress from "nprogress";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
@@ -149,7 +150,7 @@ export default {
   metaInfo: {
     title: "Product Purchases report"
   },
-  components: { DateRangePicker },
+  components: {FileText, FileSpreadsheet,  DateRangePicker },
   data() {
     return {
       startDate: "", 
@@ -436,12 +437,20 @@ export default {
         warehouse_name: '',
         product_name: '',
         quantity: `${totalquantity.toFixed(2)}`,
-        total: `${totaltotal.toFixed(2)}`,
+        total: self.formatPriceDisplay(totaltotal, 2),
       }];
 
       autoTable(pdf, {
              columns: columns,
-             body: self.purchases,
+             body: (self.purchases || []).map(r => ({
+               date: r.date,
+               Ref: r.Ref,
+               provider_name: r.provider_name,
+               warehouse_name: r.warehouse_name,
+               product_name: r.product_name,
+               quantity: r.quantity,
+               total: self.formatPriceDisplay(r.total, 2)
+             })),
              foot: footer,
              startY: 70,
              theme: "grid", 

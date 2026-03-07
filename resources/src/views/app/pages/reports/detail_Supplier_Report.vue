@@ -22,7 +22,7 @@
             <p class="text-muted mt-2 mb-0">{{$t('TotalAmount')}}</p>
             <p
               class="text-primary text-24 line-height-1 mb-2"
-            >{{currentUser.currency}} {{formatNumber(provider.total_amount ,2)}}</p>
+            >{{ formatPriceWithSymbol(currentUser.currency, provider.total_amount, 2) }}</p>
           </div>
         </b-card>
       </b-col>
@@ -44,7 +44,7 @@
             <p class="text-muted mt-2 mb-0">{{$t('Due')}}</p>
             <p
               class="text-primary text-24 line-height-1 mb-2"
-            >{{currentUser.currency}} {{formatNumber((provider.due),2)}}</p>
+            >{{ formatPriceWithSymbol(currentUser.currency, provider.due, 2) }}</p>
           </div>
         </b-card>
       </b-col>
@@ -78,8 +78,8 @@
                 styleClass="tableOne table-hover vgt-table"
               >
                <div slot="table-actions" class="mt-2 mb-3">
-                <b-button @click="Purchase_PDF()" size="sm" variant="outline-success ripple m-1">
-                  <i class="i-File-Copy"></i> PDF
+                <b-button @click="Purchase_PDF()" size="sm" variant="outline-danger ripple m-1">
+                  <FileText size="14" class="mr-1"></FileText> PDF
                 </b-button>
               </div>
                 <template slot="table-row" slot-scope="props">
@@ -112,6 +112,15 @@
                       <span class="ul-btn__text ml-1">{{props.row.Ref}}</span>
                     </router-link>
                   </div>
+                  <div v-else-if="props.column.field == 'GrandTotal'">
+                    {{ formatPriceWithSymbol(currentUser.currency, props.row.GrandTotal, 2) }}
+                  </div>
+                  <div v-else-if="props.column.field == 'paid_amount'">
+                    {{ formatPriceWithSymbol(currentUser.currency, props.row.paid_amount, 2) }}
+                  </div>
+                  <div v-else-if="props.column.field == 'due'">
+                    {{ formatPriceWithSymbol(currentUser.currency, props.row.due, 2) }}
+                  </div>
                 </template>
               </vue-good-table>
             </b-tab>
@@ -139,8 +148,8 @@
                 styleClass="tableOne table-hover vgt-table"
               >
                <div slot="table-actions" class="mt-2 mb-3">
-                <b-button @click="Returns_Purchase_PDF()" size="sm" variant="outline-success ripple m-1">
-                  <i class="i-File-Copy"></i> PDF
+                <b-button @click="Returns_Purchase_PDF()" size="sm" variant="outline-danger ripple m-1">
+                  <FileText size="14" class="mr-1"></FileText> PDF
                 </b-button>
               </div>
                 <template slot="table-row" slot-scope="props">
@@ -177,6 +186,15 @@
                       <span class="ul-btn__text ml-1">{{props.row.purchase_ref}}</span>
                     </router-link>
                   </div>
+                  <div v-else-if="props.column.field == 'GrandTotal'">
+                    {{ formatPriceWithSymbol(currentUser.currency, props.row.GrandTotal, 2) }}
+                  </div>
+                  <div v-else-if="props.column.field == 'paid_amount'">
+                    {{ formatPriceWithSymbol(currentUser.currency, props.row.paid_amount, 2) }}
+                  </div>
+                  <div v-else-if="props.column.field == 'due'">
+                    {{ formatPriceWithSymbol(currentUser.currency, props.row.due, 2) }}
+                  </div>
                 </template>
               </vue-good-table>
             </b-tab>
@@ -204,10 +222,15 @@
                 styleClass="tableOne table-hover vgt-table"
               >
                <div slot="table-actions" class="mt-2 mb-3">
-                <b-button @click="Payments_PDF()" size="sm" variant="outline-success ripple m-1">
-                  <i class="i-File-Copy"></i> PDF
+                <b-button @click="Payments_PDF()" size="sm" variant="outline-danger ripple m-1">
+                  <FileText size="14" class="mr-1"></FileText> PDF
                 </b-button>
               </div>
+                <template slot="table-row" slot-scope="props">
+                  <div v-if="props.column.field == 'montant'">
+                    {{ formatPriceWithSymbol(currentUser.currency, props.row.montant, 2) }}
+                  </div>
+                </template>
               </vue-good-table>
             </b-tab>
           </b-tabs>
@@ -219,6 +242,7 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+import { FileText } from "lucide-vue";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import {
@@ -227,6 +251,9 @@ import {
 } from "../../../../utils/priceFormat";
 
 export default {
+  components: {
+    FileText
+  },
   data() {
     return {
       totalRows_purchases: "",
@@ -458,9 +485,16 @@ export default {
         { header: self.$t("PaymentStatus"), dataKey: "payment_status" }
       ];
 
+      const body = self.purchases.map(purchase => ({
+        ...purchase,
+        GrandTotal: self.formatPriceDisplay(purchase.GrandTotal, 2),
+        paid_amount: self.formatPriceDisplay(purchase.paid_amount, 2),
+        due: self.formatPriceDisplay(purchase.due, 2),
+      }));
+
       autoTable(pdf, {
              columns: columns,
-             body: self.purchases,
+             body: body,
              startY: 70,
              theme: "grid", 
              didDrawPage: (data) => {
@@ -503,9 +537,16 @@ export default {
         { header: self.$t("PaymentStatus"), dataKey: "payment_status" }
       ];
 
+      const body = self.returns_supplier.map(item => ({
+        ...item,
+        GrandTotal: self.formatPriceDisplay(item.GrandTotal, 2),
+        paid_amount: self.formatPriceDisplay(item.paid_amount, 2),
+        due: self.formatPriceDisplay(item.due, 2),
+      }));
+
       autoTable(pdf, {
              columns: columns,
-             body: self.returns_supplier,
+             body: body,
              startY: 70,
              theme: "grid", 
              didDrawPage: (data) => {
@@ -544,9 +585,14 @@ export default {
         { header: self.$t("Amount"), dataKey: "montant" },
       ];
 
+      const body = self.payments.map(payment => ({
+        ...payment,
+        montant: self.formatPriceDisplay(payment.montant, 2),
+      }));
+
       autoTable(pdf, {
              columns: columns,
-             body: self.payments,
+             body: body,
              startY: 70,
              theme: "grid", 
              didDrawPage: (data) => {
@@ -755,3 +801,40 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.card-icon-bg .card-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 1rem;
+}
+
+.card-icon-bg [class^="i-"] {
+  font-size: 4rem;
+  color: rgba(0, 52, 115, 0.28);
+  margin-bottom: 1rem;
+}
+
+.card-icon-bg .content {
+  width: 100%;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.card-icon-bg .content p {
+  margin-bottom: 0.5rem;
+  text-align: center;
+  width: 100%;
+}
+
+.card-icon-bg .content .text-24 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+</style>

@@ -36,21 +36,21 @@
         </div>
         <div slot="table-actions" class="mt-2 mb-3">
           <b-button variant="outline-info ripple m-1" size="sm" v-b-toggle.sidebar-right>
-            <i class="i-Filter-2"></i>
+            <Filter size="14" class="mr-1"></Filter>
             {{ $t("Filter") }}
           </b-button>
-          <b-button @click="Transfer_PDF()" size="sm" variant="outline-success ripple m-1">
-            <i class="i-File-Copy"></i> PDF
+          <b-button @click="Transfer_PDF()" size="sm" variant="outline-danger ripple m-1">
+            <FileText size="14" class="mr-1"></FileText> PDF
           </b-button>
            <vue-excel-xlsx
-              class="btn btn-sm btn-outline-danger ripple m-1"
+              class="btn btn-sm btn-outline-success ripple m-1"
               :data="transfers"
               :columns="columns"
               :file-name="'transfers'"
               :file-type="'xlsx'"
               :sheet-name="'transfers'"
               >
-              <i class="i-File-Excel"></i> EXCEL
+              <FileSpreadsheet size="14" class="mr-1"></FileSpreadsheet> EXCEL
           </vue-excel-xlsx>
           <router-link
             class="btn-sm btn btn-primary ripple btn-icon m-1"
@@ -68,46 +68,49 @@
           <span v-if="props.column.field == 'date'">
             {{ formatDisplayDate(props.row.date) }}
           </span>
-          <span v-else-if="props.column.field == 'actions'">
-            <div>
+          <span v-if="props.column.field == 'actions'">
               <b-dropdown
-                id="dropdown-right"
+                id="dropdown-action"
                 variant="link"
-                text="right align"
-                toggle-class="text-decoration-none"
-                size="lg"
-                right
+                toggle-class="text-decoration-none p-0"
+                size="sm"
                 no-caret
               >
-                <template v-slot:button-content class="_r_btn border-0">
-                  <span class="_dot _r_block-dot bg-dark"></span>
-                  <span class="_dot _r_block-dot bg-dark"></span>
-                  <span class="_dot _r_block-dot bg-dark"></span>
+                <template v-slot:button-content>
+                  <span class="_r_block-dot">
+                    <MoreHorizontal size="18"></MoreHorizontal>
+                  </span>
                 </template>
+
+                <b-dropdown-item title="Show" @click="$router.push({ name: 'detail_transfer', params: { id: props.row.id } })">
+                  <Eye size="14" class="mr-2"></Eye>
+                  {{$t('TransferDetail')}}
+                </b-dropdown-item>
+
+                <b-dropdown-item
+                  title="Edit"
+                  v-if="currentUserPermissions.includes('transfer_edit')"
+                  @click="$router.push({ name:'edit_transfer', params: { id: props.row.id } })"
+                >
+                  <Edit size="14" class="mr-2"></Edit>
+                  {{$t('EditTransfer')}}
+                </b-dropdown-item>
+
+                 <b-dropdown-item
+                  title="Delete"
+                  v-if="currentUserPermissions.includes('transfer_delete')"
+                  @click="Remove_Transfer(props.row.id)"
+                >
+                  <X size="14" class="mr-2"></X>
+                  {{$t('DeleteTransfer')}}
+                </b-dropdown-item>
 
                 <b-dropdown-item
                   title="PDF"
                   @click="download_transfer_pdf(props.row, props.row.id)"
                 >
-                  <i class="nav-icon i-File-TXT font-weight-bold mr-2"></i>
+                  <FileText size="14" class="mr-2"></FileText>
                   {{$t('DownloadPdf')}}
-                </b-dropdown-item>
-
-                <b-dropdown-item
-                  title="View"
-                  :to="{ name: 'detail_transfer', params: { id: props.row.id } }"
-                >
-                  <i class="nav-icon i-Eye font-weight-bold mr-2"></i>
-                  {{$t('View')}}
-                </b-dropdown-item>
-
-                <b-dropdown-item
-                  v-if="currentUserPermissions && currentUserPermissions.includes('transfer_edit')"
-                  title="Edit"
-                  :to="{ name:'edit_transfer', params: { id: props.row.id } }"
-                >
-                  <i class="nav-icon i-Edit font-weight-bold mr-2"></i>
-                  {{$t('Edit')}}
                 </b-dropdown-item>
 
                 <b-dropdown-item
@@ -115,44 +118,35 @@
                   title="Approve"
                   @click="Approve_Transfer(props.row.id)"
                 >
-                  <i class="nav-icon i-Check font-weight-bold mr-2"></i>
+                  <Check size="14" class="mr-2"></Check>
                   {{$t('Approve')}}
                 </b-dropdown-item>
 
-                <b-dropdown-item
-                  v-if="currentUserPermissions && currentUserPermissions.includes('transfer_delete')"
-                  title="Delete"
-                  @click="Remove_Transfer(props.row.id)"
-                >
-                  <i class="nav-icon i-Close-Window font-weight-bold mr-2"></i>
-                  {{$t('Delete')}}
-                </b-dropdown-item>
               </b-dropdown>
-            </div>
           </span>
           <div v-else-if="props.column.field == 'statut'">
             <span
               v-if="props.row.statut == 'completed'"
-              class="badge badge-outline-success"
+              class="status-badge status-success"
             >{{$t('complete')}}</span>
             <span
               v-else-if="props.row.statut == 'sent'"
-              class="badge badge-outline-warning"
+              class="status-badge status-warning"
             >{{$t('Sent')}}</span>
-            <span v-else class="badge badge-outline-danger">{{$t('Pending')}}</span>
+            <span v-else class="status-badge status-info">{{$t('Pending')}}</span>
           </div>
           <div v-else-if="props.column.field == 'approval_status'">
             <span
               v-if="!props.row.approval_status || props.row.approval_status === 'approved'"
-              class="badge badge-outline-success"
+              class="status-badge status-success"
             >{{ $t('Approved') }}</span>
             <span
               v-else-if="props.row.approval_status === 'pending'"
-              class="badge badge-outline-warning"
+              class="status-badge status-warning"
             >{{ $t('Pending_Approval') }}</span>
             <span
               v-else-if="props.row.approval_status === 'rejected'"
-              class="badge badge-outline-danger"
+              class="status-badge status-danger"
             >{{ $t('Rejected') }}</span>
           </div>
         </template>
@@ -211,21 +205,12 @@
             </b-form-group>
           </b-col>
 
-          <b-col md="6" sm="12">
-            <b-button
-              @click="Get_Transfers(serverParams.page)"
-              variant="primary ripple m-1"
-              size="sm"
-              block
-            >
-              <i class="i-Filter-2"></i>
-              {{ $t("Filter") }}
+          <b-col md="12" class="mt-3">
+            <b-button @click="Get_Transfers(serverParams.page)" variant="primary" size="sm" block>
+              <Filter size="16" class="mr-1"></Filter> {{ $t("Filter") }}
             </b-button>
-          </b-col>
-          <b-col md="6" sm="12">
-            <b-button @click="Reset_Filter()" variant="danger ripple m-1" size="sm" block>
-              <i class="i-Power-2"></i>
-              {{ $t("Reset") }}
+            <b-button @click="Reset_Filter()" variant="danger" size="sm" block>
+              <Power size="16" class="mr-1"></Power> {{ $t("Reset") }}
             </b-button>
           </b-col>
         </b-row>
@@ -236,13 +221,23 @@
 </template>
 
 <script>
+import { 
+  Plus, Edit, Eye, Filter, Power, 
+  FileText, FileSpreadsheet, MoreHorizontal, X, Check
+} from "lucide-vue";
 import { mapActions, mapGetters } from "vuex";
 import NProgress from "nprogress";
-import jsPDF from "jspdf";
-import autoTable from "jspdf-autotable";
 import Util from '../../../../utils';
+import { 
+  formatPriceDisplay as formatPriceDisplayHelper, 
+  getPriceFormatSetting 
+} from "../../../../utils/priceFormat";
 
 export default {
+  components: {
+    Plus, Edit, Eye, Filter, Power, 
+    FileText, FileSpreadsheet, MoreHorizontal, X, Check
+  },
   metaInfo: {
     title: "Transfer"
   },
@@ -270,7 +265,8 @@ export default {
       Filter_From: "",
       Filter_To: "",
       warehouses: [],
-      transfers: []
+      transfers: [],
+      price_format_key: null
     };
   },
 
@@ -549,7 +545,7 @@ export default {
         transfer.to_warehouse,
         transfer.items,
         transfer.statut,
-        transfer.GrandTotal
+        self.formatPriceDisplay(transfer.GrandTotal, 2)
       ]));
 
       // Calculate totals
@@ -561,7 +557,7 @@ export default {
         '',
         '',
         '',
-        totalGrandTotal.toFixed(2)
+        self.formatPriceDisplay(totalGrandTotal, 2)
       ]];
 
       const marginX = 40;
@@ -732,7 +728,28 @@ export default {
             });
         }
       });
-    }
+    },
+
+    // Price formatting for display only (does NOT affect calculations or stored values)
+    formatPriceDisplay(number, dec) {
+      try {
+        const decimals = Number.isInteger(dec) ? dec : 0;
+        const key = this.price_format_key || getPriceFormatSetting({ store: this.$store });
+        if (key) {
+          this.price_format_key = key;
+        }
+        const effectiveKey = key || null;
+        return formatPriceDisplayHelper(number, decimals, effectiveKey);
+      } catch (e) {
+        return this.formatNumber(number, dec);
+      }
+    },
+
+    formatPriceWithSymbol(symbol, number, dec) {
+      const safeSymbol = symbol || "";
+      const value = this.formatPriceDisplay(number, dec);
+      return safeSymbol ? `${safeSymbol} ${value}` : value;
+    },
   },
 
   //-----------------------------Autoload function-------------------

@@ -41,11 +41,11 @@
 
         <template slot="table-row" slot-scope="props">
           <span v-if="props.column.field == 'actions'">
-            <a @click="Function_Edit_Payroll(props.row)" class="cursor-pointer" title="Edit" v-b-tooltip.hover>
-              <i class="i-Edit text-25 text-success"></i>
+            <a @click="Function_Edit_Payroll(props.row)" class="btn-action btn-edit" title="Edit" v-b-tooltip.hover>
+              <Edit size="16" :stroke-width="2" />
             </a>
-            <a title="Delete" v-b-tooltip.hover class="cursor-pointer" @click="Remove_Payroll(props.row.id)">
-              <i class="i-Close-Window text-25 text-danger"></i>
+            <a @click="Remove_Payroll(props.row.id)" class="btn-action btn-delete" title="Delete" v-b-tooltip.hover>
+              <XCircle size="16" :stroke-width="2" />
             </a>
           </span>
           <div v-else-if="props.column.field == 'payment_status'">
@@ -172,6 +172,7 @@
 </template>
 
 <script>
+import { Edit, XCircle, MoreHorizontal } from "lucide-vue";
 import NProgress from "nprogress";
 import Datepicker from 'vuejs-datepicker';
 
@@ -180,7 +181,10 @@ export default {
     title: "Payroll"
   },
    components: {
-    Datepicker
+    Datepicker,
+    Edit,
+    XCircle,
+    MoreHorizontal
   },
   data() {
     return {

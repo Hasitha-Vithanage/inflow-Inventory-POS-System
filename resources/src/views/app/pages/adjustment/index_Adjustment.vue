@@ -31,11 +31,11 @@
             <filter-icon size="14" :stroke-width="1.5" class="mr-1"></filter-icon>
             {{ $t("Filter") }}
           </b-button>
-          <b-button @click="Adjustment_PDF()" size="sm" variant="outline-success m-1">
+          <b-button @click="Adjustment_PDF()" size="sm" variant="outline-danger m-1">
             <file-text-icon size="14" :stroke-width="1.5" class="mr-1"></file-text-icon> PDF
           </b-button>
           <vue-excel-xlsx
-              class="btn btn-sm btn-outline-danger ripple m-1"
+              class="btn btn-sm btn-outline-success ripple m-1"
               :data="adjustments"
               :columns="columns"
               :file-name="'Adjustments'"
@@ -58,31 +58,42 @@
 
         <template slot="table-row" slot-scope="props">
           <span v-if="props.column.field == 'actions'">
-
-
-            <a title="PDF" v-b-tooltip.hover @click="download_adjustment_pdf(props.row , props.row.id)">
-              <file-text-icon size="20" :stroke-width="1.5" class="text-primary cursor-pointer"></file-text-icon>
+            <a
+              @click="download_adjustment_pdf(props.row , props.row.id)"
+              class="btn-action btn-view"
+              title="PDF"
+              v-b-tooltip.hover
+            >
+              <FileText size="16" :stroke-width="2" />
             </a>
 
-            <a v-b-tooltip.hover title="View" class="cursor-pointer" @click="showDetails(props.row.id)">
-              <eye-icon size="20" :stroke-width="1.5" class="text-info"></eye-icon>
+            <a
+              @click="showDetails(props.row.id)"
+              class="btn-action btn-view"
+              title="View"
+              v-b-tooltip.hover
+            >
+              <Eye size="16" :stroke-width="2" />
             </a>
+
             <router-link
               v-if="currentUserPermissions && currentUserPermissions.includes('adjustment_edit')"
-              v-b-tooltip.hover
-              title="Edit"
               :to="'/app/adjustments/edit/'+props.row.id"
-            >
-              <edit-icon size="20" :stroke-width="1.5" class="text-success"></edit-icon>
-            </router-link>
-            <a
+              class="btn-action btn-edit"
+              title="Edit"
               v-b-tooltip.hover
-              title="Delete"
-              class="cursor-pointer"
+            >
+              <Edit size="16" :stroke-width="2" />
+            </router-link>
+
+            <a
               v-if="currentUserPermissions && currentUserPermissions.includes('adjustment_delete')"
               @click="Remove_Adjustment(props.row.id)"
+              class="btn-action btn-delete"
+              title="Delete"
+              v-b-tooltip.hover
             >
-              <trash-2-icon size="20" :stroke-width="1.5" class="text-danger"></trash-2-icon>
+              <XCircle size="16" :stroke-width="2" />
             </a>
           </span>
         </template>
@@ -200,7 +211,7 @@
 
 <script>
 import { 
-  Filter, FileText, FileSpreadsheet, Plus, Eye, Edit, Trash2, RefreshCw 
+  Filter, FileText, FileSpreadsheet, Plus, Eye, Edit, Trash2, RefreshCw, XCircle 
 } from "lucide-vue";
 import { mapActions, mapGetters } from "vuex";
 import NProgress from "nprogress";
@@ -216,7 +227,11 @@ export default {
     EyeIcon: Eye,
     EditIcon: Edit,
     Trash2Icon: Trash2,
-    RefreshCwIcon: RefreshCw
+    RefreshCwIcon: RefreshCw,
+    FileText,
+    Eye,
+    Edit,
+    XCircle
   },
   metaInfo: {
     title: "Adjustment"

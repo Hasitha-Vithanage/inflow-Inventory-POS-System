@@ -9,6 +9,7 @@ import * as XLSX from 'xlsx';
 
 export default {
   name: 'ExcelExport',
+  inheritAttrs: false,
   props: {
     data: {
       type: Array,
@@ -30,15 +31,14 @@ export default {
       type: String,
       default: 'Sheet1'
     },
-    // Support both class and buttonClass for flexibility
-    class: {
-      type: String,
-      default: ''
-    }
   },
   computed: {
     buttonClass() {
-      return this.class || 'btn btn-sm btn-outline-danger ripple m-1';
+      // $attrs.class captures the `class` attribute passed from the parent,
+      // since `class` is a reserved Vue attribute and cannot be declared as a prop.
+      // Without this fix, this.class was always empty and the button fell back
+      // to the hardcoded red (btn-outline-danger) regardless of what was passed.
+      return this.$attrs.class || 'btn btn-sm btn-outline-success ripple m-1';
     }
   },
   methods: {

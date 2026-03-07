@@ -171,6 +171,32 @@
             height: 15px;
             vertical-align: middle;
         }
+
+        /* Shipping Summary Table */
+        .shipping-summary-table {
+            width: 100% !important;
+            height: auto !important;
+            border-collapse: collapse !important;
+            border: none !important;
+            table-layout: fixed !important;
+        }
+        .shipping-summary-table td {
+            border: none !important;
+            border-right: 1px solid #000 !important;
+            padding: 4px 6px !important;
+            text-align: center !important;
+            vertical-align: middle !important;
+            font-size: 10px !important;
+        }
+        .shipping-summary-table td:last-child {
+            border-right: none !important;
+        }
+        .summary-val {
+            font-size: 13px;
+            font-weight: bold;
+            display: block;
+            margin-top: 2px;
+        }
     </style>
     <!-- JS Barcode Libraries from CDN to ensure they load -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
@@ -206,6 +232,14 @@
         $storeEmail = $setting->email ?? '';
         $storeAddress = $setting->CompanyAdress ?? '';
         $logo = $setting->logo ?? null;
+        $symbol = $setting->Currency->symbol ?? '';
+
+        // Calculations for Shipping Info
+        $totalPieces = $sale->details->sum('quantity');
+        $totalWeight = $sale->details->sum(function($detail) {
+            return ($detail->quantity * ($detail->product->weight ?? 0));
+        });
+        $totalAmount = $sale->GrandTotal;
     @endphp
 
     <div class="label-container{{ !$loop->last ? ' page-break' : '' }}">
@@ -268,6 +302,28 @@
             <tr>
                 <td colspan="2" class="tracking-sticker-area">
                     COURIER TRACKING LABEL / STICKER AREA
+                </td>
+            </tr>
+
+            <!-- Shipping Details Row -->
+            <tr>
+                <td colspan="2" style="padding: 0; background: #f9f9f9; height: 45px;">
+                    <table class="shipping-summary-table">
+                        <tr>
+                            <td>
+                                AMOUNT
+                                <span class="summary-val">{{ $symbol }} {{ number_format($totalAmount, 2) }}</span>
+                            </td>
+                            <td>
+                                PIECES
+                                <span class="summary-val">{{ $totalPieces }}</span>
+                            </td>
+                            <td>
+                                WEIGHT
+                                <span class="summary-val">{{ $totalWeight }} KG</span>
+                            </td>
+                        </tr>
+                    </table>
                 </td>
             </tr>
 

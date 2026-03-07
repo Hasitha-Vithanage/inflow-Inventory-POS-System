@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="main-content">
     <breadcumb :page="$t('Employees')" :folder="$t('hrm')"/>
 
@@ -42,18 +42,18 @@
             <i class="i-Filter-2"></i>
             {{ $t("Filter") }}
           </b-button>
-          <b-button @click="Employee_PDF()" size="sm" variant="outline-success ripple m-1">
-            <i class="i-File-Copy"></i> PDF
+          <b-button @click="Employee_PDF()" size="sm" variant="outline-danger ripple m-1">
+            <FileText size="14" class="mr-1"></FileText> PDF
           </b-button>
           <vue-excel-xlsx
-              class="btn btn-sm btn-outline-danger ripple m-1"
+              class="btn btn-sm btn-outline-success ripple m-1"
               :data="employees"
               :columns="columns"
               :file-name="'employees'"
               :file-type="'xlsx'"
               :sheet-name="'employees'"
               >
-              <i class="i-File-Excel"></i> EXCEL
+              <FileSpreadsheet size="14" class="mr-1"></FileSpreadsheet> EXCEL
           </vue-excel-xlsx>
           <router-link
             class="btn-sm btn btn-primary ripple btn-icon m-1"
@@ -71,26 +71,34 @@
          
           <span v-if="props.column.field == 'actions'">
 
-            <router-link 
-            v-if="currentUserPermissions && currentUserPermissions.includes('view_employee')"
-            title="detail" :to="'/app/hrm/employees/detail/'+props.row.id">
-              <i class="i-Eye text-25 text-info"></i>
+            <router-link
+              v-if="currentUserPermissions && currentUserPermissions.includes('view_employee')"
+              :to="'/app/hrm/employees/detail/'+props.row.id"
+              class="btn-action btn-view"
+              title="View"
+              v-b-tooltip.hover
+            >
+              <Eye size="16" :stroke-width="2" />
             </router-link>
+
             <router-link
               v-if="currentUserPermissions && currentUserPermissions.includes('edit_employee')"
+              :to="'/app/hrm/employees/edit/'+props.row.id"
+              class="btn-action btn-edit"
               title="Edit"
               v-b-tooltip.hover
-              :to="'/app/hrm/employees/edit/'+props.row.id"
             >
-              <i class="i-Edit text-25 text-success"></i>
+              <Edit size="16" :stroke-width="2" />
             </router-link>
+
             <a
-              title="Delete"
-              v-b-tooltip.hover
               v-if="currentUserPermissions && currentUserPermissions.includes('delete_employee')"
               @click="Remove_Employee(props.row.id)"
+              class="btn-action btn-delete"
+              title="Delete"
+              v-b-tooltip.hover
             >
-              <i class="i-Close-Window text-25 text-danger"></i>
+              <XCircle size="16" :stroke-width="2" />
             </a>
           </span>
         </template>
@@ -169,6 +177,7 @@
 </template>
 
 <script>
+import { Edit, XCircle, Eye, MoreHorizontal } from "lucide-vue";
 import { mapActions, mapGetters } from "vuex";
 import NProgress from "nprogress";
 import jsPDF from "jspdf";
@@ -177,6 +186,12 @@ import autoTable from "jspdf-autotable";
 export default {
   metaInfo: {
     title: "Employee"
+  },
+  components: {
+    Edit,
+    XCircle,
+    Eye,
+    MoreHorizontal
   },
   data() {
     return {

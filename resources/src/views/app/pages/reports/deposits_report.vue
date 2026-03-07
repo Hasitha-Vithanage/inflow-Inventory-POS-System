@@ -46,7 +46,7 @@
         >
           <template slot="table-row" slot-scope="props">
             <span v-if="props.column.field == 'total_deposits'">
-              {{ formatPriceWithSymbol(currentUser.currency, props.row.total_deposits, 2) }}
+              {{ formatPriceWithSymbol(currentUser && currentUser.currency, props.row.total_deposits, 2) }}
             </span>
             <span v-else>
               {{ props.formattedRow[props.column.field] }}
@@ -55,18 +55,18 @@
   
          <div slot="table-actions" class="mt-2 mb-3">
           
-            <b-button @click="deposits_report_pdf()" size="sm" variant="outline-success ripple m-1">
-              <i class="i-File-Copy"></i> PDF
+            <b-button @click="deposits_report_pdf()" size="sm" variant="outline-danger ripple m-1">
+              <FileText size="14" class="mr-1"></FileText> PDF
             </b-button>
              <vue-excel-xlsx
-                class="btn btn-sm btn-outline-danger ripple m-1"
+                class="btn btn-sm btn-outline-success ripple m-1"
                 :data="reports"
                 :columns="columns"
                 :file-name="'deposits_report'"
                 :file-type="'xlsx'"
                 :sheet-name="'deposits_report'"
                 >
-                <i class="i-File-Excel"></i> EXCEL
+                <FileSpreadsheet size="14" class="mr-1"></FileSpreadsheet> EXCEL
             </vue-excel-xlsx>
           </div>
         </vue-good-table>
@@ -79,19 +79,24 @@
 import NProgress from "nprogress";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
+import { mapActions, mapGetters } from "vuex";
+import { FileText, FileSpreadsheet } from "lucide-vue";
 
 import DateRangePicker from 'vue2-daterange-picker'
 //you need to import the CSS manually
 import 'vue2-daterange-picker/dist/vue2-daterange-picker.css'
 import moment from 'moment'
-import { mapGetters } from "vuex";
 import {
   formatPriceDisplay as formatPriceDisplayHelper,
   getPriceFormatSetting
 } from "../../../../utils/priceFormat";
   
   export default {
-    components: { DateRangePicker },
+    components: {
+      DateRangePicker,
+      FileText,
+      FileSpreadsheet
+    },
     metaInfo: {
       title: "Deposits Report"
     },
@@ -173,12 +178,14 @@ import {
 
       
       sumCount(rowObj) {
-     
+        if (!rowObj || !rowObj.children || !Array.isArray(rowObj.children)) {
+            return this.formatPriceWithSymbol(this.currentUser && this.currentUser.currency, 0, 2);
+        }
         let sum = 0;
         for (let i = 0; i < rowObj.children.length; i++) {
           sum += rowObj.children[i].total_deposits;
         }
-        return sum;
+        return this.formatPriceWithSymbol(this.currentUser && this.currentUser.currency, sum, 2);
       },
   
        //----------------------------------- Sales PDF ------------------------------\\
@@ -200,13 +207,17 @@ import {
         
         let footer = [{
           category_name: self.$t("Total"),
-          total_deposits: `${totalGrandTotal.toFixed(2)}`,
-          
+          total_deposits: self.formatPriceDisplay(totalGrandTotal, 2),
         }];
+
+        const body = (self.reports || []).map(r => ({
+           category_name: r.category_name,
+           total_deposits: self.formatPriceDisplay(r.total_deposits, 2)
+        }));
 
         autoTable(pdf, {
              columns: columns,
-             body: self.reports,
+             body: body,
              foot: footer,
              startY: 70,
              theme: "grid", 

@@ -94,7 +94,7 @@
                   <td>{{ sale.client_name }}</td>
                   <td>{{ sale.warehouse_name }}</td>
                   <td>
-                    <span :class="shippingBadgeClass(sale.shipping_status)" class="badge">
+                    <span :class="shippingBadgeClass(sale.shipping_status)" class="status-badge">
                       {{ formatShippingStatus(sale.shipping_status) }}
                     </span>
                   </td>
@@ -106,15 +106,15 @@
                     <span v-else class="text-muted small">—</span>
                   </td>
                   <td class="text-right">
-                    <a
+                    <button
                       v-if="currentUserPermissions && currentUserPermissions.includes('shipment')"
                       @click="openEditShipment(sale)"
-                      class="btn btn-sm btn-outline-primary mr-1"
-                      title="Edit Shipment"
+                      class="btn-action btn-edit"
                       v-b-tooltip.hover
+                      title="Edit Shipment"
                     >
-                      <Edit size="14"></Edit>
-                    </a>
+                      <Edit :size="16" :stroke-width="2" />
+                    </button>
                   </td>
                 </tr>
               </tbody>
@@ -251,27 +251,6 @@
                 </validation-provider>
               </b-col>
 
-              <!-- Delivered To -->
-              <b-col md="12">
-                <b-form-group :label="$t('delivered_to').replace(/_/g, ' ')">
-                  <b-form-input
-                    v-model="shipmentForm.delivered_to"
-                    :placeholder="$t('delivered_to').replace(/_/g, ' ')"
-                  />
-                </b-form-group>
-              </b-col>
-
-              <!-- Shipping Address -->
-              <b-col md="12">
-                <b-form-group :label="$t('Adress')">
-                  <textarea
-                    v-model="shipmentForm.shipping_address"
-                    rows="2"
-                    class="form-control"
-                    :placeholder="$t('Enter_Address')"
-                  />
-                </b-form-group>
-              </b-col>
 
               <!-- Shipping Details -->
               <b-col md="12">
@@ -437,17 +416,17 @@ export default {
 
     shippingBadgeClass(status) {
       const map = {
-        pending:          'badge-outline-warning',
-        processing:       'badge-outline-warning',
-        packed:           'badge-outline-info',
-        dispatched:       'badge-outline-info',
-        in_transit:       'badge-outline-primary',
-        out_for_delivery: 'badge-outline-primary',
-        ready_for_pickup: 'badge-outline-success',
-        delivered:        'badge-outline-success',
-        returned:         'badge-outline-danger',
+        pending:          'status-badge status-warning',
+        processing:       'status-badge status-warning',
+        packed:           'status-badge status-info',
+        dispatched:       'status-badge status-info',
+        in_transit:       'status-badge status-primary',
+        out_for_delivery: 'status-badge status-primary',
+        ready_for_pickup: 'status-badge status-success',
+        delivered:        'status-badge status-success',
+        returned:         'status-badge status-danger',
       };
-      return map[status] || 'badge-outline-dark';
+      return map[status] || 'status-badge status-secondary';
     },
 
     formatShippingStatus(status) {

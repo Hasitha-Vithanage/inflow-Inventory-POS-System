@@ -112,7 +112,7 @@
                           <th scope="col">{{$t('Tax')}}</th>
                           <th scope="col">{{$t('SubTotal')}}</th>
                           <th scope="col" class="text-center">
-                            <i class="fa fa-trash"></i>
+                            <Trash2 :size="16" :stroke-width="2" />
                           </th>
                         </tr>
                       </thead>
@@ -127,7 +127,7 @@
                             <br>
                             <span class="badge badge-success">{{detail.name}}</span>
                           </td>
-                          <td>{{currentUser.currency}} {{formatNumber(detail.Net_price, 3)}}</td>
+                          <td>{{formatPriceWithSymbol(currentUser.currency, detail.Net_price, 3)}}</td>
                           <td>
                             <span class="badge badge-warning" v-if="detail.product_type == 'is_service'">----</span>
                             <span class="badge badge-warning" v-else>{{detail.stock}} {{detail.unitSale}}</span>
@@ -136,10 +136,13 @@
                             <div class="quantity">
                               <b-input-group>
                                 <b-input-group-prepend>
-                                  <span
-                                    class="btn btn-primary btn-sm"
+                                  <button
+                                    type="button"
+                                    class="btn btn-qty"
                                     @click="decrement(detail ,detail.detail_id)"
-                                  >-</span>
+                                  >
+                                    <Minus />
+                                  </button>
                                 </b-input-group-prepend>
                                 <input
                                   class="form-control"
@@ -149,21 +152,40 @@
                                   v-model.number="detail.quantity"
                                 >
                                 <b-input-group-append>
-                                  <span
-                                    class="btn btn-primary btn-sm"
+                                  <button
+                                    type="button"
+                                    class="btn btn-qty"
                                     @click="increment(detail ,detail.detail_id)"
-                                  >+</span>
+                                  >
+                                    <Plus />
+                                  </button>
                                 </b-input-group-append>
                               </b-input-group>
                             </div>
                           </td>
-                          <td>{{currentUser.currency}} {{formatNumber(detail.DiscountNet * detail.quantity, 2)}}</td>
-                          <td>{{currentUser.currency}} {{formatNumber(detail.taxe * detail.quantity, 2)}}</td>
-                          <td>{{currentUser.currency}} {{detail.subtotal.toFixed(2)}}</td>
+                          <td>{{formatPriceWithSymbol(currentUser.currency, detail.DiscountNet * detail.quantity, 2)}}</td>
+                          <td>{{formatPriceWithSymbol(currentUser.currency, detail.taxe * detail.quantity, 2)}}</td>
+                          <td>{{formatPriceWithSymbol(currentUser.currency, detail.subtotal, 2)}}</td>
                            <td>
-                            <i v-if="currentUserPermissions && currentUserPermissions.includes('edit_product_quotation')"
-                             @click="Modal_Updat_Detail(detail)" class="i-Edit text-25 text-success cursor-pointer"></i>
-                            <i @click="delete_Product_Detail(detail.detail_id)" class="i-Close-Window text-25 text-danger cursor-pointer"></i>
+                            <button
+                              v-if="currentUserPermissions && currentUserPermissions.includes('edit_product_quotation')"
+                              type="button"
+                              @click="Modal_Updat_Detail(detail)"
+                              class="btn-action btn-edit mr-2"
+                              v-b-tooltip.hover
+                              :title="$t('Edit')"
+                            >
+                              <Edit :size="16" :stroke-width="2" />
+                            </button>
+                            <button
+                              type="button"
+                              @click="delete_Product_Detail(detail.detail_id)"
+                              class="btn-action btn-delete"
+                              v-b-tooltip.hover
+                              :title="$t('Delete')"
+                            >
+                              <XCircle :size="16" :stroke-width="2" />
+                            </button>
                           </td>
                         </tr>
                       </tbody>
@@ -177,16 +199,16 @@
                       <tr>
                         <td class="bold">{{$t('OrderTax')}}</td>
                         <td>
-                          <span>{{currentUser.currency}} {{quote.TaxNet.toFixed(2)}} ({{formatNumber(quote.tax_rate,2)}} %)</span>
+                          <span>{{formatPriceWithSymbol(currentUser.currency, quote.TaxNet, 2)}} ({{formatNumber(quote.tax_rate,2)}} %)</span>
                         </td>
                       </tr>
                       <tr>
                         <td class="bold">{{$t('Discount')}}</td>
-                        <td>{{currentUser.currency}} {{quote.discount.toFixed(2)}}</td>
+                        <td>{{formatPriceWithSymbol(currentUser.currency, quote.discount, 2)}}</td>
                       </tr>
                       <tr>
                         <td class="bold">{{$t('Shipping')}}</td>
-                        <td>{{currentUser.currency}} {{quote.shipping.toFixed(2)}}</td>
+                        <td>{{formatPriceWithSymbol(currentUser.currency, quote.shipping, 2)}}</td>
                       </tr>
                       <tr>
                         <td>
@@ -195,7 +217,7 @@
                         <td>
                           <span
                             class="font-weight-bold"
-                          >{{currentUser.currency}} {{GrandTotal.toFixed(2)}}</span>
+                          >{{formatPriceWithSymbol(currentUser.currency, GrandTotal, 2)}}</span>
                         </td>
                       </tr>
                     </tbody>
@@ -473,8 +495,16 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 import NProgress from "nprogress";
+import { Edit, XCircle, Trash2, Plus, Minus } from "lucide-vue";
 
 export default {
+  components: {
+    Edit,
+    XCircle,
+    Trash2,
+    Plus,
+    Minus
+  },
   metaInfo: {
     title: "Create Quotation"
   },

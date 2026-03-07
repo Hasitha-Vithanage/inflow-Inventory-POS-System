@@ -30,14 +30,29 @@
       }"
         styleClass="tableOne table-hover vgt-table mt-4"
       >
-       <template slot="table-row" slot-scope="props">
+        <template slot="table-row" slot-scope="props">
           <span v-if="props.column.field == 'actions'">
             <a title="PDF" class="cursor-pointer" v-b-tooltip.hover @click="Download_PDF(props.row , props.row.id)">
-              <i class="i-File-Copy text-25 text-success"></i>
+              <FileText size="18" class="text-danger"></FileText>
             </a>
             <router-link title="Report" :to="'/app/reports/detail_supplier/'+props.row.id">
-             <i class="i-Eye text-25 text-info"></i>
+             <Eye size="18" class="text-info"></Eye>
             </router-link>
+          </span>
+          <span v-else-if="props.column.field == 'total_amount'">
+            {{ formatPriceWithSymbol(currentUser && currentUser.currency, props.row.total_amount, 2) }}
+          </span>
+          <span v-else-if="props.column.field == 'total_paid'">
+            {{ formatPriceWithSymbol(currentUser && currentUser.currency, props.row.total_paid, 2) }}
+          </span>
+          <span v-else-if="props.column.field == 'due'">
+            {{ formatPriceWithSymbol(currentUser && currentUser.currency, props.row.due, 2) }}
+          </span>
+          <span v-else-if="props.column.field == 'return_Due'">
+            {{ formatPriceWithSymbol(currentUser && currentUser.currency, props.row.return_Due, 2) }}
+          </span>
+          <span v-else>
+            {{ props.formattedRow[props.column.field] }}
           </span>
         </template>
       </vue-good-table>
@@ -49,8 +64,17 @@
 <script>
 import NProgress from "nprogress";
 import { mapActions, mapGetters } from "vuex";
+import { FileText, Eye } from "lucide-vue";
+import {
+  formatPriceDisplay as formatPriceDisplayHelper,
+  getPriceFormatSetting
+} from "../../../../utils/priceFormat";
 
 export default {
+  components: {
+    FileText,
+    Eye
+  },
   metaInfo: {
     title: "Report Providers"
   },
@@ -77,6 +101,8 @@ export default {
              
           ],
       },],
+      // Optional price format key for frontend display (loaded from system settings/localStorage)
+      price_format_key: null
     };
   },
 
@@ -154,67 +180,55 @@ export default {
 
     sumCount(rowObj) {
         if (!rowObj || !rowObj.children || !Array.isArray(rowObj.children)) {
-            console.error('Invalid input for sumCount');
-            return 0; // or whatever default value is appropriate
+            return this.formatPriceWithSymbol(this.currentUser && this.currentUser.currency, 0, 2);
         }
 
         let sum = 0;
         for (let i = 0; i < rowObj.children.length; i++) {
             if (typeof rowObj.children[i].total_amount === 'number') {
                 sum += rowObj.children[i].total_amount;
-            } else {
-                console.error('Invalid total_amount at index', i);
             }
         }
-        return sum;
+        return this.formatPriceWithSymbol(this.currentUser && this.currentUser.currency, sum, 2);
     },
     sumCount2(rowObj) {
         if (!rowObj || !rowObj.children || !Array.isArray(rowObj.children)) {
-            console.error('Invalid input for sumCount2');
-            return 0; // or whatever default value is appropriate
+            return this.formatPriceWithSymbol(this.currentUser && this.currentUser.currency, 0, 2);
         }
 
         let sum = 0;
         for (let i = 0; i < rowObj.children.length; i++) {
             if (typeof rowObj.children[i].total_paid === 'number') {
                 sum += rowObj.children[i].total_paid;
-            } else {
-                console.error('Invalid total_paid at index', i);
             }
         }
-        return sum;
+        return this.formatPriceWithSymbol(this.currentUser && this.currentUser.currency, sum, 2);
     },
     sumCount3(rowObj) {
         if (!rowObj || !rowObj.children || !Array.isArray(rowObj.children)) {
-            console.error('Invalid input for sumCount3');
-            return 0; // or whatever default value is appropriate
+            return this.formatPriceWithSymbol(this.currentUser && this.currentUser.currency, 0, 2);
         }
 
         let sum = 0;
         for (let i = 0; i < rowObj.children.length; i++) {
             if (typeof rowObj.children[i].due === 'number') {
                 sum += rowObj.children[i].due;
-            } else {
-                console.error('Invalid due at index', i);
             }
         }
-        return sum;
+        return this.formatPriceWithSymbol(this.currentUser && this.currentUser.currency, sum, 2);
     },
     sumCount4(rowObj) {
         if (!rowObj || !rowObj.children || !Array.isArray(rowObj.children)) {
-            console.error('Invalid input for sumCount4');
-            return 0; // or whatever default value is appropriate
+            return this.formatPriceWithSymbol(this.currentUser && this.currentUser.currency, 0, 2);
         }
 
         let sum = 0;
         for (let i = 0; i < rowObj.children.length; i++) {
             if (typeof rowObj.children[i].return_Due === 'number') {
                 sum += rowObj.children[i].return_Due;
-            } else {
-                console.error('Invalid return_Due at index', i);
             }
         }
-        return sum;
+        return this.formatPriceWithSymbol(this.currentUser && this.currentUser.currency, sum, 2);
     },
 
 
@@ -288,18 +302,29 @@ export default {
       this.Get_Provider_Report(this.serverParams.page);
     },
 
-    //------------------------------Formetted Numbers -------------------------\\
-    formatNumber(number, dec) {
-      const value = (typeof number === "string"
-        ? number
-        : number.toString()
-      ).split(".");
-      if (dec <= 0) return value[0];
-      let formated = value[1] || "";
-      if (formated.length > dec)
-        return `${value[0]}.${formated.substr(0, dec)}`;
-      while (formated.length < dec) formated += "0";
-      return `${value[0]}.${formated}`;
+    // Price formatting for display only (does NOT affect calculations or stored values)
+    // Uses the global/system price_format setting when available; otherwise falls back
+    // to the existing toLocaleString behavior to preserve current behavior.
+    formatPriceDisplay(number, dec) {
+      try {
+        const decimals = Number.isInteger(dec) ? dec : 2;
+        const n = Number(number || 0);
+        const key = this.price_format_key || getPriceFormatSetting({ store: this.$store });
+        if (key) {
+          this.price_format_key = key;
+        }
+        const effectiveKey = key || null;
+        return formatPriceDisplayHelper(n, decimals, effectiveKey);
+      } catch (e) {
+        const n = Number(number || 0);
+        return n.toLocaleString(undefined, { maximumFractionDigits: dec || 2 });
+      }
+    },
+
+    formatPriceWithSymbol(symbol, number, dec) {
+      const safeSymbol = symbol || "";
+      const value = this.formatPriceDisplay(number, dec);
+      return safeSymbol ? `${safeSymbol} ${value}` : value;
     },
 
     //--------------------------- Get Customer Report -------------\\

@@ -145,7 +145,11 @@
   var CSRF         = csrfMeta ? csrfMeta.content : '';
   var NOIMG        = @json(asset('images/products/no-image.png'));
 
-  function fmt(v){ return CURRENCY + Number(v||0).toFixed(2); }
+  function fmt(v){
+    var n = Number(v||0);
+    var formatted = n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    return CURRENCY + ' ' + formatted;
+  }
 
   function getCart(){
     if (window.CartLS && typeof window.CartLS.get === 'function') return window.CartLS.get();

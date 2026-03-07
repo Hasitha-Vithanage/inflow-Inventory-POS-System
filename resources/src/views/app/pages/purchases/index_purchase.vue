@@ -37,11 +37,11 @@
             <Filter size="14" :stroke-width="1.5" class="mr-1"></Filter>
             {{ $t("Filter") }}
           </b-button>
-          <b-button @click="Purchase_PDF()" size="sm" variant="outline-success ripple m-1">
+          <b-button @click="Purchase_PDF()" size="sm" variant="outline-danger ripple m-1">
             <FileText size="14" :stroke-width="1.5" class="mr-1"></FileText> PDF
           </b-button>
           <vue-excel-xlsx
-              class="btn btn-sm btn-outline-danger ripple m-1"
+              class="btn btn-sm btn-outline-success ripple m-1"
               :data="purchases"
               :columns="columns"
               :file-name="'purchases'"
@@ -64,35 +64,43 @@
 
         <template slot="table-row" slot-scope="props">
           <span v-if="props.column.field == 'actions'">
-            <div>
               <b-dropdown
-                id="dropdown-left"
+                id="dropdown-action"
                 variant="link"
-                text="Left align"
-                toggle-class="text-decoration-none"
-                size="lg"
+                toggle-class="text-decoration-none p-0"
+                size="sm"
                 no-caret
               >
-                <template v-slot:button-content class="_r_btn border-0">
-                  <span class="_dot _r_block-dot bg-dark"></span>
-                  <span class="_dot _r_block-dot bg-dark"></span>
-                  <span class="_dot _r_block-dot bg-dark"></span>
+                <template v-slot:button-content>
+                  <span class="_r_block-dot">
+                    <MoreHorizontal size="18"></MoreHorizontal>
+                  </span>
                 </template>
-                  <b-dropdown-item title="Show" :to="'/app/purchases/detail/'+props.row.id">
-                    <Eye size="14" :stroke-width="1.5" class="mr-2"></Eye>
-                    {{$t('PurchaseDetail')}}
-                  </b-dropdown-item>
+
+                <b-dropdown-item title="Show" :to="'/app/purchases/detail/'+props.row.id">
+                  <Eye size="14" class="mr-2"></Eye>
+                  {{$t('DetailPurchase')}}
+                </b-dropdown-item>
 
                 <b-dropdown-item
                   title="Edit"
                   v-if="currentUserPermissions.includes('Purchases_edit') && props.row.purchase_has_return == 'no'"
                   :to="'/app/purchases/edit/'+props.row.id"
                 >
-                  <Edit size="14" :stroke-width="1.5" class="mr-2"></Edit>
+                  <Edit size="14" class="mr-2"></Edit>
                   {{$t('EditPurchase')}}
                 </b-dropdown-item>
 
                  <b-dropdown-item
+                  title="Delete"
+                  v-if="currentUserPermissions.includes('Purchases_delete')"
+                  @click="Remove_Purchase(props.row.id , props.row.purchase_has_return)"
+                >
+                  <X size="14" class="mr-2"></X>
+                  {{$t('DeletePurchase')}}
+                </b-dropdown-item>
+
+                <b-dropdown-item
                   title="Purchase Return"
                   v-if="currentUserPermissions.includes('Purchase_Returns_add') && props.row.purchase_has_return == 'no' && props.row.statut == 'received'"
                   :to="'/app/purchases/purchase_return/'+props.row.id"
@@ -159,16 +167,7 @@
                   {{$t('Attach_Documents')}}
                 </b-dropdown-item>
 
-                <b-dropdown-item
-                  title="Delete"
-                  v-if="currentUserPermissions.includes('Purchases_delete')"
-                  @click="Remove_Purchase(props.row.id , props.row.purchase_has_return)"
-                >
-                  <XCircle size="14" :stroke-width="1.5" class="mr-2"></XCircle>
-                  {{$t('DeletePurchase')}}
-                </b-dropdown-item>
               </b-dropdown>
-            </div>
           </span>
           <span v-else-if="props.column.field == 'date'">
             {{ formatDisplayDate(props.row.date) }}
@@ -176,25 +175,25 @@
           <div v-else-if="props.column.field == 'statut'">
             <span
               v-if="props.row.statut == 'received'"
-              class="badge badge-outline-success"
+              class="status-badge status-success"
             >{{$t('Received')}}</span>
             <span
               v-else-if="props.row.statut == 'pending'"
-              class="badge badge-outline-info"
+              class="status-badge status-info"
             >{{$t('Pending')}}</span>
-            <span v-else class="badge badge-outline-warning">{{$t('Ordered')}}</span>
+            <span v-else class="status-badge status-warning">{{$t('Ordered')}}</span>
           </div>
 
           <div v-else-if="props.column.field == 'payment_status'">
             <span
               v-if="props.row.payment_status == 'paid'"
-              class="badge badge-outline-success"
+              class="status-badge status-success"
             >{{$t('Paid')}}</span>
             <span
               v-else-if="props.row.payment_status == 'partial'"
-              class="badge badge-outline-primary"
+              class="status-badge status-primary"
             >{{$t('partial')}}</span>
-            <span v-else class="badge badge-outline-warning">{{$t('Unpaid')}}</span>
+            <span v-else class="status-badge status-warning">{{$t('Unpaid')}}</span>
           </div>
            <div v-else-if="props.column.field == 'Ref'">
               <router-link
@@ -633,8 +632,8 @@ import { mapActions, mapGetters } from "vuex";
 import NProgress from "nprogress";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
-import { 
-  Filter, FileText, FileSpreadsheet, Plus, Eye, Edit, ArrowLeft, Banknote, Barcode, Mail, MessageSquare, XCircle, CheckCircle, Download, Upload, X, Receipt, Power 
+import {
+  Filter, FileText, FileSpreadsheet, Plus, Eye, Edit, ArrowLeft, Banknote, Barcode, Mail, MessageSquare, XCircle, CheckCircle, Download, Upload, X, Receipt, Power, MoreHorizontal
 } from "lucide-vue";
 import Util from "../../../../utils";
 import {
@@ -647,7 +646,7 @@ export default {
     title: "Purchases"
   },
   components: {
-    Filter, FileText, FileSpreadsheet, Plus, Eye, Edit, ArrowLeft, Banknote, Barcode, Mail, MessageSquare, XCircle, CheckCircle, Download, Upload, X, Receipt, Power
+    Filter, FileText, FileSpreadsheet, Plus, Eye, Edit, ArrowLeft, Banknote, Barcode, Mail, MessageSquare, XCircle, CheckCircle, Download, Upload, X, Receipt, Power, MoreHorizontal
   },
 
   data() {
@@ -971,9 +970,9 @@ export default {
         purchase.provider_name,
         purchase.warehouse_name,
         purchase.statut,
-        purchase.GrandTotal,
-        purchase.paid_amount,
-        purchase.due,
+        self.formatPriceDisplay(purchase.GrandTotal, 2),
+        self.formatPriceDisplay(purchase.paid_amount, 2),
+        self.formatPriceDisplay(purchase.due, 2),
         purchase.payment_status
       ]));
 
@@ -987,9 +986,9 @@ export default {
         '',
         '',
         '',
-        totalGrandTotal.toFixed(2),
-        totalPaidAmount.toFixed(2),
-        totalDue.toFixed(2),
+        self.formatPriceDisplay(totalGrandTotal, 2),
+        self.formatPriceDisplay(totalPaidAmount, 2),
+        self.formatPriceDisplay(totalDue, 2),
         ''
       ]];
 

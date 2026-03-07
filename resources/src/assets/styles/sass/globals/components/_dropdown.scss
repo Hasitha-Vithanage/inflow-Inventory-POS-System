@@ -1,14 +1,19 @@
 .dropdown-toggle {
   position: relative;
+  text-decoration: none !important;
+
   &.btn {
-    // border: 1px solid $gray-200;
-    // border-radius: 40px;
-    // height: 40px;
-    // line-height: 40px;
-    // padding: 0 28px 0 20px;
-    // background: $gray-100;
+    text-decoration: none !important;
     padding-right: 28px;
+
+    // Remove hover underlines
+    &:hover,
+    &:focus {
+      text-decoration: none !important;
+      box-shadow: none !important;
+    }
   }
+
   &::after {
     position: absolute;
     top: calc(50% - 2px);
@@ -17,13 +22,82 @@
 }
 
 .dropdown-menu {
+  border: 1px solid $gray-200;
+  border-radius: 8px;
+  padding: 0.5rem 0 !important;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  z-index: 9999 !important;
+  min-width: 14rem;
+  background-color: #ffffff !important;
+  background-clip: padding-box;
+  opacity: 1 !important;
+  visibility: visible !important;
+
+  // Bridge the gap between button and menu to prevent glitchy closing
+  &::before {
+    content: "";
+    position: absolute;
+    top: -20px;
+    left: 0;
+    right: 0;
+    height: 20px;
+    background: transparent;
+  }
+}
+
+// Resetting bootstrap Vue b-dropdown-item internal links
+.dropdown-menu>li>a.dropdown-item,
+.dropdown-menu>.dropdown-item {
+  width: 100%;
+  clear: both;
+  font-weight: 400;
+  color: $gray-700;
+  text-align: inherit;
+  white-space: nowrap;
+  background-color: transparent;
   border: 0;
-  padding: 0 !important;
-  box-shadow: 0 1px 15px 1px rgba(0, 0, 0, 0.04), 0 1px 6px rgba(0, 0, 0, 0.08);
+  padding: 0.6rem 1.25rem !important;
+
+  &:hover,
+  &:focus {
+    background-color: $gray-100 !important;
+    color: $primary !important;
+  }
 }
 
 .dropdown-item {
-  padding: 0.42rem 1.5rem;
+  padding: 0.5rem 1.25rem !important;
+  font-size: 0.875rem;
+  color: $gray-700;
+  display: flex !important;
+  align-items: center;
+  transition: all 0.2s ease;
+  width: 100%;
+  clear: both;
+  text-align: inherit;
+  white-space: nowrap;
+  background-color: transparent;
+  border: 0;
+
+  i,
+  svg {
+    margin-right: 0.75rem;
+    color: $gray-500;
+    width: 16px;
+    height: 16px;
+  }
+
+  &:hover,
+  &:focus {
+    background-color: $gray-100 !important;
+    color: $primary !important;
+    text-decoration: none;
+
+    i,
+    svg {
+      color: $primary;
+    }
+  }
 }
 
 .menu-icon-grid {
@@ -32,7 +106,8 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  > a {
+
+  >a {
     display: inline-flex;
     width: 6rem;
     flex-direction: column;
@@ -40,10 +115,12 @@
     padding: 18px 12px;
     color: $gray-800;
     border-radius: 4px;
+
     i {
       font-size: 28px;
       margin-bottom: 4px;
     }
+
     &:hover {
       background: $primary;
       color: $white;
@@ -53,6 +130,7 @@
 
 .mega-menu {
   position: static;
+
   .dropdown-menu {
     left: auto;
     right: auto;
@@ -62,13 +140,16 @@
     overflow: hidden;
     max-height: calc(100vh - 100px);
     overflow-y: scroll;
+
     .bg-img {
       background: linear-gradient(to right, $primary, $info);
     }
+
     .bg-img,
     .bg-img .title {
       color: #ffffff;
     }
+
     // .menu-icon-grid {
     //     margin-left: -2rem;
     // }
@@ -78,10 +159,12 @@
       margin: 0;
       padding: 0;
       column-count: 2;
+
       li a {
         display: inline-block;
         margin-bottom: 8px;
         color: $gray-600;
+
         &:hover {
           color: $primary;
         }

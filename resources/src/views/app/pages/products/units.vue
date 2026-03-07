@@ -38,11 +38,11 @@
 
         <template slot="table-row" slot-scope="props">
           <span v-if="props.column.field == 'actions'">
-            <a @click="Edit_Unit(props.row)" title="Edit" v-b-tooltip.hover>
-              <edit size="20" class="text-success mr-2"></edit>
+            <a @click="Edit_Unit(props.row)" class="btn-action btn-edit" title="Edit" v-b-tooltip.hover>
+              <Edit size="16" :stroke-width="2" />
             </a>
-            <a title="Delete" v-b-tooltip.hover @click="Remove_Unit(props.row.id)">
-              <x size="20" class="text-danger"></x>
+            <a @click="Remove_Unit(props.row.id)" class="btn-action btn-delete" title="Delete" v-b-tooltip.hover>
+              <XCircle size="16" :stroke-width="2" />
             </a>
           </span>
           <div v-else-if="props.column.field == 'BaseUnit'">
@@ -160,7 +160,7 @@
 
 
 <script>
-import { Edit, X } from "lucide-vue";
+import { Edit, XCircle } from "lucide-vue";
 import NProgress from "nprogress";
 
 export default {
@@ -169,7 +169,7 @@ export default {
   },
   components: {
     Edit,
-    X
+    XCircle
   },
   data() {
     return {

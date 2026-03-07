@@ -46,11 +46,11 @@
             <Filter size="14" class="mr-1"></Filter>
             {{ $t("Filter") }}
           </b-button>
-          <b-button @click="clients_PDF()" size="sm" variant="outline-success m-1">
+          <b-button @click="clients_PDF()" size="sm" variant="outline-danger m-1">
             <FileText size="14" class="mr-1"></FileText> PDF
           </b-button>
            <vue-excel-xlsx
-              class="btn btn-sm btn-outline-danger ripple m-1"
+              class="btn btn-sm btn-outline-success ripple m-1"
               :data="clients"
               :columns="columns"
               :file-name="'clients'"
@@ -91,81 +91,91 @@
                   : $t('No_limit') }}
             </span>
           </span>
+          <span v-else-if="props.column.field == 'due'">
+            {{ formatPriceWithSymbol(currentUser.currency, props.row.due || 0, 2) }}
+          </span>
+          <span v-else-if="props.column.field == 'return_Due'">
+            {{ formatPriceWithSymbol(currentUser.currency, props.row.return_Due || 0, 2) }}
+          </span>
           <span v-else-if="props.column.field == 'actions'">
-            <div>
-              <b-dropdown
-                id="dropdown-right"
-                variant="primary"
-                text="Action"
-                toggle-class="text-decoration-none"
-                size="sm"
-                right
-                no-caret
+            <b-dropdown
+              id="dropdown-action"
+              variant="link"
+              toggle-class="text-decoration-none p-0"
+              size="sm"
+              no-caret
+            >
+              <template v-slot:button-content>
+                <span class="btn-action btn-copy">
+                  <MoreHorizontal size="16" :stroke-width="2"></MoreHorizontal>
+                </span>
+              </template>
+
+              <b-dropdown-item
+                title="Show"
+                @click="$router.push({ name: 'CustomerDetails', params: { id: props.row.id } })"
               >
-                <template v-slot:button-content>
-                  {{$t('Action')}}
-                </template>
+                <Eye size="16" :stroke-width="2" class="mr-2"></Eye>
+                {{$t('CustomerDetail')}}
+              </b-dropdown-item>
 
-                 <b-dropdown-item @click="$router.push({ name: 'CustomerLedger', params: { id: props.row.id } })">
-                  <FileText size="14" class="mr-2"></FileText>
-                 {{$t('Customer_Ledger')}}
-                </b-dropdown-item>
+              <b-dropdown-item
+                v-if="currentUserPermissions.includes('Customers_edit')"
+                title="Edit"
+                @click="Edit_Client(props.row)"
+              >
+                <Edit size="16" :stroke-width="2" class="mr-2"></Edit>
+                {{$t('EditCustomer')}}
+              </b-dropdown-item>
 
-                <b-dropdown-item
-                 v-if="props.row.client_ecommerce == 'yes' && 
-                 (currentUserPermissions && currentUserPermissions.includes('Customers_edit'))"
-                  @click="Edit_Online_Store_Account(props.row)"
-                >
-                <Edit size="14" class="mr-2"></Edit>
-                  {{$t('Edit_Online_Store_Account')}}
-                </b-dropdown-item>
+              <b-dropdown-item
+                v-if="currentUserPermissions.includes('Customers_delete')"
+                title="Delete"
+                @click="Remove_Client(props.row.id)"
+              >
+                <XCircle size="16" :stroke-width="2" class="mr-2"></XCircle>
+                {{$t('DeleteCustomer')}}
+              </b-dropdown-item>
 
-                <b-dropdown-item
-                  v-if="props.row.due > 0 && currentUserPermissions && currentUserPermissions.includes('pay_due')"
-                  @click="Pay_due(props.row)"
-                >
-                  <DollarSign size="14" class="mr-2"></DollarSign>
-                  {{$t('pay_all_sell_due_at_a_time')}}
-                </b-dropdown-item>
+              <b-dropdown-item @click="$router.push({ name: 'CustomerLedger', params: { id: props.row.id } })">
+                <FileText size="16" :stroke-width="2" class="mr-2"></FileText>
+                {{$t('Customer_Ledger')}}
+              </b-dropdown-item>
 
-                <b-dropdown-item
-                  v-if="props.row.return_Due > 0 && currentUserPermissions && currentUserPermissions.includes('pay_sale_return_due')"
-                  @click="Pay_return_due(props.row)"
-                >
-                  <DollarSign size="14" class="mr-2"></DollarSign>
-                  {{$t('pay_all_sell_return_due_at_a_time')}}
-                </b-dropdown-item>
+              <b-dropdown-item
+                v-if="props.row.client_ecommerce == 'yes' && 
+                (currentUserPermissions && currentUserPermissions.includes('Customers_edit'))"
+                @click="Edit_Online_Store_Account(props.row)"
+              >
+                <Edit size="16" :stroke-width="2" class="mr-2"></Edit>
+                {{$t('Edit_Online_Store_Account')}}
+              </b-dropdown-item>
 
-                 <b-dropdown-item
-                  @click="$router.push({ name: 'CustomerDetails', params: { id: props.row.id } })"
-                >
-                  <Eye size="14" class="mr-2"></Eye>
-                  {{$t('Customer_details')}}
-                </b-dropdown-item>
+              <b-dropdown-item
+                v-if="props.row.due > 0 && currentUserPermissions && currentUserPermissions.includes('pay_due')"
+                @click="Pay_due(props.row)"
+              >
+                <DollarSign size="16" :stroke-width="2" class="mr-2"></DollarSign>
+                {{$t('pay_all_sell_due_at_a_time')}}
+              </b-dropdown-item>
 
-                <b-dropdown-item @click="openPointsModal(props.row)">
-                  <Edit size="14" class="mr-2"></Edit>
-                  {{$t('Adjust_Customer_Points')}}
-                </b-dropdown-item>
-               
-                <b-dropdown-item
-                 v-if="currentUserPermissions && currentUserPermissions.includes('Customers_edit')"
-                  @click="Edit_Client(props.row)"
-                >
-                  <Edit size="14" class="mr-2"></Edit>
-                  {{$t('Edit_Customer')}}
-                </b-dropdown-item>
+              <b-dropdown-item
+                v-if="props.row.return_Due > 0 && currentUserPermissions && currentUserPermissions.includes('pay_sale_return_due')"
+                @click="Pay_return_due(props.row)"
+              >
+                <DollarSign size="16" :stroke-width="2" class="mr-2"></DollarSign>
+                {{$t('pay_all_sell_return_due_at_a_time')}}
+              </b-dropdown-item>
 
-                <b-dropdown-item
-                  title="Delete"
-                  v-if="currentUserPermissions.includes('Customers_delete')"
-                  @click="Remove_Client(props.row.id)"
-                >
-                  <XCircle size="14" class="mr-2"></XCircle>
-                  {{$t('Delete_Customer')}}
-                </b-dropdown-item>
-                </b-dropdown>
-            </div>
+              <b-dropdown-item @click="openPointsModal(props.row)">
+                <Edit size="16" :stroke-width="2" class="mr-2"></Edit>
+                {{$t('Adjust_Customer_Points')}}
+              </b-dropdown-item>
+
+            </b-dropdown>
+          </span>
+          <span v-else>
+            {{props.row[props.column.field]}}
           </span>
         </template>
 
@@ -204,16 +214,12 @@
             </b-form-group>
           </b-col>
 
-          <b-col md="6" sm="12">
-            <b-button @click="Get_Clients(serverParams.page)" variant="primary m-1" size="sm" block>
-              <Filter size="14" class="mr-1"></Filter>
-              {{ $t("Filter") }}
+          <b-col md="12" class="mt-3">
+            <b-button @click="Get_Clients(serverParams.page)" variant="primary" size="sm" block>
+              <Filter size="16" class="mr-1"></Filter> {{ $t("Filter") }}
             </b-button>
-          </b-col>
-          <b-col md="6" sm="12">
-            <b-button @click="Reset_Filter()" variant="danger m-1" size="sm" block>
-              <Power size="14" class="mr-1"></Power>
-              {{ $t("Reset") }}
+            <b-button @click="Reset_Filter()" variant="danger" size="sm" block mt-2>
+              <Power size="16" class="mr-1"></Power> {{ $t("Reset") }}
             </b-button>
           </b-col>
         </b-row>
@@ -728,7 +734,7 @@
                 <tr>
                   <td>{{$t('Name')}}</td>
                   <th>
-                    <span class="badge badge-outline-success">{{$t('Field_is_required')}}</span>
+                    <span class="status-badge status-success">{{$t('Field_is_required')}}</span>
                   </th>
                 </tr>
 
@@ -740,7 +746,7 @@
                 <tr>
                   <td>{{$t('Email')}}</td>
                   <th>
-                    <span class="badge badge-outline-success"></span>
+                    <span class="status-badge status-success"></span>
                   </th>
                 </tr>
 
@@ -855,7 +861,8 @@ import {
   Info,
   CheckCircle,
   Printer,
-  Settings
+  Settings,
+  MoreHorizontal
 } from "lucide-vue";
 import { mapActions, mapGetters } from "vuex";
 import NProgress from "nprogress";
@@ -885,7 +892,8 @@ export default {
     Info,
     CheckCircle,
     Printer,
-    Settings
+    Settings,
+    MoreHorizontal
   },
   metaInfo: {
     title: "Customer"

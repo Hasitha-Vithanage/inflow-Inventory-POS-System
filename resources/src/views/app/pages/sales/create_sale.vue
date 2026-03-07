@@ -64,7 +64,7 @@
                             :title="$t('Quick_Add_Customer')"
                             class="category-add-btn"
                           >
-                            <i class="i-Add"></i>
+                            <Plus :size="16" :stroke-width="2" />
                           </b-button>
                         </b-input-group-append>
                       </b-input-group>
@@ -130,7 +130,7 @@
                           <th scope="col">{{$t('Tax')}}</th>
                           <th scope="col">{{$t('SubTotal')}}</th>
                           <th scope="col" class="text-center">
-                            <i class="i-Close-Window text-25"></i>
+                            <XCircle :size="16" :stroke-width="2" />
                           </th>
                         </tr>
                       </thead>
@@ -149,23 +149,21 @@
                           <td>
                             <div class="d-flex align-items-center">
                               <div class="mr-2">
-                                <span>{{currentUser.currency}} {{formatNumber(detail.Net_price, 3)}}</span>
+                                <span>{{formatPriceWithSymbol(currentUser.currency, detail.Net_price, 3)}}</span>
                                 <small
                                   v-if="detail.min_price && detail.Net_price < detail.min_price"
                                   class="text-danger d-block"
                                 >{{ $t('Price_below_min_not_allowed') }}</small>
                               </div>
-                              <v-select
-                                class="ml-2"
-                                :options="[
-                                  {label: $t('Retail Price'), value: 'retail'},
-                                  {label: $t('Wholesale Price'), value: 'wholesale'}
-                                ]"
-                                :reduce="opt => opt.value"
+                              <select
+                                class="form-control ml-2"
                                 v-model="detail.price_type"
-                                style="min-width: 160px"
-                                @input="val => onChangePriceType(detail, val)"
-                              />
+                                style="min-width: 140px; padding: 2px 10px; height: 32px; font-size: 13px;"
+                                @change="onChangePriceType(detail, detail.price_type)"
+                              >
+                                <option value="retail">{{ $t('Retail Price') }}</option>
+                                <option value="wholesale">{{ $t('Wholesale Price') }}</option>
+                              </select>
                             </div>
                           </td>
                           <td>
@@ -176,10 +174,13 @@
                             <div class="quantity">
                               <b-input-group>
                                 <b-input-group-prepend>
-                                  <span
-                                    class="btn btn-primary btn-sm"
+                                  <button
+                                    type="button"
+                                    class="btn btn-qty"
                                     @click="decrement(detail ,detail.detail_id)"
-                                  >-</span>
+                                  >
+                                    <Minus />
+                                  </button>
                                 </b-input-group-prepend>
                                 <input
                                   class="form-control"
@@ -189,21 +190,40 @@
                                   v-model.number="detail.quantity"
                                 >
                                 <b-input-group-append>
-                                  <span
-                                    class="btn btn-primary btn-sm"
+                                  <button
+                                    type="button"
+                                    class="btn btn-qty"
                                     @click="increment(detail ,detail.detail_id)"
-                                  >+</span>
+                                  >
+                                    <Plus />
+                                  </button>
                                 </b-input-group-append>
                               </b-input-group>
                             </div>
                           </td>
-                          <td>{{currentUser.currency}} {{formatNumber(detail.DiscountNet * detail.quantity, 2)}}</td>
-                          <td>{{currentUser.currency}} {{formatNumber(detail.taxe  * detail.quantity, 2)}}</td>
-                          <td>{{currentUser.currency}} {{detail.subtotal.toFixed(2)}}</td>
+                          <td>{{formatPriceWithSymbol(currentUser.currency, detail.DiscountNet * detail.quantity, 2)}}</td>
+                          <td>{{formatPriceWithSymbol(currentUser.currency, detail.taxe  * detail.quantity, 2)}}</td>
+                          <td>{{formatPriceWithSymbol(currentUser.currency, detail.subtotal, 2)}}</td>
                           <td>
-                            <i v-if="currentUserPermissions && currentUserPermissions.includes('edit_product_sale')"
-                             @click="Modal_Updat_Detail(detail)" class="i-Edit text-25 text-success cursor-pointer"></i>
-                            <i @click="delete_Product_Detail(detail.detail_id)" class="i-Close-Window text-25 text-danger cursor-pointer"></i>
+                            <button
+                              v-if="currentUserPermissions && currentUserPermissions.includes('edit_product_sale')"
+                              type="button"
+                              @click="Modal_Updat_Detail(detail)"
+                              class="btn-action btn-edit mr-2"
+                              v-b-tooltip.hover
+                              :title="$t('Edit')"
+                            >
+                              <Edit :size="16" :stroke-width="2" />
+                            </button>
+                            <button
+                              type="button"
+                              @click="delete_Product_Detail(detail.detail_id)"
+                              class="btn-action btn-delete"
+                              v-b-tooltip.hover
+                              :title="$t('Delete')"
+                            >
+                              <XCircle :size="16" :stroke-width="2" />
+                            </button>
                           </td>
                         </tr>
                       </tbody>
@@ -215,9 +235,8 @@
                   <table class="table table-striped table-sm">
                     <tbody>
                       <tr>
-                        <td class="bold">{{$t('OrderTax')}}</td>
                         <td>
-                          <span>{{currentUser.currency}} {{sale.TaxNet.toFixed(2)}} ({{formatNumber(sale.tax_rate,2)}} %)</span>
+                          <span>{{formatPriceWithSymbol(currentUser.currency, sale.TaxNet, 2)}} ({{formatNumber(sale.tax_rate,2)}} %)</span>
                         </td>
                       </tr>
                       <tr>
@@ -225,20 +244,20 @@
                         <td>
                           <!-- If percentage: show percent value AND discount amount; else amount only -->
                           <template v-if="String(sale.discount_Method || '2') === '1'">
-                            {{ formatNumber(sale.discount, 2) }}% ({{ currentUser.currency }} {{ getManualDiscountAmount().toFixed(2) }})
+                            {{ formatNumber(sale.discount, 2) }}% ({{ formatPriceWithSymbol(currentUser.currency, getManualDiscountAmount(), 2) }})
                           </template>
                           <template v-else>
-                            {{currentUser.currency}} {{getManualDiscountAmount().toFixed(2)}}
+                            {{formatPriceWithSymbol(currentUser.currency, getManualDiscountAmount(), 2)}}
                           </template>
                         </td>
                       </tr>
                       <tr v-if="discount_from_points && discount_from_points > 0">
                         <td class="bold">{{$t('Discount_from_Points')}}</td>
-                        <td>{{currentUser.currency}} {{discount_from_points.toFixed(2)}}</td>
+                        <td>{{formatPriceWithSymbol(currentUser.currency, discount_from_points, 2)}}</td>
                       </tr>
                       <tr>
                         <td class="bold">{{$t('Shipping')}}</td>
-                        <td>{{currentUser.currency}} {{sale.shipping.toFixed(2)}}</td>
+                        <td>{{formatPriceWithSymbol(currentUser.currency, sale.shipping, 2)}}</td>
                       </tr>
                       <tr>
                         <td>
@@ -247,7 +266,7 @@
                         <td>
                           <span
                             class="font-weight-bold"
-                          >{{currentUser.currency}} {{GrandTotal.toFixed(2)}}</span>
+                          >{{formatPriceWithSymbol(currentUser.currency, GrandTotal, 2)}}</span>
                         </td>
                       </tr>
                     </tbody>
@@ -343,7 +362,7 @@
                   </div>
 
                   <div class="result mt-2" v-if="discount_from_points > 0">
-                    ✅ Discount of <strong>{{ discount_from_points }}</strong> {{ currentUser.currency }} will be applied
+                    ✅ Discount of <strong>{{ formatPriceWithSymbol(currentUser.currency, discount_from_points, 2) }}</strong> will be applied
                   </div>
 
                   <input type="hidden" name="discount_from_points" :value="discount_from_points">
@@ -504,7 +523,7 @@
                   <label>{{$t('Change')}} :</label>
                   <p
                     class="change_amount"
-                  >{{parseFloat(payment.received_amount - payment.amount).toFixed(2)}}</p>
+                  >{{formatPriceDisplay(payment.received_amount - payment.amount, 2)}}</p>
                 </b-col>
 
                
@@ -846,8 +865,15 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 import NProgress from "nprogress";
+import { Edit, XCircle, Plus, Minus } from "lucide-vue";
 
 export default {
+  components: {
+    Edit,
+    XCircle,
+    Plus,
+    Minus
+  },
   metaInfo: {
     title: "Create Sale"
   },

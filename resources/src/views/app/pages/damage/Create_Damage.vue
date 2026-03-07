@@ -82,11 +82,23 @@
                             <div class="quantity">
                               <b-input-group>
                                 <b-input-group-prepend>
-                                  <span class="btn btn-primary btn-sm" @click="decrement(detail ,detail.detail_id)">-</span>
+                                  <button
+                                    type="button"
+                                    class="btn btn-qty"
+                                    @click="decrement(detail ,detail.detail_id)"
+                                  >
+                                    <Minus />
+                                  </button>
                                 </b-input-group-prepend>
                                 <input class="form-control" @keyup="Verified_Qty(detail,detail.detail_id)" :min="0.00" :max="detail.current" v-model.number="detail.quantity">
                                 <b-input-group-append>
-                                  <span class="btn btn-primary btn-sm" @click="increment(detail ,detail.detail_id)">+</span>
+                                  <button
+                                    type="button"
+                                    class="btn btn-qty"
+                                    @click="increment(detail ,detail.detail_id)"
+                                  >
+                                    <Plus />
+                                  </button>
                                 </b-input-group-append>
                               </b-input-group>
                             </div>
@@ -122,8 +134,13 @@
 
 <script>
 import NProgress from "nprogress";
+import { Plus, Minus } from "lucide-vue";
 
 export default {
+  components: {
+    Plus,
+    Minus
+  },
   metaInfo: { title: "Create Damage" },
   data() {
     return {

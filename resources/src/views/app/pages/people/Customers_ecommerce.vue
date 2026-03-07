@@ -41,12 +41,22 @@
       >
         <template slot="table-row" slot-scope="props">
           <span v-if="props.column.field === 'actions'">
-            <b-button size="sm" variant="outline-primary" class="mr-2" @click="editAccount(props.row)">
-              <i class="i-Edit me-1"></i> {{ $t('Edit') }}
-            </b-button>
-            <b-button size="sm" variant="outline-danger" @click="confirmDelete(props.row)">
-              <i class="i-Close me-1"></i> {{ $t('Delete') }}
-            </b-button>
+            <button
+               @click="editAccount(props.row)"
+               class="btn-action btn-edit mr-2"
+               v-b-tooltip.hover
+               :title="$t('Edit')"
+             >
+               <Edit :size="16" :stroke-width="2" />
+             </button>
+             <button
+               @click="confirmDelete(props.row)"
+               class="btn-action btn-delete"
+               v-b-tooltip.hover
+               :title="$t('Delete')"
+             >
+               <XCircle :size="16" :stroke-width="2" />
+             </button>
           </span>
         </template>
       </vue-good-table>
@@ -151,8 +161,13 @@
 <script>
 import { mapGetters } from "vuex";
 import NProgress from "nprogress";
+import { Edit, XCircle } from "lucide-vue";
 
 export default {
+  components: {
+    Edit,
+    XCircle
+  },
   metaInfo: {
     title: "Online Store Accounts",
   },

@@ -37,11 +37,11 @@
             <Filter size="14" class="mr-1"></Filter>
             {{ $t("Filter") }}
           </b-button>
-          <b-button @click="Providers_PDF()" size="sm" variant="outline-success m-1">
+          <b-button @click="Providers_PDF()" size="sm" variant="outline-danger m-1">
             <FileText size="14" class="mr-1"></FileText> PDF
           </b-button>
           <vue-excel-xlsx
-              class="btn btn-sm btn-outline-danger ripple m-1"
+              class="btn btn-sm btn-outline-success ripple m-1"
               :data="providers"
               :columns="columns"
               :file-name="'providers'"
@@ -73,27 +73,47 @@
 
         <template slot="table-row" slot-scope="props">
           <span v-if="props.column.field == 'actions'">
-            <div>
               <b-dropdown
-                id="dropdown-right"
+                id="dropdown-action"
                 variant="link"
-                text="right align"
-                toggle-class="text-decoration-none"
+                toggle-class="text-decoration-none p-0"
                 size="lg"
-                right
                 no-caret
               >
-                <template v-slot:button-content class="_r_btn border-0">
-                  <span class="_dot _r_block-dot bg-dark"></span>
-                  <span class="_dot _r_block-dot bg-dark"></span>
-                  <span class="_dot _r_block-dot bg-dark"></span>
+                <template v-slot:button-content>
+                  <span class="_r_block-dot">
+                    <MoreHorizontal size="18"></MoreHorizontal>
+                  </span>
                 </template>
+
+                <b-dropdown-item title="Show" @click="showDetails(props.row)">
+                  <Eye size="14" class="mr-2"></Eye>
+                  {{$t('ProviderDetail')}}
+                </b-dropdown-item>
+
+                <b-dropdown-item
+                  v-if="currentUserPermissions.includes('Suppliers_edit')"
+                  title="Edit"
+                  @click="Edit_Provider(props.row)"
+                >
+                  <Edit size="14" class="mr-2"></Edit>
+                  {{$t('EditProvider')}}
+                </b-dropdown-item>
+
+                <b-dropdown-item
+                  v-if="currentUserPermissions.includes('Suppliers_delete')"
+                  title="Delete"
+                  @click="Remove_Provider(props.row.id)"
+                >
+                  <X size="14" class="mr-2"></X>
+                  {{$t('DeleteProvider')}}
+                </b-dropdown-item>
 
                 <b-dropdown-item
                   v-if="props.row.due > 0 && currentUserPermissions && currentUserPermissions.includes('pay_supplier_due')"
                   @click="Pay_due(props.row)"
                 >
-                  <dollar-sign size="14" class="mr-2"></dollar-sign>
+                  <DollarSign size="14" class="mr-2"></DollarSign>
                   {{$t('pay_all_purchase_due_at_a_time')}}
                 </b-dropdown-item>
 
@@ -101,35 +121,11 @@
                   v-if="props.row.return_Due > 0 && currentUserPermissions && currentUserPermissions.includes('pay_purchase_return_due')"
                   @click="Pay_return_due(props.row)"
                 >
-                  <dollar-sign size="14" class="mr-2"></dollar-sign>
+                  <DollarSign size="14" class="mr-2"></DollarSign>
                   {{$t('pay_all_purchase_return_due_at_a_time')}}
                 </b-dropdown-item>
 
-                <b-dropdown-item
-                  @click="showDetails(props.row)"
-                >
-                  <Eye size="14" class="mr-2"></Eye>
-                  {{$t('Provider_details')}}
-                </b-dropdown-item>
-
-                <b-dropdown-item
-                 v-if="currentUserPermissions && currentUserPermissions.includes('Suppliers_edit')"
-                  @click="Edit_Provider(props.row)"
-                >
-                  <Edit size="14" class="mr-2"></Edit>
-                  {{$t('Edit_Provider')}}
-                </b-dropdown-item>
-
-                <b-dropdown-item
-                  title="Delete"
-                  v-if="currentUserPermissions.includes('Suppliers_delete')"
-                  @click="Remove_Provider(props.row.id)"
-                >
-                  <XCircle size="14" class="mr-2"></XCircle>
-                  {{$t('Delete_Provider')}}
-                </b-dropdown-item>
-                </b-dropdown>
-            </div>
+              </b-dropdown>
           </span>
 
         </template>
@@ -168,21 +164,12 @@
             </b-form-group>
           </b-col>
 
-          <b-col md="6" sm="12">
-            <b-button
-              @click="Get_Providers(serverParams.page)"
-              variant="primary m-1"
-              size="sm"
-              block
-            >
-              <Filter size="14" class="mr-1"></Filter>
-              {{ $t("Filter") }}
+          <b-col md="12" class="mt-3">
+            <b-button @click="Get_Providers(serverParams.page)" variant="primary" size="sm" block>
+              <Filter size="16" class="mr-1"></Filter> {{ $t("Filter") }}
             </b-button>
-          </b-col>
-          <b-col md="6" sm="12">
-            <b-button @click="Reset_Filter()" variant="danger m-1" size="sm" block>
-              <Power size="14" class="mr-1"></Power>
-              {{ $t("Reset") }}
+            <b-button @click="Reset_Filter()" variant="danger" size="sm" block mt-2>
+              <Power size="16" class="mr-1"></Power> {{ $t("Reset") }}
             </b-button>
           </b-col>
         </b-row>
@@ -653,7 +640,9 @@ import {
   Power,
   CheckCircle,
   Printer,
-  Settings
+  Settings,
+  MoreHorizontal,
+  X
 } from "lucide-vue";
 import { mapActions, mapGetters } from "vuex";
 import NProgress from "nprogress";
@@ -674,7 +663,9 @@ export default {
     Power,
     CheckCircle,
     Printer,
-    Settings
+    Settings,
+    MoreHorizontal,
+    X
   },
   metaInfo: {
     title: "Provider"

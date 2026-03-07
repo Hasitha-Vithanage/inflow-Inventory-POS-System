@@ -35,62 +35,67 @@
         </div>
         <div slot="table-actions" class="mt-2 mb-3">
           <b-button variant="outline-info ripple m-1" size="sm" v-b-toggle.sidebar-right>
-            <i class="i-Filter-2"></i>
+            <Filter size="14" class="mr-1"></Filter>
             {{ $t("Filter") }}
           </b-button>
-          <b-button @click="Sale_Return_PDF()" size="sm" variant="outline-success ripple m-1">
-            <i class="i-File-Copy"></i> PDF
+          <b-button @click="Sale_Return_PDF()" size="sm" variant="outline-danger ripple m-1">
+            <FileText size="14" class="mr-1"></FileText> PDF
           </b-button>
           <vue-excel-xlsx
-              class="btn btn-sm btn-outline-danger ripple m-1"
+              class="btn btn-sm btn-outline-success ripple m-1"
               :data="sales_return"
               :columns="columns"
               :file-name="'sales_return'"
               :file-type="'xlsx'"
               :sheet-name="'sales_return'"
               >
-              <i class="i-File-Excel"></i> EXCEL
+              <FileSpreadsheet size="14" class="mr-1"></FileSpreadsheet> EXCEL
           </vue-excel-xlsx>
-         
         </div>
 
         <template slot="table-row" slot-scope="props">
           <span v-if="props.column.field == 'actions'">
-            <div>
               <b-dropdown
-                id="dropdown-left"
+                id="dropdown-action"
                 variant="link"
-                text="Left align"
-                toggle-class="text-decoration-none"
-                size="lg"
+                toggle-class="text-decoration-none p-0"
+                size="sm"
                 no-caret
               >
-                <template v-slot:button-content class="_r_btn border-0">
-                  <span class="_dot _r_block-dot bg-dark"></span>
-                  <span class="_dot _r_block-dot bg-dark"></span>
-                  <span class="_dot _r_block-dot bg-dark"></span>
+                <template v-slot:button-content>
+                  <span class="_r_block-dot">
+                    <MoreHorizontal size="18"></MoreHorizontal>
+                  </span>
                 </template>
-                <b-navbar-nav>
-                  <b-dropdown-item title="Show" :to="'/app/sale_return/detail/'+props.row.id">
-                    <i class="nav-icon i-Eye font-weight-bold mr-2"></i>
-                    {{$t('ReturnDetail')}}
-                  </b-dropdown-item>
-                </b-navbar-nav>
+
+                <b-dropdown-item title="Show" :to="'/app/sale_return/detail/'+props.row.id">
+                  <Eye size="14" class="mr-2"></Eye>
+                  {{$t('ReturnDetail')}}
+                </b-dropdown-item>
 
                 <b-dropdown-item
                   title="Edit"
                   v-if="currentUserPermissions.includes('Sale_Returns_edit')"
                   :to="'/app/sale_return/edit/'+props.row.id+'/'+props.row.sale_id"
                 >
-                  <i class="nav-icon i-Pen-2 font-weight-bold mr-2"></i>
+                  <Edit size="14" class="mr-2"></Edit>
                   {{$t('EditReturn')}}
+                </b-dropdown-item>
+
+                 <b-dropdown-item
+                  title="Delete"
+                  v-if="currentUserPermissions.includes('Sale_Returns_delete')"
+                  @click="Remove_Return(props.row.id)"
+                >
+                  <X size="14" class="mr-2"></X>
+                  {{$t('DeleteReturn')}}
                 </b-dropdown-item>
 
                 <b-dropdown-item
                   v-if="currentUserPermissions.includes('payment_returns_view')"
                   @click="Show_Payments(props.row.id , props.row)"
                 >
-                  <i class="nav-icon i-Money-Bag font-weight-bold mr-2"></i>
+                  <Banknote size="14" class="mr-2"></Banknote>
                   {{$t('ShowPayment')}}
                 </b-dropdown-item>
 
@@ -98,44 +103,35 @@
                   v-if="currentUserPermissions.includes('payment_returns_add')"
                   @click="New_Payment(props.row)"
                 >
-                  <i class="nav-icon i-Add font-weight-bold mr-2"></i>
+                  <Plus size="14" class="mr-2"></Plus>
                   {{$t('AddPayment')}}
                 </b-dropdown-item>
 
                 <b-dropdown-item title="PDF" @click="Return_PDF(props.row , props.row.id)">
-                  <i class="nav-icon i-File-TXT font-weight-bold mr-2"></i>
+                  <FileText size="14" class="mr-2"></FileText>
                   {{$t('DownloadPdf')}}
                 </b-dropdown-item>
 
-                <b-dropdown-item
-                  title="Delete"
-                  v-if="currentUserPermissions.includes('Sale_Returns_delete')"
-                  @click="Remove_Return(props.row.id)"
-                >
-                  <i class="nav-icon i-Close-Window font-weight-bold mr-2"></i>
-                  {{$t('DeleteReturn')}}
-                </b-dropdown-item>
               </b-dropdown>
-            </div>
           </span>
           <div v-else-if="props.column.field == 'statut'">
             <span
               v-if="props.row.statut == 'received'"
-              class="badge badge-outline-success"
+              class="status-badge status-success"
             >{{$t('Received')}}</span>
-            <span v-else class="badge badge-outline-info">{{$t('Pending')}}</span>
+            <span v-else class="status-badge status-info">{{$t('Pending')}}</span>
           </div>
 
           <div v-else-if="props.column.field == 'payment_status'">
             <span
               v-if="props.row.payment_status == 'paid'"
-              class="badge badge-outline-success"
+              class="status-badge status-success"
             >{{$t('Paid')}}</span>
             <span
               v-else-if="props.row.payment_status == 'partial'"
-              class="badge badge-outline-primary"
+              class="status-badge status-primary"
             >{{$t('partial')}}</span>
-            <span v-else class="badge badge-outline-warning">{{$t('Unpaid')}}</span>
+            <span v-else class="status-badge status-warning">{{$t('Unpaid')}}</span>
           </div>
            <div v-else-if="props.column.field == 'Ref'">
             <router-link
@@ -252,20 +248,12 @@
             </b-form-group>
           </b-col>
 
-          <b-col md="6" sm="12">
-            <b-button
-              @click="GET_Sales_Return(serverParams.page)"
-              variant="primary ripple m-1"
-              size="sm"
-            >
-              <i class="i-Filter-2"></i>
-              {{ $t("Filter") }}
+          <b-col md="12" class="mt-3">
+            <b-button @click="GET_Sales_Return(serverParams.page)" variant="primary" size="sm" block>
+              <Filter size="16" class="mr-1"></Filter> {{ $t("Filter") }}
             </b-button>
-          </b-col>
-          <b-col md="6" sm="12">
-            <b-button @click="Reset_Filter()" variant="danger ripple m-1" size="sm">
-              <i class="i-Power-2"></i>
-              {{ $t("Reset") }}
+            <b-button @click="Reset_Filter()" variant="danger" size="sm" block mt-2>
+              <Power size="16" class="mr-1"></Power> {{ $t("Reset") }}
             </b-button>
           </b-col>
         </b-row>
@@ -487,6 +475,10 @@
 </template>
 
 <script>
+import { 
+  FileText, FileSpreadsheet, Banknote, XCircle, MoreHorizontal, X,
+  Plus, Edit, Eye, Filter, Power
+} from "lucide-vue";
 import { mapActions, mapGetters } from "vuex";
 import NProgress from "nprogress";
 import jsPDF from "jspdf";
@@ -497,6 +489,10 @@ import {
 } from "../../../../utils/priceFormat";
 
 export default {
+  components: {
+    Plus, Edit, Eye, Filter, Power, 
+    FileText, FileSpreadsheet, Banknote, XCircle, MoreHorizontal, X
+  },
   metaInfo: {
     title: "Sale Return"
   },
@@ -906,10 +902,30 @@ export default {
       pdf.setFont("Vazirmatn", "normal");
 
       const headers = [ this.$t('Reference'), this.$t('Customer'), this.$t('warehouse'), this.$t('Sale_Ref'), this.$t('Status'), this.$t('Total'), this.$t('Paid'), this.$t('Due'), this.$t('PaymentStatus') ];
-      const body = (this.sales_return||[]).map(r => [ r.Ref, r.client_name, r.warehouse_name, r.sale_ref, r.statut, r.GrandTotal, r.paid_amount, r.due, r.payment_status ]);
+      const body = (this.sales_return||[]).map(r => [ 
+        r.Ref, 
+        r.client_name, 
+        r.warehouse_name, 
+        r.sale_ref, 
+        r.statut, 
+        this.formatPriceDisplay(r.GrandTotal, 2), 
+        this.formatPriceDisplay(r.paid_amount, 2), 
+        this.formatPriceDisplay(r.due, 2), 
+        r.payment_status 
+      ]);
 
       const totals = (this.sales_return||[]).reduce((a,r)=>({ t:a.t+parseFloat(r.GrandTotal||0), p:a.p+parseFloat(r.paid_amount||0), d:a.d+parseFloat(r.due||0) }), {t:0,p:0,d:0});
-      const foot = [[ this.$t('Total'), '', '', '', '', totals.t.toFixed(2), totals.p.toFixed(2), totals.d.toFixed(2), '' ]];
+      const foot = [[ 
+        this.$t('Total'), 
+        '', 
+        '', 
+        '', 
+        '', 
+        this.formatPriceDisplay(totals.t, 2), 
+        this.formatPriceDisplay(totals.p, 2), 
+        this.formatPriceDisplay(totals.d, 2), 
+        '' 
+      ]];
 
       const marginX = 40; const rtl = (this.$i18n && ['ar','fa','ur','he'].includes(this.$i18n.locale)) || (typeof document!=='undefined' && document.documentElement.dir==='rtl');
 

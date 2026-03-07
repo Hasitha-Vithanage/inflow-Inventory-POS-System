@@ -132,7 +132,7 @@
                             <span class="badge badge-success">{{detail.name}}</span>
                             <i v-show="detail.no_unit !== 0" @click="Modal_Updat_Detail(detail)" class="i-Edit"></i>
                           </td>
-                          <td>{{currentUser.currency}} {{formatNumber(detail.Net_cost, 3)}}</td>
+                           <td>{{formatPriceWithSymbol(currentUser.currency, detail.Net_cost, 3)}}</td>
                           <td>
                             <span
                               class="badge badge-outline-warning"
@@ -142,10 +142,13 @@
                             <div class="quantity">
                               <b-input-group>
                                 <b-input-group-prepend>
-                                  <span v-show="detail.no_unit !== 0"
-                                    class="btn btn-primary btn-sm"
+                                  <button v-show="detail.no_unit !== 0"
+                                    type="button"
+                                    class="btn btn-qty"
                                     @click="decrement(detail ,detail.detail_id)"
-                                  >-</span>
+                                  >
+                                    <Minus />
+                                  </button>
                                 </b-input-group-prepend>
                                 <input
                                   class="form-control"
@@ -154,17 +157,20 @@
                                   :disabled="detail.del === 1 || detail.no_unit === 0"
                                 >
                                 <b-input-group-append>
-                                  <span v-show="detail.no_unit !== 0"
-                                    class="btn btn-primary btn-sm"
+                                  <button v-show="detail.no_unit !== 0"
+                                    type="button"
+                                    class="btn btn-qty"
                                     @click="increment(detail ,detail.detail_id)"
-                                  >+</span>
+                                  >
+                                    <Plus />
+                                  </button>
                                 </b-input-group-append>
                               </b-input-group>
                             </div>
                           </td>
-                          <td>{{currentUser.currency}} {{formatNumber(detail.DiscountNet * detail.quantity, 2)}}</td>
-                          <td>{{currentUser.currency}} {{formatNumber(detail.taxe * detail.quantity , 2)}}</td>
-                           <td>{{currentUser.currency}} {{detail.subtotal.toFixed(2)}}</td>
+                           <td>{{formatPriceWithSymbol(currentUser.currency, detail.DiscountNet * detail.quantity, 2)}}</td>
+                          <td>{{formatPriceWithSymbol(currentUser.currency, detail.taxe * detail.quantity , 2)}}</td>
+                           <td>{{formatPriceWithSymbol(currentUser.currency, detail.subtotal, 2)}}</td>
                           <td>
                             <a v-show="detail.no_unit !== 0"
                               @click="delete_Product_Detail(detail.detail_id)"
@@ -186,16 +192,16 @@
                       <tr>
                         <td class="bold">{{$t('OrderTax')}}</td>
                         <td>
-                          <span>{{currentUser.currency}} {{transfer.TaxNet.toFixed(2)}} ({{formatNumber(transfer.tax_rate ,2)}} %)</span>
+                          <span>{{formatPriceWithSymbol(currentUser.currency, transfer.TaxNet, 2)}} ({{formatNumber(transfer.tax_rate ,2)}} %)</span>
                         </td>
                       </tr>
                       <tr>
                         <td class="bold">{{$t('Discount')}}</td>
-                        <td>{{currentUser.currency}} {{transfer.discount.toFixed(2)}}</td>
+                        <td>{{formatPriceWithSymbol(currentUser.currency, transfer.discount, 2)}}</td>
                       </tr>
                       <tr>
                         <td class="bold">{{$t('Shipping')}}</td>
-                        <td>{{currentUser.currency}} {{transfer.shipping.toFixed(2)}}</td>
+                        <td>{{formatPriceWithSymbol(currentUser.currency, transfer.shipping, 2)}}</td>
                       </tr>
                       <tr>
                         <td>
@@ -204,7 +210,7 @@
                         <td>
                           <span
                             class="font-weight-bold"
-                          >{{currentUser.currency}} {{GrandTotal.toFixed(2)}}</span>
+                          >{{formatPriceWithSymbol(currentUser.currency, GrandTotal, 2)}}</span>
                         </td>
                       </tr>
                     </tbody>
@@ -451,8 +457,13 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 import NProgress from "nprogress";
+import { Plus, Minus } from "lucide-vue";
 
 export default {
+  components: {
+    Plus,
+    Minus
+  },
   metaInfo: {
     title: "Update Transfer"
   },

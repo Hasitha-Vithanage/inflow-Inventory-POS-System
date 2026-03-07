@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="main-content projects-page-modern">
     <breadcumb :page="$t('Project_List')" :folder="$t('Projects')"/>
 
@@ -81,7 +81,7 @@
             <span>{{ $t("Filter") }}</span>
           </button>
           <button @click="Project_PDF()" class="action-btn pdf-btn">
-            <i class="i-File-Copy"></i>
+            <FileText size="14" class="mr-1"></FileText>
             <span>PDF</span>
           </button>
           <vue-excel-xlsx
@@ -92,7 +92,7 @@
             :file-type="'xlsx'"
             :sheet-name="'Projects'"
           >
-            <i class="i-File-Excel"></i>
+            <FileSpreadsheet size="14" class="mr-1"></FileSpreadsheet>
             <span>EXCEL</span>
           </vue-excel-xlsx>
           <router-link to="/app/projects/store" class="action-btn add-btn">
@@ -669,11 +669,15 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+import { FileText, FileSpreadsheet } from "lucide-vue";
 import NProgress from "nprogress";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 
 export default {
+  components: {
+    FileText, FileSpreadsheet
+  },
   metaInfo: {
     title: "Projects"
   },

@@ -36,9 +36,15 @@
 
       <template slot="table-row" slot-scope="props">
           <span v-if="props.column.field == 'actions'">
-            <a class="btn btn-primary"  @click="Edit_Client(props.row)">
-              <span class="text-white"><i class="i-Yes me-2 font-weight-bold"></i> Register Account</span>
-            </a>
+            <button
+              @click="Edit_Client(props.row)"
+              class="btn btn-sm btn-primary"
+              v-b-tooltip.hover
+              title="Register Account"
+            >
+              <UserCheckIcon :size="16" :stroke-width="2" class="mr-1" />
+              Register Account
+            </button>
            
           </span>
         </template>
@@ -128,8 +134,12 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 import NProgress from "nprogress";
+import { UserCheck } from "lucide-vue";
 
 export default {
+  components: {
+    UserCheckIcon: UserCheck
+  },
   metaInfo: {
     title: "Customer Without Ecommerce"
   },

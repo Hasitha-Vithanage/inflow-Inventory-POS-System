@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="main-content p-2 p-md-4">
     <breadcumb :page="$t('Cash_Flow_Report')" :folder="$t('Reports')" />
 
@@ -62,7 +62,7 @@
             :file-type="'xlsx'"
             :sheet-name="'CashFlow'"
           >
-            <i class="i-File-Excel mr-1"></i> {{ $t('EXCEL') }}
+            <FileSpreadsheet size="14" class="mr-1"></FileSpreadsheet> {{ $t('EXCEL') }}
           </vue-excel-xlsx>
         </div>
       </div>
@@ -170,6 +170,7 @@
 
 <script>
 import NProgress from "nprogress";
+import { FileSpreadsheet } from "lucide-vue";
 import moment from "moment";
 import { mapGetters } from "vuex";
 
@@ -185,7 +186,7 @@ import {
 
 export default {
   metaInfo: { title: "Cash Flow Report" },
-  components: { "date-range-picker": DateRangePicker, apexchart: VueApexCharts },
+  components: {FileSpreadsheet,  "date-range-picker": DateRangePicker, apexchart: VueApexCharts },
 
   data() {
     const end = new Date(); const start = new Date(); start.setDate(end.getDate() - 29);
@@ -360,7 +361,8 @@ export default {
       rtl ? doc.text(range, pageW - marginX, 58, { align:'right' }) : doc.text(range, marginX, 58);
 
       const head = [[ this.$t('Group'), this.$t('Inflow'), this.$t('Outflow'), this.$t('Net') ]];
-      const body = (this.rows||[]).map(r => ([ r.group, Number(r.inflow||0).toFixed(2), Number(r.outflow||0).toFixed(2), Number(r.net||0).toFixed(2) ]));
+      const dp = (v) => { try { return formatPriceDisplayHelper(Number(v||0), 2, this.price_format_key || getPriceFormatSetting({ store: this.$store })); } catch(e){ return Number(v||0).toFixed(2); } };
+      const body = (this.rows||[]).map(r => ([ r.group, dp(r.inflow), dp(r.outflow), dp(r.net) ]));
 
       autoTable(doc, {
         startY: 80,
@@ -370,9 +372,9 @@ export default {
         columnStyles: { 1:{ halign:'right' }, 2:{ halign:'right' }, 3:{ halign:'right' } },
         foot: [[
           { content: this.$t('Totals'), styles:{ font:'Vazirmatn', fontStyle:'bold', halign: rtl ? 'right':'left' } },
-          { content: Number(this.totalInflow||0).toFixed(2), styles:{ halign:'right', fontStyle:'bold' } },
-          { content: Number(this.totalOutflow||0).toFixed(2), styles:{ halign:'right', fontStyle:'bold' } },
-          { content: Number(this.netCashFlow||0).toFixed(2), styles:{ halign:'right', fontStyle:'bold' } },
+          { content: dp(this.totalInflow), styles:{ halign:'right', fontStyle:'bold' } },
+          { content: dp(this.totalOutflow), styles:{ halign:'right', fontStyle:'bold' } },
+          { content: dp(this.netCashFlow), styles:{ halign:'right', fontStyle:'bold' } },
         ]],
         margin: { left: marginX, right: marginX }
       });

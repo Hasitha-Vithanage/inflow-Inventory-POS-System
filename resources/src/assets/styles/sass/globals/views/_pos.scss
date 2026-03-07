@@ -1235,24 +1235,88 @@ $pos-transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !default;
 }
 
 .quantity {
-  max-width: 95px;
-  width: 95px;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  
+  .input-group {
+    flex-wrap: nowrap !important;
+    align-items: stretch !important;
+    border: 1px solid #e1e8f0;
+    border-radius: 6px;
+    overflow: hidden;
+    background: #fff;
+    width: auto !important;
+    min-width: 100px;
+    height: 30px !important; // Compact height
+    transition: all 0.2s ease;
 
-  input {
-    text-align: center;
-    border: none;
-  }
+    &:hover {
+      border-color: #cbd5e1;
+    }
 
-  .form-control:focus {
-    color: #374151;
-    background-color: unset;
-    border-color: #e1d5fd;
-    outline: 0;
-    box-shadow: unset;
-  }
+    &:focus-within {
+      border-color: #663399; // Using standard POS brand color
+      box-shadow: 0 0 0 3px rgba(102, 51, 153, 0.1);
+    }
 
-  span {
-    padding: 8px;
+    .input-group-prepend, .input-group-append {
+      margin: 0;
+      height: 100%;
+      display: flex;
+    }
+
+    .btn, .btn-primary, .btn-qty {
+      background: #f1f5f9 !important;
+      border: none !important;
+      color: #475569 !important;
+      width: 30px !important;
+      height: 30px !important;
+      padding: 0 !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      transition: all 0.2s;
+      border-radius: 0 !important;
+      cursor: pointer;
+      box-shadow: none !important;
+
+      &:hover {
+        background: #e2e8f0 !important;
+        color: #000 !important;
+      }
+
+      &:active {
+        background: #cbd5e1 !important;
+      }
+
+      svg {
+        stroke-width: 3 !important;
+        width: 12px !important;
+        height: 12px !important;
+      }
+    }
+
+    input.form-control {
+      border: none !important;
+      height: 30px !important;
+      width: 40px !important;
+      padding: 0 5px !important;
+      text-align: center !important;
+      font-weight: 700 !important;
+      font-size: 13px !important;
+      color: #1e293b !important;
+      background: #fff !important;
+      margin: 0 !important;
+      border-left: 1px solid #e2e8f0 !important;
+      border-right: 1px solid #e2e8f0 !important;
+      box-shadow: none !important;
+
+      &:focus {
+        background: #fff !important;
+        outline: none !important;
+      }
+    }
   }
 }
 

@@ -81,7 +81,7 @@
             <span>{{ $t("Filter") }}</span>
           </button>
           <button @click="Task_PDF()" class="action-btn pdf-btn">
-            <i class="i-File-Copy"></i>
+            <FileText size="14"></FileText>
             <span>PDF</span>
           </button>
           <vue-excel-xlsx
@@ -92,7 +92,7 @@
             :file-type="'xlsx'"
             :sheet-name="'Tasks'"
           >
-            <i class="i-File-Excel"></i>
+            <FileSpreadsheet size="14"></FileSpreadsheet>
             <span>EXCEL</span>
           </vue-excel-xlsx>
           <router-link to="/app/tasks/store" class="action-btn add-btn">
@@ -672,10 +672,15 @@ import { mapActions, mapGetters } from "vuex";
 import NProgress from "nprogress";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
+import { FileText, FileSpreadsheet } from "lucide-vue";
 
 export default {
   metaInfo: {
     title: "Tasks"
+  },
+  components: {
+    FileText,
+    FileSpreadsheet
   },
   data() {
     return {
@@ -1255,15 +1260,15 @@ export default {
   }
 
   &.pdf-btn:hover {
-    border-color: #10b981;
-    color: #10b981;
-    background: #d1fae5;
-  }
-
-  &.excel-btn:hover {
     border-color: #ef4444;
     color: #ef4444;
     background: #fee2e2;
+  }
+
+  &.excel-btn:hover {
+    border-color: #10b981;
+    color: #10b981;
+    background: #d1fae5;
   }
 
   &.add-btn {

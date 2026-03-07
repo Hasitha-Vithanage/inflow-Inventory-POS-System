@@ -22,17 +22,54 @@ $primary-blue: #3b82f6;
     &::placeholder {
         color: #94a3b8; // Slate-400
     }
+
+    &.h-100 {
+        height: 42px !important;
+    }
+}
+
+.filter-clear-btn {
+    height: 42px !important;
+    background-color: #f8fafc !important;
+    border: 1px solid #e2e8f0 !important;
+    color: #475569 !important;
+    border-radius: 8px !important;
+    font-size: 0.85rem !important;
+    font-weight: 600 !important;
+    padding: 0 1.25rem !important;
+    box-shadow: none !important;
+    transition: all 0.2s ease;
+
+    &:hover {
+        background-color: #f1f5f9 !important;
+        border-color: #cbd5e1 !important;
+        color: #1e293b !important;
+        transform: translateY(-1px);
+    }
+
+    &:active {
+        transform: translateY(0);
+    }
+
+    svg,
+    i {
+        color: #64748b !important;
+        margin-right: 6px;
+        width: 14px;
+        height: 14px;
+    }
 }
 
 // Select Inputs
 select.form-control,
 .custom-select {
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
-    background-position: right 0.5rem center;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%2394a3b8' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 0.75rem center;
     background-repeat: no-repeat;
-    background-size: 1.5em 1.5em;
+    background-size: 1.2em 1.2em;
     padding-right: 2.5rem;
     appearance: none;
+    cursor: pointer;
 }
 
 // Labels
@@ -53,9 +90,10 @@ label {
     padding: 0;
     border: 1px solid $input-border-color;
     border-radius: $input-border-radius;
-    overflow: hidden;
     display: flex;
     align-items: stretch;
+    height: 42px !important;
+    background-color: #fff;
 
     // The text container
     >.form-control {
@@ -75,10 +113,10 @@ label {
 
     // The icon button
     >.btn {
-        border-radius: 0 !important;
+        border-radius: 0 8px 8px 0 !important;
         border: none !important;
-        background-color: $primary-blue !important;
-        color: white !important;
+        background-color: rgba($primary-blue, 0.1) !important;
+        color: $primary-blue !important;
         margin: 0 !important;
         padding: 0 1rem !important;
         display: flex;
@@ -89,7 +127,7 @@ label {
         order: 2;
 
         &:hover {
-            background-color: darken($primary-blue, 10%) !important;
+            background-color: rgba($primary-blue, 0.2) !important;
         }
 
         svg,

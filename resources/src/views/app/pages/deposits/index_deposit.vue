@@ -38,18 +38,18 @@
             <i class="i-Filter-2"></i>
             {{ $t("Filter") }}
           </b-button>
-          <b-button @click="Deposit_PDF()" size="sm" variant="outline-success ripple m-1">
-            <i class="i-File-Copy"></i> PDF
+          <b-button @click="Deposit_PDF()" size="sm" variant="outline-danger ripple m-1">
+            <FileText size="14" class="mr-1"></FileText> PDF
           </b-button>
            <vue-excel-xlsx
-              class="btn btn-sm btn-outline-danger ripple m-1"
+              class="btn btn-sm btn-outline-success ripple m-1"
               :data="deposits"
               :columns="columns"
               :file-name="'Deposits'"
               :file-type="'xlsx'"
               :sheet-name="'Deposits'"
               >
-              <i class="i-File-Excel"></i> EXCEL
+              <FileSpreadsheet size="14" class="mr-1"></FileSpreadsheet> EXCEL
           </vue-excel-xlsx>
           <router-link
             class="btn-sm btn btn-primary ripple btn-icon m-1"
@@ -64,7 +64,10 @@
         </div>
 
         <template slot="table-row" slot-scope="props">
-          <span v-if="props.column.field == 'actions'">
+          <span v-if="props.column.field == 'amount'">
+            {{ formatPriceWithSymbol(currentUser.currency, props.row.amount, 2) }}
+          </span>
+          <span v-else-if="props.column.field == 'actions'">
             <router-link
               v-if="currentUserPermissions && currentUserPermissions.includes('deposit_edit')"
               title="Edit"
@@ -154,11 +157,20 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+import { FileText, FileSpreadsheet } from "lucide-vue";
 import NProgress from "nprogress";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
+import { 
+  formatPriceDisplay as formatPriceDisplayHelper, 
+  getPriceFormatSetting 
+} from "../../../../utils/priceFormat";
+
 
 export default {
+  components: {
+    FileText, FileSpreadsheet
+  },
   metaInfo: {
     title: "Deposit"
   },
@@ -191,7 +203,8 @@ export default {
       Filter_category: "",
       deposits: [],
       accounts: [],
-      deposit_Category: []
+      deposit_Category: [],
+      price_format_key: null
     };
   },
 
@@ -284,7 +297,7 @@ export default {
         deposit.deposit_ref,
         deposit.category_name,
         deposit.account_name,
-        deposit.amount
+        self.formatPriceDisplay(deposit.amount, 2)
       ]));
 
       // Calculate totals
@@ -295,7 +308,7 @@ export default {
         '',
         '',
         '',
-        totalGrandTotal.toFixed(2)
+        self.formatPriceDisplay(totalGrandTotal, 2)
       ]];
 
       const marginX = 40;
@@ -427,7 +440,8 @@ export default {
       this.setToStrings();
       axios
         .get(
-          "deposits?page=" +
+          "deposits?" +
+            "page=" +
             page +
             "&deposit_ref=" +
             this.Filter_Ref +
@@ -504,6 +518,41 @@ export default {
             });
         }
       });
+    },
+
+    //------------------------------Formetted Numbers -------------------------\\
+    formatNumber(number, dec) {
+      const value = (typeof number === "string"
+        ? number
+        : number.toString()
+      ).split(".");
+      if (dec <= 0) return value[0];
+      let formated = value[1] || "";
+      if (formated.length > dec)
+        return `${value[0]}.${formated.substr(0, dec)}`;
+      while (formated.length < dec) formated += "0";
+      return `${value[0]}.${formated}`;
+    },
+
+    // Price formatting for display only (does NOT affect calculations or stored values)
+    formatPriceDisplay(number, dec) {
+      try {
+        const decimals = Number.isInteger(dec) ? dec : 0;
+        const key = this.price_format_key || getPriceFormatSetting({ store: this.$store });
+        if (key) {
+          this.price_format_key = key;
+        }
+        const effectiveKey = key || null;
+        return formatPriceDisplayHelper(number, decimals, effectiveKey);
+      } catch (e) {
+        return this.formatNumber(number, dec);
+      }
+    },
+
+    formatPriceWithSymbol(symbol, number, dec) {
+      const safeSymbol = symbol || "";
+      const value = this.formatPriceDisplay(number, dec);
+      return safeSymbol ? `${safeSymbol} ${value}` : value;
     },
 
   },

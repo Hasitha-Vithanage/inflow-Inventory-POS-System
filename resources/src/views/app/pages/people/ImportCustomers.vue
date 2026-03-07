@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="main-content import-customers">
     <!-- Hero -->
     <div class="hero shadow-sm mb-4">
@@ -164,7 +164,7 @@
             </b-button>
 
             <a :href="exampleHref" class="btn btn-outline-info btn-sm mr-2 mb-2" target="_blank" rel="noopener">
-              <i class="i-File-Excel mr-1"></i>Download example
+              <FileSpreadsheet size="14" class="mr-1"></FileSpreadsheet>Download example
             </a>
 
             <b-button
@@ -213,6 +213,7 @@
 
 <script>
 import NProgress from 'nprogress';
+import { FileSpreadsheet } from "lucide-vue";
 // axios assumed globally available
 
 export default {
@@ -265,6 +266,9 @@ export default {
     exampleHref: function () {
       return '/import/exemples/customers.xlsx';
     }
+  },
+  components: {
+    FileSpreadsheet
   },
   methods: {
     // UI helpers

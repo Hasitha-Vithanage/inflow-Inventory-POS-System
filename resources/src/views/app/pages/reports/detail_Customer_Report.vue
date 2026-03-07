@@ -33,7 +33,7 @@
             <p class="text-muted mt-2 mb-0">{{$t('TotalPaid')}}</p>
             <p
               class="text-primary text-24 line-height-1 mb-2"
-            >{{currentUser.currency}} {{formatNumber((client.total_paid),2)}}</p>
+            >{{ formatPriceWithSymbol(currentUser.currency, client.total_paid, 2) }}</p>
           </div>
         </b-card>
       </b-col>
@@ -78,8 +78,8 @@
                 styleClass="tableOne table-hover vgt-table"
               >
               <div slot="table-actions" class="mt-2 mb-3">
-                <b-button @click="Sales_PDF()" size="sm" variant="outline-success ripple m-1">
-                  <i class="i-File-Copy"></i> PDF
+                <b-button @click="Sales_PDF()" size="sm" variant="outline-danger ripple m-1">
+                  <FileText size="14" class="mr-1"></FileText> PDF
                 </b-button>
               </div>
                 <template slot="table-row" slot-scope="props">
@@ -135,6 +135,15 @@
                       <span class="ul-btn__text ml-1">{{props.row.Ref}}</span>
                     </router-link>
                   </div>
+                  <div v-else-if="props.column.field == 'GrandTotal'">
+                    {{ formatPriceWithSymbol(currentUser.currency, props.row.GrandTotal, 2) }}
+                  </div>
+                  <div v-else-if="props.column.field == 'paid_amount'">
+                    {{ formatPriceWithSymbol(currentUser.currency, props.row.paid_amount, 2) }}
+                  </div>
+                  <div v-else-if="props.column.field == 'due'">
+                    {{ formatPriceWithSymbol(currentUser.currency, props.row.due, 2) }}
+                  </div>
                 </template>
               </vue-good-table>
             </b-tab>
@@ -162,8 +171,8 @@
                 styleClass="tableOne table-hover vgt-table"
               >
               <div slot="table-actions" class="mt-2 mb-3">
-                <b-button @click="Quotation_PDF()" size="sm" variant="outline-success ripple m-1">
-                  <i class="i-File-Copy"></i> PDF
+                <b-button @click="Quotation_PDF()" size="sm" variant="outline-danger ripple m-1">
+                  <FileText size="14" class="mr-1"></FileText> PDF
                 </b-button>
               </div>
                 <template slot="table-row" slot-scope="props">
@@ -180,6 +189,9 @@
                     >
                       <span class="ul-btn__text ml-1">{{props.row.Ref}}</span>
                     </router-link>
+                  </div>
+                  <div v-else-if="props.column.field == 'GrandTotal'">
+                    {{ formatPriceWithSymbol(currentUser.currency, props.row.GrandTotal, 2) }}
                   </div>
                 </template>
               </vue-good-table>
@@ -208,8 +220,8 @@
                 styleClass="tableOne table-hover vgt-table"
               >
               <div slot="table-actions" class="mt-2 mb-3">
-                <b-button @click="Sale_Return_PDF()" size="sm" variant="outline-success ripple m-1">
-                  <i class="i-File-Copy"></i> PDF
+                <b-button @click="Sale_Return_PDF()" size="sm" variant="outline-danger ripple m-1">
+                  <FileText size="14" class="mr-1"></FileText> PDF
                 </b-button>
               </div>
                 <template slot="table-row" slot-scope="props">
@@ -246,6 +258,15 @@
                       <span class="ul-btn__text ml-1">{{props.row.sale_ref}}</span>
                     </router-link>
                   </div>
+                  <div v-else-if="props.column.field == 'GrandTotal'">
+                    {{ formatPriceWithSymbol(currentUser.currency, props.row.GrandTotal, 2) }}
+                  </div>
+                  <div v-else-if="props.column.field == 'paid_amount'">
+                    {{ formatPriceWithSymbol(currentUser.currency, props.row.paid_amount, 2) }}
+                  </div>
+                  <div v-else-if="props.column.field == 'due'">
+                    {{ formatPriceWithSymbol(currentUser.currency, props.row.due, 2) }}
+                  </div>
                 </template>
               </vue-good-table>
             </b-tab>
@@ -273,10 +294,15 @@
                 styleClass="tableOne table-hover vgt-table"
               >
                <div slot="table-actions" class="mt-2 mb-3">
-                <b-button @click="Payments_PDF()" size="sm" variant="outline-success ripple m-1">
-                  <i class="i-File-Copy"></i> PDF
+                <b-button @click="Payments_PDF()" size="sm" variant="outline-danger ripple m-1">
+                  <FileText size="14" class="mr-1"></FileText> PDF
                 </b-button>
               </div>
+                <template slot="table-row" slot-scope="props">
+                  <div v-if="props.column.field == 'montant'">
+                    {{ formatPriceWithSymbol(currentUser.currency, props.row.montant, 2) }}
+                  </div>
+                </template>
               </vue-good-table>
             </b-tab>
           </b-tabs>
@@ -289,6 +315,7 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+import { FileText } from "lucide-vue";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import {
@@ -297,6 +324,9 @@ import {
 } from "../../../../utils/priceFormat";
 
 export default {
+  components: {
+    FileText
+  },
   data() {
     return {
       totalRows_quotations: "",
@@ -586,9 +616,16 @@ export default {
         { header: self.$t("Shipping_status"), dataKey: "shipping_status" }
       ];
 
+      const body = self.sales.map(sale => ({
+        ...sale,
+        GrandTotal: self.formatPriceDisplay(sale.GrandTotal, 2),
+        paid_amount: self.formatPriceDisplay(sale.paid_amount, 2),
+        due: self.formatPriceDisplay(sale.due, 2),
+      }));
+
       autoTable(pdf, {
              columns: columns,
-             body: self.sales,
+             body: body,
              startY: 70,
              theme: "grid", 
              didDrawPage: (data) => {
@@ -627,9 +664,14 @@ export default {
         { header: self.$t("Total"), dataKey: "GrandTotal" }
       ];
 
+      const body = self.quotations.map(quotation => ({
+        ...quotation,
+        GrandTotal: self.formatPriceDisplay(quotation.GrandTotal, 2),
+      }));
+
       autoTable(pdf, {
              columns: columns,
-             body: self.quotations,
+             body: body,
              startY: 70,
              theme: "grid", 
              didDrawPage: (data) => {
@@ -671,9 +713,17 @@ export default {
         { header: self.$t("Status"), dataKey: "statut" },
         { header: self.$t("PaymentStatus"), dataKey: "payment_status" }
       ];
+
+      const body = self.returns_customer.map(item => ({
+        ...item,
+        GrandTotal: self.formatPriceDisplay(item.GrandTotal, 2),
+        paid_amount: self.formatPriceDisplay(item.paid_amount, 2),
+        due: self.formatPriceDisplay(item.due, 2),
+      }));
+
       autoTable(pdf, {
              columns: columns,
-             body: self.returns_customer,
+             body: body,
              startY: 70,
              theme: "grid", 
              didDrawPage: (data) => {
@@ -712,9 +762,14 @@ export default {
         { header: self.$t("Amount"), dataKey: "montant" },
       ];
 
+      const body = self.payments.map(payment => ({
+        ...payment,
+        montant: self.formatPriceDisplay(payment.montant, 2),
+      }));
+
       autoTable(pdf, {
              columns: columns,
-             body: self.payments,
+             body: body,
              startY: 70,
              theme: "grid", 
              didDrawPage: (data) => {

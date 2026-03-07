@@ -45,16 +45,18 @@
               title="Edit"
               v-b-tooltip.hover
               :to="'/app/User_Management/permissions/edit/'+props.row.id"
+              class="btn-action btn-edit"
             >
-              <edit size="14" class="text-success" :stroke-width="1.5"></edit>
+              <edit size="16" :stroke-width="2"></edit>
             </router-link>
             <a
               title="Delete"
               v-b-tooltip.hover
               v-if="currentUserPermissions && currentUserPermissions.includes('permissions_delete')"
               @click="Delete_Role(props.row.id)"
+              class="btn-action btn-delete"
             >
-              <x-circle size="14" class="text-danger" :stroke-width="1.5"></x-circle>
+              <x-circle size="16" :stroke-width="2"></x-circle>
             </a>
           </span>
         </template>
